@@ -24,22 +24,22 @@ import com.l2jfrozen.gameserver.network.serverpackets.ChairSit;
 public final class ChangeWaitType2 extends L2GameClientPacket
 {
 	private boolean _typeStand;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_typeStand = readD() == 1;
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance player = getClient().getActiveChar();
+		final L2PcInstance player = getClient().getActiveChar();
 		if (player == null)
 			return;
 		
-		L2Object target = player.getTarget();
-
+		final L2Object target = player.getTarget();
+		
 		if (getClient() != null)
 		{
 			if (player.isOutOfControl())
@@ -47,25 +47,25 @@ public final class ChangeWaitType2 extends L2GameClientPacket
 				player.sendPacket(ActionFailed.STATIC_PACKET);
 				return;
 			}
-
-			if (player.getMountType() != 0) //prevent sit/stand if you riding
+			
+			if (player.getMountType() != 0) // prevent sit/stand if you riding
 				return;
-
+			
 			if (target != null && !player.isSitting() && target instanceof L2StaticObjectInstance && ((L2StaticObjectInstance) target).getType() == 1 && CastleManager.getInstance().getCastle(target) != null && player.isInsideRadius(target, L2StaticObjectInstance.INTERACTION_DISTANCE, false, false))
 			{
-				ChairSit cs = new ChairSit(player, ((L2StaticObjectInstance) target).getStaticObjectId());
+				final ChairSit cs = new ChairSit(player, ((L2StaticObjectInstance) target).getStaticObjectId());
 				player.sendPacket(cs);
 				player.sitDown();
 				player.broadcastPacket(cs);
 			}
-
+			
 			if (_typeStand)
 				player.standUp();
 			else
 				player.sitDown();
 		}
 	}
-
+	
 	@Override
 	public String getType()
 	{

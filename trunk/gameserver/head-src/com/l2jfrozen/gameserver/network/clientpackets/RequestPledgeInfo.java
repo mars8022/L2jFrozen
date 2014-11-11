@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.ClanTable;
@@ -28,38 +28,41 @@ import com.l2jfrozen.gameserver.network.serverpackets.PledgeInfo;
 
 public final class RequestPledgeInfo extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(RequestPledgeInfo.class.getName());
-
-	private int _clanId;
-
+	private static Logger LOGGER = Logger.getLogger(RequestPledgeInfo.class);
+	
+	private int clanId;
+	
 	@Override
 	protected void readImpl()
 	{
-		_clanId = readD();
+		clanId = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-		if(Config.DEBUG)
+		if (Config.DEBUG)
 		{
-			_log.fine("infos for clan " + _clanId + " requested");
+			LOGGER.debug("infos for clan " + clanId + " requested");
 		}
-
-		L2PcInstance activeChar = getClient().getActiveChar();
-		L2Clan clan = ClanTable.getInstance().getClan(_clanId);
-
+		
+		final L2PcInstance activeChar = getClient().getActiveChar();
+		final L2Clan clan = ClanTable.getInstance().getClan(clanId);
+		
 		if (activeChar == null)
 			return;
 		
-		if(clan == null)
-		{   if (Config.DEVELOPER){ 
-			_log.warning("Clan data for clanId "+_clanId+" is missing for player "+activeChar.getName());}
+		if (clan == null)
+		{
+			if (Config.DEBUG && clanId > 0)
+			{
+				LOGGER.debug("Clan data for clanId " + clanId + " is missing for player " + activeChar.getName());
+			}
 			return; // we have no clan data ?!? should not happen
 		}
 		activeChar.sendPacket(new PledgeInfo(clan));
 	}
-
+	
 	@Override
 	public String getType()
 	{

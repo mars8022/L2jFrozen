@@ -28,36 +28,36 @@ public class PetStatus extends SummonStatus
 {
 	// =========================================================
 	// Data Field
-	private int _currentFed = 0; //Current Fed of the L2PetInstance
-
+	private int _currentFed = 0; // Current Fed of the L2PetInstance
+	
 	// =========================================================
 	// Constructor
-	public PetStatus(L2PetInstance activeChar)
+	public PetStatus(final L2PetInstance activeChar)
 	{
 		super(activeChar);
 	}
-
+	
 	// =========================================================
 	// Method - Public
 	@Override
-	public final void reduceHp(double value, L2Character attacker)
+	public final void reduceHp(final double value, final L2Character attacker)
 	{
 		reduceHp(value, attacker, true);
 	}
-
+	
 	@Override
-	public final void reduceHp(double value, L2Character attacker, boolean awake)
+	public final void reduceHp(final double value, final L2Character attacker, final boolean awake)
 	{
-		if(getActiveChar().isDead())
+		if (getActiveChar().isDead())
 			return;
-
+		
 		super.reduceHp(value, attacker, awake);
-
-		if(attacker != null)
+		
+		if (attacker != null)
 		{
 			SystemMessage sm = new SystemMessage(SystemMessageId.PET_RECEIVED_S2_DAMAGE_BY_S1);
-
-			if(attacker instanceof L2NpcInstance)
+			
+			if (attacker instanceof L2NpcInstance)
 			{
 				sm.addNpcName(((L2NpcInstance) attacker).getTemplate().idTemplate);
 			}
@@ -65,19 +65,19 @@ public class PetStatus extends SummonStatus
 			{
 				sm.addString(attacker.getName());
 			}
-
+			
 			sm.addNumber((int) value);
 			getActiveChar().getOwner().sendPacket(sm);
-
+			
 			getActiveChar().getAI().notifyEvent(CtrlEvent.EVT_ATTACKED, attacker);
-
+			
 			sm = null;
 		}
 	}
-
+	
 	// =========================================================
 	// Method - Private
-
+	
 	// =========================================================
 	// Property - Public
 	@Override
@@ -85,13 +85,13 @@ public class PetStatus extends SummonStatus
 	{
 		return (L2PetInstance) super.getActiveChar();
 	}
-
+	
 	public int getCurrentFed()
 	{
 		return _currentFed;
 	}
-
-	public void setCurrentFed(int value)
+	
+	public void setCurrentFed(final int value)
 	{
 		_currentFed = value;
 	}

@@ -34,10 +34,10 @@ import com.l2jfrozen.gameserver.templates.StatsSet;
 public class L2SkillDrain extends L2Skill
 {
 	
-	private float _absorbPart;
-	private int _absorbAbs;
+	private final float _absorbPart;
+	private final int _absorbAbs;
 	
-	public L2SkillDrain(StatsSet set)
+	public L2SkillDrain(final StatsSet set)
 	{
 		super(set);
 		
@@ -46,17 +46,17 @@ public class L2SkillDrain extends L2Skill
 	}
 	
 	@Override
-	public void useSkill(L2Character activeChar, L2Object[] targets)
+	public void useSkill(final L2Character activeChar, final L2Object[] targets)
 	{
 		if (activeChar.isAlikeDead())
 			return;
 		
-		boolean sps = activeChar.checkSps();
-		boolean bss = activeChar.checkBss();
+		final boolean sps = activeChar.checkSps();
+		final boolean bss = activeChar.checkBss();
 		
-		for (L2Object target2 : targets)
+		for (final L2Object target2 : targets)
 		{
-			L2Character target = (L2Character) target2;
+			final L2Character target = (L2Character) target2;
 			if (target.isAlikeDead() && getTargetType() != SkillTargetType.TARGET_CORPSE_MOB)
 			{
 				continue;
@@ -74,12 +74,12 @@ public class L2SkillDrain extends L2Skill
 			 * (L2Summon) activeChar; if(activeSummon.getChargedSpiritShot() == L2ItemInstance.CHARGED_BLESSED_SPIRITSHOT) { bss = true; activeSummon.setChargedSpiritShot(L2ItemInstance.CHARGED_NONE); } else if(activeSummon.getChargedSpiritShot() == L2ItemInstance.CHARGED_SPIRITSHOT) { ss = true;
 			 * activeSummon.setChargedSpiritShot(L2ItemInstance.CHARGED_NONE); } }
 			 */
-			boolean mcrit = Formulas.calcMCrit(activeChar.getMCriticalHit(target, this));
-			int damage = (int) Formulas.calcMagicDam(activeChar, target, this, sps, bss, mcrit);
+			final boolean mcrit = Formulas.calcMCrit(activeChar.getMCriticalHit(target, this));
+			final int damage = (int) Formulas.calcMagicDam(activeChar, target, this, sps, bss, mcrit);
 			
 			int _drain = 0;
-			int _cp = (int) target.getStatus().getCurrentCp();
-			int _hp = (int) target.getStatus().getCurrentHp();
+			final int _cp = (int) target.getStatus().getCurrentCp();
+			final int _hp = (int) target.getStatus().getCurrentHp();
 			
 			if (_cp > 0)
 			{
@@ -101,12 +101,12 @@ public class L2SkillDrain extends L2Skill
 				_drain = damage;
 			}
 			
-			double hpAdd = _absorbAbs + _absorbPart * _drain;
-			double hp = activeChar.getCurrentHp() + hpAdd > activeChar.getMaxHp() ? activeChar.getMaxHp() : activeChar.getCurrentHp() + hpAdd;
+			final double hpAdd = _absorbAbs + _absorbPart * _drain;
+			final double hp = activeChar.getCurrentHp() + hpAdd > activeChar.getMaxHp() ? activeChar.getMaxHp() : activeChar.getCurrentHp() + hpAdd;
 			
 			activeChar.setCurrentHp(hp);
 			
-			StatusUpdate suhp = new StatusUpdate(activeChar.getObjectId());
+			final StatusUpdate suhp = new StatusUpdate(activeChar.getObjectId());
 			suhp.addAttribute(StatusUpdate.CUR_HP, (int) hp);
 			activeChar.sendPacket(suhp);
 			
@@ -128,7 +128,7 @@ public class L2SkillDrain extends L2Skill
 					{
 						activeChar.stopSkillEffects(getId());
 						getEffects(null, activeChar, false, sps, bss);
-						SystemMessage sm = new SystemMessage(SystemMessageId.YOU_FEEL_S1_EFFECT);
+						final SystemMessage sm = new SystemMessage(SystemMessageId.YOU_FEEL_S1_EFFECT);
 						sm.addSkillName(getId());
 						activeChar.sendPacket(sm);
 					}
@@ -142,7 +142,7 @@ public class L2SkillDrain extends L2Skill
 						}
 						else
 						{
-							SystemMessage sm = new SystemMessage(SystemMessageId.S1_WAS_UNAFFECTED_BY_S2);
+							final SystemMessage sm = new SystemMessage(SystemMessageId.S1_WAS_UNAFFECTED_BY_S2);
 							sm.addString(target.getName());
 							sm.addSkillName(getDisplayId());
 							activeChar.sendPacket(sm);
@@ -170,7 +170,7 @@ public class L2SkillDrain extends L2Skill
 		}
 		
 		// effect self :]
-		L2Effect effect = activeChar.getFirstEffect(getId());
+		final L2Effect effect = activeChar.getFirstEffect(getId());
 		if (effect != null && effect.isSelfEffect())
 		{
 			// Replace old effect with new one.
@@ -180,29 +180,29 @@ public class L2SkillDrain extends L2Skill
 		getEffectsSelf(activeChar);
 	}
 	
-	public void useCubicSkill(L2CubicInstance activeCubic, L2Object[] targets)
+	public void useCubicSkill(final L2CubicInstance activeCubic, final L2Object[] targets)
 	{
 		if (Config.DEBUG)
-			_log.info("L2SkillDrain: useCubicSkill()");
+			LOGGER.info("L2SkillDrain: useCubicSkill()");
 		
-		for (L2Character target : (L2Character[]) targets)
+		for (final L2Character target : (L2Character[]) targets)
 		{
 			if (target.isAlikeDead() && getTargetType() != SkillTargetType.TARGET_CORPSE_MOB)
 				continue;
 			
-			boolean mcrit = Formulas.calcMCrit(activeCubic.getMCriticalHit(target, this));
+			final boolean mcrit = Formulas.calcMCrit(activeCubic.getMCriticalHit(target, this));
 			
-			int damage = (int) Formulas.calcMagicDam(activeCubic, target, this, mcrit);
+			final int damage = (int) Formulas.calcMagicDam(activeCubic, target, this, mcrit);
 			if (Config.DEBUG)
-				_log.info("L2SkillDrain: useCubicSkill() -> damage = " + damage);
+				LOGGER.info("L2SkillDrain: useCubicSkill() -> damage = " + damage);
 			
-			double hpAdd = _absorbAbs + _absorbPart * damage;
-			L2PcInstance owner = activeCubic.getOwner();
-			double hp = ((owner.getCurrentHp() + hpAdd) > owner.getMaxHp() ? owner.getMaxHp() : (owner.getCurrentHp() + hpAdd));
+			final double hpAdd = _absorbAbs + _absorbPart * damage;
+			final L2PcInstance owner = activeCubic.getOwner();
+			final double hp = ((owner.getCurrentHp() + hpAdd) > owner.getMaxHp() ? owner.getMaxHp() : (owner.getCurrentHp() + hpAdd));
 			
 			owner.setCurrentHp(hp);
 			
-			StatusUpdate suhp = new StatusUpdate(owner.getObjectId());
+			final StatusUpdate suhp = new StatusUpdate(owner.getObjectId());
 			suhp.addAttribute(StatusUpdate.CUR_HP, (int) hp);
 			owner.sendPacket(suhp);
 			

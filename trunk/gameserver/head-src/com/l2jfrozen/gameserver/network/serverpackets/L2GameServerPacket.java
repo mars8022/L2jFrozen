@@ -17,7 +17,7 @@
  */
 package com.l2jfrozen.gameserver.network.serverpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.network.L2GameClient;
@@ -25,14 +25,13 @@ import com.l2jfrozen.netcore.SendablePacket;
 
 /**
  * The Class L2GameServerPacket.
- *
  * @author ProGramMoS
  */
 public abstract class L2GameServerPacket extends SendablePacket<L2GameClient>
 {
 	
-	/** The Constant _log. */
-	private static final Logger _log = Logger.getLogger(L2GameServerPacket.class.getName());
+	/** The Constant LOGGER. */
+	private static final Logger LOGGER = Logger.getLogger(L2GameServerPacket.class);
 	
 	@Override
 	protected void write()
@@ -41,29 +40,28 @@ public abstract class L2GameServerPacket extends SendablePacket<L2GameClient>
 		{
 			writeImpl();
 		}
-		catch(Throwable t)
+		catch (final Throwable t)
 		{
-			_log.severe("Client: " + getClient().toString() + " - Failed writing: " + getType() + " - L2J Server Version: " + Config.SERVER_VERSION + " - DP Revision: " + Config.DATAPACK_VERSION);
+			LOGGER.error("Client: " + getClient().toString() + " - Failed writing: " + getType() + " - L2J Server Version: " + Config.SERVER_VERSION + " - DP Revision: " + Config.DATAPACK_VERSION, t);
 			t.printStackTrace();
 		}
 	}
-
+	
 	/**
 	 * Run impl.
 	 */
 	public void runImpl()
 	{
-
+		
 	}
-
+	
 	/**
 	 * Write impl.
 	 */
 	protected abstract void writeImpl();
-
+	
 	/**
 	 * Gets the type.
-	 *
 	 * @return A String with this packet name for debuging purposes
 	 */
 	public abstract String getType();

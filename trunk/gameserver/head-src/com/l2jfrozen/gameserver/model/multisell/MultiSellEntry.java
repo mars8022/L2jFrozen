@@ -28,18 +28,18 @@ import javolution.util.FastList;
 public class MultiSellEntry
 {
 	private int _entryId;
-
-	private List<MultiSellIngredient> _products = new FastList<MultiSellIngredient>();
-	private List<MultiSellIngredient> _ingredients = new FastList<MultiSellIngredient>();
-
+	
+	private final List<MultiSellIngredient> _products = new FastList<>();
+	private final List<MultiSellIngredient> _ingredients = new FastList<>();
+	
 	/**
 	 * @param entryId The entryId to set.
 	 */
-	public void setEntryId(int entryId)
+	public void setEntryId(final int entryId)
 	{
 		_entryId = entryId;
 	}
-
+	
 	/**
 	 * @return Returns the entryId.
 	 */
@@ -47,15 +47,15 @@ public class MultiSellEntry
 	{
 		return _entryId;
 	}
-
+	
 	/**
 	 * @param product The product to add.
 	 */
-	public void addProduct(MultiSellIngredient product)
+	public void addProduct(final MultiSellIngredient product)
 	{
 		_products.add(product);
 	}
-
+	
 	/**
 	 * @return Returns the products.
 	 */
@@ -63,15 +63,15 @@ public class MultiSellEntry
 	{
 		return _products;
 	}
-
+	
 	/**
 	 * @param ingredient The ingredients to set.
 	 */
-	public void addIngredient(MultiSellIngredient ingredient)
+	public void addIngredient(final MultiSellIngredient ingredient)
 	{
 		_ingredients.add(ingredient);
 	}
-
+	
 	/**
 	 * @return Returns the ingredients.
 	 */

@@ -48,45 +48,46 @@ public final class EffectSignetMDam extends L2Effect
 	private L2EffectPointInstance _actor;
 	private boolean bss;
 	private boolean sps;
-//	private SigmetMDAMTask skill_task;
-
-	public EffectSignetMDam(Env env, EffectTemplate template)
+	
+	// private SigmetMDAMTask skill_task;
+	
+	public EffectSignetMDam(final Env env, final EffectTemplate template)
 	{
 		super(env, template);
 	}
-
+	
 	@Override
 	public EffectType getEffectType()
 	{
 		return EffectType.SIGNET_GROUND;
 	}
-
+	
 	@Override
 	public void onStart()
 	{
 		L2NpcTemplate template;
-		if(getSkill() instanceof L2SkillSignetCasttime)
+		if (getSkill() instanceof L2SkillSignetCasttime)
 		{
 			template = NpcTable.getInstance().getTemplate(((L2SkillSignetCasttime) getSkill())._effectNpcId);
 		}
 		else
 			return;
-
-		L2EffectPointInstance effectPoint = new L2EffectPointInstance(IdFactory.getInstance().getNextId(), template, getEffector());
+		
+		final L2EffectPointInstance effectPoint = new L2EffectPointInstance(IdFactory.getInstance().getNextId(), template, getEffector());
 		effectPoint.getStatus().setCurrentHp(effectPoint.getMaxHp());
 		effectPoint.getStatus().setCurrentMp(effectPoint.getMaxMp());
 		
 		L2World.getInstance().storeObject(effectPoint);
-
+		
 		int x = getEffector().getX();
 		int y = getEffector().getY();
 		int z = getEffector().getZ();
-
-		if(getEffector() instanceof L2PcInstance && getSkill().getTargetType() == L2Skill.SkillTargetType.TARGET_GROUND)
+		
+		if (getEffector() instanceof L2PcInstance && getSkill().getTargetType() == L2Skill.SkillTargetType.TARGET_GROUND)
 		{
-			Point3D wordPosition = ((L2PcInstance) getEffector()).getCurrentSkillWorldPosition();
-
-			if(wordPosition != null)
+			final Point3D wordPosition = ((L2PcInstance) getEffector()).getCurrentSkillWorldPosition();
+			
+			if (wordPosition != null)
 			{
 				x = wordPosition.getX();
 				y = wordPosition.getY();
@@ -95,77 +96,76 @@ public final class EffectSignetMDam extends L2Effect
 		}
 		effectPoint.setIsInvul(true);
 		effectPoint.spawnMe(x, y, z);
-
+		
 		_actor = effectPoint;
 		
-//		skill_task = new SigmetMDAMTask();
+		// skill_task = new SigmetMDAMTask();
 	}
-
+	
 	@Override
 	public boolean onActionTime()
 	{
-		if(getCount() >= getTotalCount() - 2)
+		if (getCount() >= getTotalCount() - 2)
 			return true; // do nothing first 2 times
+			
+		final int mpConsume = getSkill().getMpConsume();
+		final L2PcInstance caster = (L2PcInstance) getEffector();
 		
-		int mpConsume = getSkill().getMpConsume();
-		L2PcInstance caster = (L2PcInstance) getEffector();
-
 		sps = caster.checkSps();
 		bss = caster.checkBss();
 		
-		FastList<L2Character> targets = new FastList<L2Character>();
-
-		for(L2Character cha : _actor.getKnownList().getKnownCharactersInRadius(getSkill().getSkillRadius()))
+		final FastList<L2Character> targets = new FastList<>();
+		
+		for (final L2Character cha : _actor.getKnownList().getKnownCharactersInRadius(getSkill().getSkillRadius()))
 		{
-			if(cha == null || cha == caster)
+			if (cha == null || cha == caster)
 			{
 				continue;
 			}
-
-			if(cha instanceof L2Attackable || cha instanceof L2PlayableInstance)
+			
+			if (cha instanceof L2Attackable || cha instanceof L2PlayableInstance)
 			{
-				if(cha.isAlikeDead())
+				if (cha.isAlikeDead())
 				{
 					continue;
 				}
-
-				if(mpConsume > caster.getStatus().getCurrentMp())
+				
+				if (mpConsume > caster.getStatus().getCurrentMp())
 				{
 					caster.sendPacket(new SystemMessage(SystemMessageId.SKILL_REMOVED_DUE_LACK_MP));
 					return false;
 				}
-
+				
 				caster.reduceCurrentMp(mpConsume);
-
-				if(cha instanceof L2PlayableInstance)
+				
+				if (cha instanceof L2PlayableInstance)
 				{
-					if(!(cha instanceof L2Summon 
-						&& ((L2Summon) cha).getOwner() == caster))
+					if (!(cha instanceof L2Summon && ((L2Summon) cha).getOwner() == caster))
 					{
 						caster.updatePvPStatus(cha);
 					}
 				}
-
+				
 				targets.add(cha);
 			}
 		}
-
-		if(!targets.isEmpty())
+		
+		if (!targets.isEmpty())
 		{
 			caster.broadcastPacket(new MagicSkillLaunched(caster, getSkill().getDisplayId(), getSkill().getLevel(), targets.toArray(new L2Character[targets.size()])));
-			for(L2Character target : targets)
+			for (final L2Character target : targets)
 			{
-				boolean mcrit = Formulas.calcMCrit(caster.getMCriticalHit(target, getSkill()));
-				int mdam = (int) Formulas.calcMagicDam(caster, target, getSkill(), sps, bss, mcrit);
-
-				if(target instanceof L2Summon)
+				final boolean mcrit = Formulas.calcMCrit(caster.getMCriticalHit(target, getSkill()));
+				final int mdam = (int) Formulas.calcMagicDam(caster, target, getSkill(), sps, bss, mcrit);
+				
+				if (target instanceof L2Summon)
 				{
 					target.broadcastStatusUpdate();
 				}
-
-				if(mdam > 0)
+				
+				if (mdam > 0)
 				{
-					if(!target.isRaid() && Formulas.calcAtkBreak(target, mdam))
+					if (!target.isRaid() && Formulas.calcAtkBreak(target, mdam))
 					{
 						target.breakAttack();
 						target.breakCast();
@@ -179,24 +179,26 @@ public final class EffectSignetMDam extends L2Effect
 		
 		return true;
 	}
-
+	
 	@Override
 	public void onExit()
 	{
-		if(_actor != null)
+		if (_actor != null)
 		{
-			L2PcInstance caster = (L2PcInstance) getEffector();
-
-			//remove shots
-			if (bss){
+			final L2PcInstance caster = (L2PcInstance) getEffector();
+			
+			// remove shots
+			if (bss)
+			{
 				caster.removeBss();
 				
-			}else if(sps){
+			}
+			else if (sps)
+			{
 				caster.removeSps();
 			}
 			_actor.deleteMe();
 		}
 	}
-	
 	
 }

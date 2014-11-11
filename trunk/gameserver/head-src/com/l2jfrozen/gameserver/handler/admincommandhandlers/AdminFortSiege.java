@@ -31,72 +31,59 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 /**
  * This class handles all siege commands: Todo: change the class name, and neaten it up
- * 
  * @author programmos
  */
 public class AdminFortSiege implements IAdminCommandHandler
 {
-	//private static Logger _log = Logger.getLogger(AdminFortSiege.class.getName());
-
+	// private static Logger LOGGER = Logger.getLogger(AdminFortSiege.class);
+	
 	private static final String[] ADMIN_COMMANDS =
 	{
-			"admin_fortsiege",
-			"admin_add_fortattacker",
-			"admin_add_fortdefender",
-			"admin_add_fortguard",
-			"admin_list_fortsiege_clans",
-			"admin_clear_fortsiege_list",
-			"admin_move_fortdefenders",
-			"admin_spawn_fortdoors",
-			"admin_endfortsiege",
-			"admin_startfortsiege",
-			"admin_setfort",
-			"admin_removefort"
+		"admin_fortsiege",
+		"admin_add_fortattacker",
+		"admin_add_fortdefender",
+		"admin_add_fortguard",
+		"admin_list_fortsiege_clans",
+		"admin_clear_fortsiege_list",
+		"admin_move_fortdefenders",
+		"admin_spawn_fortdoors",
+		"admin_endfortsiege",
+		"admin_startfortsiege",
+		"admin_setfort",
+		"admin_removefort"
 	};
-
+	
 	@Override
-	public boolean useAdminCommand(String command, L2PcInstance activeChar)
+	public boolean useAdminCommand(String command, final L2PcInstance activeChar)
 	{
 		/*
-		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
-			return false;
-		}
+		 * if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){ return false; } if(Config.GMAUDIT) { Logger _logAudit = Logger.getLogger("gmaudit"); LogRecord record = new LogRecord(Level.INFO, command); record.setParameters(new Object[] { "GM: " +
+		 * activeChar.getName(), " to target [" + activeChar.getTarget() + "] " }); _logAudit.LOGGER(record); }
+		 */
 		
-		if(Config.GMAUDIT)
-		{
-			Logger _logAudit = Logger.getLogger("gmaudit");
-			LogRecord record = new LogRecord(Level.INFO, command);
-			record.setParameters(new Object[]
-			{
-					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
-			});
-			_logAudit.log(record);
-		}
-		*/
-
-		StringTokenizer st = new StringTokenizer(command, " ");
+		final StringTokenizer st = new StringTokenizer(command, " ");
 		command = st.nextToken(); // Get actual command
-
+		
 		// Get fort
 		Fort fort = null;
-
-		if(st.hasMoreTokens())
+		
+		if (st.hasMoreTokens())
 		{
 			fort = FortManager.getInstance().getFort(st.nextToken());
 		}
-
+		
 		// Get fort
-//		String val = "";
-//
-//		if(st.hasMoreTokens())
-//		{
-//			val = st.nextToken();
-//		}
-//
-//		val = null;
-
+		// String val = "";
+		//
+		// if(st.hasMoreTokens())
+		// {
+		// val = st.nextToken();
+		// }
+		//
+		// val = null;
+		
 		// No fort specified
-		if(fort == null || fort.getFortId() < 0)
+		if (fort == null || fort.getFortId() < 0)
 		{
 			showFortSelectPage(activeChar);
 		}
@@ -104,17 +91,17 @@ public class AdminFortSiege implements IAdminCommandHandler
 		{
 			L2Object target = activeChar.getTarget();
 			L2PcInstance player = null;
-
-			if(target instanceof L2PcInstance)
+			
+			if (target instanceof L2PcInstance)
 			{
 				player = (L2PcInstance) target;
 			}
-
+			
 			target = null;
-
-			if(command.equalsIgnoreCase("admin_add_fortattacker"))
+			
+			if (command.equalsIgnoreCase("admin_add_fortattacker"))
 			{
-				if(player == null)
+				if (player == null)
 				{
 					activeChar.sendPacket(new SystemMessage(SystemMessageId.TARGET_IS_INCORRECT));
 				}
@@ -123,9 +110,9 @@ public class AdminFortSiege implements IAdminCommandHandler
 					fort.getSiege().registerAttacker(player, true);
 				}
 			}
-			else if(command.equalsIgnoreCase("admin_add_fortdefender"))
+			else if (command.equalsIgnoreCase("admin_add_fortdefender"))
 			{
-				if(player == null)
+				if (player == null)
 				{
 					activeChar.sendPacket(new SystemMessage(SystemMessageId.TARGET_IS_INCORRECT));
 				}
@@ -135,39 +122,39 @@ public class AdminFortSiege implements IAdminCommandHandler
 				}
 			}
 			// FIXME
-			//            else if (command.equalsIgnoreCase("admin_add_guard"))
-			//            {
-			//                try
-			//                {
-			//                    int npcId = Integer.parseInt(val);
-			//                    fort.getSiege().getFortSiegeGuardManager().addFortSiegeGuard(activeChar, npcId);
-			//                }
-			//                catch (Exception e)
-			//                {
-			//                    activeChar.sendMessage("Usage: //add_guard npcId");
-			//                }
-			//            }
-			else if(command.equalsIgnoreCase("admin_clear_fortsiege_list"))
+			// else if (command.equalsIgnoreCase("admin_add_guard"))
+			// {
+			// try
+			// {
+			// int npcId = Integer.parseInt(val);
+			// fort.getSiege().getFortSiegeGuardManager().addFortSiegeGuard(activeChar, npcId);
+			// }
+			// catch (Exception e)
+			// {
+			// activeChar.sendMessage("Usage: //add_guard npcId");
+			// }
+			// }
+			else if (command.equalsIgnoreCase("admin_clear_fortsiege_list"))
 			{
 				fort.getSiege().clearSiegeClan();
 			}
-			else if(command.equalsIgnoreCase("admin_endfortsiege"))
+			else if (command.equalsIgnoreCase("admin_endfortsiege"))
 			{
 				fort.getSiege().endSiege();
 			}
-			else if(command.equalsIgnoreCase("admin_list_fortsiege_clans"))
+			else if (command.equalsIgnoreCase("admin_list_fortsiege_clans"))
 			{
 				fort.getSiege().listRegisterClan(activeChar);
-
+				
 				return true;
 			}
-			else if(command.equalsIgnoreCase("admin_move_fortdefenders"))
+			else if (command.equalsIgnoreCase("admin_move_fortdefenders"))
 			{
 				activeChar.sendMessage("Not implemented yet.");
 			}
-			else if(command.equalsIgnoreCase("admin_setfort"))
+			else if (command.equalsIgnoreCase("admin_setfort"))
 			{
-				if(player == null || player.getClan() == null)
+				if (player == null || player.getClan() == null)
 				{
 					activeChar.sendPacket(new SystemMessage(SystemMessageId.TARGET_IS_INCORRECT));
 				}
@@ -176,11 +163,11 @@ public class AdminFortSiege implements IAdminCommandHandler
 					fort.setOwner(player.getClan());
 				}
 			}
-			else if(command.equalsIgnoreCase("admin_removefort"))
+			else if (command.equalsIgnoreCase("admin_removefort"))
 			{
 				L2Clan clan = ClanTable.getInstance().getClan(fort.getOwnerId());
-
-				if(clan != null)
+				
+				if (clan != null)
 				{
 					fort.removeOwner(clan);
 				}
@@ -188,72 +175,72 @@ public class AdminFortSiege implements IAdminCommandHandler
 				{
 					activeChar.sendMessage("Unable to remove fort");
 				}
-
+				
 				clan = null;
 			}
-			else if(command.equalsIgnoreCase("admin_spawn_fortdoors"))
+			else if (command.equalsIgnoreCase("admin_spawn_fortdoors"))
 			{
 				fort.spawnDoor();
 			}
-			else if(command.equalsIgnoreCase("admin_startfortsiege"))
+			else if (command.equalsIgnoreCase("admin_startfortsiege"))
 			{
 				fort.getSiege().startSiege();
 			}
-
+			
 			showFortSiegePage(activeChar, fort.getName());
-
+			
 			player = null;
 		}
-
+		
 		return true;
 	}
-
-	private void showFortSelectPage(L2PcInstance activeChar)
+	
+	private void showFortSelectPage(final L2PcInstance activeChar)
 	{
 		int i = 0;
-
+		
 		NpcHtmlMessage adminReply = new NpcHtmlMessage(5);
 		adminReply.setFile("data/html/admin/forts.htm");
 		TextBuilder cList = new TextBuilder();
-
-		for(Fort fort : FortManager.getInstance().getForts())
+		
+		for (final Fort fort : FortManager.getInstance().getForts())
 		{
-			if(fort != null)
+			if (fort != null)
 			{
 				String name = fort.getName();
 				cList.append("<td fixwidth=90><a action=\"bypass -h admin_fortsiege " + name + "\">" + name + "</a></td>");
 				name = null;
 				i++;
 			}
-
-			if(i > 2)
+			
+			if (i > 2)
 			{
 				cList.append("</tr><tr>");
 				i = 0;
 			}
 		}
-
+		
 		adminReply.replace("%forts%", cList.toString());
 		activeChar.sendPacket(adminReply);
-
+		
 		cList = null;
 		adminReply = null;
 	}
-
-	private void showFortSiegePage(L2PcInstance activeChar, String fortName)
+	
+	private void showFortSiegePage(final L2PcInstance activeChar, final String fortName)
 	{
 		NpcHtmlMessage adminReply = new NpcHtmlMessage(5);
 		adminReply.setFile("data/html/admin/fort.htm");
 		adminReply.replace("%fortName%", fortName);
 		activeChar.sendPacket(adminReply);
-
+		
 		adminReply = null;
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;
 	}
-
+	
 }

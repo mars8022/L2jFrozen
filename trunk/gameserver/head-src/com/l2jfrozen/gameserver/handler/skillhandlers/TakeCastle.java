@@ -35,159 +35,163 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.util.Util;
 
 /**
- * @author _drunk_ TODO To change the template for this generated type comment go to Window - Preferences - Java - Code
- *         Style - Code Templates
+ * @author _drunk_ TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code Templates
  */
 public class TakeCastle implements ISkillHandler
 {
-	//private static Logger _log = Logger.getLogger(TakeCastle.class.getName());
-	private static final SkillType[] SKILL_IDS = { SkillType.TAKECASTLE };
-
-	@Override
-	public void useSkill(L2Character activeChar, L2Skill skill, L2Object[] targets)
+	// private static Logger LOGGER = Logger.getLogger(TakeCastle.class);
+	private static final SkillType[] SKILL_IDS =
 	{
-		if(activeChar == null || !(activeChar instanceof L2PcInstance))
+		SkillType.TAKECASTLE
+	};
+	
+	@Override
+	public void useSkill(final L2Character activeChar, final L2Skill skill, final L2Object[] targets)
+	{
+		if (activeChar == null || !(activeChar instanceof L2PcInstance))
 			return;
-
+		
 		L2PcInstance player = (L2PcInstance) activeChar;
-
-		if(player.getClan() == null || player.getClan().getLeaderId() != player.getObjectId())
+		
+		if (player.getClan() == null || player.getClan().getLeaderId() != player.getObjectId())
 			return;
-
+		
 		Castle castle = CastleManager.getInstance().getCastle(player);
 		Fort fort = FortManager.getInstance().getFort(player);
-
-		if(castle != null && fort == null){
-			if(!checkIfOkToCastSealOfRule(player, castle, true))
-				return;
 		
-		}else if(fort != null && castle == null){
-			if(!checkIfOkToCastFlagDisplay(player, fort, true))
+		if (castle != null && fort == null)
+		{
+			if (!checkIfOkToCastSealOfRule(player, castle, true))
+				return;
+			
+		}
+		else if (fort != null && castle == null)
+		{
+			if (!checkIfOkToCastFlagDisplay(player, fort, true))
 				return;
 		}
 		
-		if(castle == null && fort == null)
+		if (castle == null && fort == null)
 			return;
-
+		
 		try
 		{
-			if((castle != null) && (targets[0] instanceof L2ArtefactInstance))
+			if ((castle != null) && (targets[0] instanceof L2ArtefactInstance))
 				castle.Engrave(player.getClan(), targets[0].getObjectId());
-			else if(fort != null)
+			else if (fort != null)
 				fort.EndOfSiege(player.getClan());
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 		}
 		player = null;
 		castle = null;
 		fort = null;
 	}
-
+	
 	@Override
 	public SkillType[] getSkillIds()
 	{
 		return SKILL_IDS;
 	}
-
+	
 	/**
 	 * Return true if character clan place a flag<BR>
 	 * <BR>
-	 * 
 	 * @param activeChar The L2Character of the character placing the flag
-	 * @param isCheckOnly 
-	 * @return 
+	 * @param isCheckOnly
+	 * @return
 	 */
-	public static boolean checkIfOkToCastSealOfRule(L2Character activeChar, boolean isCheckOnly)
+	public static boolean checkIfOkToCastSealOfRule(final L2Character activeChar, final boolean isCheckOnly)
 	{
-		Castle castle = CastleManager.getInstance().getCastle(activeChar);
-		Fort fort = FortManager.getInstance().getFort(activeChar);
-
-		if(fort != null && castle == null)
+		final Castle castle = CastleManager.getInstance().getCastle(activeChar);
+		final Fort fort = FortManager.getInstance().getFort(activeChar);
+		
+		if (fort != null && castle == null)
 		{
 			return checkIfOkToCastFlagDisplay(activeChar, fort, isCheckOnly);
 		}
 		return checkIfOkToCastSealOfRule(activeChar, castle, isCheckOnly);
 	}
-
-	public static boolean checkIfOkToCastSealOfRule(L2Character activeChar, Castle castle, boolean isCheckOnly)
+	
+	public static boolean checkIfOkToCastSealOfRule(final L2Character activeChar, final Castle castle, final boolean isCheckOnly)
 	{
-		if(activeChar == null || !(activeChar instanceof L2PcInstance))
+		if (activeChar == null || !(activeChar instanceof L2PcInstance))
 			return false;
-
+		
 		SystemMessage sm = new SystemMessage(SystemMessageId.S1_S2);
 		L2PcInstance player = (L2PcInstance) activeChar;
-
-		if(castle == null || castle.getCastleId() <= 0)
+		
+		if (castle == null || castle.getCastleId() <= 0)
 			sm.addString("You must be on castle ground to use this skill");
-		else if(player.getTarget() == null || !(player.getTarget() instanceof L2ArtefactInstance))
+		else if (player.getTarget() == null || !(player.getTarget() instanceof L2ArtefactInstance))
 			sm.addString("You can only use this skill on an artifact");
-		else if(!castle.getSiege().getIsInProgress())
+		else if (!castle.getSiege().getIsInProgress())
 			sm.addString("You can only use this skill during a siege.");
-		else if(!Util.checkIfInRange(200, player, player.getTarget(), true))
+		else if (!Util.checkIfInRange(200, player, player.getTarget(), true))
 			sm.addString("You are not in range of the artifact.");
-		else if(castle.getSiege().getAttackerClan(player.getClan()) == null)
+		else if (castle.getSiege().getAttackerClan(player.getClan()) == null)
 			sm.addString("You must be an attacker to use this skill");
 		else
 		{
-			if(!isCheckOnly)
+			if (!isCheckOnly)
 				castle.getSiege().announceToPlayer("Clan " + player.getClan().getName() + " has begun to engrave the ruler.", true);
 			sm = null;
 			player = null;
 			return true;
 		}
-
-		if(!isCheckOnly)
+		
+		if (!isCheckOnly)
 		{
 			player.sendPacket(sm);
 			sm = null;
 			player = null;
 		}
-
+		
 		return false;
 	}
-
-	public static boolean checkIfOkToCastFlagDisplay(L2Character activeChar, boolean isCheckOnly)
+	
+	public static boolean checkIfOkToCastFlagDisplay(final L2Character activeChar, final boolean isCheckOnly)
 	{
 		return checkIfOkToCastFlagDisplay(activeChar, FortManager.getInstance().getFort(activeChar), isCheckOnly);
 	}
-
-	public static boolean checkIfOkToCastFlagDisplay(L2Character activeChar, Fort fort, boolean isCheckOnly)
+	
+	public static boolean checkIfOkToCastFlagDisplay(final L2Character activeChar, final Fort fort, final boolean isCheckOnly)
 	{
-		if(activeChar == null || !(activeChar instanceof L2PcInstance))
+		if (activeChar == null || !(activeChar instanceof L2PcInstance))
 			return false;
-
+		
 		SystemMessage sm = new SystemMessage(SystemMessageId.S1_S2);
 		L2PcInstance player = (L2PcInstance) activeChar;
-
-		if(fort == null || fort.getFortId() <= 0)
+		
+		if (fort == null || fort.getFortId() <= 0)
 			sm.addString("You must be on fort ground to use this skill");
-		else if(player.getTarget() == null && !(player.getTarget() instanceof L2ArtefactInstance))
+		else if (player.getTarget() == null && !(player.getTarget() instanceof L2ArtefactInstance))
 			sm.addString("You can only use this skill on an flagpole");
-		else if(!fort.getSiege().getIsInProgress())
+		else if (!fort.getSiege().getIsInProgress())
 			sm.addString("You can only use this skill during a siege.");
-		else if(!Util.checkIfInRange(200, player, player.getTarget(), true))
+		else if (!Util.checkIfInRange(200, player, player.getTarget(), true))
 			sm.addString("You are not in range of the flagpole.");
-		else if(fort.getSiege().getAttackerClan(player.getClan()) == null)
+		else if (fort.getSiege().getAttackerClan(player.getClan()) == null)
 			sm.addString("You must be an attacker to use this skill");
 		else
 		{
-			if(!isCheckOnly)
+			if (!isCheckOnly)
 				fort.getSiege().announceToPlayer("Clan " + player.getClan().getName() + " has begun to raise flag.", true);
 			sm = null;
 			player = null;
 			return true;
 		}
-
-		if(!isCheckOnly)
+		
+		if (!isCheckOnly)
 		{
 			player.sendPacket(sm);
 			sm = null;
 			player = null;
 		}
-
+		
 		return false;
 	}
 }

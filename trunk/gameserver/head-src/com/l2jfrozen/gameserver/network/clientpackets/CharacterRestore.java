@@ -21,41 +21,41 @@ import com.l2jfrozen.gameserver.network.serverpackets.CharSelectInfo;
 public final class CharacterRestore extends L2GameClientPacket
 {
 	private int _charSlot;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_charSlot = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
 		if (!getClient().getFloodProtectors().getCharacterSelect().tryPerformAction("CharacterRestore"))
 			return;
-
+		
 		try
 		{
 			getClient().markRestoredChar(_charSlot);
 		}
-		catch (Exception e)
+		catch (final Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 		}
-
+		
 		// Before the char selection, check shutdown status
 		if (GameServer.getSelectorThread().isShutdown())
 		{
 			getClient().closeNow();
 			return;
 		}
-
-		CharSelectInfo cl = new CharSelectInfo(getClient().getAccountName(), getClient().getSessionId().playOkID1, 0);
+		
+		final CharSelectInfo cl = new CharSelectInfo(getClient().getAccountName(), getClient().getSessionId().playOkID1, 0);
 		sendPacket(cl);
 		getClient().setCharSelection(cl.getCharInfo());
 	}
-
+	
 	@Override
 	public String getType()
 	{

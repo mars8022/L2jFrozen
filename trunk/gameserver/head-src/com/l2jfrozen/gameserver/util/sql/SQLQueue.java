@@ -35,49 +35,66 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class SQLQueue implements Runnable
 {
-	private static SQLQueue _instance =null;
-	public static SQLQueue getInstance() {
-		if(_instance == null)
+	private static SQLQueue _instance = null;
+	
+	public static SQLQueue getInstance()
+	{
+		if (_instance == null)
 			_instance = new SQLQueue();
 		return _instance;
 	}
-	private FastList<SQLQuery> _query;
-	private ScheduledFuture<?> _task;
+	
+	private final FastList<SQLQuery> _query;
+	private final ScheduledFuture<?> _task;
 	
 	private boolean _inShutdown;
 	private boolean _isRuning;
-	private SQLQueue() {
-		_query = new FastList<SQLQuery>();
+	
+	private SQLQueue()
+	{
+		_query = new FastList<>();
 		_task = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(this, 60000, 60000);
 		
 	}
-	public void shutdown() {
+	
+	public void shutdown()
+	{
 		_inShutdown = true;
 		_task.cancel(false);
-		if(!_isRuning && _query.size()>0) 
+		if (!_isRuning && _query.size() > 0)
 			run();
 		
 	}
-	public void add(SQLQuery q) {
-		if(!_inShutdown)
-				_query.addLast(q);
+	
+	public void add(final SQLQuery q)
+	{
+		if (!_inShutdown)
+			_query.addLast(q);
 	}
+	
 	@Override
 	public void run()
 	{
 		_isRuning = true;
-		synchronized(_query) {
-			while(_query.size()>0) {
-				SQLQuery q = _query.removeFirst();
+		synchronized (_query)
+		{
+			while (_query.size() > 0)
+			{
+				final SQLQuery q = _query.removeFirst();
 				Connection _con = null;
-				try {
+				try
+				{
 					_con = L2DatabaseFactory.getInstance().getConnection(false);
 					
 					q.execute(_con);
-				} catch(SQLException e) {
-					if(Config.ENABLE_ALL_EXCEPTIONS)
+				}
+				catch (final SQLException e)
+				{
+					if (Config.ENABLE_ALL_EXCEPTIONS)
 						e.printStackTrace();
-				}finally{
+				}
+				finally
+				{
 					
 					CloseUtil.close(_con);
 					_con = null;
@@ -85,16 +102,21 @@ public class SQLQueue implements Runnable
 			}
 		}
 		Connection _con = null;
-		try {
+		try
+		{
 			_con = L2DatabaseFactory.getInstance().getConnection(false);
-			PreparedStatement stm = _con.prepareStatement("select * from characters where char_name is null");
+			final PreparedStatement stm = _con.prepareStatement("select * from characters where char_name is null");
 			stm.execute();
 			stm.close();
 			
-		} catch(SQLException e) {
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+		}
+		catch (final SQLException e)
+		{
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
-		}finally{
+		}
+		finally
+		{
 			CloseUtil.close(_con);
 			_con = null;
 		}

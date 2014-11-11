@@ -26,15 +26,15 @@ import com.l2jfrozen.gameserver.model.L2Object;
 
 /**
  * @author dishkols
- * @param <T> 
+ * @param <T>
  */
 public class WorldObjectTree<T extends L2Object> extends L2ObjectMap<T>
 {
-	private final TreeMap<Integer, T> _objectMap = new TreeMap<Integer, T>();
+	private final TreeMap<Integer, T> _objectMap = new TreeMap<>();
 	private final ReentrantReadWriteLock _rwl = new ReentrantReadWriteLock();
 	private final Lock _r = _rwl.readLock();
 	private final Lock _w = _rwl.writeLock();
-
+	
 	/**
 	 * @see com.l2jfrozen.util.object.L2ObjectMap#size()
 	 */
@@ -51,7 +51,7 @@ public class WorldObjectTree<T extends L2Object> extends L2ObjectMap<T>
 			_r.unlock();
 		}
 	}
-
+	
 	/**
 	 * @see com.l2jfrozen.util.object.L2ObjectMap#isEmpty()
 	 */
@@ -68,7 +68,7 @@ public class WorldObjectTree<T extends L2Object> extends L2ObjectMap<T>
 			_r.unlock();
 		}
 	}
-
+	
 	/**
 	 * @see com.l2jfrozen.util.object.L2ObjectMap#clear()
 	 */
@@ -87,9 +87,9 @@ public class WorldObjectTree<T extends L2Object> extends L2ObjectMap<T>
 	}
 	
 	@Override
-	public void put(T obj)
+	public void put(final T obj)
 	{
-		if(obj != null)
+		if (obj != null)
 		{
 			_w.lock();
 			try
@@ -104,9 +104,9 @@ public class WorldObjectTree<T extends L2Object> extends L2ObjectMap<T>
 	}
 	
 	@Override
-	public void remove(T obj)
+	public void remove(final T obj)
 	{
-		if(obj != null)
+		if (obj != null)
 		{
 			_w.lock();
 			try
@@ -119,12 +119,12 @@ public class WorldObjectTree<T extends L2Object> extends L2ObjectMap<T>
 			}
 		}
 	}
-
+	
 	/**
 	 * @see com.l2jfrozen.util.object.L2ObjectMap#get(int)
 	 */
 	@Override
-	public T get(int id)
+	public T get(final int id)
 	{
 		_r.lock();
 		try
@@ -138,9 +138,9 @@ public class WorldObjectTree<T extends L2Object> extends L2ObjectMap<T>
 	}
 	
 	@Override
-	public boolean contains(T obj)
+	public boolean contains(final T obj)
 	{
-		if(obj == null)
+		if (obj == null)
 			return false;
 		_r.lock();
 		try
@@ -152,7 +152,7 @@ public class WorldObjectTree<T extends L2Object> extends L2ObjectMap<T>
 			_r.unlock();
 		}
 	}
-
+	
 	/**
 	 * @see com.l2jfrozen.util.object.L2ObjectMap#iterator()
 	 */
@@ -169,5 +169,5 @@ public class WorldObjectTree<T extends L2Object> extends L2ObjectMap<T>
 			_r.unlock();
 		}
 	}
-
+	
 }

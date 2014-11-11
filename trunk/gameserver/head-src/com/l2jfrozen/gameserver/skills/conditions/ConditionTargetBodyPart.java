@@ -28,23 +28,23 @@ import com.l2jfrozen.gameserver.templates.L2Item;
  */
 public class ConditionTargetBodyPart extends Condition
 {
-
-	private L2Armor _armor;
-
-	public ConditionTargetBodyPart(L2Armor armor)
+	
+	private final L2Armor _armor;
+	
+	public ConditionTargetBodyPart(final L2Armor armor)
 	{
 		_armor = armor;
 	}
-
+	
 	@Override
-	public boolean testImpl(Env env)
+	public boolean testImpl(final Env env)
 	{
 		// target is attacker
-		if(env.target == null)
+		if (env.target == null)
 			return true;
-		int bodypart = env.target.getAttackingBodyPart();
-		int armor_part = _armor.getBodyPart();
-		switch(bodypart)
+		final int bodypart = env.target.getAttackingBodyPart();
+		final int armor_part = _armor.getBodyPart();
+		switch (bodypart)
 		{
 			case Inventory.PAPERDOLL_CHEST:
 				return (armor_part & (L2Item.SLOT_CHEST | L2Item.SLOT_FULL_ARMOR | L2Item.SLOT_UNDERWEAR)) != 0;

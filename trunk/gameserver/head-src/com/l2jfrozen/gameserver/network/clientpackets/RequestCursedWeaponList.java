@@ -34,31 +34,31 @@ public class RequestCursedWeaponList extends L2GameClientPacket
 	@Override
 	protected void readImpl()
 	{
-	//nothing to read it's just a trigger
+		// nothing to read it's just a trigger
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-		L2Character activeChar = getClient().getActiveChar();
-
-		if(activeChar == null)
+		final L2Character activeChar = getClient().getActiveChar();
+		
+		if (activeChar == null)
 			return;
-
-		//send a ExCursedWeaponList :p
-		List<Integer> list = new FastList<Integer>();
-		for(int id : CursedWeaponsManager.getInstance().getCursedWeaponsIds())
+		
+		// send a ExCursedWeaponList :p
+		final List<Integer> list = new FastList<>();
+		for (final int id : CursedWeaponsManager.getInstance().getCursedWeaponsIds())
 		{
 			list.add(id);
 		}
-
+		
 		activeChar.sendPacket(new ExCursedWeaponList(list));
 	}
-
+	
 	@Override
 	public String getType()
 	{
 		return "[C] D0:22 RequestCursedWeaponList";
 	}
-
+	
 }

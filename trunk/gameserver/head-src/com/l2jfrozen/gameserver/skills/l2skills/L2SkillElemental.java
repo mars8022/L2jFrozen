@@ -28,20 +28,20 @@ import com.l2jfrozen.gameserver.templates.StatsSet;
 
 public class L2SkillElemental extends L2Skill
 {
-
+	
 	private final int[] _seeds;
 	private final boolean _seedAny;
-
-	public L2SkillElemental(StatsSet set)
+	
+	public L2SkillElemental(final StatsSet set)
 	{
 		super(set);
-
+		
 		_seeds = new int[3];
 		_seeds[0] = set.getInteger("seed1", 0);
 		_seeds[1] = set.getInteger("seed2", 0);
 		_seeds[2] = set.getInteger("seed3", 0);
-
-		if(set.getInteger("seed_any", 0) == 1)
+		
+		if (set.getInteger("seed_any", 0) == 1)
 		{
 			_seedAny = true;
 		}
@@ -50,33 +50,33 @@ public class L2SkillElemental extends L2Skill
 			_seedAny = false;
 		}
 	}
-
+	
 	@Override
-	public void useSkill(L2Character activeChar, L2Object[] targets)
+	public void useSkill(final L2Character activeChar, final L2Object[] targets)
 	{
-		if(activeChar.isAlikeDead())
+		if (activeChar.isAlikeDead())
 			return;
-
-		boolean sps = activeChar.checkSps();
-		boolean bss = activeChar.checkBss();
-
-		for(L2Object target2 : targets)
+		
+		final boolean sps = activeChar.checkSps();
+		final boolean bss = activeChar.checkBss();
+		
+		for (final L2Object target2 : targets)
 		{
-			L2Character target = (L2Character) target2;
-			if(target.isAlikeDead())
+			final L2Character target = (L2Character) target2;
+			if (target.isAlikeDead())
 			{
 				continue;
 			}
-
+			
 			boolean charged = true;
-			if(!_seedAny)
+			if (!_seedAny)
 			{
-				for(int seed : _seeds)
+				for (final int seed : _seeds)
 				{
-					if(seed != 0)
+					if (seed != 0)
 					{
-						L2Effect e = target.getFirstEffect(seed);
-						if(e == null || !e.getInUse())
+						final L2Effect e = target.getFirstEffect(seed);
+						if (e == null || !e.getInUse())
 						{
 							charged = false;
 							break;
@@ -87,12 +87,12 @@ public class L2SkillElemental extends L2Skill
 			else
 			{
 				charged = false;
-				for(int seed : _seeds)
+				for (final int seed : _seeds)
 				{
-					if(seed != 0)
+					if (seed != 0)
 					{
-						L2Effect e = target.getFirstEffect(seed);
-						if(e != null && e.getInUse())
+						final L2Effect e = target.getFirstEffect(seed);
+						if (e != null && e.getInUse())
 						{
 							charged = true;
 							break;
@@ -100,41 +100,44 @@ public class L2SkillElemental extends L2Skill
 					}
 				}
 			}
-			if(!charged)
+			if (!charged)
 			{
-				SystemMessage sm = new SystemMessage(SystemMessageId.S1_S2);
+				final SystemMessage sm = new SystemMessage(SystemMessageId.S1_S2);
 				sm.addString("Target is not charged by elements.");
 				activeChar.sendPacket(sm);
 				continue;
 			}
 			
-			boolean mcrit = Formulas.calcMCrit(activeChar.getMCriticalHit(target, this));
-
-			int damage = (int) Formulas.calcMagicDam(activeChar, target, this, sps, bss, mcrit);
-
-			if(damage > 0)
+			final boolean mcrit = Formulas.calcMCrit(activeChar.getMCriticalHit(target, this));
+			
+			final int damage = (int) Formulas.calcMagicDam(activeChar, target, this, sps, bss, mcrit);
+			
+			if (damage > 0)
 			{
 				target.reduceCurrentHp(damage, activeChar);
-
+				
 				// Manage attack or cast break of the target (calculating rate, sending message...)
-				if(!target.isRaid() && Formulas.calcAtkBreak(target, damage))
+				if (!target.isRaid() && Formulas.calcAtkBreak(target, damage))
 				{
 					target.breakAttack();
 					target.breakCast();
 				}
-
+				
 				activeChar.sendDamageMessage(target, damage, false, false, false);
-
+				
 			}
-
+			
 			// activate attacked effects, if any
 			target.stopSkillEffects(getId());
-			getEffects(activeChar, target,false,sps,bss);
+			getEffects(activeChar, target, false, sps, bss);
 		}
 		
-		if (bss){
+		if (bss)
+		{
 			activeChar.removeBss();
-		}else if(sps){
+		}
+		else if (sps)
+		{
 			activeChar.removeSps();
 		}
 		

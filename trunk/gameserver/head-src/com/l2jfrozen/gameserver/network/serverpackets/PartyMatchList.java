@@ -26,51 +26,51 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
 public class PartyMatchList extends L2GameServerPacket
 {
-	private L2PcInstance _cha;
-	private int _loc;
-	private int _lim;
-	private FastList<PartyMatchRoom> _rooms;
-
-	public PartyMatchList(L2PcInstance player, int auto, int location, int limit)
+	private final L2PcInstance _cha;
+	private final int _loc;
+	private final int _lim;
+	private final FastList<PartyMatchRoom> _rooms;
+	
+	public PartyMatchList(final L2PcInstance player, final int auto, final int location, final int limit)
 	{
 		_cha = player;
 		_loc = location;
 		_lim = limit;
-		_rooms = new FastList<PartyMatchRoom>();
+		_rooms = new FastList<>();
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
 		if (getClient().getActiveChar() == null)
 			return;
-
-		for (PartyMatchRoom room : PartyMatchRoomList.getInstance().getRooms())
+		
+		for (final PartyMatchRoom room : PartyMatchRoomList.getInstance().getRooms())
 		{
-			if (room.getMembers() < 1 || room.getOwner() == null || room.getOwner().isOnline()==0 || room.getOwner().getPartyRoom() != room.getId())
+			if (room.getMembers() < 1 || room.getOwner() == null || room.getOwner().isOnline() == 0 || room.getOwner().getPartyRoom() != room.getId())
 			{
 				PartyMatchRoomList.getInstance().deleteRoom(room.getId());
 				continue;
 			}
-
+			
 			if (_loc > 0 && _loc != room.getLocation())
 				continue;
-
+			
 			if (_lim == 0 && ((_cha.getLevel() < room.getMinLvl()) || (_cha.getLevel() > room.getMaxLvl())))
 				continue;
-
+			
 			_rooms.add(room);
 		}
 		
 		int count = 0;
-		int size = _rooms.size();
-
+		final int size = _rooms.size();
+		
 		writeC(0x96);
 		if (size > 0)
 			writeD(1);
 		else
 			writeD(0);
-
+		
 		writeD(_rooms.size());
 		while (size > count)
 		{
@@ -85,7 +85,7 @@ public class PartyMatchList extends L2GameServerPacket
 			count++;
 		}
 	}
-
+	
 	@Override
 	public String getType()
 	{

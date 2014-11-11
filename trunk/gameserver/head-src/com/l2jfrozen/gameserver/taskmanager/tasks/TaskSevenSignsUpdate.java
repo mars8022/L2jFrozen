@@ -17,7 +17,7 @@
  */
 package com.l2jfrozen.gameserver.taskmanager.tasks;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.entity.sevensigns.SevenSigns;
@@ -33,8 +33,8 @@ import com.l2jfrozen.gameserver.taskmanager.TaskTypes;
  */
 public class TaskSevenSignsUpdate extends Task
 {
-	private static final Logger _log = Logger.getLogger(TaskSevenSignsUpdate.class.getName());
-	public static final String NAME = "SevenSignsUpdate";
+	private static final Logger LOGGER = Logger.getLogger(TaskSevenSignsUpdate.class);
+	public static final String NAME = "sevensignsupdate";
 	
 	@Override
 	public String getName()
@@ -43,7 +43,7 @@ public class TaskSevenSignsUpdate extends Task
 	}
 	
 	@Override
-	public void onTimeElapsed(ExecutedTask task)
+	public void onTimeElapsed(final ExecutedTask task)
 	{
 		try
 		{
@@ -52,14 +52,14 @@ public class TaskSevenSignsUpdate extends Task
 			if (!SevenSigns.getInstance().isSealValidationPeriod())
 				SevenSignsFestival.getInstance().saveFestivalData(false);
 			
-			_log.info("SevenSigns: Data updated successfully.");
+			LOGGER.info("[GlobalTask] SevenSigns save launched.");
 		}
-		catch (Exception e)
+		catch (final Exception e)
 		{
 			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("SevenSigns: Failed to save Seven Signs configuration: " + e);
+			LOGGER.warn("SevenSigns: Failed to save Seven Signs configuration: " + e);
 		}
 	}
 	

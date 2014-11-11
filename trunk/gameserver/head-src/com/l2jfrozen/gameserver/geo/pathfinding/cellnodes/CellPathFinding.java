@@ -23,10 +23,10 @@ import com.l2jfrozen.gameserver.geo.pathfinding.Node;
 import com.l2jfrozen.gameserver.geo.pathfinding.PathFinding;
 import com.l2jfrozen.gameserver.model.L2World;
 
-
 public final class CellPathFinding extends PathFinding
 {
-	private static final class SingletonHolder {
+	private static final class SingletonHolder
+	{
 		protected static final CellPathFinding INSTANCE = new CellPathFinding();
 	}
 	
@@ -36,36 +36,36 @@ public final class CellPathFinding extends PathFinding
 	}
 	
 	@Override
-	public Node[] findPath(int x, int y, int z, int tx, int ty, int tz)
+	public Node[] findPath(final int x, final int y, final int z, final int tx, final int ty, final int tz)
 	{
-		int gx = x - L2World.MAP_MIN_X >> 4;
-		int gy = y - L2World.MAP_MIN_Y >> 4;
-		if(!GeoData.getInstance().hasGeo(x, y))
+		final int gx = x - L2World.MAP_MIN_X >> 4;
+		final int gy = y - L2World.MAP_MIN_Y >> 4;
+		if (!GeoData.getInstance().hasGeo(x, y))
 			return null;
-		short gz = GeoData.getInstance().getHeight(x, y, z);
-		int gtx = tx - L2World.MAP_MIN_X >> 4;
-		int gty = ty - L2World.MAP_MIN_Y >> 4;
-		if(!GeoData.getInstance().hasGeo(tx, ty))
+		final short gz = GeoData.getInstance().getHeight(x, y, z);
+		final int gtx = tx - L2World.MAP_MIN_X >> 4;
+		final int gty = ty - L2World.MAP_MIN_Y >> 4;
+		if (!GeoData.getInstance().hasGeo(tx, ty))
 			return null;
-		short gtz = GeoData.getInstance().getHeight(tx, ty, tz);
-		Node start = readNode(gx, gy, gz);
-		Node end = readNode(gtx, gty, gtz);
+		final short gtz = GeoData.getInstance().getHeight(tx, ty, tz);
+		final Node start = readNode(gx, gy, gz);
+		final Node end = readNode(gtx, gty, gtz);
 		return searchByClosest(start, end);
 	}
 	
 	@Override
-	public Node[] readNeighbors(Node n, int idx)
+	public Node[] readNeighbors(final Node n, final int idx)
 	{
 		return GeoData.getInstance().getNeighbors(n);
 	}
-
-	//Private
-
-	public Node readNode(int gx, int gy, short z)
+	
+	// Private
+	
+	public Node readNode(final int gx, final int gy, final short z)
 	{
 		return new CellNode(gx, gy, z, 0);
 	}
-
+	
 	protected CellPathFinding()
 	{
 		//

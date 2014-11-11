@@ -27,7 +27,6 @@ import com.l2jfrozen.gameserver.util.Broadcast;
 
 /**
  * Support for /dismount command.
- * 
  * @author Micht
  */
 public class DisMount implements IUserCommandHandler
@@ -36,41 +35,43 @@ public class DisMount implements IUserCommandHandler
 	{
 		62
 	};
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.handler.IUserCommandHandler#useUserCommand(int, com.l2jfrozen.gameserver.model.L2PcInstance)
 	 */
 	@Override
-	public synchronized boolean useUserCommand(int id, L2PcInstance activeChar)
+	public synchronized boolean useUserCommand(final int id, final L2PcInstance activeChar)
 	{
-		if(id != COMMAND_IDS[0])
+		if (id != COMMAND_IDS[0])
 			return false;
-
-		if(activeChar.isRentedPet())
+		
+		if (activeChar.isRentedPet())
 		{
 			activeChar.stopRentPet();
 		}
-		else if(activeChar.isMounted())
+		else if (activeChar.isMounted())
 		{
-			if(activeChar.setMountType(0))
+			if (activeChar.setMountType(0))
 			{
-				if(activeChar.isFlying())
+				if (activeChar.isFlying())
 				{
 					activeChar.removeSkill(SkillTable.getInstance().getInfo(4289, 1));
 				}
-
+				
 				Ride dismount = new Ride(activeChar.getObjectId(), Ride.ACTION_DISMOUNT, 0);
-				Broadcast.toSelfAndKnownPlayersInRadius(activeChar, dismount, 810000/*900*/);
+				Broadcast.toSelfAndKnownPlayersInRadius(activeChar, dismount, 810000/* 900 */);
 				activeChar.setMountObjectID(0);
-
+				
 				dismount = null;
 			}
 		}
-
+		
 		return true;
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.handler.IUserCommandHandler#getUserCommandList()
 	 */
 	@Override

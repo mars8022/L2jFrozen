@@ -26,32 +26,32 @@ import com.l2jfrozen.gameserver.skills.Env;
  */
 final class EffectRoot extends L2Effect
 {
-
-	public EffectRoot(Env env, EffectTemplate template)
+	
+	public EffectRoot(final Env env, final EffectTemplate template)
 	{
 		super(env, template);
 	}
-
+	
 	@Override
 	public EffectType getEffectType()
 	{
 		return EffectType.ROOT;
 	}
-
+	
 	/** Notify started */
 	@Override
 	public void onStart()
 	{
 		getEffected().startRooted();
 	}
-
+	
 	/** Notify exited */
 	@Override
 	public void onExit()
 	{
 		getEffected().stopRooting(this);
 	}
-
+	
 	@Override
 	public boolean onActionTime()
 	{

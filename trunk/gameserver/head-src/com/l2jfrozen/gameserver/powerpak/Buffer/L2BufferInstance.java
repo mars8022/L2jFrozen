@@ -15,7 +15,8 @@
 package com.l2jfrozen.gameserver.powerpak.Buffer;
 
 import java.util.ArrayList;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Character;
@@ -36,7 +37,7 @@ public class L2BufferInstance
 	 * @param efector
 	 * @param paymentRequired
 	 */
-	public static void makeBuffs(L2PcInstance player, int _templateId, L2Object efector, boolean paymentRequired)
+	public static void makeBuffs(final L2PcInstance player, final int _templateId, final L2Object efector, final boolean paymentRequired)
 	{
 		if (player == null)
 		{
@@ -59,14 +60,14 @@ public class L2BufferInstance
 		
 		buffer.setTarget(player);
 		
-		ArrayList<Buff> _templateBuffs = new ArrayList<Buff>();
+		ArrayList<Buff> _templateBuffs = new ArrayList<>();
 		_templateBuffs = BuffTable.getInstance().getBuffsForID(_templateId);
 		if ((_templateBuffs == null) || (_templateBuffs.size() == 0))
 		{
 			return;
 		}
 		int _priceTotal = 0;
-		for (Buff _buff : _templateBuffs)
+		for (final Buff _buff : _templateBuffs)
 		{
 			if (paymentRequired)
 			{
@@ -113,5 +114,5 @@ public class L2BufferInstance
 		return (L2Character) efector;
 	}
 	
-	static Logger _log = Logger.getLogger(Config.class.getName());
+	static Logger LOGGER = Logger.getLogger(Config.class);
 }

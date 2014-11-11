@@ -5,61 +5,61 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
 public class DatabaseUtils
 {
-
-	public static void closeConnection(Connection conn)
+	
+	public static void close(final Connection conn)
 	{
-		if(conn != null)
+		if (conn != null)
 			try
 			{
 				conn.close();
 			}
-			catch (SQLException e)
+			catch (final SQLException e)
 			{
 			}
 	}
-
-	public static void closeStatement(PreparedStatement stmt)
+	
+	public static void close(final PreparedStatement stmt)
 	{
-		if(stmt != null)
+		if (stmt != null)
 			try
 			{
 				stmt.close();
 			}
-			catch (SQLException e)
+			catch (final SQLException e)
 			{
 			}
 	}
-
-	public static void closeResultSet(ResultSet rs)
+	
+	public static void close(final ResultSet rs)
 	{
-		if(rs != null)
+		if (rs != null)
 			try
 			{
 				rs.close();
 			}
-			catch(SQLException e)
-			{}
+			catch (final SQLException e)
+			{
+			}
 	}
-
-	public static void closeDatabaseCSR(Connection conn, PreparedStatement stmt, ResultSet rs)
+	
+	public static void closeDatabaseCSR(final Connection conn, final PreparedStatement stmt, final ResultSet rs)
 	{
-		closeResultSet(rs);
-		closeStatement(stmt);
-		closeConnection(conn);
+		close(rs);
+		close(stmt);
+		close(conn);
 	}
-
-	public static void closeDatabaseCS(Connection conn, PreparedStatement stmt)
+	
+	public static void closeDatabaseCS(final Connection conn, final PreparedStatement stmt)
 	{
-		closeStatement(stmt);
-		closeConnection(conn);
+		close(stmt);
+		close(conn);
 	}
-
-	public static void closeDatabaseSR(PreparedStatement stmt, ResultSet rs)
+	
+	public static void closeDatabaseSR(final PreparedStatement stmt, final ResultSet rs)
 	{
-		closeResultSet(rs);
-		closeStatement(stmt);
+		close(rs);
+		close(stmt);
 	}
 }

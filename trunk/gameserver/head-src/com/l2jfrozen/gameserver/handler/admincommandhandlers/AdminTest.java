@@ -44,55 +44,54 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
 /**
  * This class ...
- * 
  * @version $Revision: 1.2 $ $Date: 2004/06/27 08:12:59 $
  */
 public class AdminTest implements IAdminCommandHandler
 {
 	private static final String[] ADMIN_COMMANDS =
 	{
-			"admin_test",
-			"admin_stats",
-			"admin_mcrit",
-			"admin_addbufftest",
-			"admin_skill_test",
-			"admin_st",
-			"admin_mp",
-			"admin_known",
-			"admin_oly_obs_mode",
-			"admin_obs_mode"
+		"admin_test",
+		"admin_stats",
+		"admin_mcrit",
+		"admin_addbufftest",
+		"admin_skill_test",
+		"admin_st",
+		"admin_mp",
+		"admin_known",
+		"admin_oly_obs_mode",
+		"admin_obs_mode"
 	};
 	
 	@Override
-	public boolean useAdminCommand(String command, L2PcInstance activeChar)
+	public boolean useAdminCommand(final String command, final L2PcInstance activeChar)
 	{
-		if(command.equals("admin_stats"))
+		if (command.equals("admin_stats"))
 		{
-			for(String line : ThreadPoolManager.getInstance().getStats())
+			for (final String line : ThreadPoolManager.getInstance().getStats())
 			{
 				activeChar.sendMessage(line);
 			}
 		}
-		if(command.equals("admin_mcrit"))
+		if (command.equals("admin_mcrit"))
 		{
-			L2Character target = (L2Character) activeChar.getTarget();
+			final L2Character target = (L2Character) activeChar.getTarget();
 			
-			activeChar.sendMessage("Activechar Mcrit "+activeChar.getMCriticalHit(null, null));
-			activeChar.sendMessage("Activechar baseMCritRate "+activeChar.getTemplate().baseMCritRate);
+			activeChar.sendMessage("Activechar Mcrit " + activeChar.getMCriticalHit(null, null));
+			activeChar.sendMessage("Activechar baseMCritRate " + activeChar.getTemplate().baseMCritRate);
 			
-			if(target != null)
+			if (target != null)
 			{
-				activeChar.sendMessage("Target Mcrit "+target.getMCriticalHit(null, null));
-			    activeChar.sendMessage("Target baseMCritRate "+target.getTemplate().baseMCritRate);
-		    }
+				activeChar.sendMessage("Target Mcrit " + target.getMCriticalHit(null, null));
+				activeChar.sendMessage("Target baseMCritRate " + target.getTemplate().baseMCritRate);
+			}
 		}
-		if(command.equals("admin_addbufftest"))
+		if (command.equals("admin_addbufftest"))
 		{
-			L2Character target = (L2Character) activeChar.getTarget();
+			final L2Character target = (L2Character) activeChar.getTarget();
 			activeChar.sendMessage("cast");
 			
-			L2Skill skill = SkillTable.getInstance().getInfo(1085,3);
-
+			final L2Skill skill = SkillTable.getInstance().getInfo(1085, 3);
+			
 			if (target != null)
 			{
 				activeChar.sendMessage("target locked");
@@ -102,89 +101,82 @@ public class AdminTest implements IAdminCommandHandler
 					if (activeChar.isCastingNow())
 						continue;
 					
-					activeChar.sendMessage("Casting "+i);
+					activeChar.sendMessage("Casting " + i);
 					activeChar.useMagic(skill, false, false);
 					i++;
 				}
 			}
 		}
-		else if(command.startsWith("admin_skill_test") || command.startsWith("admin_st"))
+		else if (command.startsWith("admin_skill_test") || command.startsWith("admin_st"))
 		{
 			try
 			{
 				StringTokenizer st = new StringTokenizer(command);
 				st.nextToken();
-
-				int id = Integer.parseInt(st.nextToken());
-
+				
+				final int id = Integer.parseInt(st.nextToken());
+				
 				adminTestSkill(activeChar, id);
-
+				
 				st = null;
 			}
-			catch(NumberFormatException e)
+			catch (NumberFormatException | NoSuchElementException e)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
+				if (Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
 				activeChar.sendMessage("Command format is //skill_test <ID>");
 			}
-			catch(NoSuchElementException nsee)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					nsee.printStackTrace();
-				
-				activeChar.sendMessage("Command format is //skill_test <ID>");
-			}
 		}
-		else if(command.equals("admin_mp on"))
+		else if (command.equals("admin_mp on"))
 		{
-			//.startPacketMonitor();
+			// .startPacketMonitor();
 			activeChar.sendMessage("command not working");
 		}
-		else if(command.equals("admin_mp off"))
+		else if (command.equals("admin_mp off"))
 		{
-			//.stopPacketMonitor();
+			// .stopPacketMonitor();
 			activeChar.sendMessage("command not working");
 		}
-		else if(command.equals("admin_mp dump"))
+		else if (command.equals("admin_mp dump"))
 		{
-			//.dumpPacketHistory();
+			// .dumpPacketHistory();
 			activeChar.sendMessage("command not working");
 		}
-		else if(command.equals("admin_known on"))
+		else if (command.equals("admin_known on"))
 		{
 			Config.CHECK_KNOWN = true;
 		}
-		else if(command.equals("admin_known off"))
+		else if (command.equals("admin_known off"))
 		{
 			Config.CHECK_KNOWN = false;
 		}
-		else if(command.equals("admin_test"))
+		else if (command.equals("admin_test"))
 		{
 			activeChar.sendMessage("Now the server will send a packet that client cannot read correctly");
 			activeChar.sendMessage("generating a critical error..");
 			
 			int i = 5;
-			while(i>0){
-
-				activeChar.sendMessage("Client will crash in "+i+" seconds");
+			while (i > 0)
+			{
+				
+				activeChar.sendMessage("Client will crash in " + i + " seconds");
 				
 				try
 				{
 					Thread.sleep(1000);
 					i--;
 				}
-				catch(InterruptedException e)
+				catch (final InterruptedException e)
 				{
 				}
 				
 			}
 			
-			UserInfo ui = new UserInfo(activeChar);
+			final UserInfo ui = new UserInfo(activeChar);
 			ui._critical_test = true;
 			
 			activeChar.sendPacket(ui);
-			
 			
 		}
 		else if (command.startsWith("admin_oly_obs_mode"))
@@ -212,17 +204,16 @@ public class AdminTest implements IAdminCommandHandler
 		return true;
 	}
 	
-
 	/**
 	 * @param activeChar
 	 * @param id
 	 */
-	private void adminTestSkill(L2PcInstance activeChar, int id)
+	private void adminTestSkill(final L2PcInstance activeChar, final int id)
 	{
 		L2Character player;
 		L2Object target = activeChar.getTarget();
-
-		if(target == null || !(target instanceof L2Character))
+		
+		if (target == null || !(target instanceof L2Character))
 		{
 			player = activeChar;
 		}
@@ -230,14 +221,15 @@ public class AdminTest implements IAdminCommandHandler
 		{
 			player = (L2Character) target;
 		}
-
+		
 		player.broadcastPacket(new MagicSkillUser(activeChar, player, id, 1, 1, 1));
-
+		
 		target = null;
 		player = null;
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.handler.IAdminCommandHandler#getAdminCommandList()
 	 */
 	@Override

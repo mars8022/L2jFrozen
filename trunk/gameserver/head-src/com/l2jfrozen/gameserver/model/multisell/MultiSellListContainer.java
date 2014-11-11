@@ -30,32 +30,32 @@ public class MultiSellListContainer
 	private int _listId;
 	private boolean _applyTaxes = false;
 	private boolean _maintainEnchantment = false;
-
+	
 	List<MultiSellEntry> _entriesC;
-
+	
 	public MultiSellListContainer()
 	{
-		_entriesC = new FastList<MultiSellEntry>();
+		_entriesC = new FastList<>();
 	}
-
+	
 	/**
 	 * @param listId The listId to set.
 	 */
-	public void setListId(int listId)
+	public void setListId(final int listId)
 	{
 		_listId = listId;
 	}
-
-	public void setApplyTaxes(boolean applyTaxes)
+	
+	public void setApplyTaxes(final boolean applyTaxes)
 	{
 		_applyTaxes = applyTaxes;
 	}
-
-	public void setMaintainEnchantment(boolean maintainEnchantment)
+	
+	public void setMaintainEnchantment(final boolean maintainEnchantment)
 	{
 		_maintainEnchantment = maintainEnchantment;
 	}
-
+	
 	/**
 	 * @return Returns the listId.
 	 */
@@ -63,22 +63,22 @@ public class MultiSellListContainer
 	{
 		return _listId;
 	}
-
+	
 	public boolean getApplyTaxes()
 	{
 		return _applyTaxes;
 	}
-
+	
 	public boolean getMaintainEnchantment()
 	{
 		return _maintainEnchantment;
 	}
-
-	public void addEntry(MultiSellEntry e)
+	
+	public void addEntry(final MultiSellEntry e)
 	{
 		_entriesC.add(e);
 	}
-
+	
 	public List<MultiSellEntry> getEntries()
 	{
 		return _entriesC;

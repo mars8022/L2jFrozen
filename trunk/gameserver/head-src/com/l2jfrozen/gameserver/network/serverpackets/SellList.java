@@ -19,9 +19,10 @@
 package com.l2jfrozen.gameserver.network.serverpackets;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
@@ -35,13 +36,13 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 public class SellList extends L2GameServerPacket
 {
 	private static final String _S__10_SELLLIST = "[S] 10 SellList";
-	private static Logger _log = Logger.getLogger(SellList.class.getName());
+	private static Logger LOGGER = Logger.getLogger(SellList.class);
 	private final L2PcInstance _activeChar;
 	private final L2MerchantInstance _lease;
-	private int _money;
-	private List<L2ItemInstance> _selllist = new FastList<L2ItemInstance>();
+	private final int _money;
+	private final List<L2ItemInstance> _selllist = new FastList<>();
 	
-	public SellList(L2PcInstance player)
+	public SellList(final L2PcInstance player)
 	{
 		_activeChar = player;
 		_lease = null;
@@ -49,7 +50,7 @@ public class SellList extends L2GameServerPacket
 		doLease();
 	}
 	
-	public SellList(L2PcInstance player, L2MerchantInstance lease)
+	public SellList(final L2PcInstance player, final L2MerchantInstance lease)
 	{
 		_activeChar = player;
 		_lease = lease;
@@ -61,7 +62,7 @@ public class SellList extends L2GameServerPacket
 	{
 		if (_lease == null)
 		{
-			for (L2ItemInstance item : _activeChar.getInventory().getItems())
+			for (final L2ItemInstance item : _activeChar.getInventory().getItems())
 			{
 				if (item != null && !item.isEquipped() && // Not equipped
 				item.getItem().isSellable() && // Item is sellable
@@ -72,7 +73,7 @@ public class SellList extends L2GameServerPacket
 					_selllist.add(item);
 					if (Config.DEBUG)
 					{
-						_log.fine("item added to selllist: " + item.getItem().getName());
+						LOGGER.debug("item added to selllist: " + item.getItem().getName());
 					}
 				}
 			}
@@ -88,7 +89,7 @@ public class SellList extends L2GameServerPacket
 		
 		writeH(_selllist.size());
 		
-		for (L2ItemInstance item : _selllist)
+		for (final L2ItemInstance item : _selllist)
 		{
 			writeH(item.getItem().getType1());
 			writeD(item.getObjectId());

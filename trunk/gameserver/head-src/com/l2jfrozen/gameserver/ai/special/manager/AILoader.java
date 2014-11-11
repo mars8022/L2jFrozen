@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.ai.special.manager;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.ai.special.Antharas_l2j;
 import com.l2jfrozen.gameserver.ai.special.Baium_l2j;
@@ -49,66 +49,64 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
 public class AILoader
 {
-	private static final Logger _log = Logger.getLogger(AILoader.class.getName());
-
+	private static final Logger LOGGER = Logger.getLogger(AILoader.class);
+	
 	public static void init()
 	{
-		_log.info("AI load:");
+		LOGGER.info("AI load:");
 		
-		_log.info(" - Antharas_l2j");
+		LOGGER.info(" - Antharas_l2j");
 		ThreadPoolManager.getInstance().scheduleAi(new Antharas_l2j(-1, "antharas", "ai"), 100);
 		
-		_log.info(" - Baium_l2j");
+		LOGGER.info(" - Baium_l2j");
 		ThreadPoolManager.getInstance().scheduleAi(new Baium_l2j(-1, "baium", "ai"), 200);
 		
-		_log.info(" - Core");
+		LOGGER.info(" - Core");
 		ThreadPoolManager.getInstance().scheduleAi(new Core(-1, "core", "ai"), 300);
 		
-		_log.info(" - Queen Ant");
+		LOGGER.info(" - Queen Ant");
 		ThreadPoolManager.getInstance().scheduleAi(new QueenAnt(-1, "queen_ant", "ai"), 400);
 		
-		_log.info(" - Van Halter");
+		LOGGER.info(" - Van Halter");
 		ThreadPoolManager.getInstance().scheduleAi(new VanHalter(-1, "vanhalter", "ai"), 500);
-		_log.info(" - Gordon");
+		LOGGER.info(" - Gordon");
 		ThreadPoolManager.getInstance().scheduleAi(new Gordon(-1, "Gordon", "ai"), 600);
 		
-		_log.info(" - Monastery_l2j");
+		LOGGER.info(" - Monastery_l2j");
 		ThreadPoolManager.getInstance().scheduleAi(new Monastery_l2j(-1, "monastery", "ai"), 700);
 		
-		_log.info(" - Transform");
+		LOGGER.info(" - Transform");
 		ThreadPoolManager.getInstance().scheduleAi(new Transform(-1, "transform", "ai"), 800);
-		_log.info(" - Fairy Trees");
+		LOGGER.info(" - Fairy Trees");
 		ThreadPoolManager.getInstance().scheduleAi(new FairyTrees(-1, "FairyTrees", "ai"), 900);
-		_log.info(" - Summon Minions");
+		LOGGER.info(" - Summon Minions");
 		ThreadPoolManager.getInstance().scheduleAi(new SummonMinions(-1, "SummonMinions", "ai"), 1000);
-		_log.info(" - Zombie Gatekeepers");
+		LOGGER.info(" - Zombie Gatekeepers");
 		ThreadPoolManager.getInstance().scheduleAi(new ZombieGatekeepers(-1, "ZombieGatekeepers", "ai"), 1100);
-		_log.info(" - Ice Fairy Sirra");
+		LOGGER.info(" - Ice Fairy Sirra");
 		ThreadPoolManager.getInstance().scheduleAi(new IceFairySirra(-1, "IceFairySirra", "ai"), 1200);
-		_log.info(" - Golkonda");
+		LOGGER.info(" - Golkonda");
 		ThreadPoolManager.getInstance().scheduleAi(new Golkonda(-1, "Golkonda", "ai"), 1300);
-		_log.info(" - Hallate");
+		LOGGER.info(" - Hallate");
 		ThreadPoolManager.getInstance().scheduleAi(new Hallate(-1, "Hallate", "ai"), 1400);
-		_log.info(" - Kernon");
+		LOGGER.info(" - Kernon");
 		ThreadPoolManager.getInstance().scheduleAi(new Kernon(-1, "Kernon", "ai"), 1500);
-		_log.info(" - Varka/Ketra Ally");
+		LOGGER.info(" - Varka/Ketra Ally");
 		ThreadPoolManager.getInstance().scheduleAi(new VarkaKetraAlly(-1, "Varka Ketra Ally", "ai"), 1600);
-		_log.info(" - Barakiel");
+		LOGGER.info(" - Barakiel");
 		ThreadPoolManager.getInstance().scheduleAi(new Barakiel(-1, "Barakiel", "ai"), 1700);
 		
-		_log.info(" - Orfen");
+		LOGGER.info(" - Orfen");
 		ThreadPoolManager.getInstance().scheduleAi(new Orfen(-1, "Orfen", "ai"), 1800);
 		
-		_log.info(" - Zaken_l2j");
+		LOGGER.info(" - Zaken_l2j");
 		ThreadPoolManager.getInstance().scheduleAi(new Zaken_l2j(-1, "Zaken", "ai"), 1900);
 		
-		_log.info(" - Frintezza_l2j");
+		LOGGER.info(" - Frintezza_l2j");
 		ThreadPoolManager.getInstance().scheduleAi(new Frintezza_l2j(-1, "Frintezza", "ai"), 2000);
 		
-		_log.info(" - Valakas_l2j");
+		LOGGER.info(" - Valakas_l2j");
 		ThreadPoolManager.getInstance().scheduleAi(new Valakas_l2j(-1, "valakas", "ai"), 2100);
-		
-		
 		
 	}
 }

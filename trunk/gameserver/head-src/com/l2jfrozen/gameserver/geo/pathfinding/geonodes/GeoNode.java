@@ -21,14 +21,13 @@ package com.l2jfrozen.gameserver.geo.pathfinding.geonodes;
 import com.l2jfrozen.gameserver.geo.pathfinding.Node;
 import com.l2jfrozen.gameserver.model.L2World;
 
-
 public final class GeoNode extends Node
 {
 	private final short _x;
 	private final short _y;
 	private final short _z;
 	
-	public GeoNode(short x, short y, short z, int neighborsIdx)
+	public GeoNode(final short x, final short y, final short z, final int neighborsIdx)
 	{
 		super(neighborsIdx);
 		_x = x;
@@ -55,7 +54,7 @@ public final class GeoNode extends Node
 	}
 	
 	@Override
-	public void setZ(short z)
+	public void setZ(final short z)
 	{
 		//
 	}

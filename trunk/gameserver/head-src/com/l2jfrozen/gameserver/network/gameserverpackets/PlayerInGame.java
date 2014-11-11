@@ -25,24 +25,25 @@ import javolution.util.FastList;
  */
 public class PlayerInGame extends GameServerBasePacket
 {
-	public PlayerInGame(String player)
+	public PlayerInGame(final String player)
 	{
 		writeC(0x02);
 		writeH(1);
 		writeS(player);
 	}
-
-	public PlayerInGame(FastList<String> players)
+	
+	public PlayerInGame(final FastList<String> players)
 	{
 		writeC(0x02);
 		writeH(players.size());
-		for(String pc : players)
+		for (final String pc : players)
 		{
 			writeS(pc);
 		}
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.gameserverpackets.GameServerBasePacket#getContent()
 	 */
 	@Override
@@ -50,5 +51,5 @@ public class PlayerInGame extends GameServerBasePacket
 	{
 		return getBytes();
 	}
-
+	
 }

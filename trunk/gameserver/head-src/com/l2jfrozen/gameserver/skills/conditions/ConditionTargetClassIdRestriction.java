@@ -25,18 +25,18 @@ import com.l2jfrozen.gameserver.skills.Env;
 
 public class ConditionTargetClassIdRestriction extends Condition
 {
-
+	
 	private final FastList<Integer> _classIds;
-
-	public ConditionTargetClassIdRestriction(FastList<Integer> classId)
+	
+	public ConditionTargetClassIdRestriction(final FastList<Integer> classId)
 	{
 		_classIds = classId;
 	}
-
+	
 	@Override
-	public boolean testImpl(Env env)
+	public boolean testImpl(final Env env)
 	{
-		if(!(env.target instanceof L2PcInstance))
+		if (!(env.target instanceof L2PcInstance))
 			return true;
 		return !_classIds.contains(((L2PcInstance) env.target).getClassId().getId());
 	}

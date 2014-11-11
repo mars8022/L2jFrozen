@@ -37,22 +37,22 @@ public class L2SkillChargeDmg extends L2Skill
 	
 	final int chargeSkillId;
 	
-	public L2SkillChargeDmg(StatsSet set)
+	public L2SkillChargeDmg(final StatsSet set)
 	{
 		super(set);
 		chargeSkillId = set.getInteger("charge_skill_id");
 	}
 	
 	@Override
-	public boolean checkCondition(L2Character activeChar, L2Object target, boolean itemOrWeapon)
+	public boolean checkCondition(final L2Character activeChar, final L2Object target, final boolean itemOrWeapon)
 	{
 		if (activeChar instanceof L2PcInstance)
 		{
-			L2PcInstance player = (L2PcInstance) activeChar;
-			EffectCharge e = (EffectCharge) player.getFirstEffect(chargeSkillId);
+			final L2PcInstance player = (L2PcInstance) activeChar;
+			final EffectCharge e = (EffectCharge) player.getFirstEffect(chargeSkillId);
 			if (e == null || e.numCharges < getNumCharges())
 			{
-				SystemMessage sm = new SystemMessage(SystemMessageId.S1_CANNOT_BE_USED);
+				final SystemMessage sm = new SystemMessage(SystemMessageId.S1_CANNOT_BE_USED);
 				sm.addSkillName(getId());
 				activeChar.sendPacket(sm);
 				return false;
@@ -62,16 +62,16 @@ public class L2SkillChargeDmg extends L2Skill
 	}
 	
 	@Override
-	public void useSkill(L2Character caster, L2Object[] targets)
+	public void useSkill(final L2Character caster, final L2Object[] targets)
 	{
 		if (caster.isAlikeDead())
 			return;
 		
 		// get the effect
-		EffectCharge effect = (EffectCharge) caster.getFirstEffect(chargeSkillId);
+		final EffectCharge effect = (EffectCharge) caster.getFirstEffect(chargeSkillId);
 		if (effect == null || effect.numCharges < getNumCharges())
 		{
-			SystemMessage sm = new SystemMessage(SystemMessageId.S1_CANNOT_BE_USED);
+			final SystemMessage sm = new SystemMessage(SystemMessageId.S1_CANNOT_BE_USED);
 			sm.addSkillName(getId());
 			caster.sendPacket(sm);
 			return;
@@ -89,12 +89,12 @@ public class L2SkillChargeDmg extends L2Skill
 		if (effect.numCharges == 0)
 			effect.exit(false);
 		
-		boolean ss = caster.checkSs();
+		final boolean ss = caster.checkSs();
 		
-		for (L2Object target2 : targets)
+		for (final L2Object target2 : targets)
 		{
-			L2ItemInstance weapon = caster.getActiveWeaponInstance();
-			L2Character target = (L2Character) target2;
+			final L2ItemInstance weapon = caster.getActiveWeaponInstance();
+			final L2Character target = (L2Character) target2;
 			
 			if (target.isAlikeDead())
 				continue;
@@ -104,8 +104,8 @@ public class L2SkillChargeDmg extends L2Skill
 			// like in doAttackHitByDual which in fact does the calcPhysDam call twice
 			
 			// boolean dual = caster.isUsingDualWeapon();
-			boolean shld = Formulas.calcShldUse(caster, target);
-			boolean soul = (weapon != null && weapon.getChargedSoulshot() == L2ItemInstance.CHARGED_SOULSHOT && weapon.getItemType() != L2WeaponType.DAGGER);
+			final boolean shld = Formulas.calcShldUse(caster, target);
+			final boolean soul = (weapon != null && weapon.getChargedSoulshot() == L2ItemInstance.CHARGED_SOULSHOT && weapon.getItemType() != L2WeaponType.DAGGER);
 			boolean crit = false;
 			
 			if (this.getBaseCritRate() > 0)
@@ -135,7 +135,7 @@ public class L2SkillChargeDmg extends L2Skill
 			caster.removeSs();
 		
 		// effect self :]
-		L2Effect seffect = caster.getFirstEffect(getId());
+		final L2Effect seffect = caster.getFirstEffect(getId());
 		if (seffect != null && seffect.isSelfEffect())
 		{
 			// Replace old effect with new one.

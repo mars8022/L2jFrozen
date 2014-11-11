@@ -23,14 +23,14 @@ package com.l2jfrozen.gameserver.network.serverpackets;
 public class ExConfirmVariationRefiner extends L2GameServerPacket
 {
 	private static final String _S__FE_53_EXCONFIRMVARIATIONREFINER = "[S] FE:53 ExConfirmVariationRefiner";
-
-	private int _refinerItemObjId;
-	private int _lifestoneItemId;
-	private int _gemstoneItemId;
-	private int _gemstoneCount;
-	private int _unk2;
-
-	public ExConfirmVariationRefiner(int refinerItemObjId, int lifeStoneId, int gemstoneItemId, int gemstoneCount)
+	
+	private final int _refinerItemObjId;
+	private final int _lifestoneItemId;
+	private final int _gemstoneItemId;
+	private final int _gemstoneCount;
+	private final int _unk2;
+	
+	public ExConfirmVariationRefiner(final int refinerItemObjId, final int lifeStoneId, final int gemstoneItemId, final int gemstoneCount)
 	{
 		_refinerItemObjId = refinerItemObjId;
 		_lifestoneItemId = lifeStoneId;

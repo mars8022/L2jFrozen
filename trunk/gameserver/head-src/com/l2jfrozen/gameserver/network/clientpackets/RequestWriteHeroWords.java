@@ -32,13 +32,13 @@ public final class RequestWriteHeroWords extends L2GameClientPacket
 	{
 		_heroWords = readS();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-
+		
 	}
-
+	
 	@Override
 	public String getType()
 	{

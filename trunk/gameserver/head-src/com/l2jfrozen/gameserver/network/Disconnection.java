@@ -25,19 +25,19 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
  */
 public class Disconnection implements Runnable
 {
-
-	private L2PcInstance _activeChar;
-
-	public Disconnection(L2PcInstance activeChar)
+	
+	private final L2PcInstance _activeChar;
+	
+	public Disconnection(final L2PcInstance activeChar)
 	{
 		_activeChar = activeChar;
 	}
-
+	
 	@Override
 	public void run()
 	{
 		_activeChar.closeNetConnection();
-
+		
 	}
-
+	
 }

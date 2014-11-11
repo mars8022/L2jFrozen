@@ -25,20 +25,20 @@ import com.l2jfrozen.loginserver.network.clientpackets.ClientBasePacket;
  */
 public class ChangeAccessLevel extends ClientBasePacket
 {
-
-	private int _level;
-	private String _account;
-
+	
+	private final int _level;
+	private final String _account;
+	
 	/**
 	 * @param decrypt
 	 */
-	public ChangeAccessLevel(byte[] decrypt)
+	public ChangeAccessLevel(final byte[] decrypt)
 	{
 		super(decrypt);
 		_level = readD();
 		_account = readS();
 	}
-
+	
 	/**
 	 * @return Returns the account.
 	 */
@@ -46,7 +46,7 @@ public class ChangeAccessLevel extends ClientBasePacket
 	{
 		return _account;
 	}
-
+	
 	/**
 	 * @return Returns the level.
 	 */
@@ -54,5 +54,5 @@ public class ChangeAccessLevel extends ClientBasePacket
 	{
 		return _level;
 	}
-
+	
 }

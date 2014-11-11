@@ -34,161 +34,129 @@ import com.l2jfrozen.gameserver.model.entity.siege.Castle;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 
 /**
- * Admin comand handler for Manor System This class handles following admin commands: - manor_info = shows info about
- * current manor state - manor_approve = approves settings for the next manor period - manor_setnext = changes manor
- * settings to the next day's - manor_reset castle = resets all manor data for specified castle (or all) -
- * manor_setmaintenance = sets manor system under maintenance mode - manor_save = saves all manor data into database -
- * manor_disable = disables manor system
- * 
+ * Admin comand handler for Manor System This class handles following admin commands: - manor_info = shows info about current manor state - manor_approve = approves settings for the next manor period - manor_setnext = changes manor settings to the next day's - manor_reset castle = resets all manor
+ * data for specified castle (or all) - manor_setmaintenance = sets manor system under maintenance mode - manor_save = saves all manor data into database - manor_disable = disables manor system
  * @author l3x
  */
 public class AdminManor implements IAdminCommandHandler
 {
 	private static final String[] _adminCommands =
 	{
-			"admin_manor", "admin_manor_reset", "admin_manor_save", "admin_manor_disable"
+		"admin_manor",
+		"admin_manor_reset",
+		"admin_manor_save",
+		"admin_manor_disable"
 	};
-
+	
 	@Override
-	public boolean useAdminCommand(String command, L2PcInstance activeChar)
+	public boolean useAdminCommand(String command, final L2PcInstance activeChar)
 	{
 		/*
-		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
-			return false;
-		}
+		 * if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){ return false; } if(Config.GMAUDIT) { Logger _logAudit = Logger.getLogger("gmaudit"); LogRecord record = new LogRecord(Level.INFO, command); record.setParameters(new Object[] { "GM: " +
+		 * activeChar.getName(), " to target [" + activeChar.getTarget() + "] " }); _logAudit.LOGGER(record); }
+		 */
 		
-		if(Config.GMAUDIT)
-		{
-			Logger _logAudit = Logger.getLogger("gmaudit");
-			LogRecord record = new LogRecord(Level.INFO, command);
-			record.setParameters(new Object[]
-			{
-					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
-			});
-			_logAudit.log(record);
-		}
-		*/
-
 		StringTokenizer st = new StringTokenizer(command);
 		command = st.nextToken();
-
-		if(command.equals("admin_manor"))
+		
+		switch (command)
 		{
-			showMainPage(activeChar);
-		}
-		else if(command.equals("admin_manor_reset"))
-		{
-			int castleId = 0;
-
-			try
-			{
-				castleId = Integer.parseInt(st.nextToken());
-			}
-			catch(Exception e)
-			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-			}
-
-			if(castleId > 0)
-			{
-				Castle castle = CastleManager.getInstance().getCastleById(castleId);
-				castle.setCropProcure(new FastList<CropProcure>(), CastleManorManager.PERIOD_CURRENT);
-				castle.setCropProcure(new FastList<CropProcure>(), CastleManorManager.PERIOD_NEXT);
-				castle.setSeedProduction(new FastList<SeedProduction>(), CastleManorManager.PERIOD_CURRENT);
-				castle.setSeedProduction(new FastList<SeedProduction>(), CastleManorManager.PERIOD_NEXT);
-
-				if(Config.ALT_MANOR_SAVE_ALL_ACTIONS)
+			case "admin_manor":
+				showMainPage(activeChar);
+				break;
+			case "admin_manor_reset":
+				int castleId = 0;
+				
+				try
 				{
-					castle.saveCropData();
-					castle.saveSeedData();
+					castleId = Integer.parseInt(st.nextToken());
 				}
-
-				activeChar.sendMessage("Manor data for " + castle.getName() + " was nulled");
-			}
-			else
-			{
-				for(Castle castle : CastleManager.getInstance().getCastles())
+				catch (final Exception e)
 				{
+					if (Config.ENABLE_ALL_EXCEPTIONS)
+						e.printStackTrace();
+				}
+				
+				if (castleId > 0)
+				{
+					final Castle castle = CastleManager.getInstance().getCastleById(castleId);
 					castle.setCropProcure(new FastList<CropProcure>(), CastleManorManager.PERIOD_CURRENT);
 					castle.setCropProcure(new FastList<CropProcure>(), CastleManorManager.PERIOD_NEXT);
 					castle.setSeedProduction(new FastList<SeedProduction>(), CastleManorManager.PERIOD_CURRENT);
 					castle.setSeedProduction(new FastList<SeedProduction>(), CastleManorManager.PERIOD_NEXT);
-
-					if(Config.ALT_MANOR_SAVE_ALL_ACTIONS)
+					
+					if (Config.ALT_MANOR_SAVE_ALL_ACTIONS)
 					{
 						castle.saveCropData();
 						castle.saveSeedData();
 					}
+					
+					activeChar.sendMessage("Manor data for " + castle.getName() + " was nulled");
 				}
-
-				activeChar.sendMessage("Manor data was nulled");
-			}
-
-			showMainPage(activeChar);
+				else
+				{
+					for (final Castle castle : CastleManager.getInstance().getCastles())
+					{
+						castle.setCropProcure(new FastList<CropProcure>(), CastleManorManager.PERIOD_CURRENT);
+						castle.setCropProcure(new FastList<CropProcure>(), CastleManorManager.PERIOD_NEXT);
+						castle.setSeedProduction(new FastList<SeedProduction>(), CastleManorManager.PERIOD_CURRENT);
+						castle.setSeedProduction(new FastList<SeedProduction>(), CastleManorManager.PERIOD_NEXT);
+						
+						if (Config.ALT_MANOR_SAVE_ALL_ACTIONS)
+						{
+							castle.saveCropData();
+							castle.saveSeedData();
+						}
+					}
+					
+					activeChar.sendMessage("Manor data was nulled");
+				}
+				
+				showMainPage(activeChar);
+				break;
+			case "admin_manor_save":
+				CastleManorManager.getInstance().save();
+				activeChar.sendMessage("Manor System: all data saved");
+				showMainPage(activeChar);
+				break;
+			case "admin_manor_disable":
+				final boolean mode = CastleManorManager.getInstance().isDisabled();
+				
+				CastleManorManager.getInstance().setDisabled(!mode);
+				
+				if (mode)
+				{
+					activeChar.sendMessage("Manor System: enabled");
+				}
+				else
+				{
+					activeChar.sendMessage("Manor System: disabled");
+				}
+				
+				showMainPage(activeChar);
+				break;
 		}
-		else if(command.equals("admin_manor_save"))
-		{
-			CastleManorManager.getInstance().save();
-			activeChar.sendMessage("Manor System: all data saved");
-			showMainPage(activeChar);
-		}
-		else if(command.equals("admin_manor_disable"))
-		{
-			boolean mode = CastleManorManager.getInstance().isDisabled();
-
-			CastleManorManager.getInstance().setDisabled(!mode);
-
-			if(mode)
-			{
-				activeChar.sendMessage("Manor System: enabled");
-			}
-			else
-			{
-				activeChar.sendMessage("Manor System: disabled");
-			}
-
-			showMainPage(activeChar);
-		}
-
+		
 		st = null;
-
+		
 		return true;
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{
 		return _adminCommands;
 	}
-
-	/*private String formatTime(long millis) 
-	{
-		String s = "";
-
-		int secs  = (int) millis/1000;
-		int mins  = secs/60;
-
-		secs -= mins*60;
-
-		int hours = mins/60;
-
-		mins -= hours*60;
-
-		if (hours>0)
-			s += hours + ":";
-
-		s += mins + ":";
-		s += secs;
-
-		return s;
-	}*/
-
-	private void showMainPage(L2PcInstance activeChar)
+	
+	/*
+	 * private String formatTime(long millis) { String s = ""; int secs = (int) millis/1000; int mins = secs/60; secs -= mins*60; int hours = mins/60; mins -= hours*60; if (hours>0) s += hours + ":"; s += mins + ":"; s += secs; return s; }
+	 */
+	
+	private void showMainPage(final L2PcInstance activeChar)
 	{
 		NpcHtmlMessage adminReply = new NpcHtmlMessage(5);
 		TextBuilder replyMSG = new TextBuilder("<html><body>");
-
+		
 		replyMSG.append("<center><font color=\"LEVEL\"> [Manor System] </font></center><br>");
 		replyMSG.append("<table width=\"100%\"><tr><td>");
 		replyMSG.append("Disabled: " + (CastleManorManager.getInstance().isDisabled() ? "yes" : "no") + "</td><td>");
@@ -202,18 +170,18 @@ public class AdminManor implements IAdminCommandHandler
 		replyMSG.append("</table></center>");
 		replyMSG.append("<br><center>Castle Information:<table width=\"100%\">");
 		replyMSG.append("<tr><td></td><td>Current Period</td><td>Next Period</td></tr>");
-
-		for(Castle c : CastleManager.getInstance().getCastles())
+		
+		for (final Castle c : CastleManager.getInstance().getCastles())
 		{
 			replyMSG.append("<tr><td>" + c.getName() + "</td><td>" + c.getManorCost(CastleManorManager.PERIOD_CURRENT) + "a</td>" + "<td>" + c.getManorCost(CastleManorManager.PERIOD_NEXT) + "a</td></tr>");
 		}
-
+		
 		replyMSG.append("</table><br>");
 		replyMSG.append("</body></html>");
-
+		
 		adminReply.setHtml(replyMSG.toString());
 		activeChar.sendPacket(adminReply);
-
+		
 		adminReply = null;
 		replyMSG = null;
 	}

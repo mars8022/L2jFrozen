@@ -36,38 +36,38 @@ public class BaseExtender
 		SPAWN("spawn"), // null
 		DELETE("delete"), // null
 		SETOWNER("setwoner"), // int, String
-		DROP("drop"), // null		
+		DROP("drop"), // null
 		DIE("die"), // L2Character
 		REVIVE("revive"), // null
 		SETINTENTION("setintention"); // CtrlIntention
 		public final String name;
-
-		EventType(String name)
+		
+		EventType(final String name)
 		{
 			this.name = name;
 		}
 	}
-
+	
 	/**
 	 * @param object as L2Object<br>
 	 * @return as boolean<br>
 	 */
-	public static boolean canCreateFor(L2Object object)
+	public static boolean canCreateFor(final L2Object object)
 	{
 		return true;
 	}
-
+	
 	protected L2Object _owner;
 	private BaseExtender _next = null;
-
+	
 	/**
 	 * @param owner - L2Object
 	 */
-	public BaseExtender(L2Object owner)
+	public BaseExtender(final L2Object owner)
 	{
 		_owner = owner;
 	}
-
+	
 	/**
 	 * @return as Object
 	 */
@@ -75,52 +75,55 @@ public class BaseExtender
 	{
 		return _owner;
 	}
-
+	
 	/**
 	 * onEvent - super.onEvent(event,params);<BR>
 	 * <BR>
-	 * 
 	 * @param event as String<br>
 	 * @param params as Object[]<br>
 	 * @return as Object
 	 */
-	public Object onEvent(final String event, Object... params)
+	public Object onEvent(final String event, final Object... params)
 	{
-		if(_next == null)
+		if (_next == null)
 			return null;
 		return _next.onEvent(event, params);
 	}
-
+	
 	/**
 	 * @param simpleClassName as String<br>
 	 * @return as BaseExtender - null
 	 */
 	public BaseExtender getExtender(final String simpleClassName)
 	{
-		if(this.getClass().getSimpleName().compareTo(simpleClassName) == 0)
+		if (this.getClass().getSimpleName().compareTo(simpleClassName) == 0)
 			return this;
-		else if(_next != null)
+		else if (_next != null)
 			return _next.getExtender(simpleClassName);
 		else
 			return null;
 	}
-
-	public void removeExtender(BaseExtender ext) {
-		if(_next!=null)
-			if(_next==ext)
+	
+	public void removeExtender(final BaseExtender ext)
+	{
+		if (_next != null)
+			if (_next == ext)
 				_next = _next._next;
 			else
 				_next.removeExtender(ext);
 	}
-	public BaseExtender getNextExtender() {
+	
+	public BaseExtender getNextExtender()
+	{
 		return _next;
 	}
+	
 	/**
 	 * @param newExtender as BaseExtender
 	 */
-	public void addExtender(BaseExtender newExtender)
+	public void addExtender(final BaseExtender newExtender)
 	{
-		if(_next == null)
+		if (_next == null)
 		{
 			_next = newExtender;
 		}

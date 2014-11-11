@@ -21,14 +21,14 @@ package com.l2jfrozen.gameserver.network.serverpackets;
 public class SpecialCamera extends L2GameServerPacket
 {
 	private static final String _S__C7_SPECIALCAMERA = "[S] C7 SpecialCamera";
-	private int _id;
-	private int _dist;
-	private int _yaw;
-	private int _pitch;
-	private int _time;
-	private int _duration;
-
-	public SpecialCamera(int id, int dist, int yaw, int pitch, int time, int duration)
+	private final int _id;
+	private final int _dist;
+	private final int _yaw;
+	private final int _pitch;
+	private final int _time;
+	private final int _duration;
+	
+	public SpecialCamera(final int id, final int dist, final int yaw, final int pitch, final int time, final int duration)
 	{
 		_id = id;
 		_dist = dist;
@@ -37,7 +37,7 @@ public class SpecialCamera extends L2GameServerPacket
 		_time = time;
 		_duration = duration;
 	}
-
+	
 	@Override
 	public void writeImpl()
 	{
@@ -49,7 +49,7 @@ public class SpecialCamera extends L2GameServerPacket
 		writeD(_time);
 		writeD(_duration);
 	}
-
+	
 	@Override
 	public String getType()
 	{

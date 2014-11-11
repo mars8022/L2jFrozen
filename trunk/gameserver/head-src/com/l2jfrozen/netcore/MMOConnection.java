@@ -27,12 +27,16 @@ import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.WritableByteChannel;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
+ * @param <T>
  * @author KenM
- * @param <T> 
  */
 public class MMOConnection<T extends MMOClient<?>>
 {
+	private static final Logger LOGGER = LoggerFactory.getLogger(MMOConnection.class);
 	private final SelectorThread<T> _selectorThread;
 	
 	private final Socket _socket;
@@ -51,7 +55,7 @@ public class MMOConnection<T extends MMOClient<?>>
 	
 	private final SelectionKey _selectionKey;
 	
-	//private SendablePacket<T> _closePacket;
+	// private SendablePacket<T> _closePacket;
 	
 	private ByteBuffer _readBuffer;
 	
@@ -76,7 +80,7 @@ public class MMOConnection<T extends MMOClient<?>>
 		_port = socket.getPort();
 		_selectionKey = key;
 		
-		_sendQueue = new NioNetStackList<SendablePacket<T>>();
+		_sendQueue = new NioNetStackList<>();
 	}
 	
 	final void setClient(final T client)
@@ -93,7 +97,8 @@ public class MMOConnection<T extends MMOClient<?>>
 	{
 		sp._client = _client;
 		
-		if (_pendingClose){
+		if (_pendingClose)
+		{
 			return;
 		}
 		
@@ -108,10 +113,9 @@ public class MMOConnection<T extends MMOClient<?>>
 			{
 				_selectionKey.interestOps(_selectionKey.interestOps() | SelectionKey.OP_WRITE);
 			}
-			catch (CancelledKeyException e)
+			catch (final CancelledKeyException e)
 			{
-				if(Config.getInstance().ENABLE_MMOCORE_EXCEPTIONS)
-					e.printStackTrace();
+				LOGGER.warn("", e);
 				
 			}
 		}
@@ -139,21 +143,22 @@ public class MMOConnection<T extends MMOClient<?>>
 	
 	final int read(final ByteBuffer buf) throws IOException
 	{
-		if(/*!isClosed() 
-				&& */_readableByteChannel!=null 
-				&& _readableByteChannel.isOpen()
-				&& !_socket.isInputShutdown())
-				//&& !_socket.isOutputShutdown())
+		if (/*
+			 * !isClosed() &&
+			 */_readableByteChannel != null && _readableByteChannel.isOpen() && !_socket.isInputShutdown())
+		// && !_socket.isOutputShutdown())
+		{
 			return _readableByteChannel.read(buf);
+		}
 		return -1;
 	}
 	
 	final int write(final ByteBuffer buf) throws IOException
 	{
-		if(_writableByteChannel!=null 
-				&& _writableByteChannel.isOpen()
-				&& !_socket.isOutputShutdown())
+		if (_writableByteChannel != null && _writableByteChannel.isOpen() && !_socket.isOutputShutdown())
+		{
 			return _writableByteChannel.write(buf);
+		}
 		return -1;
 	}
 	
@@ -224,21 +229,19 @@ public class MMOConnection<T extends MMOClient<?>>
 	{
 		boolean output = false;
 		
-		if(!_socket.isClosed() 
-				&& _socket.getChannel()!=null 
-				&& _socket.getChannel().isConnected()
-				&& _socket.getChannel().isOpen()
-				&& !_socket.isInputShutdown()){
+		if (!_socket.isClosed() && _socket.getChannel() != null && _socket.getChannel().isConnected() && _socket.getChannel().isOpen() && !_socket.isInputShutdown())
+		{
 			
 			try
 			{
-				if(_socket_is.available()>0)
+				if (_socket_is.available() > 0)
+				{
 					output = true;
-				
+				}
 			}
-			catch(IOException e)
+			catch (final IOException e)
 			{
-				e.printStackTrace();
+				LOGGER.error("unhandled exception", e);
 			}
 			
 		}
@@ -255,21 +258,25 @@ public class MMOConnection<T extends MMOClient<?>>
 		return _sendQueue;
 	}
 	
-	/*final SendablePacket<T> getClosePacket()
-	{
-	    return _closePacket;
-	}*/
-
+	/*
+	 * final SendablePacket<T> getClosePacket() { return _closePacket; }
+	 */
+	
 	@SuppressWarnings("unchecked")
 	public final void close(final SendablePacket<T> sp)
 	{
-		close(new SendablePacket[] { sp });
+		close(new SendablePacket[]
+		{
+			sp
+		});
 	}
 	
 	public final void close(final SendablePacket<T>[] closeList)
 	{
 		if (_pendingClose)
+		{
 			return;
+		}
 		
 		synchronized (getSendQueue())
 		{
@@ -277,28 +284,32 @@ public class MMOConnection<T extends MMOClient<?>>
 			{
 				_pendingClose = true;
 				_sendQueue.clear();
-				for (SendablePacket<T> sp : closeList)
+				for (final SendablePacket<T> sp : closeList)
+				{
 					_sendQueue.addLast(sp);
+				}
 			}
 		}
 		
-		if(_selectionKey.isValid()){
+		if (_selectionKey.isValid())
+		{
 			
 			try
 			{
 				_selectionKey.interestOps(_selectionKey.interestOps() & ~SelectionKey.OP_WRITE);
 			}
-			catch (CancelledKeyException e)
+			catch (final CancelledKeyException e)
 			{
-				//not useful log
+				// not useful LOGGER
 			}
 			
 		}
 		
-		if(Config.getInstance().DUMP_CLOSE_CONNECTIONS){
+		if (NetcoreConfig.getInstance().DUMP_CLOSE_CONNECTIONS)
+		{
 			Thread.dumpStack();
 		}
-		//_closePacket = sp;
+		// _closePacket = sp;
 		_selectorThread.closeConnection(this);
 	}
 	

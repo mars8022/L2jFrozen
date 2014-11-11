@@ -42,14 +42,14 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
  */
 public class SiegeFlag implements ISkillHandler
 {
-	// private static Logger _log = Logger.getLogger(SiegeFlag.class.getName());
+	// private static Logger LOGGER = Logger.getLogger(SiegeFlag.class);
 	private static final SkillType[] SKILL_IDS =
 	{
 		SkillType.SIEGEFLAG
 	};
 	
 	@Override
-	public void useSkill(L2Character activeChar, L2Skill skill, L2Object[] targets)
+	public void useSkill(final L2Character activeChar, final L2Skill skill, final L2Object[] targets)
 	{
 		if (activeChar == null || !(activeChar instanceof L2PcInstance))
 			return;
@@ -97,7 +97,7 @@ public class SiegeFlag implements ISkillHandler
 			
 			flag = null;
 		}
-		catch (Exception e)
+		catch (final Exception e)
 		{
 			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
@@ -123,10 +123,10 @@ public class SiegeFlag implements ISkillHandler
 	 * @param isCheckOnly if false, it will send a notification to the player telling him why it failed
 	 * @return
 	 */
-	public static boolean checkIfOkToPlaceFlag(L2Character activeChar, boolean isCheckOnly)
+	public static boolean checkIfOkToPlaceFlag(final L2Character activeChar, final boolean isCheckOnly)
 	{
-		Castle castle = CastleManager.getInstance().getCastle(activeChar);
-		Fort fort = FortManager.getInstance().getFort(activeChar);
+		final Castle castle = CastleManager.getInstance().getCastle(activeChar);
+		final Fort fort = FortManager.getInstance().getFort(activeChar);
 		if ((castle == null) && (fort == null))
 			return false;
 		
@@ -135,13 +135,13 @@ public class SiegeFlag implements ISkillHandler
 		return checkIfOkToPlaceFlag(activeChar, fort, isCheckOnly);
 	}
 	
-	public static boolean checkIfOkToPlaceFlag(L2Character activeChar, Castle castle, boolean isCheckOnly)
+	public static boolean checkIfOkToPlaceFlag(final L2Character activeChar, final Castle castle, final boolean isCheckOnly)
 	{
 		if (activeChar == null || !(activeChar instanceof L2PcInstance))
 			return false;
 		
-		SystemMessage sm = new SystemMessage(SystemMessageId.S1_S2);
-		L2PcInstance player = (L2PcInstance) activeChar;
+		final SystemMessage sm = new SystemMessage(SystemMessageId.S1_S2);
+		final L2PcInstance player = (L2PcInstance) activeChar;
 		
 		if (castle == null || castle.getCastleId() <= 0)
 			sm.addString("You must be on castle ground to place a flag");
@@ -165,13 +165,13 @@ public class SiegeFlag implements ISkillHandler
 		return false;
 	}
 	
-	public static boolean checkIfOkToPlaceFlag(L2Character activeChar, Fort fort, boolean isCheckOnly)
+	public static boolean checkIfOkToPlaceFlag(final L2Character activeChar, final Fort fort, final boolean isCheckOnly)
 	{
 		if (activeChar == null || !(activeChar instanceof L2PcInstance))
 			return false;
 		
-		SystemMessage sm = new SystemMessage(SystemMessageId.S1_S2);
-		L2PcInstance player = (L2PcInstance) activeChar;
+		final SystemMessage sm = new SystemMessage(SystemMessageId.S1_S2);
+		final L2PcInstance player = (L2PcInstance) activeChar;
 		
 		if (fort == null || fort.getFortId() <= 0)
 			sm.addString("You must be on fort ground to place a flag");

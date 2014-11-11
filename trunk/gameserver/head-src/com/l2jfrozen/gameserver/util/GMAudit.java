@@ -19,11 +19,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.logs.Log;
-
 
 public class GMAudit
 {
@@ -32,43 +31,43 @@ public class GMAudit
 		new File("log/GMAudit").mkdirs();
 	}
 	
-	private static final Logger _log = Logger.getLogger(Log.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(Log.class);
 	
-	public static void auditGMAction(String gmName, String action, String target, String params)
+	public static void auditGMAction(final String gmName, final String action, final String target, final String params)
 	{
-		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy H:mm:ss");
-		String today = formatter.format(new Date());
+		final SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy H:mm:ss");
+		final String today = formatter.format(new Date());
 		
 		FileWriter save = null;
 		try
 		{
-			File file = new File("log/GMAudit/" + gmName + ".txt");
+			final File file = new File("log/GMAudit/" + gmName + ".txt");
 			save = new FileWriter(file, true);
 			
-			String out = "["+today+"] --> GM: "+gmName+", Target: ["+target+"], Action: ["+action+"], Params: ["+params+"] \r\n";
+			final String out = "[" + today + "] --> GM: " + gmName + ", Target: [" + target + "], Action: [" + action + "], Params: [" + params + "] \r\n";
 			
-			//String out = (today + ">" + gmName + ">" + action + ">" + target + ">" + params + "\r\n");
+			// String out = (today + ">" + gmName + ">" + action + ">" + target + ">" + params + "\r\n");
 			save.write(out);
 		}
-		catch (IOException e)
+		catch (final IOException e)
 		{
-			_log.log(Level.SEVERE, "GMAudit for GM " + gmName +" could not be saved: ", e);
+			LOGGER.error("GMAudit for GM " + gmName + " could not be saved: ", e);
 		}
 		finally
 		{
-			if(save != null)
+			if (save != null)
 				try
 				{
 					save.close();
 				}
-				catch (Exception e)
+				catch (final Exception e)
 				{
 					e.printStackTrace();
 				}
 		}
 	}
 	
-	public static void auditGMAction(String gmName, String action, String target)
+	public static void auditGMAction(final String gmName, final String action, final String target)
 	{
 		auditGMAction(gmName, action, target, "");
 	}

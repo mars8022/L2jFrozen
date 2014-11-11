@@ -1,6 +1,6 @@
 package com.l2jfrozen.gameserver.taskmanager;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Character;
@@ -12,51 +12,51 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
 public class KnownListUpdateTaskManager
 {
-	protected static final Logger _log = Logger.getLogger(DecayTaskManager.class.getName());
-
+	protected static final Logger LOGGER = Logger.getLogger(DecayTaskManager.class);
+	
 	private static KnownListUpdateTaskManager _instance;
-
+	
 	public KnownListUpdateTaskManager()
 	{
 		ThreadPoolManager.getInstance().scheduleAiAtFixedRate(new KnownListUpdate(), 1000, 750);
 	}
-
+	
 	public static KnownListUpdateTaskManager getInstance()
 	{
-		if(_instance == null)
+		if (_instance == null)
 		{
 			_instance = new KnownListUpdateTaskManager();
 		}
-
+		
 		return _instance;
 	}
-
+	
 	private class KnownListUpdate implements Runnable
 	{
 		boolean toggle = false;
 		boolean fullUpdate = true;
-
+		
 		protected KnownListUpdate()
 		{
-		// Do nothing
+			// Do nothing
 		}
-
+		
 		@Override
 		public void run()
 		{
 			try
 			{
-				for(L2WorldRegion regions[] : L2World.getInstance().getAllWorldRegions())
+				for (final L2WorldRegion regions[] : L2World.getInstance().getAllWorldRegions())
 				{
-					for(L2WorldRegion r : regions) // go through all world regions
+					for (final L2WorldRegion r : regions) // go through all world regions
 					{
-						if(r.isActive()) // and check only if the region is active
+						if (r.isActive()) // and check only if the region is active
 						{
 							updateRegion(r, fullUpdate, toggle);
 						}
 					}
 				}
-				if(toggle)
+				if (toggle)
 				{
 					toggle = false;
 				}
@@ -64,57 +64,57 @@ public class KnownListUpdateTaskManager
 				{
 					toggle = true;
 				}
-				if(fullUpdate)
+				if (fullUpdate)
 				{
 					fullUpdate = false;
 				}
-
+				
 			}
-			catch(Throwable e)
+			catch (final Throwable e)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
+				if (Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				_log.warning(e.toString());
+				LOGGER.warn(e.toString());
 			}
 		}
 	}
-
-	public void updateRegion(L2WorldRegion region, boolean fullUpdate, boolean forgetObjects)
+	
+	public void updateRegion(final L2WorldRegion region, final boolean fullUpdate, final boolean forgetObjects)
 	{
-		for(L2Object object : region.getVisibleObjects()) // and for all members in region
+		for (final L2Object object : region.getVisibleObjects()) // and for all members in region
 		{
-			if(!object.isVisible())
+			if (!object.isVisible())
 			{
 				continue; // skip dying objects
 			}
-			if(forgetObjects)
+			if (forgetObjects)
 			{
-				object.getKnownList().forgetObjects(); //TODO
+				object.getKnownList().forgetObjects(); // TODO
 				continue;
 			}
-			if(object instanceof L2PlayableInstance /*|| (false && object instanceof L2GuardInstance)*/|| fullUpdate)
+			if (object instanceof L2PlayableInstance /* || (false && object instanceof L2GuardInstance) */|| fullUpdate)
 			{
-				for(L2WorldRegion regi : region.getSurroundingRegions()) // offer members of this and surrounding regions
+				for (final L2WorldRegion regi : region.getSurroundingRegions()) // offer members of this and surrounding regions
 				{
-					for(L2Object _object : regi.getVisibleObjects())
+					for (final L2Object _object : regi.getVisibleObjects())
 					{
-						if(_object != object)
+						if (_object != object)
 						{
 							object.getKnownList().addKnownObject(_object);
 						}
 					}
 				}
 			}
-			else if(object instanceof L2Character)
+			else if (object instanceof L2Character)
 			{
-				for(L2WorldRegion regi : region.getSurroundingRegions()) // offer members of this and surrounding regions
+				for (final L2WorldRegion regi : region.getSurroundingRegions()) // offer members of this and surrounding regions
 				{
-					if(regi.isActive())
+					if (regi.isActive())
 					{
-						for(L2Object _object : regi.getVisibleObjects())
+						for (final L2Object _object : regi.getVisibleObjects())
 						{
-							if(_object != object)
+							if (_object != object)
 							{
 								object.getKnownList().addKnownObject(_object);
 							}
@@ -122,7 +122,7 @@ public class KnownListUpdateTaskManager
 					}
 				}
 			}
-
+			
 		}
 	}
 }

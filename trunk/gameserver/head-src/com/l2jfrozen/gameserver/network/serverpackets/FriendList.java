@@ -21,12 +21,14 @@ package com.l2jfrozen.gameserver.network.serverpackets;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -35,12 +37,12 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class FriendList extends L2GameServerPacket
 {
-	private static Logger _log = Logger.getLogger(FriendList.class.getName());
+	private static Logger LOGGER = Logger.getLogger(FriendList.class);
 	private static final String _S__FA_FRIENDLIST = "[S] FA FriendList";
 	
-	private L2PcInstance _activeChar;
+	private final L2PcInstance _activeChar;
 	
-	public FriendList(L2PcInstance character)
+	public FriendList(final L2PcInstance character)
 	{
 		_activeChar = character;
 	}
@@ -55,7 +57,7 @@ public class FriendList extends L2GameServerPacket
 		
 		try
 		{
-			String sqlQuery = "SELECT friend_id, friend_name FROM character_friends WHERE " + "char_id=" + _activeChar.getObjectId() + " AND not_blocked = 1 ORDER BY friend_name ASC";
+			final String sqlQuery = "SELECT friend_id, friend_name FROM character_friends WHERE " + "char_id=" + _activeChar.getObjectId() + " AND not_blocked = 1 ORDER BY friend_name ASC";
 			
 			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement(sqlQuery);
@@ -73,15 +75,15 @@ public class FriendList extends L2GameServerPacket
 				
 				while (rset.next())
 				{
-					int friendId = rset.getInt("friend_id");
-					String friendName = rset.getString("friend_name");
+					final int friendId = rset.getInt("friend_id");
+					final String friendName = rset.getString("friend_name");
 					
 					if (friendId == _activeChar.getObjectId())
 					{
 						continue;
 					}
 					
-					L2PcInstance friend = L2World.getInstance().getPlayer(friendName);
+					final L2PcInstance friend = L2World.getInstance().getPlayer(friendName);
 					
 					// writeH(0); // ??
 					writeD(friendId);
@@ -101,18 +103,18 @@ public class FriendList extends L2GameServerPacket
 				}
 			}
 			
-			rset.close();
-			statement.close();
+			DatabaseUtils.close(rset);
+			DatabaseUtils.close(statement);
 			
 			rset = null;
 			statement = null;
 		}
-		catch (Exception e)
+		catch (final Exception e)
 		{
 			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("Error found in " + _activeChar.getName() + "'s FriendList: " + e);
+			LOGGER.warn("Error found in " + _activeChar.getName() + "'s FriendList: " + e);
 		}
 		finally
 		{

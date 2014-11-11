@@ -18,7 +18,6 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
@@ -29,28 +28,28 @@ public final class RequestFriendList extends L2GameClientPacket
 	@Override
 	protected void readImpl()
 	{
-	// trigger
+		// trigger
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance activeChar = getClient().getActiveChar();
-
-		if(activeChar == null)
+		final L2PcInstance activeChar = getClient().getActiveChar();
+		
+		if (activeChar == null)
 			return;
-
+		
 		SystemMessage sm;
 		
 		// ======<Friend List>======
 		activeChar.sendPacket(new SystemMessage(SystemMessageId.FRIEND_LIST_HEAD));
-
+		
 		L2PcInstance friend = null;
-		for (String friendName : activeChar.getFriendList())
+		for (final String friendName : activeChar.getFriendList())
 		{
 			friend = L2World.getInstance().getPlayer(friendName);
 			
-			if (friend == null || friend.isOnline()==0)
+			if (friend == null || friend.isOnline() == 0)
 			{
 				// (Currently: Offline)
 				sm = new SystemMessage(SystemMessageId.S1_OFFLINE);
@@ -70,67 +69,14 @@ public final class RequestFriendList extends L2GameClientPacket
 		activeChar.sendPacket(new SystemMessage(SystemMessageId.FRIEND_LIST_FOOT));
 		
 		/*
-		SystemMessage sm;
-		Connection con = null;
-
-		try
-		{
-			con = L2DatabaseFactory.getInstance().getConnection(false);
-			PreparedStatement statement = con.prepareStatement("SELECT friend_id, friend_name FROM character_friends WHERE char_id=?");
-			statement.setInt(1, activeChar.getObjectId());
-
-			ResultSet rset = statement.executeQuery();
-
-			//======<Friend List>======
-			activeChar.sendPacket(new SystemMessage(SystemMessageId.FRIEND_LIST_HEAD));
-
-			L2PcInstance friend = null;
-			while(rset.next())
-			{
-				// int friendId = rset.getInt("friend_id");
-				String friendName = rset.getString("friend_name");
-				friend = L2World.getInstance().getPlayer(friendName);
-
-				if(friend == null)
-				{
-					//	(Currently: Offline)
-					sm = new SystemMessage(SystemMessageId.S1_OFFLINE);
-					sm.addString(friendName);
-				}
-				else
-				{
-					//(Currently: Online)
-					sm = new SystemMessage(SystemMessageId.S1_ONLINE);
-					sm.addString(friendName);
-				}
-
-				activeChar.sendPacket(sm);
-			}
-
-			//=========================
-			activeChar.sendPacket(new SystemMessage(SystemMessageId.FRIEND_LIST_FOOT));
-			sm = null;
-			rset.close();
-			statement.close();
-
-			rset = null;
-			statement = null;
-		}
-		catch(Exception e)
-		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			_log.warning("Error in /friendlist for " + activeChar + ": " + e);
-		}
-		finally
-		{
-			CloseUtil.close(con);
-			con = null;
-		}
-		*/
+		 * SystemMessage sm; Connection con = null; try { con = L2DatabaseFactory.getInstance().getConnection(false); PreparedStatement statement = con.prepareStatement("SELECT friend_id, friend_name FROM character_friends WHERE char_id=?"); statement.setInt(1, activeChar.getObjectId()); ResultSet
+		 * rset = statement.executeQuery(); //======<Friend List>====== activeChar.sendPacket(new SystemMessage(SystemMessageId.FRIEND_LIST_HEAD)); L2PcInstance friend = null; while(rset.next()) { // int friendId = rset.getInt("friend_id"); String friendName = rset.getString("friend_name"); friend =
+		 * L2World.getInstance().getPlayer(friendName); if(friend == null) { // (Currently: Offline) sm = new SystemMessage(SystemMessageId.S1_OFFLINE); sm.addString(friendName); } else { //(Currently: Online) sm = new SystemMessage(SystemMessageId.S1_ONLINE); sm.addString(friendName); }
+		 * activeChar.sendPacket(sm); } //========================= activeChar.sendPacket(new SystemMessage(SystemMessageId.FRIEND_LIST_FOOT)); sm = null; DatabaseUtils.close(rset); DatabaseUtils.close(statement); rset = null; statement = null; } catch(Exception e) { if(Config.ENABLE_ALL_EXCEPTIONS)
+		 * e.printStackTrace(); LOGGER.warn("Error in /friendlist for " + activeChar + ": " + e); } finally { CloseUtil.close(con); con = null; }
+		 */
 	}
-
+	
 	@Override
 	public String getType()
 	{

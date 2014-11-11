@@ -49,7 +49,6 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
 /**
  * This class ...
- * 
  * @author programmos, l2jfrozen dev
  * @version $Revision: 1.2.1 $ $Date: 2009/04/13 02:01:21 $
  */
@@ -73,7 +72,7 @@ public enum PlayerClass
 	Cleric(Human, Priest, Second),
 	Bishop(Human, Priest, Third),
 	Prophet(Human, Priest, Third),
-
+	
 	ElvenFighter(LightElf, Fighter, First),
 	ElvenKnight(LightElf, Fighter, Second),
 	TempleKnight(LightElf, Fighter, Third),
@@ -87,7 +86,7 @@ public enum PlayerClass
 	ElementalSummoner(LightElf, Mystic, Third),
 	ElvenOracle(LightElf, Priest, Second),
 	ElvenElder(LightElf, Priest, Third),
-
+	
 	DarkElvenFighter(DarkElf, Fighter, First),
 	PalusKnight(DarkElf, Fighter, Second),
 	ShillienKnight(DarkElf, Fighter, Third),
@@ -101,7 +100,7 @@ public enum PlayerClass
 	PhantomSummoner(DarkElf, Mystic, Third),
 	ShillienOracle(DarkElf, Priest, Second),
 	ShillienElder(DarkElf, Priest, Third),
-
+	
 	OrcFighter(Orc, Fighter, First),
 	OrcRaider(Orc, Fighter, Second),
 	Destroyer(Orc, Fighter, Third),
@@ -111,13 +110,13 @@ public enum PlayerClass
 	OrcShaman(Orc, Mystic, Second),
 	Overlord(Orc, Mystic, Third),
 	Warcryer(Orc, Mystic, Third),
-
+	
 	DwarvenFighter(Dwarf, Fighter, First),
 	DwarvenScavenger(Dwarf, Fighter, Second),
 	BountyHunter(Dwarf, Fighter, Third),
 	DwarvenArtisan(Dwarf, Fighter, Second),
 	Warsmith(Dwarf, Fighter, Third),
-
+	
 	dummyEntry1(null, null, null),
 	dummyEntry2(null, null, null),
 	dummyEntry3(null, null, null),
@@ -148,7 +147,7 @@ public enum PlayerClass
 	dummyEntry28(null, null, null),
 	dummyEntry29(null, null, null),
 	dummyEntry30(null, null, null),
-
+	
 	/*
 	 * (3rd classes)
 	 */
@@ -163,7 +162,7 @@ public enum PlayerClass
 	arcanaLord(Human, Mystic, Fourth),
 	cardinal(Human, Mystic, Fourth),
 	hierophant(Human, Mystic, Fourth),
-
+	
 	evaTemplar(LightElf, Fighter, Fourth),
 	swordMuse(LightElf, Fighter, Fourth),
 	windRider(LightElf, Fighter, Fourth),
@@ -171,7 +170,7 @@ public enum PlayerClass
 	mysticMuse(LightElf, Mystic, Fourth),
 	elementalMaster(LightElf, Mystic, Fourth),
 	evaSaint(LightElf, Mystic, Fourth),
-
+	
 	shillienTemplar(DarkElf, Fighter, Fourth),
 	spectralDancer(DarkElf, Fighter, Fourth),
 	ghostHunter(DarkElf, Fighter, Fourth),
@@ -179,80 +178,80 @@ public enum PlayerClass
 	stormScreamer(DarkElf, Mystic, Fourth),
 	spectralMaster(DarkElf, Mystic, Fourth),
 	shillienSaint(DarkElf, Mystic, Fourth),
-
+	
 	titan(Orc, Fighter, Fourth),
 	grandKhauatari(Orc, Fighter, Fourth),
 	dominator(Orc, Mystic, Fourth),
 	doomcryer(Orc, Mystic, Fourth),
-
+	
 	fortuneSeeker(Dwarf, Fighter, Fourth),
 	maestro(Dwarf, Fighter, Fourth);
-
+	
 	private PlayerRace _race;
 	private ClassLevel _level;
 	private ClassType _type;
-
+	
 	private static final Set<PlayerClass> mainSubclassSet;
 	private static final Set<PlayerClass> neverSubclassed = EnumSet.of(Overlord, Warsmith);
-
+	
 	private static final Set<PlayerClass> subclasseSet1 = EnumSet.of(DarkAvenger, Paladin, TempleKnight, ShillienKnight);
 	private static final Set<PlayerClass> subclasseSet2 = EnumSet.of(TreasureHunter, AbyssWalker, Plainswalker);
 	private static final Set<PlayerClass> subclasseSet3 = EnumSet.of(Hawkeye, SilverRanger, PhantomRanger);
 	private static final Set<PlayerClass> subclasseSet4 = EnumSet.of(Warlock, ElementalSummoner, PhantomSummoner);
 	private static final Set<PlayerClass> subclasseSet5 = EnumSet.of(Sorceror, Spellsinger, Spellhowler);
-
-	private static final EnumMap<PlayerClass, Set<PlayerClass>> subclassSetMap = new EnumMap<PlayerClass, Set<PlayerClass>>(PlayerClass.class);
-
+	
+	private static final EnumMap<PlayerClass, Set<PlayerClass>> subclassSetMap = new EnumMap<>(PlayerClass.class);
+	
 	static
 	{
 		Set<PlayerClass> subclasses = getSet(null, Third);
 		subclasses.removeAll(neverSubclassed);
-
+		
 		mainSubclassSet = subclasses;
-
+		
 		subclassSetMap.put(DarkAvenger, subclasseSet1);
 		subclassSetMap.put(Paladin, subclasseSet1);
 		subclassSetMap.put(TempleKnight, subclasseSet1);
 		subclassSetMap.put(ShillienKnight, subclasseSet1);
-
+		
 		subclassSetMap.put(TreasureHunter, subclasseSet2);
 		subclassSetMap.put(AbyssWalker, subclasseSet2);
 		subclassSetMap.put(Plainswalker, subclasseSet2);
-
+		
 		subclassSetMap.put(Hawkeye, subclasseSet3);
 		subclassSetMap.put(SilverRanger, subclasseSet3);
 		subclassSetMap.put(PhantomRanger, subclasseSet3);
-
+		
 		subclassSetMap.put(Warlock, subclasseSet4);
 		subclassSetMap.put(ElementalSummoner, subclasseSet4);
 		subclassSetMap.put(PhantomSummoner, subclasseSet4);
-
+		
 		subclassSetMap.put(Sorceror, subclasseSet5);
 		subclassSetMap.put(Spellsinger, subclasseSet5);
 		subclassSetMap.put(Spellhowler, subclasseSet5);
-
+		
 		subclasses = null;
 	}
-
-	PlayerClass(PlayerRace pRace, ClassType pType, ClassLevel pLevel)
+	
+	PlayerClass(final PlayerRace pRace, final ClassType pType, final ClassLevel pLevel)
 	{
 		_race = pRace;
 		_level = pLevel;
 		_type = pType;
 	}
-
-	public final Set<PlayerClass> getAvailableSubclasses(L2PcInstance player)
+	
+	public final Set<PlayerClass> getAvailableSubclasses(final L2PcInstance player)
 	{
 		Set<PlayerClass> subclasses = null;
-
-		if(_level == Third)
+		
+		if (_level == Third)
 		{
 			subclasses = EnumSet.copyOf(mainSubclassSet);
-
+			
 			subclasses.removeAll(neverSubclassed);
 			subclasses.remove(this);
-
-			switch(player.getRace())
+			
+			switch (player.getRace())
 			{
 				case elf:
 					subclasses.removeAll(getSet(DarkElf, Third));
@@ -261,53 +260,53 @@ public enum PlayerClass
 					subclasses.removeAll(getSet(LightElf, Third));
 					break;
 			}
-
+			
 			Set<PlayerClass> unavailableClasses = subclassSetMap.get(this);
-
-			if(unavailableClasses != null)
+			
+			if (unavailableClasses != null)
 			{
 				subclasses.removeAll(unavailableClasses);
 			}
-
+			
 			unavailableClasses = null;
 		}
-
+		
 		return subclasses;
 	}
-
-	public static final EnumSet<PlayerClass> getSet(PlayerRace race, ClassLevel level)
+	
+	public static final EnumSet<PlayerClass> getSet(final PlayerRace race, final ClassLevel level)
 	{
-		EnumSet<PlayerClass> allOf = EnumSet.noneOf(PlayerClass.class);
-
-		for(PlayerClass playerClass : EnumSet.allOf(PlayerClass.class))
+		final EnumSet<PlayerClass> allOf = EnumSet.noneOf(PlayerClass.class);
+		
+		for (final PlayerClass playerClass : EnumSet.allOf(PlayerClass.class))
 		{
-			if(race == null || playerClass.isOfRace(race))
+			if (race == null || playerClass.isOfRace(race))
 			{
-				if(level == null || playerClass.isOfLevel(level))
+				if (level == null || playerClass.isOfLevel(level))
 				{
 					allOf.add(playerClass);
 				}
 			}
 		}
-
+		
 		return allOf;
 	}
-
-	public final boolean isOfRace(PlayerRace pRace)
+	
+	public final boolean isOfRace(final PlayerRace pRace)
 	{
 		return _race == pRace;
 	}
-
-	public final boolean isOfType(ClassType pType)
+	
+	public final boolean isOfType(final ClassType pType)
 	{
 		return _type == pType;
 	}
-
-	public final boolean isOfLevel(ClassLevel pLevel)
+	
+	public final boolean isOfLevel(final ClassLevel pLevel)
 	{
 		return _level == pLevel;
 	}
-
+	
 	public final ClassLevel getLevel()
 	{
 		return _level;

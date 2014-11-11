@@ -23,14 +23,14 @@ package com.l2jfrozen.gameserver.network.serverpackets;
 public class ExConfirmVariationGemstone extends L2GameServerPacket
 {
 	private static final String _S__FE_54_EXCONFIRMVARIATIONGEMSTONE = "[S] FE:54 ExConfirmVariationGemstone";
-
-	private int _gemstoneObjId;
-	private int _unk1;
-	private int _gemstoneCount;
-	private int _unk2;
-	private int _unk3;
-
-	public ExConfirmVariationGemstone(int gemstoneObjId, int count)
+	
+	private final int _gemstoneObjId;
+	private final int _unk1;
+	private final int _gemstoneCount;
+	private final int _unk2;
+	private final int _unk3;
+	
+	public ExConfirmVariationGemstone(final int gemstoneObjId, final int count)
 	{
 		_gemstoneObjId = gemstoneObjId;
 		_unk1 = 1;

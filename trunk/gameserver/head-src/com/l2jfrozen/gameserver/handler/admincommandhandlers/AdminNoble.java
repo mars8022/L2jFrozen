@@ -20,8 +20,8 @@ package com.l2jfrozen.gameserver.handler.admincommandhandlers;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.GmListTable;
@@ -41,43 +41,31 @@ public class AdminNoble implements IAdminCommandHandler
 	{
 		"admin_setnoble"
 	};
-
-	protected static final Logger _log = Logger.getLogger(AdminNoble.class.getName());
+	
+	protected static final Logger LOGGER = Logger.getLogger(AdminNoble.class);
 	
 	@Override
-	public boolean useAdminCommand(String command, L2PcInstance activeChar)
+	public boolean useAdminCommand(final String command, final L2PcInstance activeChar)
 	{
 		/*
-		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
-			return false;
-		}
+		 * if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){ return false; } if(Config.GMAUDIT) { Logger _logAudit = Logger.getLogger("gmaudit"); LogRecord record = new LogRecord(Level.INFO, command); record.setParameters(new Object[] { "GM: " +
+		 * activeChar.getName(), " to target [" + activeChar.getTarget() + "] " }); _logAudit.LOGGER(record); }
+		 */
 		
-		if(Config.GMAUDIT)
-		{
-			Logger _logAudit = Logger.getLogger("gmaudit");
-			LogRecord record = new LogRecord(Level.INFO, command);
-			record.setParameters(new Object[]
-			{
-					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
-			});
-			_logAudit.log(record);
-		}
-		*/
-
-		if(activeChar == null)
+		if (activeChar == null)
 			return false;
-
-		if(command.startsWith("admin_setnoble"))
+		
+		if (command.startsWith("admin_setnoble"))
 		{
 			L2Object target = activeChar.getTarget();
-
-			if(target instanceof L2PcInstance)
+			
+			if (target instanceof L2PcInstance)
 			{
 				L2PcInstance targetPlayer = (L2PcInstance) target;
-
-				boolean newNoble = !targetPlayer.isNoble();
-
-				if(newNoble)
+				
+				final boolean newNoble = !targetPlayer.isNoble();
+				
+				if (newNoble)
 				{
 					targetPlayer.setNoble(true);
 					targetPlayer.sendMessage("You are now a noblesse.");
@@ -92,31 +80,31 @@ public class AdminNoble implements IAdminCommandHandler
 					updateDatabase(targetPlayer, false);
 					sendMessages(false, targetPlayer, activeChar, true, true);
 				}
-
+				
 				targetPlayer = null;
 			}
 			else
 			{
 				activeChar.sendMessage("Impossible to set a non Player Target as noble.");
-				_log.info("GM: " + activeChar.getName() + " is trying to set a non Player Target as noble.");
-
+				LOGGER.info("GM: " + activeChar.getName() + " is trying to set a non Player Target as noble.");
+				
 				return false;
 			}
-
+			
 			target = null;
 		}
-
+		
 		return true;
 	}
-
-	private void sendMessages(boolean forNewNoble, L2PcInstance player, L2PcInstance gm, boolean announce, boolean notifyGmList)
+	
+	private void sendMessages(final boolean forNewNoble, final L2PcInstance player, final L2PcInstance gm, final boolean announce, final boolean notifyGmList)
 	{
-		if(forNewNoble)
+		if (forNewNoble)
 		{
 			player.sendMessage(gm.getName() + " has granted Noble Status from you!");
 			gm.sendMessage("You've granted Noble Status from " + player.getName());
-
-			if(notifyGmList)
+			
+			if (notifyGmList)
 			{
 				GmListTable.broadcastMessageToGMs("Warn: " + gm.getName() + " has set " + player.getName() + " as Noble !");
 			}
@@ -125,39 +113,39 @@ public class AdminNoble implements IAdminCommandHandler
 		{
 			player.sendMessage(gm.getName() + " has revoked Noble Status for you!");
 			gm.sendMessage("You've revoked Noble Status for " + player.getName());
-
-			if(notifyGmList)
+			
+			if (notifyGmList)
 			{
 				GmListTable.broadcastMessageToGMs("Warn: " + gm.getName() + " has removed Noble Status of player" + player.getName());
 			}
 		}
 	}
-
+	
 	/**
-	 * @param player 
-	 * @param newNoble 
+	 * @param player
+	 * @param newNoble
 	 */
-	private void updateDatabase(L2PcInstance player, boolean newNoble)
+	private void updateDatabase(final L2PcInstance player, final boolean newNoble)
 	{
 		Connection con = null;
-
+		
 		try
 		{
 			// prevents any NPE.
 			// ----------------
-			if(player == null)
+			if (player == null)
 				return;
-
+			
 			// Database Connection
-			//--------------------------------
+			// --------------------------------
 			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement stmt = con.prepareStatement(newNoble ? INSERT_DATA : DEL_DATA);
-
+			
 			// if it is a new donator insert proper data
 			// --------------------------------------------
-			if(newNoble)
+			if (newNoble)
 			{
-
+				
 				stmt.setInt(1, player.getObjectId());
 				stmt.setString(2, player.getName());
 				stmt.setInt(3, player.isHero() ? 1 : 0);
@@ -176,24 +164,24 @@ public class AdminNoble implements IAdminCommandHandler
 				stmt = null;
 			}
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.SEVERE, "Error: could not update database: ", e);
+			LOGGER.error("Error: could not update database: ", e);
 		}
 		finally
 		{
 			CloseUtil.close(con);
 		}
 	}
-
+	
 	// Updates That Will be Executed by MySQL
 	// ----------------------------------------
 	String INSERT_DATA = "REPLACE INTO characters_custom_data (obj_Id, char_name, hero, noble, donator) VALUES (?,?,?,?,?)";
 	String DEL_DATA = "UPDATE characters_custom_data SET noble = 0 WHERE obj_Id=?";
-
+	
 	/**
 	 * @return
 	 */

@@ -8,8 +8,8 @@ package com.l2jfrozen.gameserver.handler.itemhandlers;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.handler.IItemHandler;
@@ -22,32 +22,32 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class HeroCustomItem implements IItemHandler
 {
-
+	
 	public HeroCustomItem()
 	{
-	//null
+		// null
 	}
-
-	protected static final Logger _log = Logger.getLogger(HeroCustomItem.class.getName());
+	
+	protected static final Logger LOGGER = Logger.getLogger(HeroCustomItem.class);
 	
 	String INSERT_DATA = "REPLACE INTO characters_custom_data (obj_Id, char_name, hero, noble, donator, hero_end_date) VALUES (?,?,?,?,?,?)";
-
+	
 	@Override
-	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
+	public void useItem(final L2PlayableInstance playable, final L2ItemInstance item)
 	{
-		if(Config.HERO_CUSTOM_ITEMS)
+		if (Config.HERO_CUSTOM_ITEMS)
 		{
-			if(!(playable instanceof L2PcInstance))
+			if (!(playable instanceof L2PcInstance))
 				return;
-
+			
 			L2PcInstance activeChar = (L2PcInstance) playable;
-
-			if(activeChar.isInOlympiadMode())
+			
+			if (activeChar.isInOlympiadMode())
 			{
 				activeChar.sendMessage("This Item Cannot Be Used On Olympiad Games.");
 			}
-
-			if(activeChar.isHero())
+			
+			if (activeChar.isHero())
 			{
 				activeChar.sendMessage("You Are Already A Hero!.");
 			}
@@ -64,24 +64,24 @@ public class HeroCustomItem implements IItemHandler
 			activeChar = null;
 		}
 	}
-
+	
 	@Override
 	public int[] getItemIds()
 	{
 		return ITEM_IDS;
 	}
 	
-	private void updateDatabase(L2PcInstance player, long heroTime)
+	private void updateDatabase(final L2PcInstance player, final long heroTime)
 	{
 		Connection con = null;
 		try
 		{
-			if(player == null)
+			if (player == null)
 				return;
-
+			
 			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement stmt = con.prepareStatement(INSERT_DATA);
-
+			
 			stmt.setInt(1, player.getObjectId());
 			stmt.setString(2, player.getName());
 			stmt.setInt(3, 1);
@@ -92,12 +92,12 @@ public class HeroCustomItem implements IItemHandler
 			stmt.close();
 			stmt = null;
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.SEVERE, "Error: could not update database: ", e);
+			LOGGER.error("Error: could not update database: ", e);
 		}
 		finally
 		{
@@ -106,10 +106,10 @@ public class HeroCustomItem implements IItemHandler
 			con = null;
 		}
 	}
-
+	
 	private static final int ITEM_IDS[] =
 	{
 		Config.HERO_CUSTOM_ITEM_ID
 	};
-
+	
 }

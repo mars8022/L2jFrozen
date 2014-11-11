@@ -22,25 +22,25 @@ import com.l2jfrozen.gameserver.skills.Env;
 
 public class EffectSilenceMagicPhysical extends L2Effect
 {
-
-	public EffectSilenceMagicPhysical(Env env, EffectTemplate template)
+	
+	public EffectSilenceMagicPhysical(final Env env, final EffectTemplate template)
 	{
 		super(env, template);
 	}
-
+	
 	@Override
 	public EffectType getEffectType()
 	{
 		return L2Effect.EffectType.SILENCE_MAGIC_PHYSICAL;
 	}
-
+	
 	@Override
 	public void onStart()
 	{
 		getEffected().startMuted();
 		getEffected().startPsychicalMuted();
 	}
-
+	
 	@Override
 	public boolean onActionTime()
 	{
@@ -48,7 +48,7 @@ public class EffectSilenceMagicPhysical extends L2Effect
 		getEffected().stopPsychicalMuted(this);
 		return false;
 	}
-
+	
 	@Override
 	public void onExit()
 	{

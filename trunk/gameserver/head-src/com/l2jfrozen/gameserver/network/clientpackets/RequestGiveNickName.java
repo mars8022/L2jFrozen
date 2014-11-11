@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.model.L2Clan;
 import com.l2jfrozen.gameserver.model.L2ClanMember;
@@ -28,51 +28,51 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 public class RequestGiveNickName extends L2GameClientPacket
 {
-	static Logger _log = Logger.getLogger(RequestGiveNickName.class.getName());
-
+	static Logger LOGGER = Logger.getLogger(RequestGiveNickName.class);
+	
 	private String _target;
 	private String _title;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_target = readS();
 		_title = readS();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance activeChar = getClient().getActiveChar();
-		if(activeChar == null)
+		final L2PcInstance activeChar = getClient().getActiveChar();
+		if (activeChar == null)
 			return;
-
+		
 		// Noblesse can bestow a title to themselves
-		if(activeChar.isNoble() && _target.matches(activeChar.getName()))
+		if (activeChar.isNoble() && _target.matches(activeChar.getName()))
 		{
 			activeChar.setTitle(_title);
-			SystemMessage sm = new SystemMessage(SystemMessageId.TITLE_CHANGED);
+			final SystemMessage sm = new SystemMessage(SystemMessageId.TITLE_CHANGED);
 			activeChar.sendPacket(sm);
 			activeChar.broadcastTitleInfo();
 		}
-		//Can the player change/give a title?
-		else if((activeChar.getClanPrivileges() & L2Clan.CP_CL_GIVE_TITLE) == L2Clan.CP_CL_GIVE_TITLE)
+		// Can the player change/give a title?
+		else if ((activeChar.getClanPrivileges() & L2Clan.CP_CL_GIVE_TITLE) == L2Clan.CP_CL_GIVE_TITLE)
 		{
-			if(activeChar.getClan().getLevel() < 3)
+			if (activeChar.getClan().getLevel() < 3)
 			{
 				SystemMessage sm = new SystemMessage(SystemMessageId.CLAN_LVL_3_NEEDED_TO_ENDOWE_TITLE);
 				activeChar.sendPacket(sm);
 				sm = null;
 				return;
 			}
-
-			L2ClanMember member1 = activeChar.getClan().getClanMember(_target);
-			if(member1 != null)
+			
+			final L2ClanMember member1 = activeChar.getClan().getClanMember(_target);
+			if (member1 != null)
 			{
-				L2PcInstance member = member1.getPlayerInstance();
-				if(member != null)
+				final L2PcInstance member = member1.getPlayerInstance();
+				if (member != null)
 				{
-					//is target from the same clan?
+					// is target from the same clan?
 					member.setTitle(_title);
 					SystemMessage sm = new SystemMessage(SystemMessageId.TITLE_CHANGED);
 					member.sendPacket(sm);

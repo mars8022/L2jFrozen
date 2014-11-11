@@ -22,53 +22,55 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.communitybbs.BB.Forum;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class ForumsBBSManager extends BaseBBSManager
 {
-	private static Logger _log = Logger.getLogger(ForumsBBSManager.class.getName());
-	private List<Forum> _table;
+	private static Logger LOGGER = Logger.getLogger(ForumsBBSManager.class);
+	private final List<Forum> _table;
 	private static ForumsBBSManager _instance;
 	private int _lastid = 1;
-
+	
 	/**
 	 * @return
 	 */
 	public static ForumsBBSManager getInstance()
 	{
-		if(_instance == null)
+		if (_instance == null)
 		{
 			_instance = new ForumsBBSManager();
 		}
 		return _instance;
 	}
-
+	
 	public ForumsBBSManager()
 	{
-		_table = new FastList<Forum>();
+		_table = new FastList<>();
 		load();
 	}
-
-	public void addForum(Forum ff)
+	
+	public void addForum(final Forum ff)
 	{
 		if (ff == null)
 			return;
-
+		
 		_table.add(ff);
-
-		if(ff.getID() > _lastid)
+		
+		if (ff.getID() > _lastid)
 		{
 			_lastid = ff.getID();
 		}
 	}
-
+	
 	/**
 	 *
 	 */
@@ -80,20 +82,20 @@ public class ForumsBBSManager extends BaseBBSManager
 			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("SELECT forum_id FROM forums WHERE forum_type=0");
 			ResultSet result = statement.executeQuery();
-			while(result.next())
+			while (result.next())
 			{
-				Forum f = new Forum(result.getInt("forum_id"), null);
+				final Forum f = new Forum(result.getInt("forum_id"), null);
 				addForum(f);
 			}
 			result.close();
-			statement.close();
-
+			DatabaseUtils.close(statement);
+			
 			result = null;
 			statement = null;
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
-			_log.warning("data error on Forum (root): " + e);
+			LOGGER.warn("data error on Forum (root): " + e);
 			e.printStackTrace();
 		}
 		finally
@@ -101,50 +103,50 @@ public class ForumsBBSManager extends BaseBBSManager
 			CloseUtil.close(con);
 		}
 	}
-
+	
 	public void initRoot()
 	{
-		for (Forum f : _table)
+		for (final Forum f : _table)
 			f.vload();
-		_log.info("Loaded " + _table.size() + " forums. Last forum id used: " + _lastid);
+		LOGGER.info("Loaded " + _table.size() + " forums. Last forum id used: " + _lastid);
 	}
 	
 	@Override
-	public void parsecmd(String command, L2PcInstance activeChar)
+	public void parsecmd(final String command, final L2PcInstance activeChar)
 	{
-		// 
+		//
 	}
-
+	
 	/**
-	 * @param Name 
+	 * @param Name
 	 * @return
 	 */
-	public Forum getForumByName(String Name)
+	public Forum getForumByName(final String Name)
 	{
-		for(Forum f : _table)
+		for (final Forum f : _table)
 		{
-			if(f.getName().equals(Name))
+			if (f.getName().equals(Name))
 				return f;
 		}
-
+		
 		return null;
 	}
-
+	
 	/**
 	 * @param name
-	 * @param parent 
-	 * @param type 
-	 * @param perm 
-	 * @param oid 
+	 * @param parent
+	 * @param type
+	 * @param perm
+	 * @param oid
 	 * @return
 	 */
-	public Forum createNewForum(String name, Forum parent, int type, int perm, int oid)
+	public Forum createNewForum(final String name, final Forum parent, final int type, final int perm, final int oid)
 	{
-		Forum forum = new Forum(name, parent, type, perm, oid);
+		final Forum forum = new Forum(name, parent, type, perm, oid);
 		forum.insertindb();
 		return forum;
 	}
-
+	
 	/**
 	 * @return
 	 */
@@ -152,24 +154,24 @@ public class ForumsBBSManager extends BaseBBSManager
 	{
 		return ++_lastid;
 	}
-
+	
 	/**
 	 * @param idf
 	 * @return
 	 */
-	public Forum getForumByID(int idf)
+	public Forum getForumByID(final int idf)
 	{
-		for(Forum f : _table)
+		for (final Forum f : _table)
 		{
-			if(f.getID() == idf)
+			if (f.getID() == idf)
 				return f;
 		}
 		return null;
 	}
 	
 	@Override
-	public void parsewrite(String ar1, String ar2, String ar3, String ar4, String ar5, L2PcInstance activeChar)
+	public void parsewrite(final String ar1, final String ar2, final String ar3, final String ar4, final String ar5, final L2PcInstance activeChar)
 	{
-		// 
+		//
 	}
 }

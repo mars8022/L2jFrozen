@@ -20,24 +20,25 @@ package com.l2jfrozen.gameserver.network.serverpackets;
 
 /**
  * This class ...
- * 
  * @version $Revision: 1.3.2.1.2.3 $ $Date: 2005/03/27 15:29:39 $
  */
 public final class ActionFailed extends L2GameServerPacket
 {
 	public static final String _S__25_ACTIONFAILED = "[S] 25 ActionFailed";
 	public static final ActionFailed STATIC_PACKET = new ActionFailed();
-
+	
 	public ActionFailed()
-	{}
-
+	{
+	}
+	
 	@Override
 	protected void writeImpl()
 	{
 		writeC(0x25);
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType()
 	 */
 	@Override

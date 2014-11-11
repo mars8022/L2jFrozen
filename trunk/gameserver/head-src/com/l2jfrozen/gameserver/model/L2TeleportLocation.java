@@ -20,7 +20,6 @@ package com.l2jfrozen.gameserver.model;
 
 /**
  * This class ...
- * 
  * @version $Revision: 1.2.4.1 $ $Date: 2005/03/27 15:29:32 $
  */
 public class L2TeleportLocation
@@ -31,55 +30,55 @@ public class L2TeleportLocation
 	private int _locZ;
 	private int _price;
 	private boolean _forNoble;
-
+	
 	/**
 	 * @param id
 	 */
-	public void setTeleId(int id)
+	public void setTeleId(final int id)
 	{
 		_teleId = id;
 	}
-
+	
 	/**
 	 * @param locX
 	 */
-	public void setLocX(int locX)
+	public void setLocX(final int locX)
 	{
 		_locX = locX;
 	}
-
+	
 	/**
 	 * @param locY
 	 */
-	public void setLocY(int locY)
+	public void setLocY(final int locY)
 	{
 		_locY = locY;
 	}
-
+	
 	/**
 	 * @param locZ
 	 */
-	public void setLocZ(int locZ)
+	public void setLocZ(final int locZ)
 	{
 		_locZ = locZ;
 	}
-
+	
 	/**
 	 * @param price
 	 */
-	public void setPrice(int price)
+	public void setPrice(final int price)
 	{
 		_price = price;
 	}
-
+	
 	/**
 	 * @param val
 	 */
-	public void setIsForNoble(boolean val)
+	public void setIsForNoble(final boolean val)
 	{
 		_forNoble = val;
 	}
-
+	
 	/**
 	 * @return
 	 */
@@ -87,7 +86,7 @@ public class L2TeleportLocation
 	{
 		return _teleId;
 	}
-
+	
 	/**
 	 * @return
 	 */
@@ -95,7 +94,7 @@ public class L2TeleportLocation
 	{
 		return _locX;
 	}
-
+	
 	/**
 	 * @return
 	 */
@@ -103,7 +102,7 @@ public class L2TeleportLocation
 	{
 		return _locY;
 	}
-
+	
 	/**
 	 * @return
 	 */
@@ -111,7 +110,7 @@ public class L2TeleportLocation
 	{
 		return _locZ;
 	}
-
+	
 	/**
 	 * @return
 	 */
@@ -119,7 +118,7 @@ public class L2TeleportLocation
 	{
 		return _price;
 	}
-
+	
 	/**
 	 * @return
 	 */

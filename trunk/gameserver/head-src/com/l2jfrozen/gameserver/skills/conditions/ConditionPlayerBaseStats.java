@@ -27,24 +27,24 @@ import com.l2jfrozen.gameserver.skills.Env;
  */
 public class ConditionPlayerBaseStats extends Condition
 {
-
+	
 	private final BaseStat _stat;
 	private final int _value;
-
-	public ConditionPlayerBaseStats(L2Character player, BaseStat stat, int value)
+	
+	public ConditionPlayerBaseStats(final L2Character player, final BaseStat stat, final int value)
 	{
 		super();
 		_stat = stat;
 		_value = value;
 	}
-
+	
 	@Override
-	public boolean testImpl(Env env)
+	public boolean testImpl(final Env env)
 	{
-		if(!(env.player instanceof L2PcInstance))
+		if (!(env.player instanceof L2PcInstance))
 			return false;
-		L2PcInstance player = (L2PcInstance) env.player;
-		switch(_stat)
+		final L2PcInstance player = (L2PcInstance) env.player;
+		switch (_stat)
 		{
 			case Int:
 				return player.getINT() >= _value;

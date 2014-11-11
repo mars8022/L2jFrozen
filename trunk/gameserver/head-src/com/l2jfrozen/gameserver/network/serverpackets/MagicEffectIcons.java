@@ -27,8 +27,8 @@ import javolution.util.FastList;
 public class MagicEffectIcons extends L2GameServerPacket
 {
 	private static final String _S__97_MAGICEFFECTICONS = "[S] 7f MagicEffectIcons";
-	private FastList<Effect> _effects;
-	private FastList<Effect> _debuffs;
+	private final FastList<Effect> _effects;
+	private final FastList<Effect> _debuffs;
 	
 	private class Effect
 	{
@@ -36,7 +36,7 @@ public class MagicEffectIcons extends L2GameServerPacket
 		protected int _level;
 		protected int _duration;
 		
-		public Effect(int pSkillId, int pLevel, int pDuration)
+		public Effect(final int pSkillId, final int pLevel, final int pDuration)
 		{
 			_skillId = pSkillId;
 			_level = pLevel;
@@ -46,11 +46,11 @@ public class MagicEffectIcons extends L2GameServerPacket
 	
 	public MagicEffectIcons()
 	{
-		_effects = new FastList<Effect>();
-		_debuffs = new FastList<Effect>();
+		_effects = new FastList<>();
+		_debuffs = new FastList<>();
 	}
 	
-	public void addEffect(int skillId, int level, int duration, boolean debuff)
+	public void addEffect(final int skillId, final int level, final int duration, final boolean debuff)
 	{
 		if (skillId == 2031 || skillId == 2032 || skillId == 2037)
 			return;
@@ -68,7 +68,7 @@ public class MagicEffectIcons extends L2GameServerPacket
 		
 		writeH(_effects.size() + _debuffs.size());
 		
-		for (Effect temp : _effects)
+		for (final Effect temp : _effects)
 		{
 			writeD(temp._skillId);
 			writeH(temp._level);
@@ -83,7 +83,7 @@ public class MagicEffectIcons extends L2GameServerPacket
 			}
 		}
 		
-		for (Effect temp : _debuffs)
+		for (final Effect temp : _debuffs)
 		{
 			writeD(temp._skillId);
 			writeH(temp._level);

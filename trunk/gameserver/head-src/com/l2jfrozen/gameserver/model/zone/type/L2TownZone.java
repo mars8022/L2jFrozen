@@ -29,7 +29,6 @@ import com.l2jfrozen.util.random.Rnd;
 
 /**
  * A Town zone
- * 
  * @author durgus
  */
 public class L2TownZone extends L2ZoneType
@@ -39,42 +38,42 @@ public class L2TownZone extends L2ZoneType
 	private int _redirectTownId;
 	private int _taxById;
 	private boolean _noPeace;
-	private FastList<int[]> _spawnLoc;
-
-	public L2TownZone(int id)
+	private final FastList<int[]> _spawnLoc;
+	
+	public L2TownZone(final int id)
 	{
 		super(id);
-
+		
 		_taxById = 0;
-		_spawnLoc = new FastList<int[]>();
-
+		_spawnLoc = new FastList<>();
+		
 		// Default to Giran
 		_redirectTownId = 9;
-
+		
 		// Default peace zone
 		_noPeace = false;
 	}
-
+	
 	@Override
-	public void setParameter(String name, String value)
+	public void setParameter(final String name, final String value)
 	{
-		if(name.equals("name"))
+		if (name.equals("name"))
 		{
 			_townName = value;
 		}
-		else if(name.equals("townId"))
+		else if (name.equals("townId"))
 		{
 			_townId = Integer.parseInt(value);
 		}
-		else if(name.equals("redirectTownId"))
+		else if (name.equals("redirectTownId"))
 		{
 			_redirectTownId = Integer.parseInt(value);
 		}
-		else if(name.equals("taxById"))
+		else if (name.equals("taxById"))
 		{
 			_taxById = Integer.parseInt(value);
 		}
-		else if(name.equals("noPeace"))
+		else if (name.equals("noPeace"))
 		{
 			_noPeace = Boolean.parseBoolean(value);
 		}
@@ -83,83 +82,84 @@ public class L2TownZone extends L2ZoneType
 			super.setParameter(name, value);
 		}
 	}
-
+	
 	@Override
-	public void setSpawnLocs(Node node)
+	public void setSpawnLocs(final Node node)
 	{
-		int ai[] = new int[3];
-
+		final int ai[] = new int[3];
+		
 		Node node1 = node.getAttributes().getNamedItem("X");
-
-		if(node1 != null)
+		
+		if (node1 != null)
 		{
 			ai[0] = Integer.parseInt(node1.getNodeValue());
 		}
-
+		
 		node1 = node.getAttributes().getNamedItem("Y");
-
-		if(node1 != null)
+		
+		if (node1 != null)
 		{
 			ai[1] = Integer.parseInt(node1.getNodeValue());
 		}
-
+		
 		node1 = node.getAttributes().getNamedItem("Z");
-
-		if(node1 != null)
+		
+		if (node1 != null)
 		{
 			ai[2] = Integer.parseInt(node1.getNodeValue());
 		}
 		_spawnLoc.add(ai);
 	}
-
+	
 	@Override
-	protected void onEnter(L2Character character)
+	protected void onEnter(final L2Character character)
 	{
-		if(character instanceof L2PcInstance)
+		if (character instanceof L2PcInstance)
 		{
 			// PVP possible during siege, now for siege participants only
 			// Could also check if this town is in siege, or if any siege is going on
-			if(((L2PcInstance) character).getSiegeState() != 0 && Config.ZONE_TOWN == 1)
+			if (((L2PcInstance) character).getSiegeState() != 0 && Config.ZONE_TOWN == 1)
 				return;
-
-			if(Config.DEBUG)
+			
+			if (Config.ZONE_DEBUG)
 				((L2PcInstance) character).sendMessage("You entered " + _townName);
 		}
-
-		if(!_noPeace && Config.ZONE_TOWN != 2)
+		
+		if (!_noPeace && Config.ZONE_TOWN != 2)
 		{
 			character.setInsideZone(L2Character.ZONE_PEACE, true);
 		}
-
+		
 	}
-
+	
 	@Override
-	protected void onExit(L2Character character)
+	protected void onExit(final L2Character character)
 	{
-		if(!_noPeace)
+		if (!_noPeace)
 		{
 			character.setInsideZone(L2Character.ZONE_PEACE, false);
 		}
-
-		if(Config.DEBUG)
-			if(character instanceof L2PcInstance)
+		
+		if (Config.ZONE_DEBUG)
+			if (character instanceof L2PcInstance)
 			{
 				((L2PcInstance) character).sendMessage("You left " + _townName);
 			}
 		
 	}
-
+	
 	@Override
-	protected void onDieInside(L2Character character)
-	{}
-
+	protected void onDieInside(final L2Character character)
+	{
+	}
+	
 	@Override
-	protected void onReviveInside(L2Character character)
-	{}
-
+	protected void onReviveInside(final L2Character character)
+	{
+	}
+	
 	/**
 	 * Returns this town zones name
-	 * 
 	 * @return
 	 */
 	@Deprecated
@@ -167,20 +167,18 @@ public class L2TownZone extends L2ZoneType
 	{
 		return _townName;
 	}
-
+	
 	/**
 	 * Returns this zones town id (if any)
-	 * 
 	 * @return
 	 */
 	public int getTownId()
 	{
 		return _townId;
 	}
-
+	
 	/**
 	 * Gets the id for this town zones redir town
-	 * 
 	 * @return
 	 */
 	@Deprecated
@@ -188,24 +186,22 @@ public class L2TownZone extends L2ZoneType
 	{
 		return _redirectTownId;
 	}
-
+	
 	/**
 	 * Returns this zones spawn location
-	 * 
 	 * @return
 	 */
 	public final int[] getSpawnLoc()
 	{
 		int ai[] = new int[3];
-
+		
 		ai = _spawnLoc.get(Rnd.get(_spawnLoc.size()));
-
+		
 		return ai;
 	}
-
+	
 	/**
 	 * Returns this town zones castle id
-	 * 
 	 * @return
 	 */
 	public final int getTaxById()

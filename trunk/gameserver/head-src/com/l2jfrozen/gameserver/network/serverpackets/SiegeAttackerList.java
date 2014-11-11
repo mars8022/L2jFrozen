@@ -46,51 +46,50 @@ import com.l2jfrozen.gameserver.model.entity.siege.Castle;
  * S = AllyName<BR>
  * S = AllyLeaderName<BR>
  * d = AllyCrestID<BR>
- * 
  * @author KenM
  */
 public class SiegeAttackerList extends L2GameServerPacket
 {
 	private static final String _S__CA_SiegeAttackerList = "[S] ca SiegeAttackerList";
-	//private static Logger _log = Logger.getLogger(SiegeAttackerList.class.getName());
-	private Castle _castle;
-
-	public SiegeAttackerList(Castle castle)
+	// private static Logger LOGGER = Logger.getLogger(SiegeAttackerList.class);
+	private final Castle _castle;
+	
+	public SiegeAttackerList(final Castle castle)
 	{
 		_castle = castle;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
 		writeC(0xca);
 		writeD(_castle.getCastleId());
-		writeD(0x00); //0
-		writeD(0x01); //1
-		writeD(0x00); //0
-		int size = _castle.getSiege().getAttackerClans().size();
-		if(size > 0)
+		writeD(0x00); // 0
+		writeD(0x01); // 1
+		writeD(0x00); // 0
+		final int size = _castle.getSiege().getAttackerClans().size();
+		if (size > 0)
 		{
 			L2Clan clan;
-
+			
 			writeD(size);
 			writeD(size);
-			for(L2SiegeClan siegeclan : _castle.getSiege().getAttackerClans())
+			for (final L2SiegeClan siegeclan : _castle.getSiege().getAttackerClans())
 			{
 				clan = ClanTable.getInstance().getClan(siegeclan.getClanId());
-				if(clan == null)
+				if (clan == null)
 				{
 					continue;
 				}
-
+				
 				writeD(clan.getClanId());
 				writeS(clan.getName());
 				writeS(clan.getLeaderName());
 				writeD(clan.getCrestId());
-				writeD(0x00); //signed time (seconds) (not storated by L2J)
+				writeD(0x00); // signed time (seconds) (not storated by L2J)
 				writeD(clan.getAllyId());
 				writeS(clan.getAllyName());
-				writeS(""); //AllyLeaderName
+				writeS(""); // AllyLeaderName
 				writeD(clan.getAllyCrestId());
 			}
 		}
@@ -100,8 +99,9 @@ public class SiegeAttackerList extends L2GameServerPacket
 			writeD(0x00);
 		}
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType()
 	 */
 	@Override
@@ -109,5 +109,5 @@ public class SiegeAttackerList extends L2GameServerPacket
 	{
 		return _S__CA_SiegeAttackerList;
 	}
-
+	
 }

@@ -22,9 +22,10 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.List;
 import java.util.Properties;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.FService;
 import com.l2jfrozen.ServerType;
@@ -33,15 +34,15 @@ import com.l2jfrozen.util.random.Rnd;
 
 public class Status extends Thread
 {
-	protected static final Logger _log = Logger.getLogger(Status.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(Status.class);
 	
-	private ServerSocket statusServerSocket;
+	private final ServerSocket statusServerSocket;
 	
-	private int _uptime;
-	private int _statusPort;
+	private final int _uptime;
+	private final int _statusPort;
 	private String _statusPw;
-	private int _mode;
-	private List<LoginStatusThread> _loginStatus;
+	private final int _mode;
+	private final List<LoginStatusThread> _loginStatus;
 	
 	@Override
 	public void run()
@@ -52,20 +53,22 @@ public class Status extends Thread
 		{
 			try
 			{
-				Socket connection = statusServerSocket.accept();
+				final Socket connection = statusServerSocket.accept();
 				
 				if (_mode == ServerType.MODE_GAMESERVER)
 				{
-					GameStatusThread gst = new GameStatusThread(connection, _uptime, _statusPw);
-					if(!connection.isClosed()){
+					final GameStatusThread gst = new GameStatusThread(connection, _uptime, _statusPw);
+					if (!connection.isClosed())
+					{
 						ThreadPoolManager.getInstance().executeTask(gst);
 					}
 					
 				}
 				else if (_mode == ServerType.MODE_LOGINSERVER)
 				{
-					LoginStatusThread lst = new LoginStatusThread(connection, _uptime, _statusPw);
-					if(!connection.isClosed()){
+					final LoginStatusThread lst = new LoginStatusThread(connection, _uptime, _statusPw);
+					if (!connection.isClosed())
+					{
 						ThreadPoolManager.getInstance().executeTask(lst);
 						_loginStatus.add(lst);
 					}
@@ -77,14 +80,14 @@ public class Status extends Thread
 					{
 						statusServerSocket.close();
 					}
-					catch (IOException io)
+					catch (final IOException io)
 					{
 						io.printStackTrace();
 					}
 					break;
 				}
 			}
-			catch (IOException e)
+			catch (final IOException e)
 			{
 				if (this.isInterrupted())
 				{
@@ -92,7 +95,7 @@ public class Status extends Thread
 					{
 						statusServerSocket.close();
 					}
-					catch (IOException io)
+					catch (final IOException io)
 					{
 						io.printStackTrace();
 					}
@@ -102,12 +105,12 @@ public class Status extends Thread
 		}
 	}
 	
-	public Status(int mode) throws IOException
+	public Status(final int mode) throws IOException
 	{
 		super("Status");
 		_mode = mode;
-		Properties telnetSettings = new Properties();
-		InputStream is = new FileInputStream(new File(FService.TELNET_FILE));
+		final Properties telnetSettings = new Properties();
+		final InputStream is = new FileInputStream(new File(FService.TELNET_FILE));
 		telnetSettings.load(is);
 		is.close();
 		
@@ -118,19 +121,19 @@ public class Status extends Thread
 		{
 			if (_statusPw == null)
 			{
-				_log.info("Server's Telnet Function Has No Password Defined!");
-				_log.info("A Password Has Been Automaticly Created!");
+				LOGGER.info("Server's Telnet Function Has No Password Defined!");
+				LOGGER.info("A Password Has Been Automaticly Created!");
 				_statusPw = rndPW(10);
-				_log.info("Password Has Been Set To: " + _statusPw);
+				LOGGER.info("Password Has Been Set To: " + _statusPw);
 			}
-			_log.info("Telnet StatusServer started successfully, listening on Port: " + _statusPort);
+			LOGGER.info("Telnet StatusServer started successfully, listening on Port: " + _statusPort);
 		}
 		statusServerSocket = new ServerSocket(_statusPort);
 		_uptime = (int) System.currentTimeMillis();
-		_loginStatus = new FastList<LoginStatusThread>();
+		_loginStatus = new FastList<>();
 	}
 	
-	private String rndPW(int length)
+	private String rndPW(final int length)
 	{
 		final String lowerChar = "qwertyuiopasdfghjklzxcvbnm";
 		final String upperChar = "QWERTYUIOPASDFGHJKLZXCVBNM";
@@ -139,7 +142,7 @@ public class Status extends Thread
 		
 		for (int i = 0; i < length; i++)
 		{
-			int charSet = Rnd.nextInt(3);
+			final int charSet = Rnd.nextInt(3);
 			switch (charSet)
 			{
 				case 0:
@@ -156,10 +159,10 @@ public class Status extends Thread
 		return password.toString();
 	}
 	
-	public void sendMessageToTelnets(String msg)
+	public void sendMessageToTelnets(final String msg)
 	{
-		List<LoginStatusThread> lsToRemove = new FastList<LoginStatusThread>();
-		for (LoginStatusThread ls : _loginStatus)
+		final List<LoginStatusThread> lsToRemove = new FastList<>();
+		for (final LoginStatusThread ls : _loginStatus)
 		{
 			if (ls.isInterrupted())
 			{

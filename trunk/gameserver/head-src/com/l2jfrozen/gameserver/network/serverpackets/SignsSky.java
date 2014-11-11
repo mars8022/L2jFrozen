@@ -22,53 +22,53 @@ import com.l2jfrozen.gameserver.model.entity.sevensigns.SevenSigns;
 
 /**
  * Changes the sky color depending on the outcome of the Seven Signs competition. packet type id 0xf8 format: c h
- * 
  * @author Tempy
  */
 public class SignsSky extends L2GameServerPacket
 {
 	private static final String _S__F8_SignsSky = "[S] F8 SignsSky";
-
+	
 	private int _state = 0;
-
+	
 	public SignsSky()
 	{
-		int compWinner = SevenSigns.getInstance().getCabalHighestScore();
-
-		if(SevenSigns.getInstance().isSealValidationPeriod())
-			if(compWinner == SevenSigns.CABAL_DAWN)
+		final int compWinner = SevenSigns.getInstance().getCabalHighestScore();
+		
+		if (SevenSigns.getInstance().isSealValidationPeriod())
+			if (compWinner == SevenSigns.CABAL_DAWN)
 			{
 				_state = 2;
 			}
-			else if(compWinner == SevenSigns.CABAL_DUSK)
+			else if (compWinner == SevenSigns.CABAL_DUSK)
 			{
 				_state = 1;
 			}
 	}
-
-	public SignsSky(int state)
+	
+	public SignsSky(final int state)
 	{
 		_state = state;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
 		writeC(0xf8);
-
-		if(_state == 2)
+		
+		if (_state == 2)
 		{
 			writeH(258);
 		}
-		else if(_state == 1)
+		else if (_state == 1)
 		{
 			writeH(257);
-			//else
-			//writeH(256);
+			// else
+			// writeH(256);
 		}
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType()
 	 */
 	@Override

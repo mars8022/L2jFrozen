@@ -31,38 +31,38 @@ import com.l2jfrozen.gameserver.powerpak.PowerPakConfig;
  */
 public class EngraveExtender extends BaseExtender
 {
-	private L2ItemInstance _item;
-
-	public static boolean canCreateFor(L2Object object)
+	private final L2ItemInstance _item;
+	
+	public static boolean canCreateFor(final L2Object object)
 	{
-		if(EngraveManager.getInstance().isEngraved(object.getObjectId()))
+		if (EngraveManager.getInstance().isEngraved(object.getObjectId()))
 			return true;
 		return false;
 	}
-
-	public EngraveExtender(L2Object owner)
+	
+	public EngraveExtender(final L2Object owner)
 	{
 		super(owner);
 		_item = (L2ItemInstance) owner;
 	}
-
+	
 	@Override
-	public Object onEvent(final String event, Object... params)
+	public Object onEvent(final String event, final Object... params)
 	{
-		if(event.compareTo(BaseExtender.EventType.SETOWNER.name) == 0)
+		if (event.compareTo(BaseExtender.EventType.SETOWNER.name) == 0)
 		{
-			L2Character reference = (L2Character) L2World.getInstance().findObject((Integer) params[1]);
-			L2Character owner = (L2Character) L2World.getInstance().findObject(_item.getOwnerId());
+			final L2Character reference = (L2Character) L2World.getInstance().findObject((Integer) params[1]);
+			final L2Character owner = (L2Character) L2World.getInstance().findObject(_item.getOwnerId());
 			EngraveManager.getInstance().logAction(_item, reference, owner, params[0].toString());
 		}
-		else if(event.compareTo("DESTROY") == 0 || event.compareTo("CRYSTALLIZE") == 0 || event.compareTo("MULTISELL") == 0)
+		else if (event.compareTo("DESTROY") == 0 || event.compareTo("CRYSTALLIZE") == 0 || event.compareTo("MULTISELL") == 0)
 		{
-			L2PcInstance owner = (L2PcInstance) L2World.getInstance().findObject(_item.getOwnerId());
-			if(EngraveManager.getInstance().getEngraver(_item.getObjectId()) != _item.getOwnerId())
+			final L2PcInstance owner = (L2PcInstance) L2World.getInstance().findObject(_item.getOwnerId());
+			if (EngraveManager.getInstance().getEngraver(_item.getObjectId()) != _item.getOwnerId())
 			{
-				if(!PowerPakConfig.ENGRAVE_ALLOW_DESTROY)
+				if (!PowerPakConfig.ENGRAVE_ALLOW_DESTROY)
 				{
-					if(owner != null)
+					if (owner != null)
 					{
 						owner.sendMessage("You can not destroy the object you are not engraved.");
 					}
@@ -71,8 +71,8 @@ public class EngraveExtender extends BaseExtender
 			}
 			EngraveManager.getInstance().logAction(_item, owner, null, "Destroy");
 		}
-
+		
 		return super.onEvent(event, params);
 	}
-
+	
 }

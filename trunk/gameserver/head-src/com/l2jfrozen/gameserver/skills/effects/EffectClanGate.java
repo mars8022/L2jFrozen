@@ -27,21 +27,21 @@ import com.l2jfrozen.gameserver.skills.Env;
  */
 public class EffectClanGate extends L2Effect
 {
-	public EffectClanGate(Env env, EffectTemplate template)
+	public EffectClanGate(final Env env, final EffectTemplate template)
 	{
 		super(env, template);
 	}
-
+	
 	@Override
 	public void onStart()
 	{
 		getEffected().startAbnormalEffect(L2Character.ABNORMAL_EFFECT_MAGIC_CIRCLE);
 		if (getEffected() instanceof L2PcInstance)
 		{
-			L2Clan clan = ((L2PcInstance) getEffected()).getClan();
+			final L2Clan clan = ((L2PcInstance) getEffected()).getClan();
 			if (clan != null)
 			{
-				SystemMessage msg = new SystemMessage(SystemMessageId.COURT_MAGICIAN_CREATED_PORTAL);
+				final SystemMessage msg = new SystemMessage(SystemMessageId.COURT_MAGICIAN_CREATED_PORTAL);
 				clan.broadcastToOtherOnlineMembers(msg, ((L2PcInstance) getEffected()));
 			}
 		}
@@ -53,13 +53,13 @@ public class EffectClanGate extends L2Effect
 	{
 		return false;
 	}
-
+	
 	@Override
 	public void onExit()
 	{
 		getEffected().stopAbnormalEffect(L2Character.ABNORMAL_EFFECT_MAGIC_CIRCLE);
 	}
-
+	
 	@Override
 	public EffectType getEffectType()
 	{

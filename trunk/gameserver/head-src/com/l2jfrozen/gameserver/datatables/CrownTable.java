@@ -24,16 +24,15 @@ import javolution.util.FastList;
 
 /**
  * This class has just one simple function to return the item id of a crown regarding to castleid
- * 
  * @author evill33t
  */
 public class CrownTable
 {
-	private static List<Integer> _crownList = new FastList<Integer>();
-
+	private static List<Integer> _crownList = new FastList<>();
+	
 	public static List<Integer> getCrownList()
 	{
-		if(_crownList.isEmpty())
+		if (_crownList.isEmpty())
 		{
 			_crownList.add(6841); // Crown of the lord
 			_crownList.add(6834); // Innadril
@@ -46,16 +45,16 @@ public class CrownTable
 			_crownList.add(8182); // Rune
 			_crownList.add(8183); // Schuttgart
 		}
-
+		
 		return _crownList;
 	}
-
-	public static int getCrownId(int CastleId)
+	
+	public static int getCrownId(final int CastleId)
 	{
 		int CrownId = 0;
-		switch(CastleId)
+		switch (CastleId)
 		{
-			// Gludio
+		// Gludio
 			case 1:
 				CrownId = 6838;
 				break;

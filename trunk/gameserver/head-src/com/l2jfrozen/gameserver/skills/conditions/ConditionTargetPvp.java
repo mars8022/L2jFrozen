@@ -27,19 +27,19 @@ import com.l2jfrozen.gameserver.skills.Env;
  */
 public class ConditionTargetPvp extends Condition
 {
-
+	
 	private final int _pvp;
-
-	public ConditionTargetPvp(int pvp)
+	
+	public ConditionTargetPvp(final int pvp)
 	{
 		_pvp = pvp;
 	}
-
+	
 	@Override
-	public boolean testImpl(Env env)
+	public boolean testImpl(final Env env)
 	{
-		L2Character target = env.target;
-		if(target instanceof L2PcInstance && ((L2PcInstance) target).getPvpFlag() != 0)
+		final L2Character target = env.target;
+		if (target instanceof L2PcInstance && ((L2PcInstance) target).getPvpFlag() != 0)
 			return ((L2PcInstance) target).getPvpFlag() == _pvp;
 		return false;
 	}

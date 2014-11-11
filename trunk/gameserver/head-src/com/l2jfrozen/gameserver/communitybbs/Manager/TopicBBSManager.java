@@ -38,110 +38,75 @@ import com.l2jfrozen.gameserver.network.serverpackets.ShowBoard;
 
 public class TopicBBSManager extends BaseBBSManager
 {
-	private List<Topic> _table;
-	private Map<Forum, Integer> _maxId;
+	private final List<Topic> _table;
+	private final Map<Forum, Integer> _maxId;
 	private static TopicBBSManager _instance;
-
+	
 	public static TopicBBSManager getInstance()
 	{
-		if(_instance == null)
+		if (_instance == null)
 		{
 			_instance = new TopicBBSManager();
 		}
 		return _instance;
 	}
-
+	
 	private TopicBBSManager()
 	{
-		_table = new FastList<Topic>();
-		_maxId = new FastMap<Forum, Integer>();
+		_table = new FastList<>();
+		_maxId = new FastMap<>();
 	}
-
-	public void addTopic(Topic tt)
+	
+	public void addTopic(final Topic tt)
 	{
 		_table.add(tt);
 	}
-
+	
 	/**
 	 * @param topic
 	 */
-	public void delTopic(Topic topic)
+	public void delTopic(final Topic topic)
 	{
 		_table.remove(topic);
 	}
-
-	public void setMaxID(int id, Forum f)
+	
+	public void setMaxID(final int id, final Forum f)
 	{
 		_maxId.remove(f);
 		_maxId.put(f, id);
 	}
-
-	public int getMaxID(Forum f)
+	
+	public int getMaxID(final Forum f)
 	{
-		Integer i = _maxId.get(f);
-
-		if(i == null)
+		final Integer i = _maxId.get(f);
+		
+		if (i == null)
 			return 0;
-
+		
 		return i;
 	}
-
-	public Topic getTopicByID(int idf)
+	
+	public Topic getTopicByID(final int idf)
 	{
-		for(Topic t : _table)
+		for (final Topic t : _table)
 		{
-			if(t.getID() == idf)
+			if (t.getID() == idf)
 				return t;
 		}
 		return null;
 	}
 	
 	@Override
-	public void parsewrite(String ar1, String ar2, String ar3, String ar4, String ar5, L2PcInstance activeChar)
+	public void parsewrite(final String ar1, final String ar2, final String ar3, final String ar4, final String ar5, final L2PcInstance activeChar)
 	{
-		if(ar1.equals("crea"))
+		switch (ar1)
 		{
-			Forum f = ForumsBBSManager.getInstance().getForumByID(Integer.parseInt(ar2));
-			if(f == null)
+			case "crea":
 			{
-				ShowBoard sb = new ShowBoard("<html><body><br><br><center>the forum: " + ar2 + " is not implemented yet</center><br><br></body></html>", "101");
-				activeChar.sendPacket(sb);
-				sb = null;
-				activeChar.sendPacket(new ShowBoard(null, "102"));
-				activeChar.sendPacket(new ShowBoard(null, "103"));
-			}
-			else
-			{
-				f.vload();
-				Topic t = new Topic(Topic.ConstructorType.CREATE, TopicBBSManager.getInstance().getMaxID(f) + 1, Integer.parseInt(ar2), ar5, Calendar.getInstance().getTimeInMillis(), activeChar.getName(), activeChar.getObjectId(), Topic.MEMO, 0);
-				f.addtopic(t);
-				TopicBBSManager.getInstance().setMaxID(t.getID(), f);
-				Post p = new Post(activeChar.getName(), activeChar.getObjectId(), Calendar.getInstance().getTimeInMillis(), t.getID(), f.getID(), ar4);
-				PostBBSManager.getInstance().addPostByTopic(p, t);
-				parsecmd("_bbsmemo", activeChar);
-				t = null;
-				p = null;
-			}
-			f = null;
-
-		}
-		else if(ar1.equals("del"))
-		{
-			Forum f = ForumsBBSManager.getInstance().getForumByID(Integer.parseInt(ar2));
-			if(f == null)
-			{
-				ShowBoard sb = new ShowBoard("<html><body><br><br><center>the forum: " + ar2 + " does not exist !</center><br><br></body></html>", "101");
-				activeChar.sendPacket(sb);
-				sb = null;
-				activeChar.sendPacket(new ShowBoard(null, "102"));
-				activeChar.sendPacket(new ShowBoard(null, "103"));
-			}
-			else
-			{
-				Topic t = f.gettopic(Integer.parseInt(ar3));
-				if(t == null)
+				Forum f = ForumsBBSManager.getInstance().getForumByID(Integer.parseInt(ar2));
+				if (f == null)
 				{
-					ShowBoard sb = new ShowBoard("<html><body><br><br><center>the topic: " + ar3 + " does not exist !</center><br><br></body></html>", "101");
+					ShowBoard sb = new ShowBoard("<html><body><br><br><center>the forum: " + ar2 + " is not implemented yet</center><br><br></body></html>", "101");
 					activeChar.sendPacket(sb);
 					sb = null;
 					activeChar.sendPacket(new ShowBoard(null, "102"));
@@ -149,56 +114,95 @@ public class TopicBBSManager extends BaseBBSManager
 				}
 				else
 				{
-					//CPost cp = null;
-					Post p = PostBBSManager.getInstance().getGPosttByTopic(t);
-					if(p != null)
-					{
-						p.deleteme(t);
-					}
-					t.deleteme(f);
+					f.vload();
+					Topic t = new Topic(Topic.ConstructorType.CREATE, TopicBBSManager.getInstance().getMaxID(f) + 1, Integer.parseInt(ar2), ar5, Calendar.getInstance().getTimeInMillis(), activeChar.getName(), activeChar.getObjectId(), Topic.MEMO, 0);
+					f.addtopic(t);
+					TopicBBSManager.getInstance().setMaxID(t.getID(), f);
+					Post p = new Post(activeChar.getName(), activeChar.getObjectId(), Calendar.getInstance().getTimeInMillis(), t.getID(), f.getID(), ar4);
+					PostBBSManager.getInstance().addPostByTopic(p, t);
 					parsecmd("_bbsmemo", activeChar);
+					t = null;
 					p = null;
 				}
+				f = null;
+				
+				break;
 			}
-			f = null;
-		}
-		else
-		{
-			ShowBoard sb = new ShowBoard("<html><body><br><br><center>the command: " + ar1 + " is not implemented yet</center><br><br></body></html>", "101");
-			activeChar.sendPacket(sb);
-			sb = null;
-			activeChar.sendPacket(new ShowBoard(null, "102"));
-			activeChar.sendPacket(new ShowBoard(null, "103"));
+			case "del":
+			{
+				Forum f = ForumsBBSManager.getInstance().getForumByID(Integer.parseInt(ar2));
+				if (f == null)
+				{
+					ShowBoard sb = new ShowBoard("<html><body><br><br><center>the forum: " + ar2 + " does not exist !</center><br><br></body></html>", "101");
+					activeChar.sendPacket(sb);
+					sb = null;
+					activeChar.sendPacket(new ShowBoard(null, "102"));
+					activeChar.sendPacket(new ShowBoard(null, "103"));
+				}
+				else
+				{
+					final Topic t = f.gettopic(Integer.parseInt(ar3));
+					if (t == null)
+					{
+						ShowBoard sb = new ShowBoard("<html><body><br><br><center>the topic: " + ar3 + " does not exist !</center><br><br></body></html>", "101");
+						activeChar.sendPacket(sb);
+						sb = null;
+						activeChar.sendPacket(new ShowBoard(null, "102"));
+						activeChar.sendPacket(new ShowBoard(null, "103"));
+					}
+					else
+					{
+						// CPost cp = null;
+						Post p = PostBBSManager.getInstance().getGPosttByTopic(t);
+						if (p != null)
+						{
+							p.deleteme(t);
+						}
+						t.deleteme(f);
+						parsecmd("_bbsmemo", activeChar);
+						p = null;
+					}
+				}
+				f = null;
+				break;
+			}
+			default:
+				ShowBoard sb = new ShowBoard("<html><body><br><br><center>the command: " + ar1 + " is not implemented yet</center><br><br></body></html>", "101");
+				activeChar.sendPacket(sb);
+				sb = null;
+				activeChar.sendPacket(new ShowBoard(null, "102"));
+				activeChar.sendPacket(new ShowBoard(null, "103"));
+				break;
 		}
 	}
 	
 	@Override
-	public void parsecmd(String command, L2PcInstance activeChar)
+	public void parsecmd(final String command, final L2PcInstance activeChar)
 	{
-		if(command.equals("_bbsmemo"))
+		if (command.equals("_bbsmemo"))
 		{
 			showTopics(activeChar.getMemo(), activeChar, 1, activeChar.getMemo().getID());
 		}
-		else if(command.startsWith("_bbstopics;read"))
+		else if (command.startsWith("_bbstopics;read"))
 		{
 			StringTokenizer st = new StringTokenizer(command, ";");
 			st.nextToken();
 			st.nextToken();
-
-			int idf = Integer.parseInt(st.nextToken());
-
+			
+			final int idf = Integer.parseInt(st.nextToken());
+			
 			String index = null;
-
-			if(st.hasMoreTokens())
+			
+			if (st.hasMoreTokens())
 			{
 				index = st.nextToken();
 			}
-
+			
 			st = null;
-
+			
 			int ind = 0;
-
-			if(index == null)
+			
+			if (index == null)
 			{
 				ind = 1;
 			}
@@ -206,37 +210,37 @@ public class TopicBBSManager extends BaseBBSManager
 			{
 				ind = Integer.parseInt(index);
 			}
-
+			
 			index = null;
-
+			
 			showTopics(ForumsBBSManager.getInstance().getForumByID(idf), activeChar, ind, idf);
 		}
-		else if(command.startsWith("_bbstopics;crea"))
+		else if (command.startsWith("_bbstopics;crea"))
 		{
 			StringTokenizer st = new StringTokenizer(command, ";");
 			st.nextToken();
 			st.nextToken();
-
-			int idf = Integer.parseInt(st.nextToken());
-
+			
+			final int idf = Integer.parseInt(st.nextToken());
+			
 			st = null;
-
+			
 			showNewTopic(ForumsBBSManager.getInstance().getForumByID(idf), activeChar, idf);
 		}
-		else if(command.startsWith("_bbstopics;del"))
+		else if (command.startsWith("_bbstopics;del"))
 		{
 			StringTokenizer st = new StringTokenizer(command, ";");
 			st.nextToken();
 			st.nextToken();
-
-			int idf = Integer.parseInt(st.nextToken());
-			int idt = Integer.parseInt(st.nextToken());
-
+			
+			final int idf = Integer.parseInt(st.nextToken());
+			final int idt = Integer.parseInt(st.nextToken());
+			
 			st = null;
-
+			
 			Forum f = ForumsBBSManager.getInstance().getForumByID(idf);
-
-			if(f == null)
+			
+			if (f == null)
 			{
 				ShowBoard sb = new ShowBoard("<html><body><br><br><center>the forum: " + idf + " does not exist !</center><br><br></body></html>", "101");
 				activeChar.sendPacket(sb);
@@ -246,8 +250,8 @@ public class TopicBBSManager extends BaseBBSManager
 			}
 			else
 			{
-				Topic t = f.gettopic(idt);
-				if(t == null)
+				final Topic t = f.gettopic(idt);
+				if (t == null)
 				{
 					ShowBoard sb = new ShowBoard("<html><body><br><br><center>the topic: " + idt + " does not exist !</center><br><br></body></html>", "101");
 					activeChar.sendPacket(sb);
@@ -257,16 +261,16 @@ public class TopicBBSManager extends BaseBBSManager
 				}
 				else
 				{
-					//CPost cp = null;
+					// CPost cp = null;
 					Post p = PostBBSManager.getInstance().getGPosttByTopic(t);
-
-					if(p != null)
+					
+					if (p != null)
 					{
 						p.deleteme(t);
 					}
-
+					
 					p = null;
-
+					
 					t.deleteme(f);
 					parsecmd("_bbsmemo", activeChar);
 				}
@@ -282,15 +286,15 @@ public class TopicBBSManager extends BaseBBSManager
 			activeChar.sendPacket(new ShowBoard(null, "103"));
 		}
 	}
-
+	
 	/**
-	 * @param forum 
+	 * @param forum
 	 * @param activeChar
 	 * @param idf
 	 */
-	private void showNewTopic(Forum forum, L2PcInstance activeChar, int idf)
+	private void showNewTopic(final Forum forum, final L2PcInstance activeChar, final int idf)
 	{
-		if(forum == null)
+		if (forum == null)
 		{
 			ShowBoard sb = new ShowBoard("<html><body><br><br><center>the forum: " + idf + " is not implemented yet</center><br><br></body></html>", "101");
 			activeChar.sendPacket(sb);
@@ -298,7 +302,7 @@ public class TopicBBSManager extends BaseBBSManager
 			activeChar.sendPacket(new ShowBoard(null, "102"));
 			activeChar.sendPacket(new ShowBoard(null, "103"));
 		}
-		else if(forum.getType() == Forum.MEMO)
+		else if (forum.getType() == Forum.MEMO)
 		{
 			showMemoNewTopics(forum, activeChar);
 		}
@@ -311,12 +315,12 @@ public class TopicBBSManager extends BaseBBSManager
 			activeChar.sendPacket(new ShowBoard(null, "103"));
 		}
 	}
-
+	
 	/**
 	 * @param forum
 	 * @param activeChar
 	 */
-	private void showMemoNewTopics(Forum forum, L2PcInstance activeChar)
+	private void showMemoNewTopics(final Forum forum, final L2PcInstance activeChar)
 	{
 		TextBuilder html = new TextBuilder("<html>");
 		html.append("<body><br><br>");
@@ -362,19 +366,19 @@ public class TopicBBSManager extends BaseBBSManager
 		html.append("</html>");
 		send1001(html.toString(), activeChar);
 		send1002(activeChar);
-
+		
 		html = null;
 	}
-
+	
 	/**
-	 * @param forum 
-	 * @param activeChar 
-	 * @param index 
-	 * @param idf 
+	 * @param forum
+	 * @param activeChar
+	 * @param index
+	 * @param idf
 	 */
-	private void showTopics(Forum forum, L2PcInstance activeChar, int index, int idf)
+	private void showTopics(final Forum forum, final L2PcInstance activeChar, final int index, final int idf)
 	{
-		if(forum == null)
+		if (forum == null)
 		{
 			ShowBoard sb = new ShowBoard("<html><body><br><br><center>the forum: " + idf + " is not implemented yet</center><br><br></body></html>", "101");
 			activeChar.sendPacket(sb);
@@ -382,7 +386,7 @@ public class TopicBBSManager extends BaseBBSManager
 			activeChar.sendPacket(new ShowBoard(null, "102"));
 			activeChar.sendPacket(new ShowBoard(null, "103"));
 		}
-		else if(forum.getType() == Forum.MEMO)
+		else if (forum.getType() == Forum.MEMO)
 		{
 			showMemoTopics(forum, activeChar, index);
 		}
@@ -395,13 +399,13 @@ public class TopicBBSManager extends BaseBBSManager
 			activeChar.sendPacket(new ShowBoard(null, "103"));
 		}
 	}
-
+	
 	/**
 	 * @param forum
 	 * @param activeChar
-	 * @param index 
+	 * @param index
 	 */
-	private void showMemoTopics(Forum forum, L2PcInstance activeChar, int index)
+	private void showMemoTopics(final Forum forum, final L2PcInstance activeChar, final int index)
 	{
 		forum.vload();
 		TextBuilder html = new TextBuilder("<html><body><br><br>");
@@ -419,19 +423,19 @@ public class TopicBBSManager extends BaseBBSManager
 		html.append("<td FIXWIDTH=70 align=center>&$418;</td>");
 		html.append("</tr>");
 		html.append("</table>");
-
-		for(int i = 0, j = getMaxID(forum) + 1; i < 12 * index; j--)
+		
+		for (int i = 0, j = getMaxID(forum) + 1; i < 12 * index; j--)
 		{
-			if(j < 0)
+			if (j < 0)
 			{
 				break;
 			}
-
+			
 			Topic t = forum.gettopic(j);
-
-			if(t != null)
+			
+			if (t != null)
 			{
-				if(i >= 12 * (index - 1))
+				if (i >= 12 * (index - 1))
 				{
 					html.append("<table border=0 cellspacing=0 cellpadding=5 WIDTH=610>");
 					html.append("<tr>");
@@ -447,7 +451,7 @@ public class TopicBBSManager extends BaseBBSManager
 			}
 			t = null;
 		}
-
+		
 		html.append("<br>");
 		html.append("<table width=610 cellspace=0 cellpadding=0>");
 		html.append("<tr>");
@@ -456,8 +460,8 @@ public class TopicBBSManager extends BaseBBSManager
 		html.append("</td>");
 		html.append("<td width=510 align=center>");
 		html.append("<table border=0><tr>");
-
-		if(index == 1)
+		
+		if (index == 1)
 		{
 			html.append("<td><button action=\"\" back=\"l2ui_ch3.prev1_down\" fore=\"l2ui_ch3.prev1\" width=16 height=16 ></td>");
 		}
@@ -466,17 +470,17 @@ public class TopicBBSManager extends BaseBBSManager
 			html.append("<td><button action=\"bypass _bbstopics;read;" + forum.getID() + ";" + (index - 1) + "\" back=\"l2ui_ch3.prev1_down\" fore=\"l2ui_ch3.prev1\" width=16 height=16 ></td>");
 		}
 		int nbp;
-
+		
 		nbp = forum.getTopicSize() / 8;
-
-		if(nbp * 8 != ClanTable.getInstance().getClans().length)
+		
+		if (nbp * 8 != ClanTable.getInstance().getClans().length)
 		{
 			nbp++;
 		}
-
-		for(int i = 1; i <= nbp; i++)
+		
+		for (int i = 1; i <= nbp; i++)
 		{
-			if(i == index)
+			if (i == index)
 			{
 				html.append("<td> " + i + " </td>");
 			}
@@ -485,8 +489,8 @@ public class TopicBBSManager extends BaseBBSManager
 				html.append("<td><a action=\"bypass _bbstopics;read;" + forum.getID() + ";" + i + "\"> " + i + " </a></td>");
 			}
 		}
-
-		if(index == nbp)
+		
+		if (index == nbp)
 		{
 			html.append("<td><button action=\"\" back=\"l2ui_ch3.next1_down\" fore=\"l2ui_ch3.next1\" width=16 height=16 ></td>");
 		}
@@ -494,7 +498,7 @@ public class TopicBBSManager extends BaseBBSManager
 		{
 			html.append("<td><button action=\"bypass _bbstopics;read;" + forum.getID() + ";" + (index + 1) + "\" back=\"l2ui_ch3.next1_down\" fore=\"l2ui_ch3.next1\" width=16 height=16 ></td>");
 		}
-
+		
 		html.append("</tr></table> </td> ");
 		html.append("<td align=right><button value = \"&$421;\" action=\"bypass _bbstopics;crea;" + forum.getID() + "\" back=\"l2ui_ch3.smallbutton2_down\" width=65 height=20 fore=\"l2ui_ch3.smallbutton2\" ></td></tr>");
 		html.append("<tr><td><img src=\"l2ui.mini_logo\" width=5 height=10></td></tr>");
@@ -511,8 +515,8 @@ public class TopicBBSManager extends BaseBBSManager
 		html.append("</body>");
 		html.append("</html>");
 		separateAndSend(html.toString(), activeChar);
-
+		
 		html = null;
 	}
-
+	
 }

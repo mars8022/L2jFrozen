@@ -25,18 +25,18 @@ import com.l2jfrozen.gameserver.skills.Env;
  */
 public final class LambdaConst extends Lambda
 {
-
+	
 	private final double _value;
-
-	public LambdaConst(double value)
+	
+	public LambdaConst(final double value)
 	{
 		_value = value;
 	}
-
+	
 	@Override
-	public double calc(Env env)
+	public double calc(final Env env)
 	{
 		return _value;
 	}
-
+	
 }

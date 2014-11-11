@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.GmListTable;
@@ -37,14 +37,14 @@ import com.l2jfrozen.gameserver.util.Util;
 
 public final class RequestDropItem extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(RequestDropItem.class.getName());
-
+	private static Logger LOGGER = Logger.getLogger(RequestDropItem.class);
+	
 	private int _objectId;
 	private int _count;
 	private int _x;
 	private int _y;
 	private int _z;
-
+	
 	@Override
 	protected void readImpl()
 	{
@@ -54,22 +54,23 @@ public final class RequestDropItem extends L2GameClientPacket
 		_y = readD();
 		_z = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance activeChar = getClient().getActiveChar();
-		if(activeChar == null || activeChar.isDead())
+		final L2PcInstance activeChar = getClient().getActiveChar();
+		if (activeChar == null || activeChar.isDead())
 			return;
-
-		if(activeChar.isGM() && activeChar.getAccessLevel().getLevel()>2){ //just head gm and admin can drop items on the ground
+		
+		if (activeChar.isGM() && activeChar.getAccessLevel().getLevel() > 2)
+		{ // just head gm and admin can drop items on the ground
 			sendPacket(SystemMessage.sendString("You have not right to discard anything from inventory"));
 			return;
 		}
 		
 		// Fix against safe enchant exploit
-		if(activeChar.getActiveEnchantItem() != null)
-		{ 
+		if (activeChar.getActiveEnchantItem() != null)
+		{
 			sendPacket(SystemMessage.sendString("You can't discard items during enchant."));
 			return;
 		}
@@ -78,9 +79,9 @@ public final class RequestDropItem extends L2GameClientPacket
 		if (!getClient().getFloodProtectors().getDropItem().tryPerformAction("drop item"))
 			return;
 		
-		L2ItemInstance item = activeChar.getInventory().getItemByObjectId(_objectId);
+		final L2ItemInstance item = activeChar.getInventory().getItemByObjectId(_objectId);
 		
-		if(item == null || _count == 0 || !activeChar.validateItemManipulation(_objectId, "drop") || !Config.ALLOW_DISCARDITEM && !activeChar.isGM() || (!item.isDropable() && !(activeChar.isGM() && Config.GM_TRADE_RESTRICTED_ITEMS)))
+		if (item == null || _count == 0 || !activeChar.validateItemManipulation(_objectId, "drop") || !Config.ALLOW_DISCARDITEM && !activeChar.isGM() || (!item.isDropable() && !(activeChar.isGM() && Config.GM_TRADE_RESTRICTED_ITEMS)))
 		{
 			activeChar.sendPacket(new SystemMessage(SystemMessageId.CANNOT_DISCARD_THIS_ITEM));
 			return;
@@ -92,136 +93,135 @@ public final class RequestDropItem extends L2GameClientPacket
 			return;
 		}
 		
-
-		if(item.getItemType() == L2EtcItemType.QUEST && !(activeChar.isGM() && Config.GM_TRADE_RESTRICTED_ITEMS))
+		if (item.getItemType() == L2EtcItemType.QUEST && !(activeChar.isGM() && Config.GM_TRADE_RESTRICTED_ITEMS))
 			return;
-
-		int itemId = item.getItemId();
-
+		
+		final int itemId = item.getItemId();
+		
 		// Cursed Weapons cannot be dropped
-		if(CursedWeaponsManager.getInstance().isCursed(itemId))
+		if (CursedWeaponsManager.getInstance().isCursed(itemId))
 			return;
-
-		if(_count > item.getCount())
+		
+		if (_count > item.getCount())
 		{
 			activeChar.sendPacket(new SystemMessage(SystemMessageId.CANNOT_DISCARD_THIS_ITEM));
 			return;
 		}
-
-		if(Config.PLAYER_SPAWN_PROTECTION > 0 && activeChar.isInvul() && !activeChar.isGM())
+		
+		if (Config.PLAYER_SPAWN_PROTECTION > 0 && activeChar.isInvul() && !activeChar.isGM())
 		{
 			activeChar.sendPacket(new SystemMessage(SystemMessageId.CANNOT_DISCARD_THIS_ITEM));
 			return;
 		}
-
-		if(_count <= 0)
+		
+		if (_count <= 0)
 		{
-			activeChar.setAccessLevel(-1); //ban
+			activeChar.setAccessLevel(-1); // ban
 			Util.handleIllegalPlayerAction(activeChar, "[RequestDropItem] count <= 0! ban! oid: " + _objectId + " owner: " + activeChar.getName(), IllegalPlayerAction.PUNISH_KICK);
 			return;
 		}
-
-		if(!item.isStackable() && _count > 1)
+		
+		if (!item.isStackable() && _count > 1)
 		{
 			Util.handleIllegalPlayerAction(activeChar, "[RequestDropItem] count > 1 but item is not stackable! ban! oid: " + _objectId + " owner: " + activeChar.getName(), IllegalPlayerAction.PUNISH_KICK);
 			return;
 		}
-
-		if(!activeChar.getAccessLevel().allowTransaction())
+		
+		if (!activeChar.getAccessLevel().allowTransaction())
 		{
 			activeChar.sendMessage("Unsufficient privileges.");
 			activeChar.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-
-		if(activeChar.isProcessingTransaction() || activeChar.getPrivateStoreType() != 0)
+		
+		if (activeChar.isProcessingTransaction() || activeChar.getPrivateStoreType() != 0)
 		{
 			activeChar.sendPacket(new SystemMessage(SystemMessageId.CANNOT_TRADE_DISCARD_DROP_ITEM_WHILE_IN_SHOPMODE));
 			return;
 		}
-
-		if(activeChar.isFishing())
+		
+		if (activeChar.isFishing())
 		{
-			//You can't mount, dismount, break and drop items while fishing
+			// You can't mount, dismount, break and drop items while fishing
 			activeChar.sendPacket(new SystemMessage(SystemMessageId.CANNOT_DO_WHILE_FISHING_2));
 			return;
 		}
-
+		
 		// Cannot discard item that the skill is consumming
-		if(activeChar.isCastingNow())
+		if (activeChar.isCastingNow())
 		{
-			if(activeChar.getCurrentSkill() != null && activeChar.getCurrentSkill().getSkill().getItemConsumeId() == item.getItemId())
+			if (activeChar.getCurrentSkill() != null && activeChar.getCurrentSkill().getSkill().getItemConsumeId() == item.getItemId())
 			{
 				activeChar.sendPacket(new SystemMessage(SystemMessageId.CANNOT_DISCARD_THIS_ITEM));
 				return;
 			}
 		}
-
-		if(L2Item.TYPE2_QUEST == item.getItem().getType2() && !activeChar.isGM())
+		
+		if (L2Item.TYPE2_QUEST == item.getItem().getType2() && !activeChar.isGM())
 		{
-			if(Config.DEBUG)
+			if (Config.DEBUG)
 			{
-				_log.finest(activeChar.getObjectId() + ":player tried to drop quest item");
+				LOGGER.debug(activeChar.getObjectId() + ":player tried to drop quest item");
 			}
 			activeChar.sendPacket(new SystemMessage(SystemMessageId.CANNOT_DISCARD_EXCHANGE_ITEM));
 			return;
 		}
-
-		if(!activeChar.isInsideRadius(_x, _y, 150, false) || Math.abs(_z - activeChar.getZ()) > 50)
+		
+		if (!activeChar.isInsideRadius(_x, _y, 150, false) || Math.abs(_z - activeChar.getZ()) > 50)
 		{
-			if(Config.DEBUG)
+			if (Config.DEBUG)
 			{
-				_log.finest(activeChar.getObjectId() + ": trying to drop too far away");
+				LOGGER.debug(activeChar.getObjectId() + ": trying to drop too far away");
 			}
 			activeChar.sendPacket(new SystemMessage(SystemMessageId.CANNOT_DISCARD_DISTANCE_TOO_FAR));
 			return;
 		}
-
-		if(Config.DEBUG)
+		
+		if (Config.DEBUG)
 		{
-			_log.fine("requested drop item " + _objectId + "(" + item.getCount() + ") at " + _x + "/" + _y + "/" + _z);
+			LOGGER.debug("requested drop item " + _objectId + "(" + item.getCount() + ") at " + _x + "/" + _y + "/" + _z);
 		}
-
-		if(item.isEquipped())
+		
+		if (item.isEquipped())
 		{
 			// Remove augementation boni on unequip
-			if(item.isAugmented())
+			if (item.isAugmented())
 			{
 				item.getAugmentation().removeBoni(activeChar);
 			}
-
-			L2ItemInstance[] unequiped = activeChar.getInventory().unEquipItemInBodySlotAndRecord(item.getItem().getBodyPart());
-			InventoryUpdate iu = new InventoryUpdate();
-
-			for(L2ItemInstance element : unequiped)
+			
+			final L2ItemInstance[] unequiped = activeChar.getInventory().unEquipItemInBodySlotAndRecord(item.getItem().getBodyPart());
+			final InventoryUpdate iu = new InventoryUpdate();
+			
+			for (final L2ItemInstance element : unequiped)
 			{
 				activeChar.checkSSMatch(null, element);
-
+				
 				iu.addModifiedItem(element);
 			}
 			activeChar.sendPacket(iu);
 			activeChar.broadcastUserInfo();
-
-			ItemList il = new ItemList(activeChar, true);
+			
+			final ItemList il = new ItemList(activeChar, true);
 			activeChar.sendPacket(il);
 		}
 		
-		L2ItemInstance dropedItem = activeChar.dropItem("Drop", _objectId, _count, _x, _y, _z, null, false, false);
-
-		if(Config.DEBUG)
+		final L2ItemInstance dropedItem = activeChar.dropItem("Drop", _objectId, _count, _x, _y, _z, null, false, false);
+		
+		if (Config.DEBUG)
 		{
-			_log.fine("dropping " + _objectId + " item(" + _count + ") at: " + _x + " " + _y + " " + _z);
+			LOGGER.debug("dropping " + _objectId + " item(" + _count + ") at: " + _x + " " + _y + " " + _z);
 		}
-
-		if(dropedItem != null && dropedItem.getItemId() == 57 && dropedItem.getCount() >= 1000000 && Config.RATE_DROP_ADENA<=200)
+		
+		if (dropedItem != null && dropedItem.getItemId() == 57 && dropedItem.getCount() >= 1000000 && Config.RATE_DROP_ADENA <= 200)
 		{
-			String msg = "Character (" + activeChar.getName() + ") has dropped (" + dropedItem.getCount() + ")adena at (" + _x + "," + _y + "," + _z + ")";
-			_log.warning(msg);
+			final String msg = "Character (" + activeChar.getName() + ") has dropped (" + dropedItem.getCount() + ")adena at (" + _x + "," + _y + "," + _z + ")";
+			LOGGER.warn(msg);
 			GmListTable.broadcastMessageToGMs(msg);
 		}
 		
 	}
-
+	
 	@Override
 	public String getType()
 	{

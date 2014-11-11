@@ -33,7 +33,7 @@ public class ServerClose extends L2GameServerPacket
 	{
 		writeC(0x26);
 	}
-
+	
 	/**
 	 * @see com.l2jfrozen.gameserver.network.serverpackets.L2GameServerPacket#getType()
 	 */

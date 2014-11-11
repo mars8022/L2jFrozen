@@ -40,11 +40,11 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 public class CommunityBoard
 {
 	private static CommunityBoard _instance;
-	private Map<String, IBBSHandler> _handlers;
+	private final Map<String, IBBSHandler> _handlers;
 	
 	public CommunityBoard()
 	{
-		_handlers = new FastMap<String, IBBSHandler>();
+		_handlers = new FastMap<>();
 		// null;
 	}
 	
@@ -62,9 +62,9 @@ public class CommunityBoard
 	 * by Azagthtot
 	 * @param handler as IBBSHandler
 	 */
-	public void registerBBSHandler(IBBSHandler handler)
+	public void registerBBSHandler(final IBBSHandler handler)
 	{
-		for (String s : handler.getBBSCommands())
+		for (final String s : handler.getBBSCommands())
 		{
 			_handlers.put(s, handler);
 		}
@@ -75,7 +75,7 @@ public class CommunityBoard
 	 * @param client
 	 * @param command
 	 */
-	public void handleCommands(L2GameClient client, String command)
+	public void handleCommands(final L2GameClient client, final String command)
 	{
 		L2PcInstance activeChar = client.getActiveChar();
 		
@@ -86,14 +86,14 @@ public class CommunityBoard
 		{
 			String cmd = command.substring(4);
 			String params = "";
-			int iPos = cmd.indexOf(" ");
+			final int iPos = cmd.indexOf(" ");
 			if (iPos != -1)
 			{
 				params = cmd.substring(iPos + 1);
 				cmd = cmd.substring(0, iPos);
 				
 			}
-			IBBSHandler bbsh = _handlers.get(cmd);
+			final IBBSHandler bbsh = _handlers.get(cmd);
 			if (bbsh != null)
 			{
 				bbsh.handleCommand(cmd, activeChar, params);
@@ -180,7 +180,7 @@ public class CommunityBoard
 	 * @param arg4
 	 * @param arg5
 	 */
-	public void handleWriteCommands(L2GameClient client, String url, String arg1, String arg2, String arg3, String arg4, String arg5)
+	public void handleWriteCommands(final L2GameClient client, final String url, final String arg1, final String arg2, final String arg3, final String arg4, final String arg5)
 	{
 		L2PcInstance activeChar = client.getActiveChar();
 		

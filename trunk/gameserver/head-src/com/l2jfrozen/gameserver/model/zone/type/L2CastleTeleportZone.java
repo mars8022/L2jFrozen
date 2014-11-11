@@ -31,125 +31,123 @@ import com.l2jfrozen.util.random.Rnd;
 
 public class L2CastleTeleportZone extends L2ZoneType
 {
-
-	private int _spawnLoc[];
+	
+	private final int _spawnLoc[];
 	private int _castleId;
 	private Castle _castle;
-
-	public L2CastleTeleportZone(int id)
+	
+	public L2CastleTeleportZone(final int id)
 	{
 		super(id);
 		_spawnLoc = new int[5];
 	}
-
+	
 	@Override
-	public void setParameter(String name, String value)
+	public void setParameter(final String name, final String value)
 	{
-		if(name.equals("castleId"))
+		switch (name)
 		{
-			_castleId = Integer.parseInt(value);
-			_castle = CastleManager.getInstance().getCastleById(_castleId);
-			_castle.setTeleZone(this);
-		}
-		else if(name.equals("spawnMinX"))
-		{
-			_spawnLoc[0] = Integer.parseInt(value);
-		}
-		else if(name.equals("spawnMaxX"))
-		{
-			_spawnLoc[1] = Integer.parseInt(value);
-		}
-		else if(name.equals("spawnMinY"))
-		{
-			_spawnLoc[2] = Integer.parseInt(value);
-		}
-		else if(name.equals("spawnMaxY"))
-		{
-			_spawnLoc[3] = Integer.parseInt(value);
-		}
-		else if(name.equals("spawnZ"))
-		{
-			_spawnLoc[4] = Integer.parseInt(value);
-		}
-		else
-		{
-			super.setParameter(name, value);
+			case "castleId":
+				_castleId = Integer.parseInt(value);
+				_castle = CastleManager.getInstance().getCastleById(_castleId);
+				_castle.setTeleZone(this);
+				break;
+			case "spawnMinX":
+				_spawnLoc[0] = Integer.parseInt(value);
+				break;
+			case "spawnMaxX":
+				_spawnLoc[1] = Integer.parseInt(value);
+				break;
+			case "spawnMinY":
+				_spawnLoc[2] = Integer.parseInt(value);
+				break;
+			case "spawnMaxY":
+				_spawnLoc[3] = Integer.parseInt(value);
+				break;
+			case "spawnZ":
+				_spawnLoc[4] = Integer.parseInt(value);
+				break;
+			default:
+				super.setParameter(name, value);
+				break;
 		}
 	}
-
+	
 	@Override
-	protected void onEnter(L2Character character)
+	protected void onEnter(final L2Character character)
 	{
 		character.setInsideZone(4096, true);
 	}
-
+	
 	@Override
-	protected void onExit(L2Character character)
+	protected void onExit(final L2Character character)
 	{
 		character.setInsideZone(4096, false);
 	}
-
+	
 	@Override
-	public void onDieInside(L2Character l2character)
-	{}
-
+	public void onDieInside(final L2Character l2character)
+	{
+	}
+	
 	@Override
-	public void onReviveInside(L2Character l2character)
-	{}
-
+	public void onReviveInside(final L2Character l2character)
+	{
+	}
+	
 	public FastList<L2Character> getAllPlayers()
 	{
-		FastList<L2Character> players = new FastList<L2Character>();
+		final FastList<L2Character> players = new FastList<>();
 		Iterator<L2Character> i$ = _characterList.values().iterator();
-
-		while(i$.hasNext())
+		
+		while (i$.hasNext())
 		{
 			L2Character temp = i$.next();
-
-			if(temp instanceof L2PcInstance)
+			
+			if (temp instanceof L2PcInstance)
 			{
 				players.add(temp);
 			}
-
+			
 			temp = null;
 		}
-
+		
 		i$ = null;
-
+		
 		return players;
 	}
-
+	
 	public void oustAllPlayers()
 	{
-		if(_characterList == null)
+		if (_characterList == null)
 			return;
-
-		if(_characterList.isEmpty())
+		
+		if (_characterList.isEmpty())
 			return;
-
+		
 		Iterator<L2Character> i$ = _characterList.values().iterator();
-		while(i$.hasNext())
+		while (i$.hasNext())
 		{
 			L2Character character = i$.next();
-
-			if(character != null && character instanceof L2PcInstance)
+			
+			if (character != null && character instanceof L2PcInstance)
 			{
 				L2PcInstance player = (L2PcInstance) character;
-
-				if(player.isOnline() == 1)
+				
+				if (player.isOnline() == 1)
 				{
 					player.teleToLocation(Rnd.get(_spawnLoc[0], _spawnLoc[1]), Rnd.get(_spawnLoc[2], _spawnLoc[3]), _spawnLoc[4]);
 				}
-
+				
 				player = null;
 			}
-
+			
 			character = null;
 		}
-
+		
 		i$ = null;
 	}
-
+	
 	public int[] getSpawn()
 	{
 		return _spawnLoc;

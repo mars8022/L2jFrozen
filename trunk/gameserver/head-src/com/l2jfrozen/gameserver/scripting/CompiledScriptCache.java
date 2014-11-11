@@ -28,7 +28,6 @@ import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javax.script.Compilable;
 import javax.script.CompiledScript;
@@ -37,11 +36,12 @@ import javax.script.ScriptException;
 
 import javolution.util.FastMap;
 
+import org.apache.log4j.Logger;
+
 import com.l2jfrozen.Config;
 
 /**
  * Cache of Compiled Scripts
- * 
  * @author KenM
  */
 public class CompiledScriptCache implements Serializable
@@ -50,48 +50,49 @@ public class CompiledScriptCache implements Serializable
 	 * Version 1
 	 */
 	private static final long serialVersionUID = 1L;
-
-	private static final Logger LOG = Logger.getLogger(CompiledScriptCache.class.getName());
-
-	private Map<String, CompiledScriptHolder> _compiledScriptCache = new FastMap<String, CompiledScriptHolder>();
+	
+	private static final Logger LOG = Logger.getLogger(CompiledScriptCache.class);
+	
+	private final Map<String, CompiledScriptHolder> _compiledScriptCache = new FastMap<>();
 	private transient boolean _modified = false;
-
-	public CompiledScript loadCompiledScript(ScriptEngine engine, File file) throws ScriptException
+	
+	public CompiledScript loadCompiledScript(final ScriptEngine engine, final File file) throws ScriptException
 	{
-		int len = L2ScriptEngineManager.SCRIPT_FOLDER.getPath().length() + 1;
-		String relativeName = file.getPath().substring(len);
-
-		CompiledScriptHolder csh = _compiledScriptCache.get(relativeName);
-		if(csh != null && csh.matches(file))
+		final int len = L2ScriptEngineManager.SCRIPT_FOLDER.getPath().length() + 1;
+		final String relativeName = file.getPath().substring(len);
+		
+		final CompiledScriptHolder csh = _compiledScriptCache.get(relativeName);
+		if (csh != null && csh.matches(file))
 		{
-			if(Config.DEBUG)
+			if (Config.DEBUG)
 			{
-				LOG.fine("Reusing cached compiled script: " + file);
+				LOG.debug("Reusing cached compiled script: " + file);
 			}
 			return csh.getCompiledScript();
 		}
 		
-		if(Config.DEBUG)
+		if (Config.DEBUG)
 		{
 			LOG.info("Compiling script: " + file);
 		}
 		
-		Compilable eng = (Compilable) engine;
+		final Compilable eng = (Compilable) engine;
 		FileInputStream fis = null;
 		
 		BufferedReader buff = null;
 		InputStreamReader isr = null;
 		CompiledScript cs = null;
 		
-		try{
+		try
+		{
 			
 			fis = new FileInputStream(file);
 			isr = new InputStreamReader(fis);
 			buff = new BufferedReader(isr);
-
+			
 			// TODO lock file
 			cs = eng.compile(buff);
-			if(cs instanceof Serializable)
+			if (cs instanceof Serializable)
 			{
 				synchronized (_compiledScriptCache)
 				{
@@ -100,36 +101,40 @@ public class CompiledScriptCache implements Serializable
 				}
 			}
 			
-		}catch(IOException e){
+		}
+		catch (final IOException e)
+		{
 			
 			e.printStackTrace();
-		
-		}finally{
 			
-			if(buff != null)
+		}
+		finally
+		{
+			
+			if (buff != null)
 				try
 				{
 					buff.close();
 				}
-				catch(IOException e)
+				catch (final IOException e)
 				{
 					e.printStackTrace();
 				}
-			if(isr != null)
+			if (isr != null)
 				try
 				{
 					isr.close();
 				}
-				catch(IOException e)
+				catch (final IOException e)
 				{
 					e.printStackTrace();
 				}
-			if(fis != null)
+			if (fis != null)
 				try
 				{
 					fis.close();
 				}
-				catch(IOException e)
+				catch (final IOException e)
 				{
 					e.printStackTrace();
 				}
@@ -137,20 +142,20 @@ public class CompiledScriptCache implements Serializable
 		
 		return cs;
 	}
-
+	
 	public boolean isModified()
 	{
 		return _modified;
 	}
-
+	
 	public void purge()
 	{
 		synchronized (_compiledScriptCache)
 		{
-			for(String path : _compiledScriptCache.keySet())
+			for (final String path : _compiledScriptCache.keySet())
 			{
-				File file = new File(L2ScriptEngineManager.SCRIPT_FOLDER, path);
-				if(!file.isFile())
+				final File file = new File(L2ScriptEngineManager.SCRIPT_FOLDER, path);
+				if (!file.isFile())
 				{
 					_compiledScriptCache.remove(path);
 					_modified = true;
@@ -158,7 +163,7 @@ public class CompiledScriptCache implements Serializable
 			}
 		}
 	}
-
+	
 	public void save()
 	{
 		synchronized (_compiledScriptCache)
@@ -175,32 +180,34 @@ public class CompiledScriptCache implements Serializable
 				oos.writeObject(this);
 				_modified = false;
 			}
-			catch(FileNotFoundException e)
+			catch (final FileNotFoundException e)
 			{
 				e.printStackTrace();
 			}
-			catch(IOException e)
+			catch (final IOException e)
 			{
 				e.printStackTrace();
-			
-			}finally{
 				
-				if(oos != null)
+			}
+			finally
+			{
+				
+				if (oos != null)
 					try
 					{
 						oos.close();
 					}
-					catch(IOException e)
+					catch (final IOException e)
 					{
 						e.printStackTrace();
 					}
 				
-				if(out != null)
+				if (out != null)
 					try
 					{
 						out.close();
 					}
-					catch(IOException e)
+					catch (final IOException e)
 					{
 						e.printStackTrace();
 					}

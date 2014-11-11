@@ -17,7 +17,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.L2PetDataTable;
@@ -33,43 +33,42 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 public final class RequestPetUseItem extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(RequestPetUseItem.class.getName());
+	private static Logger LOGGER = Logger.getLogger(RequestPetUseItem.class);
 	private int _objectId;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_objectId = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance activeChar = getClient().getActiveChar();
-
-		if(activeChar == null)
+		final L2PcInstance activeChar = getClient().getActiveChar();
+		
+		if (activeChar == null)
 			return;
 		
 		if (!getClient().getFloodProtectors().getUseItem().tryPerformAction("pet use item"))
 			return;
-
-
-		L2PetInstance pet = (L2PetInstance) activeChar.getPet();
-
-		if(pet == null)
+		
+		final L2PetInstance pet = (L2PetInstance) activeChar.getPet();
+		
+		if (pet == null)
 			return;
-
-		L2ItemInstance item = pet.getInventory().getItemByObjectId(_objectId);
-
-		if(item == null)
+		
+		final L2ItemInstance item = pet.getInventory().getItemByObjectId(_objectId);
+		
+		if (item == null)
 			return;
-
-		if(item.isWear())
+		
+		if (item.isWear())
 			return;
-
-		int itemId = item.getItemId();
-
-		if(activeChar.isAlikeDead() || pet.isDead())
+		
+		final int itemId = item.getItemId();
+		
+		if (activeChar.isAlikeDead() || pet.isDead())
 		{
 			SystemMessage sm = new SystemMessage(SystemMessageId.S1_CANNOT_BE_USED);
 			sm.addItemName(item.getItemId());
@@ -77,34 +76,34 @@ public final class RequestPetUseItem extends L2GameClientPacket
 			sm = null;
 			return;
 		}
-
-		if(Config.DEBUG)
+		
+		if (Config.DEBUG)
 		{
-			_log.finest(activeChar.getObjectId() + ": pet use item " + _objectId);
+			LOGGER.debug(activeChar.getObjectId() + ": pet use item " + _objectId);
 		}
-
-		//check if the item matches the pet
-		if(item.isEquipable())
+		
+		// check if the item matches the pet
+		if (item.isEquipable())
 		{
-			if(L2PetDataTable.isWolf(pet.getNpcId()) && // wolf
+			if (L2PetDataTable.isWolf(pet.getNpcId()) && // wolf
 			item.getItem().isForWolf())
 			{
 				useItem(pet, item, activeChar);
 				return;
 			}
-			else if(L2PetDataTable.isHatchling(pet.getNpcId()) && // hatchlings
+			else if (L2PetDataTable.isHatchling(pet.getNpcId()) && // hatchlings
 			item.getItem().isForHatchling())
 			{
 				useItem(pet, item, activeChar);
 				return;
 			}
-			else if(L2PetDataTable.isStrider(pet.getNpcId()) && // striders
+			else if (L2PetDataTable.isStrider(pet.getNpcId()) && // striders
 			item.getItem().isForStrider())
 			{
 				useItem(pet, item, activeChar);
 				return;
 			}
-			else if(L2PetDataTable.isBaby(pet.getNpcId()) && // baby pets (buffalo, cougar, kookaboora)
+			else if (L2PetDataTable.isBaby(pet.getNpcId()) && // baby pets (buffalo, cougar, kookaboora)
 			item.getItem().isForBabyPet())
 			{
 				useItem(pet, item, activeChar);
@@ -116,60 +115,60 @@ public final class RequestPetUseItem extends L2GameClientPacket
 				return;
 			}
 		}
-		else if(L2PetDataTable.isPetFood(itemId))
+		else if (L2PetDataTable.isPetFood(itemId))
 		{
-			if(L2PetDataTable.isWolf(pet.getNpcId()) && L2PetDataTable.isWolfFood(itemId))
+			if (L2PetDataTable.isWolf(pet.getNpcId()) && L2PetDataTable.isWolfFood(itemId))
 			{
 				feed(activeChar, pet, item);
 				return;
 			}
-
-			if(L2PetDataTable.isSinEater(pet.getNpcId()) && L2PetDataTable.isSinEaterFood(itemId))
+			
+			if (L2PetDataTable.isSinEater(pet.getNpcId()) && L2PetDataTable.isSinEaterFood(itemId))
 			{
 				feed(activeChar, pet, item);
 				return;
 			}
-			else if(L2PetDataTable.isHatchling(pet.getNpcId()) && L2PetDataTable.isHatchlingFood(itemId))
+			else if (L2PetDataTable.isHatchling(pet.getNpcId()) && L2PetDataTable.isHatchlingFood(itemId))
 			{
 				feed(activeChar, pet, item);
 				return;
 			}
-			else if(L2PetDataTable.isStrider(pet.getNpcId()) && L2PetDataTable.isStriderFood(itemId))
+			else if (L2PetDataTable.isStrider(pet.getNpcId()) && L2PetDataTable.isStriderFood(itemId))
 			{
 				feed(activeChar, pet, item);
 				return;
 			}
-			else if(L2PetDataTable.isWyvern(pet.getNpcId()) && L2PetDataTable.isWyvernFood(itemId))
+			else if (L2PetDataTable.isWyvern(pet.getNpcId()) && L2PetDataTable.isWyvernFood(itemId))
 			{
 				feed(activeChar, pet, item);
 				return;
 			}
-			else if(L2PetDataTable.isBaby(pet.getNpcId()) && L2PetDataTable.isBabyFood(itemId))
+			else if (L2PetDataTable.isBaby(pet.getNpcId()) && L2PetDataTable.isBabyFood(itemId))
 			{
 				feed(activeChar, pet, item);
 			}
 		}
-
-		IItemHandler handler = ItemHandler.getInstance().getItemHandler(item.getItemId());
-
-		if(handler != null)
+		
+		final IItemHandler handler = ItemHandler.getInstance().getItemHandler(item.getItemId());
+		
+		if (handler != null)
 		{
 			useItem(pet, item, activeChar);
 		}
 		else
 		{
-			SystemMessage sm = new SystemMessage(SystemMessageId.ITEM_NOT_FOR_PETS);
+			final SystemMessage sm = new SystemMessage(SystemMessageId.ITEM_NOT_FOR_PETS);
 			activeChar.sendPacket(sm);
 		}
-
+		
 		return;
 	}
-
-	private synchronized void useItem(L2PetInstance pet, L2ItemInstance item, L2PcInstance activeChar)
+	
+	private synchronized void useItem(final L2PetInstance pet, final L2ItemInstance item, final L2PcInstance activeChar)
 	{
-		if(item.isEquipable())
+		if (item.isEquipable())
 		{
-			if(item.isEquipped())
+			if (item.isEquipped())
 			{
 				pet.getInventory().unEquipItemInSlot(item.getEquipSlot());
 			}
@@ -177,23 +176,23 @@ public final class RequestPetUseItem extends L2GameClientPacket
 			{
 				pet.getInventory().equipItem(item);
 			}
-
-			PetItemList pil = new PetItemList(pet);
+			
+			final PetItemList pil = new PetItemList(pet);
 			activeChar.sendPacket(pil);
-
-			PetInfo pi = new PetInfo(pet);
+			
+			final PetInfo pi = new PetInfo(pet);
 			activeChar.sendPacket(pi);
-			// The PetInfo packet wipes the PartySpelled (list of active spells' icons).  Re-add them
+			// The PetInfo packet wipes the PartySpelled (list of active spells' icons). Re-add them
 			pet.updateEffectIcons(true);
 		}
 		else
 		{
-			//_log.finest("item not equipable id:"+ item.getItemId());
-			IItemHandler handler = ItemHandler.getInstance().getItemHandler(item.getItemId());
-
-			if(handler == null)
+			// LOGGER.finest("item not equipable id:"+ item.getItemId());
+			final IItemHandler handler = ItemHandler.getInstance().getItemHandler(item.getItemId());
+			
+			if (handler == null)
 			{
-				_log.warning("no itemhandler registered for itemId:" + item.getItemId());
+				LOGGER.warn("no itemhandler registered for itemId:" + item.getItemId());
 			}
 			else
 			{
@@ -201,27 +200,27 @@ public final class RequestPetUseItem extends L2GameClientPacket
 			}
 		}
 	}
-
+	
 	/**
 	 * When fed by owner double click on food from pet inventory. <BR>
 	 * <BR>
 	 * <FONT COLOR=#FF0000><B> <U>Caution</U> : 1 food = 100 points of currentFed</B></FONT><BR>
 	 * <BR>
-	 * @param player 
-	 * @param pet 
-	 * @param item 
+	 * @param player
+	 * @param pet
+	 * @param item
 	 */
-	private void feed(L2PcInstance player, L2PetInstance pet, L2ItemInstance item)
+	private void feed(final L2PcInstance player, final L2PetInstance pet, final L2ItemInstance item)
 	{
 		// if pet has food in inventory
-		if(pet.destroyItem("Feed", item.getObjectId(), 1, pet, false))
+		if (pet.destroyItem("Feed", item.getObjectId(), 1, pet, false))
 		{
 			pet.setCurrentFed(pet.getCurrentFed() + 100);
 		}
-
+		
 		pet.broadcastStatusUpdate();
 	}
-
+	
 	@Override
 	public String getType()
 	{

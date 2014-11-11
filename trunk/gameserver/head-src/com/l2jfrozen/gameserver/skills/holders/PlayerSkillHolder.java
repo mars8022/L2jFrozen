@@ -28,13 +28,13 @@ import com.l2jfrozen.gameserver.model.L2Skill;
  */
 public class PlayerSkillHolder implements ISkillsHolder
 {
-	private final Map<Integer, L2Skill> _skills = new HashMap<Integer, L2Skill>();
+	private final Map<Integer, L2Skill> _skills = new HashMap<>();
 	
-	public PlayerSkillHolder(Map<Integer, L2Skill> map)
+	public PlayerSkillHolder(final Map<Integer, L2Skill> map)
 	{
 		_skills.putAll(map);
 	}
-
+	
 	/**
 	 * @return the map containing this character skills.
 	 */
@@ -49,7 +49,7 @@ public class PlayerSkillHolder implements ISkillsHolder
 	 * @param skill
 	 */
 	@Override
-	public L2Skill addSkill(L2Skill skill)
+	public L2Skill addSkill(final L2Skill skill)
 	{
 		return _skills.put(skill.getId(), skill);
 	}
@@ -60,7 +60,7 @@ public class PlayerSkillHolder implements ISkillsHolder
 	 * @return The level of the L2Skill identified by skillId
 	 */
 	@Override
-	public int getSkillLevel(int skillId)
+	public int getSkillLevel(final int skillId)
 	{
 		final L2Skill skill = getKnownSkill(skillId);
 		return (skill == null) ? -1 : skill.getLevel();
@@ -71,7 +71,7 @@ public class PlayerSkillHolder implements ISkillsHolder
 	 * @return the skill from the known skill.
 	 */
 	@Override
-	public L2Skill getKnownSkill(int skillId)
+	public L2Skill getKnownSkill(final int skillId)
 	{
 		return _skills.get(skillId);
 	}

@@ -29,23 +29,24 @@ import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 public class MapForestOfTheDead implements IItemHandler
 {
 	public MapForestOfTheDead()
-	{}
-
+	{
+	}
+	
 	private static int _itemIds[] =
 	{
 		7063
 	};
-
+	
 	@Override
-	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
+	public void useItem(final L2PlayableInstance playable, final L2ItemInstance item)
 	{
-		if(!(playable instanceof L2PcInstance))
+		if (!(playable instanceof L2PcInstance))
 			return;
-		int itemId = item.getItemId();
-		if(itemId == 7063)
+		final int itemId = item.getItemId();
+		if (itemId == 7063)
 		{
-			NpcHtmlMessage html = new NpcHtmlMessage(5);
-			TextBuilder map = new TextBuilder("<html><title>Map - Forest of the Dead</title>");
+			final NpcHtmlMessage html = new NpcHtmlMessage(5);
+			final TextBuilder map = new TextBuilder("<html><title>Map - Forest of the Dead</title>");
 			map.append("<body>");
 			map.append("<br>");
 			map.append("Map :");
@@ -60,7 +61,7 @@ public class MapForestOfTheDead implements IItemHandler
 			playable.sendPacket(html);
 		}
 	}
-
+	
 	@Override
 	public int[] getItemIds()
 	{

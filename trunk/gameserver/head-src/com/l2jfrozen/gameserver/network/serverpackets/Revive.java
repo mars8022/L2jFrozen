@@ -22,27 +22,27 @@ import com.l2jfrozen.gameserver.model.L2Object;
 
 /**
  * sample 0000: 0c 9b da 12 40 ....@ format d
- * 
  * @version $Revision: 1.1.2.1.2.3 $ $Date: 2005/03/27 15:29:40 $
  */
 public class Revive extends L2GameServerPacket
 {
 	private static final String _S__0C_REVIVE = "[S] 07 Revive";
-	private int _objectId;
-
-	public Revive(L2Object obj)
+	private final int _objectId;
+	
+	public Revive(final L2Object obj)
 	{
 		_objectId = obj.getObjectId();
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
 		writeC(0x07);
 		writeD(_objectId);
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType()
 	 */
 	@Override
@@ -50,5 +50,5 @@ public class Revive extends L2GameServerPacket
 	{
 		return _S__0C_REVIVE;
 	}
-
+	
 }

@@ -17,7 +17,7 @@
  */
 package com.l2jfrozen.gameserver.model.actor.knownlist;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
@@ -30,111 +30,111 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
 public class GuardKnownList extends AttackableKnownList
 {
-	private static Logger _log = Logger.getLogger(GuardKnownList.class.getName());
-
+	private static Logger LOGGER = Logger.getLogger(GuardKnownList.class);
+	
 	// =========================================================
 	// Data Field
-
+	
 	// =========================================================
 	// Constructor
-	public GuardKnownList(L2GuardInstance activeChar)
+	public GuardKnownList(final L2GuardInstance activeChar)
 	{
 		super(activeChar);
 	}
-
+	
 	// =========================================================
 	// Method - Public
 	@Override
-	public boolean addKnownObject(L2Object object)
+	public boolean addKnownObject(final L2Object object)
 	{
 		return addKnownObject(object, null);
 	}
-
+	
 	@Override
-	public boolean addKnownObject(L2Object object, L2Character dropper)
+	public boolean addKnownObject(final L2Object object, final L2Character dropper)
 	{
-		if(!super.addKnownObject(object, dropper))
+		if (!super.addKnownObject(object, dropper))
 			return false;
-
+		
 		// Set home location of the L2GuardInstance (if not already done)
-		if(getActiveChar().getHomeX() == 0)
+		if (getActiveChar().getHomeX() == 0)
 		{
 			getActiveChar().getHomeLocation();
 		}
-
-		if(object instanceof L2PcInstance)
+		
+		if (object instanceof L2PcInstance)
 		{
 			// Check if the object added is a L2PcInstance that owns Karma
 			L2PcInstance player = (L2PcInstance) object;
-
-			if(player.getKarma() > 0)
+			
+			if (player.getKarma() > 0)
 			{
-				if(Config.DEBUG)
+				if (Config.DEBUG)
 				{
-					_log.fine(getActiveChar().getObjectId() + ": PK " + player.getObjectId() + " entered scan range");
+					LOGGER.debug(getActiveChar().getObjectId() + ": PK " + player.getObjectId() + " entered scan range");
 				}
-
+				
 				// Set the L2GuardInstance Intention to AI_INTENTION_ACTIVE
-				if(getActiveChar().getAI().getIntention() == CtrlIntention.AI_INTENTION_IDLE)
+				if (getActiveChar().getAI().getIntention() == CtrlIntention.AI_INTENTION_IDLE)
 				{
 					getActiveChar().getAI().setIntention(CtrlIntention.AI_INTENTION_ACTIVE, null);
 				}
 			}
-
+			
 			player = null;
 		}
-		else if(Config.ALLOW_GUARDS && object instanceof L2MonsterInstance)
+		else if (Config.ALLOW_GUARDS && object instanceof L2MonsterInstance)
 		{
 			// Check if the object added is an aggressive L2MonsterInstance
 			L2MonsterInstance mob = (L2MonsterInstance) object;
-
-			if(mob.isAggressive())
+			
+			if (mob.isAggressive())
 			{
-				if(Config.DEBUG)
+				if (Config.DEBUG)
 				{
-					_log.fine(getActiveChar().getObjectId() + ": Aggressive mob " + mob.getObjectId() + " entered scan range");
+					LOGGER.debug(getActiveChar().getObjectId() + ": Aggressive mob " + mob.getObjectId() + " entered scan range");
 				}
-
+				
 				// Set the L2GuardInstance Intention to AI_INTENTION_ACTIVE
-				if(getActiveChar().getAI().getIntention() == CtrlIntention.AI_INTENTION_IDLE)
+				if (getActiveChar().getAI().getIntention() == CtrlIntention.AI_INTENTION_IDLE)
 				{
 					getActiveChar().getAI().setIntention(CtrlIntention.AI_INTENTION_ACTIVE, null);
 				}
 			}
-
+			
 			mob = null;
 		}
-
+		
 		return true;
 	}
-
+	
 	@Override
-	public boolean removeKnownObject(L2Object object)
+	public boolean removeKnownObject(final L2Object object)
 	{
-		if(!super.removeKnownObject(object))
+		if (!super.removeKnownObject(object))
 			return false;
-
+		
 		// Check if the _aggroList of the L2GuardInstance is Empty
-		if(getActiveChar().noTarget())
+		if (getActiveChar().noTarget())
 		{
-			//removeAllKnownObjects();
-
+			// removeAllKnownObjects();
+			
 			// Set the L2GuardInstance to AI_INTENTION_IDLE
 			L2CharacterAI ai = getActiveChar().getAI();
-			if(ai != null)
+			if (ai != null)
 			{
 				ai.setIntention(CtrlIntention.AI_INTENTION_IDLE, null);
 			}
-
+			
 			ai = null;
 		}
-
+		
 		return true;
 	}
-
+	
 	// =========================================================
 	// Method - Private
-
+	
 	// =========================================================
 	// Property - Public
 	@Override

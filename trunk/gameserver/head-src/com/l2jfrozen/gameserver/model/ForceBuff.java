@@ -19,7 +19,7 @@
 
 package com.l2jfrozen.gameserver.model;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
@@ -34,57 +34,58 @@ public final class ForceBuff
 	protected int _forceLevel;
 	protected L2Character _caster;
 	protected L2Character _target;
-
-	static final Logger _log = Logger.getLogger(ForceBuff.class.getName());
-
+	
+	static final Logger LOGGER = Logger.getLogger(ForceBuff.class);
+	
 	public L2Character getCaster()
 	{
 		return _caster;
 	}
-
+	
 	public L2Character getTarget()
 	{
 		return _target;
 	}
-
-	public ForceBuff(L2Character caster, L2Character target, L2Skill skill)
+	
+	public ForceBuff(final L2Character caster, final L2Character target, final L2Skill skill)
 	{
 		_caster = caster;
 		_target = target;
 		_forceId = skill.getTriggeredId();
 		_forceLevel = skill.getTriggeredLevel();
-
+		
 		L2Effect effect = _target.getFirstEffect(_forceId);
-		if(effect != null)
+		if (effect != null)
 		{
 			((EffectForce) effect).increaseForce();
 		}
 		else
 		{
-			L2Skill force = SkillTable.getInstance().getInfo(_forceId, _forceLevel);
-			if(force != null)
+			final L2Skill force = SkillTable.getInstance().getInfo(_forceId, _forceLevel);
+			if (force != null)
 			{
-				force.getEffects(_caster, _target,false,false,false);
+				force.getEffects(_caster, _target, false, false, false);
 			}
 			else
 			{
-				_log.warning("Triggered skill [" + _forceId + ";" + _forceLevel + "] not found!");
+				LOGGER.warn("Triggered skill [" + _forceId + ";" + _forceLevel + "] not found!");
 			}
 		}
 		effect = null;
 	}
-
+	
 	public void onCastAbort()
 	{
 		_caster.setForceBuff(null);
 		L2Effect effect = _target.getFirstEffect(_forceId);
-		if(effect != null)
+		if (effect != null)
 		{
-			if(Config.DEVELOPER){
-				_log.info(" -- Removing ForceBuff "+effect.getSkill().getId());
+			if (Config.DEVELOPER)
+			{
+				LOGGER.info(" -- Removing ForceBuff " + effect.getSkill().getId());
 			}
 			
-			if(effect instanceof EffectForce)
+			if (effect instanceof EffectForce)
 				((EffectForce) effect).decreaseForce();
 			else
 				effect.exit(false);

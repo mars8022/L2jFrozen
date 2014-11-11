@@ -29,20 +29,20 @@ public class NpcKnownList extends CharKnownList
 {
 	// =========================================================
 	// Data Field
-
+	
 	// =========================================================
 	// Constructor
-	public NpcKnownList(L2NpcInstance activeChar)
+	public NpcKnownList(final L2NpcInstance activeChar)
 	{
 		super(activeChar);
 	}
-
+	
 	// =========================================================
 	// Method - Public
-
+	
 	// =========================================================
 	// Method - Private
-
+	
 	// =========================================================
 	// Property - Public
 	@Override
@@ -50,28 +50,28 @@ public class NpcKnownList extends CharKnownList
 	{
 		return (L2NpcInstance) super.getActiveChar();
 	}
-
+	
 	@Override
-	public int getDistanceToForgetObject(L2Object object)
+	public int getDistanceToForgetObject(final L2Object object)
 	{
 		return 2 * getDistanceToWatchObject(object);
 	}
-
+	
 	@Override
-	public int getDistanceToWatchObject(L2Object object)
+	public int getDistanceToWatchObject(final L2Object object)
 	{
-		if(object instanceof L2FestivalGuideInstance)
+		if (object instanceof L2FestivalGuideInstance)
 			return 10000;
-
-		if(object instanceof L2FolkInstance || !(object instanceof L2Character))
+		
+		if (object instanceof L2FolkInstance || !(object instanceof L2Character))
 			return 0;
-
-		if(object instanceof L2CabaleBufferInstance)
+		
+		if (object instanceof L2CabaleBufferInstance)
 			return 900;
-
-		if(object instanceof L2PlayableInstance)
+		
+		if (object instanceof L2PlayableInstance)
 			return 1500;
-
+		
 		return 500;
 	}
 }

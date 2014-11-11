@@ -41,7 +41,7 @@ public class OfflineShop implements IVoicedCommandHandler
 	
 	@SuppressWarnings("null")
 	@Override
-	public boolean useVoicedCommand(String command, L2PcInstance player, String target)
+	public boolean useVoicedCommand(final String command, final L2PcInstance player, final String target)
 	{
 		
 		if (player == null)
@@ -62,7 +62,7 @@ public class OfflineShop implements IVoicedCommandHandler
 			return false;
 		}
 		
-		TradeList storeListBuy = player.getBuyList();
+		final TradeList storeListBuy = player.getBuyList();
 		if (storeListBuy == null && storeListBuy.getItemCount() == 0)
 		{
 			player.sendMessage("Your buy list is empty.");
@@ -70,7 +70,7 @@ public class OfflineShop implements IVoicedCommandHandler
 			return false;
 		}
 		
-		TradeList storeListSell = player.getSellList();
+		final TradeList storeListSell = player.getSellList();
 		if (storeListSell == null && storeListSell.getItemCount() == 0)
 		{
 			player.sendMessage("Your sell list is empty.");
@@ -131,7 +131,7 @@ public class OfflineShop implements IVoicedCommandHandler
 				return false;
 			}
 			
-			L2Party playerParty = player.getParty();
+			final L2Party playerParty = player.getParty();
 			if (playerParty != null)
 				player.getParty().broadcastToPartyMembers(SystemMessage.sendString(player.getName() + " has been removed from the upcoming Festival."));
 		}
@@ -142,10 +142,12 @@ public class OfflineShop implements IVoicedCommandHandler
 		if ((player.isInStoreMode() && Config.OFFLINE_TRADE_ENABLE) || (player.isInCraftMode() && Config.OFFLINE_CRAFT_ENABLE))
 		{
 			// Sleep effect, not official feature but however L2OFF features (like offline trade)
-			player.startAbnormalEffect(L2Character.ABNORMAL_EFFECT_SLEEP);
+			if (Config.OFFLINE_SLEEP_EFFECT)
+				player.startAbnormalEffect(L2Character.ABNORMAL_EFFECT_SLEEP);
 			
 			player.sendMessage("Your private store has succesfully been flagged as an offline shop and will remain active for ever.");
-			player.setStored(true);
+			
+			player.logout();
 			
 			return true;
 		}

@@ -26,18 +26,18 @@ import com.l2jfrozen.gameserver.skills.Env;
  */
 final class EffectBuff extends L2Effect
 {
-
-	public EffectBuff(Env envbuff, EffectTemplate template)
+	
+	public EffectBuff(final Env envbuff, final EffectTemplate template)
 	{
 		super(envbuff, template);
 	}
-
+	
 	@Override
 	public EffectType getEffectType()
 	{
 		return EffectType.BUFF;
 	}
-
+	
 	@Override
 	public boolean onActionTime()
 	{

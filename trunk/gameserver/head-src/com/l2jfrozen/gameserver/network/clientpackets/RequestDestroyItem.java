@@ -20,8 +20,8 @@ package com.l2jfrozen.gameserver.network.clientpackets;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.L2PetDataTable;
@@ -35,11 +35,12 @@ import com.l2jfrozen.gameserver.network.serverpackets.StatusUpdate;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.util.Util;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public final class RequestDestroyItem extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(RequestDestroyItem.class.getName());
+	private static Logger LOGGER = Logger.getLogger(RequestDestroyItem.class);
 	
 	private int _objectId;
 	private int _count;
@@ -54,7 +55,7 @@ public final class RequestDestroyItem extends L2GameClientPacket
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance activeChar = getClient().getActiveChar();
+		final L2PcInstance activeChar = getClient().getActiveChar();
 		if (activeChar == null)
 			return;
 		
@@ -81,7 +82,7 @@ public final class RequestDestroyItem extends L2GameClientPacket
 			return;
 		}
 		
-		L2ItemInstance itemToRemove = activeChar.getInventory().getItemByObjectId(_objectId);
+		final L2ItemInstance itemToRemove = activeChar.getInventory().getItemByObjectId(_objectId);
 		
 		// if we cant find requested item, its actualy a cheat!
 		if (itemToRemove == null)
@@ -102,7 +103,7 @@ public final class RequestDestroyItem extends L2GameClientPacket
 			}
 		}
 		
-		int itemId = itemToRemove.getItemId();
+		final int itemId = itemToRemove.getItemId();
 		
 		if (itemToRemove.isWear() || !itemToRemove.isDestroyable() || CursedWeaponsManager.getInstance().isCursed(itemId))
 		{
@@ -128,9 +129,9 @@ public final class RequestDestroyItem extends L2GameClientPacket
 				itemToRemove.getAugmentation().removeBoni(activeChar);
 			}
 			
-			L2ItemInstance[] unequiped = activeChar.getInventory().unEquipItemInSlotAndRecord(itemToRemove.getEquipSlot());
-			InventoryUpdate iu = new InventoryUpdate();
-			for (L2ItemInstance element : unequiped)
+			final L2ItemInstance[] unequiped = activeChar.getInventory().unEquipItemInSlotAndRecord(itemToRemove.getEquipSlot());
+			final InventoryUpdate iu = new InventoryUpdate();
+			for (final L2ItemInstance element : unequiped)
 			{
 				activeChar.checkSSMatch(null, element);
 				iu.addModifiedItem(element);
@@ -155,16 +156,16 @@ public final class RequestDestroyItem extends L2GameClientPacket
 				PreparedStatement statement = con.prepareStatement("DELETE FROM pets WHERE item_obj_id=?");
 				statement.setInt(1, _objectId);
 				statement.execute();
-				statement.close();
+				DatabaseUtils.close(statement);
 				
 				statement = null;
 			}
-			catch (Exception e)
+			catch (final Exception e)
 			{
 				if (Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				_log.log(Level.WARNING, "could not delete pet objectid: ", e);
+				LOGGER.warn("could not delete pet objectid: ", e);
 			}
 			finally
 			{
@@ -173,14 +174,14 @@ public final class RequestDestroyItem extends L2GameClientPacket
 			}
 		}
 		
-		L2ItemInstance removedItem = activeChar.getInventory().destroyItem("Destroy", _objectId, count, activeChar, null);
+		final L2ItemInstance removedItem = activeChar.getInventory().destroyItem("Destroy", _objectId, count, activeChar, null);
 		
 		if (removedItem == null)
 			return;
 		
 		if (!Config.FORCE_INVENTORY_UPDATE)
 		{
-			InventoryUpdate iu = new InventoryUpdate();
+			final InventoryUpdate iu = new InventoryUpdate();
 			if (removedItem.getCount() == 0)
 			{
 				iu.addRemovedItem(removedItem);
@@ -198,7 +199,7 @@ public final class RequestDestroyItem extends L2GameClientPacket
 			sendPacket(new ItemList(activeChar, true));
 		}
 		
-		StatusUpdate su = new StatusUpdate(activeChar.getObjectId());
+		final StatusUpdate su = new StatusUpdate(activeChar.getObjectId());
 		su.addAttribute(StatusUpdate.CUR_LOAD, activeChar.getCurrentLoad());
 		activeChar.sendPacket(su);
 		

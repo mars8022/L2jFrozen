@@ -31,19 +31,18 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
  */
 public final class RequestWithdrawPartyRoom extends L2GameClientPacket
 {
-
+	
 	private int _roomid;
 	@SuppressWarnings("unused")
 	private int _unk1;
 	
-
 	@Override
 	protected void readImpl()
 	{
 		_roomid = readD();
 		_unk1 = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
@@ -52,7 +51,7 @@ public final class RequestWithdrawPartyRoom extends L2GameClientPacket
 		if (_activeChar == null)
 			return;
 		
-		PartyMatchRoom _room = PartyMatchRoomList.getInstance().getRoom(_roomid);
+		final PartyMatchRoom _room = PartyMatchRoomList.getInstance().getRoom(_roomid);
 		if (_room == null)
 			return;
 		
@@ -70,7 +69,7 @@ public final class RequestWithdrawPartyRoom extends L2GameClientPacket
 			_activeChar.sendPacket(new SystemMessage(SystemMessageId.PARTY_ROOM_EXITED));
 		}
 	}
-
+	
 	@Override
 	public String getType()
 	{

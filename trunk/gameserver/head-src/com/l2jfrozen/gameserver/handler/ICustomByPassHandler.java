@@ -29,6 +29,6 @@ public interface ICustomByPassHandler
 	 * @return as String -
 	 */
 	public String[] getByPassCommands();
-
+	
 	public void handleCommand(String command, L2PcInstance player, String parameters);
 }

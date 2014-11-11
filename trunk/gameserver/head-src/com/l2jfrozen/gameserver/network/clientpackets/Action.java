@@ -14,7 +14,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Character;
@@ -28,13 +28,13 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 @SuppressWarnings("unused")
 public final class Action extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(Action.class.getName());
+	private static Logger LOGGER = Logger.getLogger(Action.class);
 	private int _objectId;
 	private int _originX;
 	private int _originY;
 	private int _originZ;
 	private int _actionId;
-
+	
 	@Override
 	protected void readImpl()
 	{
@@ -44,17 +44,17 @@ public final class Action extends L2GameClientPacket
 		_originZ = readD();
 		_actionId = readC(); // Action identifier : 0-Simple click, 1-Shift click
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
 		if (Config.DEBUG)
-			_log.fine("DEBUG "+getType()+": ActionId: " + _actionId + " , ObjectID: " + _objectId);
-
+			LOGGER.debug("DEBUG " + getType() + ": ActionId: " + _actionId + " , ObjectID: " + _objectId);
+		
 		// Get the current L2PcInstance of the player
 		final L2PcInstance activeChar = getClient().getActiveChar();
 		
-		if(activeChar == null)
+		if (activeChar == null)
 			return;
 		
 		if (activeChar.inObserverMode())
@@ -75,32 +75,33 @@ public final class Action extends L2GameClientPacket
 		if (obj == null)
 		{
 			// pressing e.g. pickup many times quickly would get you here
-			// _log.warning("Character: " + activeChar.getName() + " request action with non existent ObjectID:" + _objectId);
+			// LOGGER.warn("Character: " + activeChar.getName() + " request action with non existent ObjectID:" + _objectId);
 			getClient().sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-
+		
 		// Players can't interact with objects in the other instances except from multiverse
-		if (obj.getInstanceId() != activeChar.getInstanceId()
-				&& activeChar.getInstanceId() != -1)
+		if (obj.getInstanceId() != activeChar.getInstanceId() && activeChar.getInstanceId() != -1)
 		{
 			getClient().sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
 		
 		// Only GMs can directly interact with invisible characters
-		if (obj instanceof L2PcInstance
-				&& (((L2PcInstance)obj).getAppearance().getInvisible())
-				&& !activeChar.isGM())
+		if (obj instanceof L2PcInstance && (((L2PcInstance) obj).getAppearance().getInvisible()) && !activeChar.isGM())
 		{
 			getClient().sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-	
+		
+		// reset old Moving task
+		if (activeChar.isMovingTaskDefined())
+			activeChar.setMovingTaskDefined(false);
+		
 		// Check if the target is valid, if the player haven't a shop or isn't the requester of a transaction (ex : FriendInvite, JoinAlly, JoinParty...)
-		if (activeChar.getPrivateStoreType() == 0/* && activeChar.getActiveRequester() == null*/)
+		if (activeChar.getPrivateStoreType() == 0/* && activeChar.getActiveRequester() == null */)
 		{
-			switch(_actionId)
+			switch (_actionId)
 			{
 				case 0:
 					obj.onAction(activeChar);
@@ -112,19 +113,20 @@ public final class Action extends L2GameClientPacket
 						obj.onActionShift(getClient());
 					break;
 				default:
-					// Invalid action detected (probably client cheating), log this
-					_log.warning("Character: " + activeChar.getName() + " requested invalid action: " + _actionId);
+					// Invalid action detected (probably client cheating), LOGGER this
+					LOGGER.warn("Character: " + activeChar.getName() + " requested invalid action: " + _actionId);
 					getClient().sendPacket(ActionFailed.STATIC_PACKET);
 					break;
 			}
 		}
 		else
 			getClient().sendPacket(ActionFailed.STATIC_PACKET); // Actions prohibited when in trade
-		
-	// Update the status after the target	
-	activeChar.broadcastStatusUpdate();
+			
+		// FIXME: check why here was realized a broadcast of status..
+		// Update the status after the target
+		// activeChar.broadcastStatusUpdate();
 	}
-
+	
 	@Override
 	public String getType()
 	{

@@ -31,44 +31,44 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
  */
 public class PartyMemberPosition extends L2GameServerPacket
 {
-	Map<Integer, Location> locations = new FastMap<Integer, Location>();
-
-	public PartyMemberPosition(L2Party party)
+	Map<Integer, Location> locations = new FastMap<>();
+	
+	public PartyMemberPosition(final L2Party party)
 	{
 		reuse(party);
 	}
-
-	public void reuse(L2Party party) 
-	{ 
-		locations.clear(); 
-		for (L2PcInstance member : party.getPartyMembers()) 
-		{ 
-			if (member == null) 
-				continue; 
-			locations.put(member.getObjectId(), new Location(member)); 
-		} 
-	} 
-	 
+	
+	public void reuse(final L2Party party)
+	{
+		locations.clear();
+		for (final L2PcInstance member : party.getPartyMembers())
+		{
+			if (member == null)
+				continue;
+			locations.put(member.getObjectId(), new Location(member));
+		}
+	}
+	
 	@Override
 	protected void writeImpl()
 	{
 		writeC(0xa7);
 		writeD(locations.size());
-
-		for (Map.Entry<Integer, Location> entry : locations.entrySet())
+		
+		for (final Map.Entry<Integer, Location> entry : locations.entrySet())
 		{
-			Location loc = entry.getValue(); 
-			writeD(entry.getKey()); 
-			writeD(loc.getX()); 
-			writeD(loc.getY()); 
+			final Location loc = entry.getValue();
+			writeD(entry.getKey());
+			writeD(loc.getX());
+			writeD(loc.getY());
 			writeD(loc.getZ());
 		}
 	}
-
+	
 	@Override
 	public String getType()
 	{
 		return "[S] a7 PartyMemberPosition";
 	}
-
+	
 }

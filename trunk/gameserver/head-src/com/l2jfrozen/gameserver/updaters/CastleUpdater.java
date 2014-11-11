@@ -17,7 +17,7 @@
  */
 package com.l2jfrozen.gameserver.updaters;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.managers.CastleManager;
@@ -32,16 +32,16 @@ import com.l2jfrozen.logs.Log;
  */
 public class CastleUpdater implements Runnable
 {
-	protected static Logger _log = Logger.getLogger(CastleUpdater.class.getName());
-	private L2Clan _clan;
+	protected static Logger LOGGER = Logger.getLogger(CastleUpdater.class);
+	private final L2Clan _clan;
 	private int _runCount = 0;
-
-	public CastleUpdater(L2Clan clan, int runCount)
+	
+	public CastleUpdater(final L2Clan clan, final int runCount)
 	{
 		_clan = clan;
 		_runCount = runCount;
 	}
-
+	
 	@Override
 	public void run()
 	{
@@ -49,27 +49,27 @@ public class CastleUpdater implements Runnable
 		{
 			// Move current castle treasury to clan warehouse every 2 hour
 			ItemContainer warehouse = _clan.getWarehouse();
-			if(warehouse != null && _clan.getHasCastle() > 0)
+			if (warehouse != null && _clan.getHasCastle() > 0)
 			{
-				Castle castle = CastleManager.getInstance().getCastleById(_clan.getHasCastle());
-				if(!Config.ALT_MANOR_SAVE_ALL_ACTIONS)
+				final Castle castle = CastleManager.getInstance().getCastleById(_clan.getHasCastle());
+				if (!Config.ALT_MANOR_SAVE_ALL_ACTIONS)
 				{
-					if(_runCount % Config.ALT_MANOR_SAVE_PERIOD_RATE == 0)
+					if (_runCount % Config.ALT_MANOR_SAVE_PERIOD_RATE == 0)
 					{
 						castle.saveSeedData();
 						castle.saveCropData();
-						String text = "Manor System: all data for " + castle.getName() + " saved";
+						final String text = "Manor System: all data for " + castle.getName() + " saved";
 						Log.add(text, "Manor_system");
 					}
 				}
-
+				
 				_runCount++;
-				CastleUpdater cu = new CastleUpdater(_clan, _runCount);
+				final CastleUpdater cu = new CastleUpdater(_clan, _runCount);
 				ThreadPoolManager.getInstance().scheduleGeneral(cu, 3600000);
 				warehouse = null;
 			}
 		}
-		catch(Throwable e)
+		catch (final Throwable e)
 		{
 			e.printStackTrace();
 		}

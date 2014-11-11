@@ -26,53 +26,48 @@ import com.l2jfrozen.gameserver.managers.QuestManager;
 public class State
 {
 	/** Name of the quest */
-	private String _questName;
-	private String _name;
-
+	private final String _questName;
+	private final String _name;
+	
 	/**
 	 * Constructor for the state of the quest.
-	 * 
 	 * @param name : String pointing out the name of the quest
 	 * @param quest : Quest
 	 */
-	public State(String name, Quest quest)
+	public State(final String name, final Quest quest)
 	{
 		_name = name;
 		_questName = quest.getName();
 		quest.addState(this);
 	}
-
+	
 	// =========================================================
 	// Method - Public
 	/**
 	 * Add drop for the quest at this state of the quest
-	 * 
 	 * @param npcId : int designating the ID of the NPC
 	 * @param itemId : int designating the ID of the item dropped
-	 * @param chance : int designating the chance the item dropped DEPRECATING THIS...only the itemId is really needed,
-	 *            and even that is only here for backwards compatibility
+	 * @param chance : int designating the chance the item dropped DEPRECATING THIS...only the itemId is really needed, and even that is only here for backwards compatibility
 	 */
-	public void addQuestDrop(int npcId, int itemId, int chance)
+	public void addQuestDrop(final int npcId, final int itemId, final int chance)
 	{
 		QuestManager.getInstance().getQuest(_questName).registerItem(itemId);
 	}
-
+	
 	// =========================================================
 	// Property
-
+	
 	/**
 	 * Return name of the quest
-	 * 
 	 * @return String
 	 */
 	public String getName()
 	{
 		return _name;
 	}
-
+	
 	/**
 	 * Return name of the quest
-	 * 
 	 * @return String
 	 */
 	@Override

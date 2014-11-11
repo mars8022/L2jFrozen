@@ -27,46 +27,44 @@ import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 
 /**
  * This class ...
- * 
  * @version $Revision$ $Date$
  */
 public class L2SiegeNpcInstance extends L2FolkInstance
 {
-	//private static Logger _log = Logger.getLogger(L2SiegeNpcInstance.class.getName());
-
-	public L2SiegeNpcInstance(int objectID, L2NpcTemplate template)
+	// private static Logger LOGGER = Logger.getLogger(L2SiegeNpcInstance.class);
+	
+	public L2SiegeNpcInstance(final int objectID, final L2NpcTemplate template)
 	{
 		super(objectID, template);
 	}
-
+	
 	/**
 	 * this is called when a player interacts with this NPC
-	 * 
 	 * @param player
 	 */
 	@Override
-	public void onAction(L2PcInstance player)
+	public void onAction(final L2PcInstance player)
 	{
-		if(!canTarget(player))
+		if (!canTarget(player))
 			return;
-
+		
 		// Check if the L2PcInstance already target the L2NpcInstance
-		if(this != player.getTarget())
+		if (this != player.getTarget())
 		{
 			// Set the target of the L2PcInstance player
 			player.setTarget(this);
-
+			
 			// Send a Server->Client packet MyTargetSelected to the L2PcInstance player
 			MyTargetSelected my = new MyTargetSelected(getObjectId(), 0);
 			player.sendPacket(my);
 			my = null;
-
+			
 			player.sendPacket(new ValidateLocation(this));
 		}
 		else
 		{
 			// Calculate the distance between the L2PcInstance and the L2NpcInstance
-			if(!canInteract(player))
+			if (!canInteract(player))
 			{
 				// Notify the L2PcInstance AI with AI_INTENTION_INTERACT
 				player.getAI().setIntention(CtrlIntention.AI_INTENTION_INTERACT, this);
@@ -79,16 +77,15 @@ public class L2SiegeNpcInstance extends L2FolkInstance
 		// Send a Server->Client ActionFailed to the L2PcInstance in order to avoid that the client wait another packet
 		player.sendPacket(ActionFailed.STATIC_PACKET);
 	}
-
+	
 	/**
 	 * If siege is in progress shows the Busy HTML<BR>
 	 * else Shows the SiegeInfo window
-	 * 
 	 * @param player
 	 */
-	public void showSiegeInfoWindow(L2PcInstance player)
+	public void showSiegeInfoWindow(final L2PcInstance player)
 	{
-		if(validateCondition(player))
+		if (validateCondition(player))
 		{
 			getCastle().getSiege().listRegisterClan(player);
 		}
@@ -103,12 +100,12 @@ public class L2SiegeNpcInstance extends L2FolkInstance
 			html = null;
 		}
 	}
-
-	private boolean validateCondition(L2PcInstance player)
+	
+	private boolean validateCondition(final L2PcInstance player)
 	{
-		if(getCastle().getSiege().getIsInProgress())
+		if (getCastle().getSiege().getIsInProgress())
 			return false; // Busy because of siege
-
+			
 		return true;
 	}
 }

@@ -19,14 +19,13 @@ package com.l2jfrozen.gameserver.network.serverpackets;
 
 /**
  * Format: ch d.
- *
  * @author KenM
  */
 public class ExSetCompassZoneCode extends L2GameServerPacket
 {
 	/** The Constant _S__FE_32_EXSETCOMPASSZONECODE. */
 	private static final String _S__FE_32_EXSETCOMPASSZONECODE = "[S] FE:32 ExSetCompassZoneCode";
-
+	
 	/** The Constant SIEGEWARZONE1. */
 	public static final int SIEGEWARZONE1 = 0x0A;
 	
@@ -44,16 +43,15 @@ public class ExSetCompassZoneCode extends L2GameServerPacket
 	
 	/** The Constant GENERALZONE. */
 	public static final int GENERALZONE = 0x0F;
-
+	
 	/** The _zone type. */
-	private int _zoneType;
-
+	private final int _zoneType;
+	
 	/**
 	 * Instantiates a new ex set compass zone code.
-	 *
 	 * @param val the val
 	 */
-	public ExSetCompassZoneCode(int val)
+	public ExSetCompassZoneCode(final int val)
 	{
 		_zoneType = val;
 	}
@@ -65,10 +63,9 @@ public class ExSetCompassZoneCode extends L2GameServerPacket
 		writeH(0x32);
 		writeD(_zoneType);
 	}
-
+	
 	/**
 	 * Gets the type.
-	 *
 	 * @return the type
 	 */
 	@Override

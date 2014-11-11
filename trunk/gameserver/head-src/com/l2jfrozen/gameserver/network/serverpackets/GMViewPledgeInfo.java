@@ -25,25 +25,24 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
 /**
  * format SdSS dddddddd d (Sddddd)
- * 
  * @version $Revision: 1.1.2.1.2.3 $ $Date: 2005/03/27 15:29:57 $
  */
 public class GMViewPledgeInfo extends L2GameServerPacket
 {
 	private static final String _S__A9_GMVIEWPLEDGEINFO = "[S] 90 GMViewPledgeInfo";
-	private L2Clan _clan;
-	private L2PcInstance _activeChar;
-
-	public GMViewPledgeInfo(L2Clan clan, L2PcInstance activeChar)
+	private final L2Clan _clan;
+	private final L2PcInstance _activeChar;
+	
+	public GMViewPledgeInfo(final L2Clan clan, final L2PcInstance activeChar)
 	{
 		_clan = clan;
 		_activeChar = activeChar;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
-		int TOP = ClanTable.getInstance().getTopRate(_clan.getClanId());
+		final int TOP = ClanTable.getInstance().getTopRate(_clan.getClanId());
 		writeC(0x90);
 		writeS(_activeChar.getName());
 		writeD(_clan.getClanId());
@@ -58,16 +57,16 @@ public class GMViewPledgeInfo extends L2GameServerPacket
 		writeD(_clan.getReputationScore());
 		writeD(0);
 		writeD(0);
-
-		writeD(_clan.getAllyId()); //c2
-		writeS(_clan.getAllyName()); //c2
-		writeD(_clan.getAllyCrestId()); //c2
-		writeD(_clan.isAtWar()); //c3
-
-		L2ClanMember[] members = _clan.getMembers();
+		
+		writeD(_clan.getAllyId()); // c2
+		writeS(_clan.getAllyName()); // c2
+		writeD(_clan.getAllyCrestId()); // c2
+		writeD(_clan.isAtWar()); // c3
+		
+		final L2ClanMember[] members = _clan.getMembers();
 		writeD(members.length);
-
-		for(L2ClanMember member : members)
+		
+		for (final L2ClanMember member : members)
 		{
 			writeS(member.getName());
 			writeD(member.getLevel());
@@ -78,8 +77,9 @@ public class GMViewPledgeInfo extends L2GameServerPacket
 			writeD(0);
 		}
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType()
 	 */
 	@Override
@@ -87,5 +87,5 @@ public class GMViewPledgeInfo extends L2GameServerPacket
 	{
 		return _S__A9_GMVIEWPLEDGEINFO;
 	}
-
+	
 }

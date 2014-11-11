@@ -20,7 +20,6 @@ package com.l2jfrozen.gameserver.model;
 
 /**
  * Used to Store data sent to Client for Character Selection screen.
- * 
  * @version $Revision: 1.2.2.2.2.4 $ $Date: 2005/03/27 15:29:33 $
  */
 public class CharSelectInfoPackage
@@ -45,266 +44,266 @@ public class CharSelectInfoPackage
 	private double _currentHp = 0;
 	private int _maxMp = 0;
 	private double _currentMp = 0;
-	private int[][] _paperdoll;
+	private final int[][] _paperdoll;
 	private int _karma = 0;
 	private int _augmentationId = 0;
 	private int _accessLevel;
-
+	
 	/**
-	 * @param objectId 
-	 * @param name 
+	 * @param objectId
+	 * @param name
 	 */
-	public CharSelectInfoPackage(int objectId, String name)
+	public CharSelectInfoPackage(final int objectId, final String name)
 	{
 		setObjectId(objectId);
 		_name = name;
 		_paperdoll = PcInventory.restoreVisibleInventory(objectId);
 	}
-
+	
 	public int getObjectId()
 	{
 		return _objectId;
 	}
-
-	public void setObjectId(int objectId)
+	
+	public void setObjectId(final int objectId)
 	{
 		_objectId = objectId;
 	}
-
+	
 	public int getCharId()
 	{
 		return _charId;
 	}
-
-	public void setCharId(int charId)
+	
+	public void setCharId(final int charId)
 	{
 		_charId = charId;
 	}
-
+	
 	public int getClanId()
 	{
 		return _clanId;
 	}
-
-	public void setClanId(int clanId)
+	
+	public void setClanId(final int clanId)
 	{
 		_clanId = clanId;
 	}
-
+	
 	public int getClassId()
 	{
 		return _classId;
 	}
-
+	
 	public int getBaseClassId()
 	{
 		return _baseClassId;
 	}
-
-	public void setClassId(int classId)
+	
+	public void setClassId(final int classId)
 	{
 		_classId = classId;
 	}
-
-	public void setBaseClassId(int baseClassId)
+	
+	public void setBaseClassId(final int baseClassId)
 	{
 		_baseClassId = baseClassId;
 	}
-
+	
 	public double getCurrentHp()
 	{
 		return _currentHp;
 	}
-
-	public void setCurrentHp(double currentHp)
+	
+	public void setCurrentHp(final double currentHp)
 	{
 		_currentHp = currentHp;
 	}
-
+	
 	public double getCurrentMp()
 	{
 		return _currentMp;
 	}
-
-	public void setCurrentMp(double currentMp)
+	
+	public void setCurrentMp(final double currentMp)
 	{
 		_currentMp = currentMp;
 	}
-
+	
 	public long getDeleteTimer()
 	{
 		return _deleteTimer;
 	}
-
-	public void setDeleteTimer(long deleteTimer)
+	
+	public void setDeleteTimer(final long deleteTimer)
 	{
 		_deleteTimer = deleteTimer;
 	}
-
+	
 	public long getLastAccess()
 	{
 		return _lastAccess;
 	}
-
-	public void setLastAccess(long lastAccess)
+	
+	public void setLastAccess(final long lastAccess)
 	{
 		_lastAccess = lastAccess;
 	}
-
+	
 	public long getExp()
 	{
 		return _exp;
 	}
-
-	public void setExp(long exp)
+	
+	public void setExp(final long exp)
 	{
 		_exp = exp;
 	}
-
+	
 	public int getFace()
 	{
 		return _face;
 	}
-
-	public void setFace(int face)
+	
+	public void setFace(final int face)
 	{
 		_face = face;
 	}
-
+	
 	public int getHairColor()
 	{
 		return _hairColor;
 	}
-
-	public void setHairColor(int hairColor)
+	
+	public void setHairColor(final int hairColor)
 	{
 		_hairColor = hairColor;
 	}
-
+	
 	public int getHairStyle()
 	{
 		return _hairStyle;
 	}
-
-	public void setHairStyle(int hairStyle)
+	
+	public void setHairStyle(final int hairStyle)
 	{
 		_hairStyle = hairStyle;
 	}
-
-	public int getPaperdollObjectId(int slot)
+	
+	public int getPaperdollObjectId(final int slot)
 	{
 		return _paperdoll[slot][0];
 	}
-
-	public int getPaperdollItemId(int slot)
+	
+	public int getPaperdollItemId(final int slot)
 	{
 		return _paperdoll[slot][1];
 	}
-
+	
 	public int getLevel()
 	{
 		return _level;
 	}
-
-	public void setLevel(int level)
+	
+	public void setLevel(final int level)
 	{
 		_level = level;
 	}
-
+	
 	public int getMaxHp()
 	{
 		return _maxHp;
 	}
-
-	public void setMaxHp(int maxHp)
+	
+	public void setMaxHp(final int maxHp)
 	{
 		_maxHp = maxHp;
 	}
-
+	
 	public int getMaxMp()
 	{
 		return _maxMp;
 	}
-
-	public void setMaxMp(int maxMp)
+	
+	public void setMaxMp(final int maxMp)
 	{
 		_maxMp = maxMp;
 	}
-
+	
 	public String getName()
 	{
 		return _name;
 	}
-
-	public void setName(String name)
+	
+	public void setName(final String name)
 	{
 		_name = name;
 	}
-
+	
 	public int getRace()
 	{
 		return _race;
 	}
-
-	public void setRace(int race)
+	
+	public void setRace(final int race)
 	{
 		_race = race;
 	}
-
+	
 	public int getSex()
 	{
 		return _sex;
 	}
-
-	public void setSex(int sex)
+	
+	public void setSex(final int sex)
 	{
 		_sex = sex;
 	}
-
+	
 	public int getSp()
 	{
 		return _sp;
 	}
-
-	public void setSp(int sp)
+	
+	public void setSp(final int sp)
 	{
 		_sp = sp;
 	}
-
+	
 	public int getEnchantEffect()
 	{
-		if(_paperdoll[Inventory.PAPERDOLL_RHAND][2] > 0)
+		if (_paperdoll[Inventory.PAPERDOLL_RHAND][2] > 0)
 			return _paperdoll[Inventory.PAPERDOLL_RHAND][2];
-
+		
 		return _paperdoll[Inventory.PAPERDOLL_LRHAND][2];
 	}
-
-	public void setKarma(int k)
+	
+	public void setKarma(final int k)
 	{
 		_karma = k;
 	}
-
+	
 	public int getKarma()
 	{
 		return _karma;
 	}
-
-	public void setAugmentationId(int augmentationId)
+	
+	public void setAugmentationId(final int augmentationId)
 	{
 		_augmentationId = augmentationId;
 	}
-
+	
 	public int getAugmentationId()
 	{
 		return _augmentationId;
 	}
-
+	
 	public int getAccessLevel()
 	{
 		return _accessLevel;
 	}
 	
-	public void setAccessLevel(int accessLevel)
+	public void setAccessLevel(final int accessLevel)
 	{
 		_accessLevel = accessLevel;
 	}

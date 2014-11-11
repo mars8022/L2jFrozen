@@ -17,7 +17,7 @@
  */
 package com.l2jfrozen.gameserver.taskmanager.tasks;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
@@ -32,8 +32,8 @@ import com.l2jfrozen.gameserver.taskmanager.TaskTypes;
  */
 public class TaskOlympiadSave extends Task
 {
-	private static final Logger _log = Logger.getLogger(TaskOlympiadSave.class.getName());
-	public static final String NAME = "OlympiadSave";
+	private static final Logger LOGGER = Logger.getLogger(TaskOlympiadSave.class);
+	public static final String NAME = "olympiadsave";
 	
 	@Override
 	public String getName()
@@ -42,22 +42,22 @@ public class TaskOlympiadSave extends Task
 	}
 	
 	@Override
-	public void onTimeElapsed(ExecutedTask task)
+	public void onTimeElapsed(final ExecutedTask task)
 	{
 		try
 		{
 			if (Olympiad.getInstance().inCompPeriod())
 			{
 				Olympiad.getInstance().saveOlympiadStatus();
-				_log.info("Olympiad System: Data updated successfully.");
+				LOGGER.info("[GlobalTask] Olympiad System save launched.");
 			}
 		}
-		catch (Exception e)
+		catch (final Exception e)
 		{
 			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("Olympiad System: Failed to save Olympiad configuration: " + e);
+			LOGGER.warn("Olympiad System: Failed to save Olympiad configuration: " + e);
 		}
 	}
 	

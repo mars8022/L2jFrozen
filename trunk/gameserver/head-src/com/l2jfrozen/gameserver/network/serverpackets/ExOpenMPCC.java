@@ -29,7 +29,7 @@ public class ExOpenMPCC extends L2GameServerPacket
 		writeC(0xfe);
 		writeH(0x25);
 	}
-
+	
 	@Override
 	public String getType()
 	{

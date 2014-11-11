@@ -36,7 +36,7 @@ public final class RequestExMagicSkillUseGround extends L2GameClientPacket
 	private int _skillId;
 	private boolean _ctrlPressed;
 	private boolean _shiftPressed;
-
+	
 	@Override
 	protected void readImpl()
 	{
@@ -47,31 +47,31 @@ public final class RequestExMagicSkillUseGround extends L2GameClientPacket
 		_ctrlPressed = readD() != 0;
 		_shiftPressed = readC() != 0;
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance activeChar = getClient().getActiveChar();
-		if(activeChar == null)
+		final L2PcInstance activeChar = getClient().getActiveChar();
+		if (activeChar == null)
 			return;
-
+		
 		// Get the level of the used skill
-		int level = activeChar.getSkillLevel(_skillId);
-		if(level <= 0)
+		final int level = activeChar.getSkillLevel(_skillId);
+		if (level <= 0)
 		{
 			sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-
+		
 		// Get the L2Skill template corresponding to the skillID received from the client
-		L2Skill skill = SkillTable.getInstance().getInfo(_skillId, level);
-
-		if(skill != null)
+		final L2Skill skill = SkillTable.getInstance().getInfo(_skillId, level);
+		
+		if (skill != null)
 		{
 			activeChar.setCurrentSkillWorldPosition(new Point3D(_x, _y, _z));
-
+			
 			// normally magicskilluse packet turns char client side but for these skills, it doesn't (even with correct target)
-			activeChar.setHeading(Util.calculateHeadingFrom(activeChar.getX(), activeChar.getY(), _x , _y));
+			activeChar.setHeading(Util.calculateHeadingFrom(activeChar.getX(), activeChar.getY(), _x, _y));
 			activeChar.broadcastPacket(new ValidateLocation(activeChar));
 			activeChar.useMagic(skill, _ctrlPressed, _shiftPressed);
 		}
@@ -80,7 +80,7 @@ public final class RequestExMagicSkillUseGround extends L2GameClientPacket
 			sendPacket(ActionFailed.STATIC_PACKET);
 		}
 	}
-
+	
 	@Override
 	public String getType()
 	{

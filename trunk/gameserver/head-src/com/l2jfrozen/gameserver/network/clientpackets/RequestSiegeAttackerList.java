@@ -31,38 +31,38 @@ import com.l2jfrozen.gameserver.network.serverpackets.SiegeAttackerList;
 public final class RequestSiegeAttackerList extends L2GameClientPacket
 {
 	private int _castleId;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_castleId = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-		if(_castleId < 100)
+		if (_castleId < 100)
 		{
-			Castle castle = CastleManager.getInstance().getCastleById(_castleId);
-
-			if(castle == null)
+			final Castle castle = CastleManager.getInstance().getCastleById(_castleId);
+			
+			if (castle == null)
 				return;
-
-			SiegeAttackerList sal = new SiegeAttackerList(castle);
+			
+			final SiegeAttackerList sal = new SiegeAttackerList(castle);
 			sendPacket(sal);
 		}
 		else
 		{
-			Fort fort = FortManager.getInstance().getFortById(_castleId);
-
-			if(fort == null)
+			final Fort fort = FortManager.getInstance().getFortById(_castleId);
+			
+			if (fort == null)
 				return;
-
-			FortSiegeAttackerList sal = new FortSiegeAttackerList(fort);
+			
+			final FortSiegeAttackerList sal = new FortSiegeAttackerList(fort);
 			sendPacket(sal);
 		}
 	}
-
+	
 	@Override
 	public String getType()
 	{

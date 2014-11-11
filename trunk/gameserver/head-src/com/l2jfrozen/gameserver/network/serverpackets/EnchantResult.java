@@ -21,21 +21,22 @@ package com.l2jfrozen.gameserver.network.serverpackets;
 public class EnchantResult extends L2GameServerPacket
 {
 	private static final String _S__81_ENCHANTRESULT = "[S] 81 EnchantResult";
-	private int _unknown;
-
-	public EnchantResult(int unknown)
+	private final int _unknown;
+	
+	public EnchantResult(final int unknown)
 	{
 		_unknown = unknown;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
 		writeC(0x81);
 		writeD(_unknown);
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType()
 	 */
 	@Override

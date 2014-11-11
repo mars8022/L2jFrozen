@@ -47,7 +47,7 @@ public class L2FolkInstance extends L2NpcInstance
 	 * @param objectId the object id
 	 * @param template the template
 	 */
-	public L2FolkInstance(int objectId, L2NpcTemplate template)
+	public L2FolkInstance(final int objectId, final L2NpcTemplate template)
 	{
 		super(objectId, template);
 		_classesToTeach = template.getTeachInfo();
@@ -58,7 +58,7 @@ public class L2FolkInstance extends L2NpcInstance
 	 * @see com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance#onAction(com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance)
 	 */
 	@Override
-	public void onAction(L2PcInstance player)
+	public void onAction(final L2PcInstance player)
 	{
 		player.setLastFolkNPC(this);
 		super.onAction(player);
@@ -69,14 +69,14 @@ public class L2FolkInstance extends L2NpcInstance
 	 * @param player the player
 	 * @param classId the class id
 	 */
-	public void showSkillList(L2PcInstance player, ClassId classId)
+	public void showSkillList(final L2PcInstance player, final ClassId classId)
 	{
 		if (Config.DEBUG)
 		{
-			_log.fine("SkillList activated on: " + getObjectId());
+			LOGGER.debug("SkillList activated on: " + getObjectId());
 		}
 		
-		int npcId = getTemplate().npcId;
+		final int npcId = getTemplate().npcId;
 		
 		if (_classesToTeach == null)
 		{
@@ -116,16 +116,16 @@ public class L2FolkInstance extends L2NpcInstance
 		AquireSkillList asl = new AquireSkillList(AquireSkillList.skillType.Usual);
 		int counts = 0;
 		
-		for (L2SkillLearn s : skills)
+		for (final L2SkillLearn s : skills)
 		{
-			L2Skill sk = SkillTable.getInstance().getInfo(s.getId(), s.getLevel());
+			final L2Skill sk = SkillTable.getInstance().getInfo(s.getId(), s.getLevel());
 			
 			if (sk == null || !sk.getCanLearn(player.getClassId()) || !sk.canTeachBy(npcId))
 			{
 				continue;
 			}
 			
-			int cost = SkillTreeTable.getInstance().getSkillCost(player, sk);
+			final int cost = SkillTreeTable.getInstance().getSkillCost(player, sk);
 			counts++;
 			
 			asl.addSkill(s.getId(), s.getLevel(), s.getLevel(), cost, 0);
@@ -133,7 +133,7 @@ public class L2FolkInstance extends L2NpcInstance
 		
 		if (counts == 0)
 		{
-			int minlevel = SkillTreeTable.getInstance().getMinLevelForNewSkill(player, classId);
+			final int minlevel = SkillTreeTable.getInstance().getMinLevelForNewSkill(player, classId);
 			
 			if (minlevel > 0)
 			{
@@ -164,14 +164,14 @@ public class L2FolkInstance extends L2NpcInstance
 	 * @param player the player
 	 * @param classId the class id
 	 */
-	public void showEnchantSkillList(L2PcInstance player, ClassId classId)
+	public void showEnchantSkillList(final L2PcInstance player, final ClassId classId)
 	{
 		if (Config.DEBUG)
 		{
-			_log.fine("EnchantSkillList activated on: " + getObjectId());
+			LOGGER.debug("EnchantSkillList activated on: " + getObjectId());
 		}
 		
-		int npcId = getTemplate().npcId;
+		final int npcId = getTemplate().npcId;
 		
 		if (_classesToTeach == null)
 		{
@@ -224,9 +224,9 @@ public class L2FolkInstance extends L2NpcInstance
 		ExEnchantSkillList esl = new ExEnchantSkillList();
 		int counts = 0;
 		
-		for (L2EnchantSkillLearn s : skills)
+		for (final L2EnchantSkillLearn s : skills)
 		{
-			L2Skill sk = SkillTable.getInstance().getInfo(s.getId(), s.getLevel());
+			final L2Skill sk = SkillTable.getInstance().getInfo(s.getId(), s.getLevel());
 			if (sk == null)
 			{
 				continue;
@@ -238,11 +238,11 @@ public class L2FolkInstance extends L2NpcInstance
 		{
 			player.sendPacket(new SystemMessage(SystemMessageId.THERE_IS_NO_SKILL_THAT_ENABLES_ENCHANT));
 			NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
-			int level = player.getLevel();
+			final int level = player.getLevel();
 			
 			if (level < 74)
 			{
-				SystemMessage sm = new SystemMessage(SystemMessageId.DO_NOT_HAVE_FURTHER_SKILLS_TO_LEARN);
+				final SystemMessage sm = new SystemMessage(SystemMessageId.DO_NOT_HAVE_FURTHER_SKILLS_TO_LEARN);
 				sm.addNumber(level);
 				player.sendPacket(sm);
 			}
@@ -273,13 +273,13 @@ public class L2FolkInstance extends L2NpcInstance
 	 * @see com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance#onBypassFeedback(com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance, java.lang.String)
 	 */
 	@Override
-	public void onBypassFeedback(L2PcInstance player, String command)
+	public void onBypassFeedback(final L2PcInstance player, final String command)
 	{
 		if (command.startsWith("SkillList"))
 		{
 			if (Config.ALT_GAME_SKILL_LEARN)
 			{
-				String id = command.substring(9).trim();
+				final String id = command.substring(9).trim();
 				
 				if (id.length() != 0)
 				{
@@ -290,7 +290,7 @@ public class L2FolkInstance extends L2NpcInstance
 				{
 					boolean own_class = false;
 					
-					for (ClassId cid : _classesToTeach)
+					for (final ClassId cid : _classesToTeach)
 					{
 						if (cid.equalsOrChildOf(player.getClassId()))
 						{
@@ -303,7 +303,7 @@ public class L2FolkInstance extends L2NpcInstance
 					
 					if (!own_class)
 					{
-						String mages = player.getClassId().isMage() ? "fighters" : "mages";
+						final String mages = player.getClassId().isMage() ? "fighters" : "mages";
 						text += "Skills of your class are the easiest to learn.<br>" + "Skills of another class are harder.<br>" + "Skills for another race are even more hard to learn.<br>" + "You can also learn skills of " + mages + ", and they are" + " the hardest to learn!<br>" + "<br>";
 					}
 					
@@ -315,7 +315,7 @@ public class L2FolkInstance extends L2NpcInstance
 						
 						while (count == 0 && classCheck != null)
 						{
-							for (ClassId cid : _classesToTeach)
+							for (final ClassId cid : _classesToTeach)
 							{
 								if (cid.level() != classCheck.level())
 								{

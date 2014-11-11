@@ -19,7 +19,6 @@ package com.l2jfrozen.gameserver.network.serverpackets;
 
 /**
  * Format: ch (trigger).
- *
  * @author KenM
  */
 public class ExShowAdventurerGuideBook extends L2GameServerPacket
@@ -33,10 +32,9 @@ public class ExShowAdventurerGuideBook extends L2GameServerPacket
 		writeC(0xFE);
 		writeH(0x37);
 	}
-
+	
 	/**
 	 * Gets the type.
-	 *
 	 * @return the type
 	 */
 	@Override

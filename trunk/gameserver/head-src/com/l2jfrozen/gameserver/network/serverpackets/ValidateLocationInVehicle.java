@@ -24,18 +24,23 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 public class ValidateLocationInVehicle extends L2GameServerPacket
 {
 	private static final String _S__73_ValidateLocationInVehicle = "[S] 73 ValidateLocationInVehicle";
-	private int _boat = 1343225858, _x, _y, _z, _heading, _playerObj;
-
-	public ValidateLocationInVehicle(L2Character player)
+	private int _boat = 1343225858;
+	private final int _x;
+	private final int _y;
+	private final int _z;
+	private final int _heading;
+	private final int _playerObj;
+	
+	public ValidateLocationInVehicle(final L2Character player)
 	{
 		_playerObj = player.getObjectId();
 		_x = player.getX();
 		_y = player.getY();
 		_z = player.getZ();
 		_heading = player.getHeading();
-		_boat = ((L2PcInstance)player).getBoat().getId();
+		_boat = ((L2PcInstance) player).getBoat().getId();
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
@@ -47,7 +52,7 @@ public class ValidateLocationInVehicle extends L2GameServerPacket
 		writeD(_z);
 		writeD(_heading);
 	}
-
+	
 	@Override
 	public String getType()
 	{

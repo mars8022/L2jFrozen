@@ -21,22 +21,22 @@ import javolution.util.FastList;
 
 /**
  * @author Julian
- * @param <T> 
+ * @param <T>
  */
-public class L2FastList<T extends Object> extends FastList<T>
+public class L2FastList<T> extends FastList<T>
 {
 	static final long serialVersionUID = 1L;
-
+	
 	public interface I2ForEach<T>
 	{
 		public boolean ForEach(T obj);
-
+		
 		public FastList.Node<T> getNext(FastList.Node<T> priv);
 	}
-
-	public final boolean forEach(I2ForEach<T> func, boolean sync)
+	
+	public final boolean forEach(final I2ForEach<T> func, final boolean sync)
 	{
-		if(sync)
+		if (sync)
 		{
 			synchronized (this)
 			{
@@ -45,11 +45,11 @@ public class L2FastList<T extends Object> extends FastList<T>
 		}
 		return forEachP(func);
 	}
-
-	private boolean forEachP(I2ForEach<T> func)
+	
+	private boolean forEachP(final I2ForEach<T> func)
 	{
-		for(FastList.Node<T> e = head(), end = tail(); (e = func.getNext(e)) != end;)
-			if(!func.ForEach(e.getValue()))
+		for (FastList.Node<T> e = head(), end = tail(); (e = func.getNext(e)) != end;)
+			if (!func.ForEach(e.getValue()))
 				return false;
 		return true;
 	}

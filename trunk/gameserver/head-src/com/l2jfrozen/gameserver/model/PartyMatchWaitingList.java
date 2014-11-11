@@ -20,26 +20,25 @@ import javolution.util.FastList;
 
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
-
 /**
  * @author Gnacik
  */
 public class PartyMatchWaitingList
 {
-	private List<L2PcInstance> _members;
+	private final List<L2PcInstance> _members;
 	
 	private PartyMatchWaitingList()
 	{
-		_members = new FastList<L2PcInstance>();
+		_members = new FastList<>();
 	}
 	
-	public void addPlayer(L2PcInstance player)
+	public void addPlayer(final L2PcInstance player)
 	{
 		if (!_members.contains(player))
 			_members.add(player);
 	}
 	
-	public void removePlayer(L2PcInstance player)
+	public void removePlayer(final L2PcInstance player)
 	{
 		if (_members.contains(player))
 			_members.remove(player);

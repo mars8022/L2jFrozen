@@ -29,12 +29,12 @@ import com.l2jfrozen.gameserver.script.faenor.FaenorInterface;
 public class ScriptEngine
 {
 	protected EngineInterface _utils = FaenorInterface.getInstance();
-	public static final Hashtable<String, ParserFactory> parserFactories = new Hashtable<String, ParserFactory>();
-
-	protected static Parser createParser(String name) throws ParserNotCreatedException
+	public static final Hashtable<String, ParserFactory> parserFactories = new Hashtable<>();
+	
+	protected static Parser createParser(final String name) throws ParserNotCreatedException
 	{
 		ParserFactory s = parserFactories.get(name);
-		if(s == null) // shape not found
+		if (s == null) // shape not found
 		{
 			try
 			{
@@ -43,14 +43,14 @@ public class ScriptEngine
 				// have been executed if the shape was found.
 				// the shape is expected to have put its factory
 				// in the hashtable.
-
+				
 				s = parserFactories.get(name);
-				if(s == null)
+				if (s == null)
 					throw new ParserNotCreatedException();
 			}
-			catch(ClassNotFoundException e)
+			catch (final ClassNotFoundException e)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
+				if (Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
 				// We'll throw an exception to indicate that

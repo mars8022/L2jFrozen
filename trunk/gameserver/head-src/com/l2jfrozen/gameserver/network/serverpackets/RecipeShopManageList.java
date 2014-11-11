@@ -25,23 +25,22 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
 /**
  * dd d(dd) d(ddd)
- * 
  * @version $Revision: 1.1.2.2.2.3 $ $Date: 2005/03/27 15:29:57 $
  */
 public class RecipeShopManageList extends L2GameServerPacket
 {
-
+	
 	private static final String _S__D8_RecipeShopManageList = "[S] d8 RecipeShopManageList";
-	private L2PcInstance _seller;
-	private boolean _isDwarven;
+	private final L2PcInstance _seller;
+	private final boolean _isDwarven;
 	private L2RecipeList[] _recipes;
-
-	public RecipeShopManageList(L2PcInstance seller, boolean isDwarven)
+	
+	public RecipeShopManageList(final L2PcInstance seller, final boolean isDwarven)
 	{
 		_seller = seller;
 		_isDwarven = isDwarven;
-
-		if(_isDwarven && _seller.hasDwarvenCraft())
+		
+		if (_isDwarven && _seller.hasDwarvenCraft())
 		{
 			_recipes = _seller.getDwarvenRecipeBook();
 		}
@@ -49,21 +48,21 @@ public class RecipeShopManageList extends L2GameServerPacket
 		{
 			_recipes = _seller.getCommonRecipeBook();
 		}
-
+		
 		// clean previous recipes
-		if(_seller.getCreateList() != null)
+		if (_seller.getCreateList() != null)
 		{
-			L2ManufactureList list = _seller.getCreateList();
-			for(L2ManufactureItem item : list.getList())
+			final L2ManufactureList list = _seller.getCreateList();
+			for (final L2ManufactureItem item : list.getList())
 			{
-				if(item.isDwarven() != _isDwarven)
+				if (item.isDwarven() != _isDwarven)
 				{
 					list.getList().remove(item);
 				}
 			}
 		}
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
@@ -71,33 +70,33 @@ public class RecipeShopManageList extends L2GameServerPacket
 		writeD(_seller.getObjectId());
 		writeD(_seller.getAdena());
 		writeD(_isDwarven ? 0x00 : 0x01);
-
-		if(_recipes == null)
+		
+		if (_recipes == null)
 		{
 			writeD(0);
 		}
 		else
 		{
-			writeD(_recipes.length);//number of items in recipe book
-
-			for(int i = 0; i < _recipes.length; i++)
+			writeD(_recipes.length);// number of items in recipe book
+			
+			for (int i = 0; i < _recipes.length; i++)
 			{
-				L2RecipeList temp = _recipes[i];
+				final L2RecipeList temp = _recipes[i];
 				writeD(temp.getId());
 				writeD(i + 1);
 			}
 		}
-
-		if(_seller.getCreateList() == null)
+		
+		if (_seller.getCreateList() == null)
 		{
 			writeD(0);
 		}
 		else
 		{
-			L2ManufactureList list = _seller.getCreateList();
+			final L2ManufactureList list = _seller.getCreateList();
 			writeD(list.size());
-
-			for(L2ManufactureItem item : list.getList())
+			
+			for (final L2ManufactureItem item : list.getList())
 			{
 				writeD(item.getRecipeId());
 				writeD(0x00);
@@ -105,8 +104,9 @@ public class RecipeShopManageList extends L2GameServerPacket
 			}
 		}
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType()
 	 */
 	@Override

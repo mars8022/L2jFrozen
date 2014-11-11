@@ -32,10 +32,10 @@ public final class RequestPledgeReorganizeMember extends L2GameClientPacket
 	private int _unk1;
 	private String _memberName;
 	private int _newPledgeType;
-
+	
 	@SuppressWarnings("unused")
 	private String _unk2;
-
+	
 	@Override
 	protected void readImpl()
 	{
@@ -44,31 +44,31 @@ public final class RequestPledgeReorganizeMember extends L2GameClientPacket
 		_newPledgeType = readD();
 		_unk2 = readS();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance activeChar = getClient().getActiveChar();
-		if(activeChar == null)
+		final L2PcInstance activeChar = getClient().getActiveChar();
+		if (activeChar == null)
 			return;
-
-		//do we need powers to do that??
-		L2Clan clan = activeChar.getClan();
-		if(clan == null)
+		
+		// do we need powers to do that??
+		final L2Clan clan = activeChar.getClan();
+		if (clan == null)
 			return;
-
-		L2ClanMember member = clan.getClanMember(_memberName);
-		if(member == null)
+		
+		final L2ClanMember member = clan.getClanMember(_memberName);
+		if (member == null)
 			return;
-
+		
 		member.setPledgeType(_newPledgeType);
 		clan.broadcastToOnlineMembers(new PledgeShowMemberListUpdate(member));
 	}
-
+	
 	@Override
 	public String getType()
 	{
 		return "[C] D0:24 RequestPledgeReorganizeMember";
 	}
-
+	
 }

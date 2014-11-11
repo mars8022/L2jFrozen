@@ -16,11 +16,10 @@ package com.l2jfrozen.gameserver.skills;
 
 import java.io.File;
 import java.util.NoSuchElementException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -45,7 +44,7 @@ public enum BaseStats
 	MEN(new MEN()),
 	NULL(new NULL());
 	
-	protected static final Logger _log = Logger.getLogger(BaseStats.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(BaseStats.class);
 	
 	public static final int MAX_STAT_VALUE = 100;
 	
@@ -75,12 +74,12 @@ public enum BaseStats
 		return _stat.getClass().getSimpleName();
 	}
 	
-	private BaseStats(BaseStat s)
+	private BaseStats(final BaseStat s)
 	{
 		_stat = s;
 	}
 	
-	public final double calcBonus(L2Character actor)
+	public final double calcBonus(final L2Character actor)
 	{
 		if (actor != null)
 			return _stat.calcBonus(actor);
@@ -91,7 +90,7 @@ public enum BaseStats
 	public static final BaseStats valueOfXml(String name)
 	{
 		name = name.intern();
-		for (BaseStats s : values())
+		for (final BaseStats s : values())
 		{
 			if (s.getValue().equalsIgnoreCase(name))
 				return s;
@@ -108,7 +107,7 @@ public enum BaseStats
 	protected static final class STR implements BaseStat
 	{
 		@Override
-		public final double calcBonus(L2Character actor)
+		public final double calcBonus(final L2Character actor)
 		{
 			if ((actor instanceof L2RaidBossInstance || actor instanceof L2GrandBossInstance) && Config.ALT_RAIDS_STATS_BONUS)
 				return 1;
@@ -121,7 +120,7 @@ public enum BaseStats
 			
 			if (actor.getSTR() > MAX_STAT_VALUE)
 			{
-				_log.warning("Character " + actor.getName() + " has STR over max value " + MAX_STAT_VALUE + "... Using " + MAX_STAT_VALUE);
+				LOGGER.warn("Character " + actor.getName() + " has STR over max value " + MAX_STAT_VALUE + "... Using " + MAX_STAT_VALUE);
 				return STRbonus[MAX_STAT_VALUE];
 			}
 			return STRbonus[actor.getSTR()];
@@ -132,7 +131,7 @@ public enum BaseStats
 	protected static final class INT implements BaseStat
 	{
 		@Override
-		public final double calcBonus(L2Character actor)
+		public final double calcBonus(final L2Character actor)
 		{
 			if ((actor instanceof L2RaidBossInstance || actor instanceof L2GrandBossInstance) && Config.ALT_RAIDS_STATS_BONUS)
 				return 1;
@@ -145,7 +144,7 @@ public enum BaseStats
 			
 			if (actor.getINT() > MAX_STAT_VALUE)
 			{
-				_log.warning("Character " + actor.getName() + " has INT over max value " + MAX_STAT_VALUE + "... Using " + MAX_STAT_VALUE);
+				LOGGER.warn("Character " + actor.getName() + " has INT over max value " + MAX_STAT_VALUE + "... Using " + MAX_STAT_VALUE);
 				return INTbonus[MAX_STAT_VALUE];
 			}
 			return INTbonus[actor.getINT()];
@@ -156,7 +155,7 @@ public enum BaseStats
 	protected static final class DEX implements BaseStat
 	{
 		@Override
-		public final double calcBonus(L2Character actor)
+		public final double calcBonus(final L2Character actor)
 		{
 			if ((actor instanceof L2RaidBossInstance || actor instanceof L2GrandBossInstance) && Config.ALT_RAIDS_STATS_BONUS)
 				return 1;
@@ -169,7 +168,7 @@ public enum BaseStats
 			
 			if (actor.getDEX() > MAX_STAT_VALUE)
 			{
-				_log.warning("Character " + actor.getName() + " has DEX over max value " + MAX_STAT_VALUE + "... Using " + MAX_STAT_VALUE);
+				LOGGER.warn("Character " + actor.getName() + " has DEX over max value " + MAX_STAT_VALUE + "... Using " + MAX_STAT_VALUE);
 				return DEXbonus[MAX_STAT_VALUE];
 			}
 			return DEXbonus[actor.getDEX()];
@@ -180,7 +179,7 @@ public enum BaseStats
 	protected static final class WIT implements BaseStat
 	{
 		@Override
-		public final double calcBonus(L2Character actor)
+		public final double calcBonus(final L2Character actor)
 		{
 			if ((actor instanceof L2RaidBossInstance || actor instanceof L2GrandBossInstance) && Config.ALT_RAIDS_STATS_BONUS)
 				return 1;
@@ -193,7 +192,7 @@ public enum BaseStats
 			
 			if (actor.getWIT() > MAX_STAT_VALUE)
 			{
-				_log.warning("Character " + actor.getName() + " has WIT over max value " + MAX_STAT_VALUE + "... Using " + MAX_STAT_VALUE);
+				LOGGER.warn("Character " + actor.getName() + " has WIT over max value " + MAX_STAT_VALUE + "... Using " + MAX_STAT_VALUE);
 				return WITbonus[MAX_STAT_VALUE];
 			}
 			return WITbonus[actor.getWIT()];
@@ -203,7 +202,7 @@ public enum BaseStats
 	protected static final class CON implements BaseStat
 	{
 		@Override
-		public final double calcBonus(L2Character actor)
+		public final double calcBonus(final L2Character actor)
 		{
 			if ((actor instanceof L2RaidBossInstance || actor instanceof L2GrandBossInstance) && Config.ALT_RAIDS_STATS_BONUS)
 				return 1;
@@ -216,7 +215,7 @@ public enum BaseStats
 			
 			if (actor.getCON() > MAX_STAT_VALUE)
 			{
-				_log.warning("Character " + actor.getName() + " has CON over max value " + MAX_STAT_VALUE + "... Using " + MAX_STAT_VALUE);
+				LOGGER.warn("Character " + actor.getName() + " has CON over max value " + MAX_STAT_VALUE + "... Using " + MAX_STAT_VALUE);
 				return CONbonus[MAX_STAT_VALUE];
 			}
 			return CONbonus[actor.getCON()];
@@ -226,7 +225,7 @@ public enum BaseStats
 	protected static final class MEN implements BaseStat
 	{
 		@Override
-		public final double calcBonus(L2Character actor)
+		public final double calcBonus(final L2Character actor)
 		{
 			if ((actor instanceof L2RaidBossInstance || actor instanceof L2GrandBossInstance) && Config.ALT_RAIDS_STATS_BONUS)
 				return 1;
@@ -239,7 +238,7 @@ public enum BaseStats
 			
 			if (actor.getMEN() > MAX_STAT_VALUE)
 			{
-				_log.warning("Character " + actor.getName() + " has MEN over max value " + MAX_STAT_VALUE + "... Using " + MAX_STAT_VALUE);
+				LOGGER.warn("Character " + actor.getName() + " has MEN over max value " + MAX_STAT_VALUE + "... Using " + MAX_STAT_VALUE);
 				return MENbonus[MAX_STAT_VALUE];
 			}
 			return MENbonus[actor.getMEN()];
@@ -249,7 +248,7 @@ public enum BaseStats
 	protected static final class NULL implements BaseStat
 	{
 		@Override
-		public final double calcBonus(L2Character actor)
+		public final double calcBonus(final L2Character actor)
 		{
 			return 1f;
 		}
@@ -269,9 +268,9 @@ public enum BaseStats
 			{
 				doc = factory.newDocumentBuilder().parse(file);
 			}
-			catch (Exception e)
+			catch (final Exception e)
 			{
-				_log.log(Level.WARNING, "[BaseStats] Could not parse file: " + e.getMessage(), e);
+				LOGGER.warn("[BaseStats] Could not parse file: " + e.getMessage(), e);
 			}
 			
 			if (doc != null)
@@ -297,9 +296,9 @@ public enum BaseStats
 										val = Integer.parseInt(attrs.getNamedItem("value").getNodeValue());
 										bonus = Double.parseDouble(attrs.getNamedItem("bonus").getNodeValue());
 									}
-									catch (Exception e)
+									catch (final Exception e)
 									{
-										_log.severe("[BaseStats] Invalid stats value: " + value.getNodeValue() + ", skipping");
+										LOGGER.error("[BaseStats] Invalid stats value: " + value.getNodeValue() + ", skipping", e);
 										continue;
 									}
 									
@@ -316,7 +315,7 @@ public enum BaseStats
 									else if ("MEN".equalsIgnoreCase(statName))
 										MENbonus[val] = bonus;
 									else
-										_log.severe("[BaseStats] Invalid stats name: " + statName + ", skipping");
+										LOGGER.warn("[BaseStats] Invalid stats name: " + statName + ", skipping");
 								}
 							}
 						}

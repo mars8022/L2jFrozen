@@ -18,7 +18,8 @@
 package com.l2jfrozen.gameserver.network;
 
 import java.nio.ByteBuffer;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.managers.PacketsLoggerManager;
@@ -30,6 +31,7 @@ import com.l2jfrozen.netcore.IClientFactory;
 import com.l2jfrozen.netcore.IMMOExecutor;
 import com.l2jfrozen.netcore.IPacketHandler;
 import com.l2jfrozen.netcore.MMOConnection;
+import com.l2jfrozen.netcore.NetcoreConfig;
 import com.l2jfrozen.netcore.ReceivablePacket;
 import com.l2jfrozen.util.PacketsFloodProtector;
 import com.l2jfrozen.util.Util;
@@ -37,76 +39,80 @@ import com.l2jfrozen.util.Util;
 /**
  * Stateful Packet Handler<BR>
  * The Stateful approach prevents the server from handling inconsistent packets, examples:<BR>
- * <li>Clients sends a MoveToLocation packet without having a character attached. (Potential errors handling the
- * packet).</li> <li>Clients sends a RequestAuthLogin being already authed. (Potential exploit).</li> <BR>
+ * <li>Clients sends a MoveToLocation packet without having a character attached. (Potential errors handling the packet).</li> <li>Clients sends a RequestAuthLogin being already authed. (Potential exploit).</li> <BR>
  * <BR>
- * Note: If for a given exception a packet needs to be handled on more then one state, then it should be added to all
- * these states.
- * 
+ * Note: If for a given exception a packet needs to be handled on more then one state, then it should be added to all these states.
  * @author L2JFrozen
  */
 
 public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, IClientFactory<L2GameClient>, IMMOExecutor<L2GameClient>
 {
-	private static final Logger _log = Logger.getLogger(L2GamePacketHandler.class.getName());
-
+	private static final Logger LOGGER = Logger.getLogger(L2GamePacketHandler.class);
+	
 	// implementation
 	@Override
-	public ReceivablePacket<L2GameClient> handlePacket(ByteBuffer buf, L2GameClient client)
+	public ReceivablePacket<L2GameClient> handlePacket(final ByteBuffer buf, final L2GameClient client)
 	{
 		
-		if (client.dropPacket()){
-			if(Config.DEBUG_PACKETS)
+		if (client.dropPacket())
+		{
+			if (Config.DEBUG_PACKETS)
 				Log.add("Packet Dropped", "GamePacketsLog");
 			client.sendPacket(ActionFailed.STATIC_PACKET);
 			return null;
 		}
 		
-		int opcode = buf.get() & 0xFF;
+		final int opcode = buf.get() & 0xFF;
 		int opcode2 = -1;
 		
-		if(opcode == 0xd0){
+		if (opcode == 0xd0)
+		{
 			
-			if(buf.remaining() >= 2)
+			if (buf.remaining() >= 2)
 			{
 				opcode2 = buf.getShort() & 0xffff;
 			}
 			
 		}
 		
-		if(client.getActiveChar() != null){//already done EnterWorld
+		if (client.getActiveChar() != null)
+		{// already done EnterWorld
+		
+			final String character = client.getActiveChar().getName();
+			String packet = "" + opcode;
+			if (opcode2 != -1)
+				packet = packet + "," + opcode2;
 			
-			String character = client.getActiveChar().getName();
-			String packet = ""+opcode;
-			if(opcode2!=-1)
-				packet = packet+","+opcode2;
-			
-			//check if character has block on packet
-			if(PacketsLoggerManager.getInstance().isCharacterPacketBlocked(character, packet)){
+			// check if character has block on packet
+			if (PacketsLoggerManager.getInstance().isCharacterPacketBlocked(character, packet))
+			{
 				client.sendPacket(ActionFailed.STATIC_PACKET);
 				return null;
 			}
 			
-			//Before Anything, check if character is Monitored or has Block on received Packet
-			if(PacketsLoggerManager.getInstance().isCharacterMonitored(character)){
+			// Before Anything, check if character is Monitored or has Block on received Packet
+			if (PacketsLoggerManager.getInstance().isCharacterMonitored(character))
+			{
 				PacketsLoggerManager.getInstance().logCharacterPacket(character, packet);
 			}
 			
 		}
 		
-		if(!PacketsFloodProtector.tryPerformAction(opcode, opcode2, client)){
+		if (!PacketsFloodProtector.tryPerformAction(opcode, opcode2, client))
+		{
 			client.sendPacket(ActionFailed.STATIC_PACKET);
 			return null;
 		}
 		
 		ReceivablePacket<L2GameClient> msg = null;
 		GameClientState state = client.getState();
-
-		if(Config.DEBUG_PACKETS){
+		
+		if (Config.DEBUG_PACKETS)
+		{
 			Log.add("Packet: " + Integer.toHexString(opcode) + " on State: " + state.name() + " Client: " + client.toString(), "GamePacketsLog");
 		}
 		
-		switch(state)
+		switch (state)
 		{
 			case CONNECTED:
 				switch (opcode)
@@ -123,7 +129,7 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 				}
 				break;
 			case AUTHED:
-				switch(opcode)
+				switch (opcode)
 				{
 					case 0x09:
 						msg = new Logout();
@@ -146,34 +152,35 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 					case 0x68:
 						msg = new RequestPledgeCrest();
 						break;
-
+					
 					// single packet
 					default:
 						printDebug(opcode, buf, state, client);
 						break;
 				}
 				break;
-			case IN_GAME:{
+			case IN_GAME:
+			{
 				
-				if(!com.l2jfrozen.netcore.Config.getInstance().LIST_ALLOWED_OFFLINE_OPCODES.contains(opcode)){
+				if (!NetcoreConfig.getInstance().LIST_ALLOWED_OFFLINE_OPCODES.contains(opcode))
+				{
 					
-					if(client.getActiveChar() == null 
-						|| client.getActiveChar().isOnline() == 0)
+					if (client.getActiveChar() == null || client.getActiveChar().isOnline() == 0)
 					{
-						_log.severe("ATTENTION: Account "+client.accountName+" is trying to send packet with opcode "+opcode+" without enterning in the world (online status is FALSE)..");
+						LOGGER.warn("ATTENTION: Account " + client.accountName + " is trying to send packet with opcode " + opcode + " without enterning in the world (online status is FALSE)..");
 						break;
 					}
 					
 				}
 				
-				switch(opcode)
+				switch (opcode)
 				{
 					case 0x01:
 						msg = new MoveBackwardToLocation();
 						break;
-					//					case 0x02:
-					//						// Say  ... not used any more ??
-					//						break;
+					// case 0x02:
+					// // Say ... not used any more ??
+					// break;
 					case 0x03:
 						msg = new EnterWorld();
 						break;
@@ -190,7 +197,7 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 						msg = new RequestItemList();
 						break;
 					case 0x10:
-						//						// RequestEquipItem ... not used any more, instead "useItem"
+						// // RequestEquipItem ... not used any more, instead "useItem"
 						break;
 					case 0x11:
 						msg = new RequestUnEquipItem();
@@ -253,7 +260,7 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 						msg = new RequestOustPledgeMember();
 						break;
 					case 0x28:
-						//						// RequestDismissPledge
+						// // RequestDismissPledge
 						break;
 					case 0x29:
 						msg = new RequestJoinParty();
@@ -277,10 +284,10 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 						msg = new RequestMagicSkillUse();
 						break;
 					case 0x30:
-						msg = new Appearing(); //  (after death)
+						msg = new Appearing(); // (after death)
 						break;
 					case 0x31:
-						if(Config.ALLOW_WAREHOUSE)
+						if (Config.ALLOW_WAREHOUSE)
 						{
 							msg = new SendWareHouseDepositList();
 						}
@@ -317,7 +324,7 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 						break;
 					case 0x41:
 						msg = new MoveWithDelta();
-						//						// MoveWithDelta    ... unused ?? or only on ship ??
+						// // MoveWithDelta ... unused ?? or only on ship ??
 						break;
 					case 0x42:
 						msg = new RequestGetOnVehicle();
@@ -341,9 +348,9 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 						msg = new ValidatePosition();
 						break;
 					case 0x49:
-						//						// RequestSEKCustom
+						// // RequestSEKCustom
 						break;
-					//						THESE ARE NOW TEMPORARY DISABLED
+					// THESE ARE NOW TEMPORARY DISABLED
 					case 0x4a:
 						msg = new StartRotating();
 						break;
@@ -398,7 +405,7 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 					case 0x5f:
 						msg = new RequestAnswerFriendInvite();
 						break;
-
+					
 					case 0x60:
 						msg = new RequestFriendList();
 						break;
@@ -424,10 +431,10 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 						msg = new RequestSurrenderPersonally();
 						break;
 					case 0x6a:
-						//						// Ride
+						// // Ride
 						break;
 					case 0x6b: // send when talking to trainer npc, to show list of available skills
-						msg = new RequestAquireSkillInfo();//  --> [s] 0xa4;
+						msg = new RequestAquireSkillInfo();// --> [s] 0xa4;
 						break;
 					case 0x6c: // send when a skill to be learned is selected
 						msg = new RequestAquireSkill();
@@ -439,9 +446,9 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 						msg = new RequestGMCommand();
 						break;
 					case 0x6f:
-						msg = new RequestPartyMatchConfig(); 
-						break; 
-					case 0x70: 
+						msg = new RequestPartyMatchConfig();
+						break;
+					case 0x70:
 						msg = new RequestPartyMatchList();
 						break;
 					case 0x71:
@@ -457,7 +464,7 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 						msg = new SetPrivateStoreListSell();
 						break;
 					case 0x75:
-						//						msg = new RequestPrivateStoreManageCancel(data, _client);
+						// msg = new RequestPrivateStoreManageCancel(data, _client);
 						break;
 					case 0x76:
 						msg = new RequestPrivateStoreQuitSell();
@@ -466,13 +473,13 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 						msg = new SetPrivateStoreMsgSell();
 						break;
 					case 0x78:
-						//						// RequestPrivateStoreList
+						// // RequestPrivateStoreList
 						break;
 					case 0x79:
 						msg = new RequestPrivateStoreBuy();
 						break;
 					case 0x7a:
-						//						// ReviveReply
+						// // ReviveReply
 						break;
 					case 0x7b:
 						msg = new RequestTutorialLinkHtml();
@@ -541,7 +548,7 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 						msg = new SetPrivateStoreListBuy();
 						break;
 					case 0x92:
-						//						// RequestPrivateStoreBuyManageCancel
+						// // RequestPrivateStoreBuyManageCancel
 						break;
 					case 0x93:
 						msg = new RequestPrivateStoreQuitBuy();
@@ -550,34 +557,34 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 						msg = new SetPrivateStoreMsgBuy();
 						break;
 					case 0x95:
-						//						// RequestPrivateStoreBuyList
+						// // RequestPrivateStoreBuyList
 						break;
 					case 0x96:
 						msg = new RequestPrivateStoreSell();
 						break;
 					case 0x97:
-						//						// SendTimeCheckPacket
+						// // SendTimeCheckPacket
 						break;
 					case 0x98:
-						//						// RequestStartAllianceWar
+						// // RequestStartAllianceWar
 						break;
 					case 0x99:
-						//						// ReplyStartAllianceWar
+						// // ReplyStartAllianceWar
 						break;
 					case 0x9a:
-						//						// RequestStopAllianceWar
+						// // RequestStopAllianceWar
 						break;
 					case 0x9b:
-						//		 				// ReplyStopAllianceWar
+						// // ReplyStopAllianceWar
 						break;
 					case 0x9c:
-						//						// RequestSurrenderAllianceWar
+						// // RequestSurrenderAllianceWar
 						break;
 					case 0x9d:
 						msg = new RequestSkillCoolTime();
-						/*if (Config.DEBUG)
-							_log.info("Request Skill Cool Time .. ignored");
-						msg = null;*/
+						/*
+						 * if (Config.DEBUG) LOGGER.info("Request Skill Cool Time .. ignored"); msg = null;
+						 */
 						break;
 					case 0x9e:
 						msg = new RequestPackageSendableItemList();
@@ -589,7 +596,7 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 						msg = new RequestBlock();
 						break;
 					case 0xa1:
-						//						// RequestCastleSiegeInfo
+						// // RequestCastleSiegeInfo
 						break;
 					case 0xa2:
 						msg = new RequestSiegeAttackerList();
@@ -604,13 +611,13 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 						msg = new RequestConfirmSiegeWaitingList();
 						break;
 					case 0xa6:
-						//						// RequestSetCastleSiegeTime
+						// // RequestSetCastleSiegeTime
 						break;
 					case 0xa7:
 						msg = new MultiSellChoose();
 						break;
 					case 0xa8:
-						//						// NetPing
+						// // NetPing
 						break;
 					case 0xaa:
 						msg = new RequestUserCommand();
@@ -630,9 +637,9 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 					case 0xaf:
 						msg = new RequestRecipeItemMakeSelf();
 						break;
-
+					
 					case 0xb0:
-						//	msg = new RequestRecipeShopManageList(data, client);
+						// msg = new RequestRecipeShopManageList(data, client);
 						break;
 					case 0xb1:
 						msg = new RequestRecipeShopMessageSet();
@@ -644,7 +651,7 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 						msg = new RequestRecipeShopManageQuit();
 						break;
 					case 0xb4:
-						//msg = new SnoopQuit();
+						// msg = new SnoopQuit();
 						break;
 					case 0xb5:
 						msg = new RequestRecipeShopMakeInfo();
@@ -707,40 +714,32 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 						break;
 					case 0xce: // MSN dialogs so that you dont see them in the console.
 						break;
-					case 0xcf: //record video
+					case 0xcf: // record video
 						msg = new RequestRecordInfo();
 						break;
-
+					
 					case 0xd0:
-						/*int id2 = -1;
-						if(buf.remaining() >= 2)
+						/*
+						 * int id2 = -1; if(buf.remaining() >= 2) { id2 = buf.getShort() & 0xffff; } else { LOGGER.warn("Client: " + client.toString() + " sent a 0xd0 without the second opcode."); break; }
+						 */
+						if (opcode2 == -1)
 						{
-							id2 = buf.getShort() & 0xffff;
-						}
-						else
-						{
-							_log.warning("Client: " + client.toString() + " sent a 0xd0 without the second opcode.");
-							break;
-						}
-*/
-						if(opcode2==-1)
-						{
-							_log.warning("Client: " + client.toString() + " sent a 0xd0 without the second opcode.");
+							LOGGER.warn("Client: " + client.toString() + " sent a 0xd0 without the second opcode.");
 							break;
 						}
 						
-						
-						if(!com.l2jfrozen.netcore.Config.getInstance().LIST_ALLOWED_OFFLINE_OPCODES2.contains(opcode2)){
+						if (!NetcoreConfig.getInstance().LIST_ALLOWED_OFFLINE_OPCODES2.contains(opcode2))
+						{
 							
-							if(client.getActiveChar() == null || client.getActiveChar().isOnline() == 0)
+							if (client.getActiveChar() == null || client.getActiveChar().isOnline() == 0)
 							{
-								_log.severe("ATTENTION: Account "+client.accountName+" is trying to send packet with opcode "+opcode+" (opcode2 = "+opcode2+") without enterning in the world (online status is FALSE)..");
+								LOGGER.warn("ATTENTION: Account " + client.accountName + " is trying to send packet with opcode " + opcode + " (opcode2 = " + opcode2 + ") without enterning in the world (online status is FALSE)..");
 								break;
 							}
 							
 						}
 						
-						switch(opcode2)
+						switch (opcode2)
 						{
 							case 1:
 								msg = new RequestOustFromPartyRoom();
@@ -887,9 +886,9 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 								break;
 						}
 						break;
-					/*case 0xee:
-						msg = new RequestChangePartyLeader();
-						break;*/
+					/*
+					 * case 0xee: msg = new RequestChangePartyLeader(); break;
+					 */
 					default:
 						printDebugDoubleOpcode(opcode, 0, buf, state, client);
 						break;
@@ -897,132 +896,92 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 				break;
 			}
 		}
-
+		
 		state = null;
-
+		
 		return msg;
 	}
-
-	private void printDebug(int opcode, ByteBuffer buf, GameClientState state, L2GameClient client)
+	
+	private void printDebug(final int opcode, final ByteBuffer buf, final GameClientState state, final L2GameClient client)
 	{
-		if(Config.ENABLE_UNK_PACKET_PROTECTION)
+		if (Config.ENABLE_UNK_PACKET_PROTECTION)
 		{
-			 client.checkUnknownPackets();
+			client.checkUnknownPackets();
 		}
 		
-		if (!com.l2jfrozen.netcore.Config.getInstance().PACKET_HANDLER_DEBUG)
+		if (!NetcoreConfig.getInstance().PACKET_HANDLER_DEBUG)
 			return;
 		
-		//int size = buf.remaining();
-		int v = buf.remaining();
-
-		if(Config.DEBUG_UNKNOWN_PACKETS)
+		// int size = buf.remaining();
+		final int v = buf.remaining();
+		
+		if (Config.DEBUG_UNKNOWN_PACKETS)
 		{
-			_log.warning("Unknown Packet: " + Integer.toHexString(opcode) + " on State: " + state.name() + " Client: " + client.toString());
+			LOGGER.warn("Unknown Packet: " + Integer.toHexString(opcode) + " on State: " + state.name() + " Client: " + client.toString());
 		}
-
+		
 		byte[] array = new byte[v];
-
+		
 		buf.get(array);
-
-		if(Config.DEBUG_UNKNOWN_PACKETS)
+		
+		if (Config.DEBUG_UNKNOWN_PACKETS)
 		{
-			_log.warning(Util.printData(array, v));
+			LOGGER.warn(Util.printData(array, v));
 		}
-
+		
 		array = null;
-
 		
 	}
-
-	private void printDebugDoubleOpcode(int opcode, int id2, ByteBuffer buf, GameClientState state, L2GameClient client)
+	
+	private void printDebugDoubleOpcode(final int opcode, final int id2, final ByteBuffer buf, final GameClientState state, final L2GameClient client)
 	{
-		if(Config.ENABLE_UNK_PACKET_PROTECTION)
+		if (Config.ENABLE_UNK_PACKET_PROTECTION)
 		{
-			 client.checkUnknownPackets();
+			client.checkUnknownPackets();
 		}
 		
-		if (!com.l2jfrozen.netcore.Config.getInstance().PACKET_HANDLER_DEBUG)
+		if (!NetcoreConfig.getInstance().PACKET_HANDLER_DEBUG)
 			return;
 		
-		//int size = buf.remaining();
-		int v = buf.remaining();
-
-		if(Config.DEBUG_UNKNOWN_PACKETS)
+		// int size = buf.remaining();
+		final int v = buf.remaining();
+		
+		if (Config.DEBUG_UNKNOWN_PACKETS)
 		{
-			_log.warning("Unknown Packet: " + Integer.toHexString(opcode) + ":" + Integer.toHexString(id2) + " on State: " + state.name() + " Client: " + client.toString());
+			LOGGER.warn("Unknown Packet: " + Integer.toHexString(opcode) + ":" + Integer.toHexString(id2) + " on State: " + state.name() + " Client: " + client.toString());
 		}
-
+		
 		byte[] array = new byte[v];
-
+		
 		buf.get(array);
-
-		if(Config.DEBUG_UNKNOWN_PACKETS)
+		
+		if (Config.DEBUG_UNKNOWN_PACKETS)
 		{
-			_log.warning(Util.printData(array, v));
+			LOGGER.warn(Util.printData(array, v));
 		}
-
+		
 		array = null;
-
+		
 	}
-
+	
 	@Override
-	public L2GameClient create(MMOConnection<L2GameClient> con)
+	public L2GameClient create(final MMOConnection<L2GameClient> con)
 	{
 		return new L2GameClient(con);
 	}
-
+	
 	@Override
-	public void execute(ReceivablePacket<L2GameClient> rp)
+	public void execute(final ReceivablePacket<L2GameClient> rp)
 	{
 		rp.getClient().execute(rp);
 	}
-
+	
 	/*
-	private void unknownPacketProtection(L2GameClient client)
-	{
-		if(client.getActiveChar() != null && client.checkUnknownPackets())
-		{
-			UnknownPunish(client);
-			return;
-		}
-	}
-
-	private void UnknownPunish(L2GameClient client)
-	{
-		switch(Config.UNKNOWN_PACKETS_PUNiSHMENT)
-		{
-			case 1:
-				if(client.getActiveChar() != null)
-				{
-					GmListTable.broadcastMessageToGMs("Player " + client.getActiveChar().toString() + " flooding unknown packets.");
-				}
-				_log.warning("Player " + client.getActiveChar().toString() + " flooding unknown packets.");
-				break;
-
-			case 2:
-				_log.warning("PacketProtection: " + client.toString() + " got kicked due flooding of unknown packets");
-
-				if(client.getActiveChar() != null)
-				{
-					GmListTable.broadcastMessageToGMs("Player " + client.getActiveChar().toString() + " flooding unknown packets and got kicked.");
-					client.getActiveChar().sendMessage("You are will be kicked for unknown packet flooding, GM informed");
-					client.getActiveChar().closeNetConnection();
-				}
-				break;
-
-			case 3:
-				_log.warning("PacketProtection: " + client.toString() + " got banned due flooding of unknown packets");
-				client.getActiveChar().setAccessLevel(-1);
-
-				if(client.getActiveChar() != null)
-				{
-					GmListTable.broadcastMessageToGMs("Player " + client.getActiveChar().toString() + " flooding unknown packets and got banned.");
-					client.getActiveChar().sendMessage("You are banned for unknown packet flooding, GM informed.");
-					client.getActiveChar().closeNetConnection();
-				}
-				break;
-		}
-	}
-	*/
+	 * private void unknownPacketProtection(L2GameClient client) { if(client.getActiveChar() != null && client.checkUnknownPackets()) { UnknownPunish(client); return; } } private void UnknownPunish(L2GameClient client) { switch(Config.UNKNOWN_PACKETS_PUNiSHMENT) { case 1: if(client.getActiveChar()
+	 * != null) { GmListTable.broadcastMessageToGMs("Player " + client.getActiveChar().toString() + " flooding unknown packets."); } LOGGER.warn("Player " + client.getActiveChar().toString() + " flooding unknown packets."); break; case 2: LOGGER.warn("PacketProtection: " + client.toString() +
+	 * " got kicked due flooding of unknown packets"); if(client.getActiveChar() != null) { GmListTable.broadcastMessageToGMs("Player " + client.getActiveChar().toString() + " flooding unknown packets and got kicked.");
+	 * client.getActiveChar().sendMessage("You are will be kicked for unknown packet flooding, GM informed"); client.getActiveChar().closeNetConnection(); } break; case 3: LOGGER.warn("PacketProtection: " + client.toString() + " got banned due flooding of unknown packets");
+	 * client.getActiveChar().setAccessLevel(-1); if(client.getActiveChar() != null) { GmListTable.broadcastMessageToGMs("Player " + client.getActiveChar().toString() + " flooding unknown packets and got banned.");
+	 * client.getActiveChar().sendMessage("You are banned for unknown packet flooding, GM informed."); client.getActiveChar().closeNetConnection(); } break; } }
+	 */
 }

@@ -21,9 +21,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Calendar;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -31,33 +33,33 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public abstract class ClanHallSiege
 {
-	private static Logger _log = Logger.getLogger(ClanHallSiege.class.getName());
+	private static Logger LOGGER = Logger.getLogger(ClanHallSiege.class);
 	private Calendar _siegeDate;
 	public Calendar _siegeEndDate;
 	private boolean _isInProgress = false;
-
-	public long restoreSiegeDate(int ClanHallId)
+	
+	public long restoreSiegeDate(final int ClanHallId)
 	{
 		long res = 0;
 		Connection con = null;
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection(false);
-			PreparedStatement statement = con.prepareStatement("SELECT siege_data FROM clanhall_siege WHERE id=?");
+			final PreparedStatement statement = con.prepareStatement("SELECT siege_data FROM clanhall_siege WHERE id=?");
 			statement.setInt(1, ClanHallId);
-			ResultSet rs = statement.executeQuery();
-
-			if(rs.next())
+			final ResultSet rs = statement.executeQuery();
+			
+			if (rs.next())
 			{
 				res = rs.getLong("siege_data");
 			}
-
+			
 			rs.close();
-			statement.close();
+			DatabaseUtils.close(statement);
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
-			_log.warning("Exception: can't get clanhall siege date: ");
+			LOGGER.warn("Exception: can't get clanhall siege date: ");
 			e.printStackTrace();
 		}
 		finally
@@ -67,11 +69,11 @@ public abstract class ClanHallSiege
 		}
 		return res;
 	}
-
-	public void setNewSiegeDate(long siegeDate, int ClanHallId, int hour)
+	
+	public void setNewSiegeDate(final long siegeDate, final int ClanHallId, final int hour)
 	{
-		Calendar tmpDate = Calendar.getInstance();
-		if(siegeDate <= System.currentTimeMillis())
+		final Calendar tmpDate = Calendar.getInstance();
+		if (siegeDate <= System.currentTimeMillis())
 		{
 			tmpDate.setTimeInMillis(System.currentTimeMillis());
 			tmpDate.add(Calendar.DAY_OF_MONTH, 3);
@@ -79,21 +81,21 @@ public abstract class ClanHallSiege
 			tmpDate.set(Calendar.HOUR_OF_DAY, hour);
 			tmpDate.set(Calendar.MINUTE, 0);
 			tmpDate.set(Calendar.SECOND, 0);
-
+			
 			setSiegeDate(tmpDate);
 			Connection con = null;
 			try
 			{
 				con = L2DatabaseFactory.getInstance().getConnection(false);
-				PreparedStatement statement = con.prepareStatement("UPDATE clanhall_siege SET siege_data=? WHERE id = ?");
+				final PreparedStatement statement = con.prepareStatement("UPDATE clanhall_siege SET siege_data=? WHERE id = ?");
 				statement.setLong(1, getSiegeDate().getTimeInMillis());
 				statement.setInt(2, ClanHallId);
 				statement.execute();
-				statement.close();
+				DatabaseUtils.close(statement);
 			}
-			catch(Exception e)
+			catch (final Exception e)
 			{
-				_log.warning("Exception: can't save clanhall siege date: ");
+				LOGGER.warn("Exception: can't save clanhall siege date: ");
 				e.printStackTrace();
 			}
 			finally
@@ -103,23 +105,23 @@ public abstract class ClanHallSiege
 			}
 		}
 	}
-
+	
 	public final Calendar getSiegeDate()
 	{
 		return _siegeDate;
 	}
-
-	public final void setSiegeDate(Calendar par)
+	
+	public final void setSiegeDate(final Calendar par)
 	{
 		_siegeDate = par;
 	}
-
+	
 	public final boolean getIsInProgress()
 	{
 		return _isInProgress;
 	}
-
-	public final void setIsInProgress(boolean par)
+	
+	public final void setIsInProgress(final boolean par)
 	{
 		_isInProgress = par;
 	}

@@ -30,51 +30,51 @@ import com.l2jfrozen.gameserver.skills.Env;
 public final class EffectSignetAntiSummon extends L2Effect
 {
 	private L2EffectPointInstance _actor;
-
-	public EffectSignetAntiSummon(Env env, EffectTemplate template)
+	
+	public EffectSignetAntiSummon(final Env env, final EffectTemplate template)
 	{
 		super(env, template);
 	}
-
+	
 	@Override
 	public EffectType getEffectType()
 	{
 		return EffectType.SIGNET_GROUND;
 	}
-
+	
 	@Override
 	public void onStart()
 	{
 		_actor = (L2EffectPointInstance) getEffected();
 	}
-
+	
 	@Override
 	public boolean onActionTime()
 	{
-		if(getCount() == getTotalCount() - 1)
+		if (getCount() == getTotalCount() - 1)
 			return true; // do nothing first time
-		int mpConsume = getSkill().getMpConsume();
-
-		for(L2Character cha : _actor.getKnownList().getKnownCharactersInRadius(getSkill().getSkillRadius()))
+		final int mpConsume = getSkill().getMpConsume();
+		
+		for (final L2Character cha : _actor.getKnownList().getKnownCharactersInRadius(getSkill().getSkillRadius()))
 		{
-			if(cha == null)
+			if (cha == null)
 			{
 				continue;
 			}
-
-			if(cha instanceof L2PlayableInstance)
+			
+			if (cha instanceof L2PlayableInstance)
 			{
-				L2PcInstance owner = (L2PcInstance) cha;
-				if(owner.getPet() != null)
+				final L2PcInstance owner = (L2PcInstance) cha;
+				if (owner.getPet() != null)
 				{
-					if(mpConsume > getEffector().getStatus().getCurrentMp())
+					if (mpConsume > getEffector().getStatus().getCurrentMp())
 					{
 						getEffector().sendPacket(new SystemMessage(SystemMessageId.SKILL_REMOVED_DUE_LACK_MP));
 						return false;
 					}
-
+					
 					getEffector().reduceCurrentMp(mpConsume);
-
+					
 					owner.getPet().unSummon(owner);
 					owner.getAI().notifyEvent(CtrlEvent.EVT_ATTACKED, getEffector());
 				}
@@ -82,11 +82,11 @@ public final class EffectSignetAntiSummon extends L2Effect
 		}
 		return true;
 	}
-
+	
 	@Override
 	public void onExit()
 	{
-		if(_actor != null)
+		if (_actor != null)
 		{
 			_actor.deleteMe();
 		}

@@ -33,31 +33,34 @@ import com.l2jfrozen.util.random.Rnd;
 
 public class GetPlayer implements ISkillHandler
 {
-	private static final SkillType[] SKILL_IDS = { SkillType.GET_PLAYER };
-
-	@Override
-	public void useSkill(L2Character activeChar, L2Skill skill, L2Object[] targets)
+	private static final SkillType[] SKILL_IDS =
 	{
-		if(activeChar.isAlikeDead())
+		SkillType.GET_PLAYER
+	};
+	
+	@Override
+	public void useSkill(final L2Character activeChar, final L2Skill skill, final L2Object[] targets)
+	{
+		if (activeChar.isAlikeDead())
 			return;
-
-		for(L2Object target : targets)
+		
+		for (final L2Object target : targets)
 		{
-			if(target instanceof L2PcInstance)
+			if (target instanceof L2PcInstance)
 			{
 				L2PcInstance trg = (L2PcInstance) target;
-				if(trg.isAlikeDead())
+				if (trg.isAlikeDead())
 					continue;
-
-				//trg.teleToLocation(activeChar.getX(), activeChar.getY(), activeChar.getZ(), true);
+				
+				// trg.teleToLocation(activeChar.getX(), activeChar.getY(), activeChar.getZ(), true);
 				trg.setXYZ(activeChar.getX() + Rnd.get(-10, 10), activeChar.getY() + Rnd.get(-10, 10), activeChar.getZ());
 				trg.sendPacket(new ValidateLocation(trg));
-
+				
 				trg = null;
 			}
 		}
 	}
-
+	
 	@Override
 	public SkillType[] getSkillIds()
 	{

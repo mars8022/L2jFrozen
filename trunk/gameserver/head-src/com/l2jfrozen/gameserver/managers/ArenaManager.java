@@ -19,6 +19,8 @@ package com.l2jfrozen.gameserver.managers;
 
 import javolution.util.FastList;
 
+import org.apache.log4j.Logger;
+
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.zone.type.L2ArenaZone;
 
@@ -26,62 +28,64 @@ public class ArenaManager
 {
 	// =========================================================
 	private static ArenaManager _instance;
-
+	private static final Logger LOGGER = Logger.getLogger(ArenaManager.class);
+	
 	public static final ArenaManager getInstance()
 	{
-		if(_instance == null)
+		if (_instance == null)
 		{
-			System.out.println("Initializing ArenaManager");
+			LOGGER.info("Initializing ArenaManager");
 			_instance = new ArenaManager();
 		}
 		return _instance;
 	}
-
+	
 	// =========================================================
-
+	
 	// =========================================================
 	// Data Field
 	private FastList<L2ArenaZone> _arenas;
-
+	
 	// =========================================================
 	// Constructor
 	public ArenaManager()
-	{}
-
+	{
+	}
+	
 	// =========================================================
 	// Property - Public
-
-	public void addArena(L2ArenaZone arena)
+	
+	public void addArena(final L2ArenaZone arena)
 	{
-		if(_arenas == null)
+		if (_arenas == null)
 		{
-			_arenas = new FastList<L2ArenaZone>();
+			_arenas = new FastList<>();
 		}
-
+		
 		_arenas.add(arena);
 	}
-
-	public final L2ArenaZone getArena(L2Character character)
+	
+	public final L2ArenaZone getArena(final L2Character character)
 	{
-		if(_arenas != null)
+		if (_arenas != null)
 		{
-			for(L2ArenaZone temp : _arenas)
-				if(temp.isCharacterInZone(character))
+			for (final L2ArenaZone temp : _arenas)
+				if (temp.isCharacterInZone(character))
 					return temp;
 		}
-
+		
 		return null;
 	}
-
-	public final L2ArenaZone getArena(int x, int y, int z)
+	
+	public final L2ArenaZone getArena(final int x, final int y, final int z)
 	{
-		if(_arenas != null)
+		if (_arenas != null)
 		{
-			for(L2ArenaZone temp : _arenas)
-				if(temp.isInsideZone(x, y, z))
+			for (final L2ArenaZone temp : _arenas)
+				if (temp.isInsideZone(x, y, z))
 					return temp;
 		}
-
+		
 		return null;
 	}
 }

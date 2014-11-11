@@ -30,20 +30,20 @@ import javolution.text.TextBuilder;
 public class AuditFormatter extends Formatter
 {
 	private static final String CRLF = "\r\n";
-	private SimpleDateFormat dateFmt = new SimpleDateFormat("dd MMM H:mm:ss");
-
+	private final SimpleDateFormat dateFmt = new SimpleDateFormat("dd MMM H:mm:ss");
+	
 	@Override
-	public String format(LogRecord record)
+	public String format(final LogRecord record)
 	{
-		TextBuilder output = new TextBuilder();
+		final TextBuilder output = new TextBuilder();
 		output.append('[');
 		output.append(dateFmt.format(new Date(record.getMillis())));
 		output.append(']');
 		output.append(' ');
 		output.append(record.getMessage());
-		for(Object p : record.getParameters())
+		for (final Object p : record.getParameters())
 		{
-			if(p == null)
+			if (p == null)
 			{
 				continue;
 			}
@@ -52,7 +52,7 @@ public class AuditFormatter extends Formatter
 			output.append(p.toString());
 		}
 		output.append(CRLF);
-
+		
 		return output.toString();
 	}
 }

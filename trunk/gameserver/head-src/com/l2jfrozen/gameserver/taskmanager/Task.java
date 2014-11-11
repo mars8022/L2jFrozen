@@ -18,7 +18,8 @@
 package com.l2jfrozen.gameserver.taskmanager;
 
 import java.util.concurrent.ScheduledFuture;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.taskmanager.TaskManager.ExecutedTask;
@@ -28,25 +29,26 @@ import com.l2jfrozen.gameserver.taskmanager.TaskManager.ExecutedTask;
  */
 public abstract class Task
 {
-	private static Logger _log = Logger.getLogger(Task.class.getName());
-
+	private static Logger LOGGER = Logger.getLogger(Task.class);
+	
 	public void initializate()
 	{
-		if(Config.DEBUG)
+		if (Config.DEBUG)
 		{
-			_log.info("Task" + getName() + " inializate");
+			LOGGER.info("Task" + getName() + " inializate");
 		}
 	}
-
-	public ScheduledFuture<?> launchSpecial(ExecutedTask instance)
+	
+	public ScheduledFuture<?> launchSpecial(final ExecutedTask instance)
 	{
 		return null;
 	}
-
+	
 	public abstract String getName();
-
+	
 	public abstract void onTimeElapsed(ExecutedTask task);
-
+	
 	public void onDestroy()
-	{}
+	{
+	}
 }

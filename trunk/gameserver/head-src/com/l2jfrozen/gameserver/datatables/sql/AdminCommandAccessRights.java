@@ -19,13 +19,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.AccessLevel;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -34,21 +36,21 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
 public class AdminCommandAccessRights
 {
 	/** The logger<br> */
-	protected static final Logger _log = Logger.getLogger(AdminCommandAccessRights.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(AdminCommandAccessRights.class);
 	
 	/** The one and only instance of this class, retriveable by getInstance()<br> */
 	private static AdminCommandAccessRights _instance = null;
-
+	
 	/** The access rights<br> */
-	private final Map<String, Integer> _adminCommandAccessRights = new FastMap<String, Integer>();
-
+	private final Map<String, Integer> adminCommandAccessRights = new FastMap<>();
+	
 	/**
 	 * Loads admin command access rights from database<br>
 	 */
 	private AdminCommandAccessRights()
 	{
 		Connection con = null;
-
+		
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection(false);
@@ -56,32 +58,31 @@ public class AdminCommandAccessRights
 			final ResultSet rset = stmt.executeQuery();
 			String adminCommand = null;
 			int accessLevels = 1;
-
-			while(rset.next())
+			
+			while (rset.next())
 			{
 				adminCommand = rset.getString("adminCommand");
 				accessLevels = rset.getInt("accessLevels");
-				_adminCommandAccessRights.put(adminCommand, accessLevels);
+				adminCommandAccessRights.put(adminCommand, accessLevels);
 			}
-			rset.close();
+			DatabaseUtils.close(rset);
 			stmt.close();
 		}
-		catch(SQLException e)
+		catch (final SQLException e)
 		{
-			_log.severe("Admin Access Rights: Error loading from database"+" "+ e);
+			LOGGER.error("Admin Access Rights: Error loading from database", e);
 		}
 		finally
 		{
 			CloseUtil.close(con);
 		}
-
-		_log.finest("Admin Access Rights: Loaded {} Access Rigths from database."+" "+ _adminCommandAccessRights.size());
+		
+		LOGGER.info("Admin Access Rights: Loaded " + adminCommandAccessRights.size() + " Access Rigths from database.");
 	}
-
+	
 	/**
 	 * Returns the one and only instance of this class<br>
 	 * <br>
-	 * 
 	 * @return AdminCommandAccessRights: the one and only instance of this class<br>
 	 */
 	public static AdminCommandAccessRights getInstance()
@@ -89,52 +90,55 @@ public class AdminCommandAccessRights
 		return _instance == null ? (_instance = new AdminCommandAccessRights()) : _instance;
 	}
 	
-	public static void reload(){
+	public static void reload()
+	{
 		_instance = null;
 		getInstance();
 	}
-
-	public int accessRightForCommand(String command){
+	
+	public int accessRightForCommand(final String command)
+	{
 		int out = -1;
 		
-		if(_adminCommandAccessRights.containsKey(command)){
-			out = _adminCommandAccessRights.get(command);
+		if (adminCommandAccessRights.containsKey(command))
+		{
+			out = adminCommandAccessRights.get(command);
 		}
 		
 		return out;
 	}
 	
-	public boolean hasAccess(String adminCommand, AccessLevel accessLevel)
+	public boolean hasAccess(final String adminCommand, final AccessLevel accessLevel)
 	{
-		if(accessLevel.getLevel() <= 0)
+		if (accessLevel.getLevel() <= 0)
 			return false;
-
-		if(!accessLevel.isGm())
+		
+		if (!accessLevel.isGm())
 			return false;
-
-		if(accessLevel.getLevel() == Config.MASTERACCESS_LEVEL)
+		
+		if (accessLevel.getLevel() == Config.MASTERACCESS_LEVEL)
 			return true;
-
-		//L2EMU_ADD - Visor123  need parse command before check
+		
+		// L2EMU_ADD - Visor123 need parse command before check
 		String command = adminCommand;
-		if(adminCommand.indexOf(" ") != -1)
+		if (adminCommand.indexOf(" ") != -1)
 		{
 			command = adminCommand.substring(0, adminCommand.indexOf(" "));
 		}
-		//L2EMU_ADD
-
+		// L2EMU_ADD
+		
 		int acar = 0;
-		if(_adminCommandAccessRights.get(command) != null)
+		if (adminCommandAccessRights.get(command) != null)
 		{
-			acar = _adminCommandAccessRights.get(command);
+			acar = adminCommandAccessRights.get(command);
 		}
-
-		if(acar == 0)
+		
+		if (acar == 0)
 		{
-			_log.warning("Admin Access Rights: No rights defined for admin command {}."+" "+ command);
+			LOGGER.warn("Admin Access Rights: No rights defined for admin command {}." + " " + command);
 			return false;
 		}
-		else if(acar >= accessLevel.getLevel())
+		else if (acar >= accessLevel.getLevel())
 			return true;
 		else
 			return false;

@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.GameServer;
@@ -40,28 +40,28 @@ import com.l2jfrozen.gameserver.taskmanager.AttackStanceTaskManager;
 
 public final class RequestRestart extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(RequestRestart.class.getName());
-
+	private static Logger LOGGER = Logger.getLogger(RequestRestart.class);
+	
 	@Override
 	protected void readImpl()
 	{
-	// trigger
+		// trigger
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance player = getClient().getActiveChar();
+		final L2PcInstance player = getClient().getActiveChar();
 		
 		// Check if player is == null
-		if(player == null)
+		if (player == null)
 		{
-			_log.warning("[RequestRestart] activeChar null!?");
+			LOGGER.warn("[RequestRestart] activeChar null!?");
 			return;
 		}
-
+		
 		// Check if player is enchanting
-		if(player.getActiveEnchantItem() != null)
+		if (player.getActiveEnchantItem() != null)
 		{
 			sendPacket(RestartResponse.valueOf(false));
 			return;
@@ -70,7 +70,7 @@ public final class RequestRestart extends L2GameClientPacket
 		// Check if player are changing class
 		if (player.isLocked())
 		{
-			_log.severe(" [ERROR] [WARNING]Player " + player.getName() + " tried to restart during class change.");
+			LOGGER.warn("Player " + player.getName() + " tried to restart during class change.");
 			sendPacket(RestartResponse.valueOf(false));
 			return;
 		}
@@ -78,7 +78,7 @@ public final class RequestRestart extends L2GameClientPacket
 		player.getInventory().updateDatabase();
 		
 		// Check if player is in private store
-		if(player.getPrivateStoreType() != 0)
+		if (player.getPrivateStoreType() != 0)
 		{
 			player.sendMessage("Cannot restart while trading.");
 			sendPacket(RestartResponse.valueOf(false));
@@ -86,114 +86,117 @@ public final class RequestRestart extends L2GameClientPacket
 		}
 		
 		// Check if player is in combat
-		if(AttackStanceTaskManager.getInstance().getAttackStanceTask(player) && !(player.isGM() && Config.GM_RESTART_FIGHTING))
+		if (AttackStanceTaskManager.getInstance().getAttackStanceTask(player) && !(player.isGM() && Config.GM_RESTART_FIGHTING))
 		{
-			if(Config.DEBUG)
-				_log.fine("Player " + player.getName() + " tried to logout while fighting.");
-
+			if (Config.DEBUG)
+				LOGGER.debug("Player " + player.getName() + " tried to logout while fighting.");
+			
 			player.sendPacket(new SystemMessage(SystemMessageId.CANT_RESTART_WHILE_FIGHTING));
 			sendPacket(RestartResponse.valueOf(false));
 			return;
 		}
-
+		
 		// Check if player is registred on olympiad
-		if(player.getOlympiadGameId() > 0 || player.isInOlympiadMode() || Olympiad.getInstance().isRegistered(player))
+		if (player.getOlympiadGameId() > 0 || player.isInOlympiadMode() || Olympiad.getInstance().isRegistered(player))
 		{
 			player.sendMessage("You can't restart while in Olympiad.");
 			sendPacket(RestartResponse.valueOf(false));
 			return;
 		}
-
+		
 		// Check if player is in away mode
-		if(player.isAway())
+		if (player.isAway())
 		{
 			player.sendMessage("You can't restart in Away mode.");
 			sendPacket(RestartResponse.valueOf(false));
 			return;
 		}
-
+		
 		// Prevent player from restarting if they are a festival participant
 		// and it is in progress, otherwise notify party members that the player
 		// is not longer a participant.
-		if(player.isFestivalParticipant())
+		if (player.isFestivalParticipant())
 		{
-			if(SevenSignsFestival.getInstance().isFestivalInitialized())
+			if (SevenSignsFestival.getInstance().isFestivalInitialized())
 			{
 				player.sendPacket(SystemMessage.sendString("You cannot restart while you are a participant in a festival."));
 				player.sendPacket(ActionFailed.STATIC_PACKET);
 				sendPacket(RestartResponse.valueOf(false));
 				return;
 			}
-
-			L2Party playerParty = player.getParty();
-			if(playerParty != null)
+			
+			final L2Party playerParty = player.getParty();
+			if (playerParty != null)
 			{
 				player.getParty().broadcastToPartyMembers(SystemMessage.sendString(player.getName() + " has been removed from the upcoming festival."));
 			}
 		}
-
+		
 		// Check if player is in Event
-		if(player._inEventCTF || player._inEventDM || player._inEventTvT || player._inEventVIP){
+		if (player._inEventCTF || player._inEventDM || player._inEventTvT || player._inEventVIP)
+		{
 			player.sendMessage("You can't restart during Event.");
 			sendPacket(RestartResponse.valueOf(false));
 			return;
 		}
 		
 		// Fix against exploit anti-target
-		if (player.isCastingNow()) 
-		{ 
+		if (player.isCastingNow())
+		{
 			player.abortCast();
 			player.sendPacket(new ActionFailed());
-		} 
-
+		}
+		
 		// Check if player is teleporting
-		if(player.isTeleporting())
+		if (player.isTeleporting())
 		{
 			player.abortCast();
 			player.setIsTeleporting(false);
 		}
-
+		
 		// Check if player is trading
-		if(player.getActiveRequester() != null)
+		if (player.getActiveRequester() != null)
 		{
 			player.getActiveRequester().onTradeCancel(player);
 			player.onTradeCancel(player.getActiveRequester());
 		}
 		
 		// Check if player are flying
-		if(player.isFlying())
+		if (player.isFlying())
 		{
 			player.removeSkill(SkillTable.getInstance().getInfo(4289, 1));
 		}
 		
-		if(player.getInventory().getPaperdollItem(Inventory.PAPERDOLL_RHAND)!=null
-				&& player.getInventory().getPaperdollItem(Inventory.PAPERDOLL_RHAND).isAugmented()){
+		if (player.getInventory().getPaperdollItem(Inventory.PAPERDOLL_RHAND) != null && player.getInventory().getPaperdollItem(Inventory.PAPERDOLL_RHAND).isAugmented())
+		{
 			player.getInventory().getPaperdollItem(Inventory.PAPERDOLL_RHAND).getAugmentation().removeBoni(player);
 		}
-
-		//delete box from the world
-		if(player._active_boxes!=-1){
+		
+		// delete box from the world
+		if (player._active_boxes != -1)
+		{
 			player.decreaseBoxes();
 		}
 		
-		L2GameClient client = getClient();
-
+		final L2GameClient client = getClient();
+		
 		// detach the client from the char so that the connection isnt closed in the deleteMe
 		player.setClient(null);
-
+		
 		RegionBBSManager.getInstance().changeCommunityBoard();
-
+		
 		// removing player from the world
 		player.deleteMe();
 		player.store();
-
+		
 		getClient().setActiveChar(null);
-
+		
 		// return the client to the authed status
 		client.setState(GameClientState.AUTHED);
 		
-		//before the char selection, check shutdown status
-		if(GameServer.getSelectorThread().isShutdown()){
+		// before the char selection, check shutdown status
+		if (GameServer.getSelectorThread().isShutdown())
+		{
 			getClient().closeNow();
 			return;
 		}
@@ -202,11 +205,11 @@ public final class RequestRestart extends L2GameClientPacket
 		sendPacket(RestartResponse.valueOf(true));
 		
 		// send char list
-		CharSelectInfo cl = new CharSelectInfo(client.getAccountName(), client.getSessionId().playOkID1);
+		final CharSelectInfo cl = new CharSelectInfo(client.getAccountName(), client.getSessionId().playOkID1);
 		sendPacket(cl);
 		client.setCharSelection(cl.getCharInfo());
 	}
-
+	
 	@Override
 	public String getType()
 	{

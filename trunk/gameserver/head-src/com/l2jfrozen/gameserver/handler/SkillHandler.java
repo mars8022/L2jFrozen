@@ -20,7 +20,8 @@ package com.l2jfrozen.gameserver.handler;
 
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.GameServer;
 import com.l2jfrozen.gameserver.handler.skillhandlers.BalanceLife;
@@ -66,11 +67,11 @@ import com.l2jfrozen.gameserver.model.L2Skill.SkillType;
  */
 public class SkillHandler
 {
-	private static final Logger _log = Logger.getLogger(GameServer.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(GameServer.class);
 	
 	private static SkillHandler _instance;
 	
-	private Map<L2Skill.SkillType, ISkillHandler> _datatable;
+	private final Map<L2Skill.SkillType, ISkillHandler> _datatable;
 	
 	public static SkillHandler getInstance()
 	{
@@ -84,7 +85,7 @@ public class SkillHandler
 	
 	private SkillHandler()
 	{
-		_datatable = new TreeMap<SkillType, ISkillHandler>();
+		_datatable = new TreeMap<>();
 		registerSkillHandler(new Blow());
 		registerSkillHandler(new Pdam());
 		registerSkillHandler(new Mdam());
@@ -119,22 +120,22 @@ public class SkillHandler
 		registerSkillHandler(new GetPlayer());
 		registerSkillHandler(new ZakenPlayer());
 		registerSkillHandler(new ZakenSelf());
-		_log.config("SkillHandler: Loaded " + _datatable.size() + " handlers.");
+		LOGGER.info("SkillHandler: Loaded " + _datatable.size() + " handlers.");
 		
 	}
 	
-	public void registerSkillHandler(ISkillHandler handler)
+	public void registerSkillHandler(final ISkillHandler handler)
 	{
 		SkillType[] types = handler.getSkillIds();
 		
-		for (SkillType t : types)
+		for (final SkillType t : types)
 		{
 			_datatable.put(t, handler);
 		}
 		types = null;
 	}
 	
-	public ISkillHandler getSkillHandler(SkillType skillType)
+	public ISkillHandler getSkillHandler(final SkillType skillType)
 	{
 		return _datatable.get(skillType);
 	}

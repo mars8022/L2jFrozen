@@ -32,16 +32,16 @@ import com.l2jfrozen.util.random.Rnd;
 
 public class Transform extends Quest implements Runnable
 {
-	private ArrayList<Transformer> _mobs = new ArrayList<Transformer>();
+	private final ArrayList<Transformer> _mobs = new ArrayList<>();
 	
 	private static class Transformer
 	{
-		private int _id;
-		private int _idPoly;
-		private int _chance;
-		private int _message;
+		private final int _id;
+		private final int _idPoly;
+		private final int _chance;
+		private final int _message;
 		
-		protected Transformer(int id, int idPoly, int chance, int message)
+		protected Transformer(final int id, final int idPoly, final int chance, final int message)
 		{
 			_id = id;
 			_idPoly = idPoly;
@@ -79,7 +79,7 @@ public class Transform extends Quest implements Runnable
 		"This time at the last! The end!"
 	};
 	
-	public Transform(int questId, String name, String descr)
+	public Transform(final int questId, final String name, final String descr)
 	{
 		super(questId, name, descr);
 		
@@ -103,7 +103,7 @@ public class Transform extends Quest implements Runnable
 		_mobs.add(new Transformer(20831, 20860, 100, 0)); //
 		_mobs.add(new Transformer(21070, 21071, 100, 0)); //
 		
-		int[] mobsKill =
+		final int[] mobsKill =
 		{
 			20830,
 			21067,
@@ -112,12 +112,12 @@ public class Transform extends Quest implements Runnable
 			21070
 		};
 		
-		for (int mob : mobsKill)
+		for (final int mob : mobsKill)
 		{
 			addEventId(mob, Quest.QuestEventType.ON_KILL);
 		}
 		
-		int[] mobsAttack =
+		final int[] mobsAttack =
 		{
 			21620,
 			20842,
@@ -132,16 +132,16 @@ public class Transform extends Quest implements Runnable
 			21258
 		};
 		
-		for (int mob : mobsAttack)
+		for (final int mob : mobsAttack)
 		{
 			addEventId(mob, Quest.QuestEventType.ON_ATTACK);
 		}
 	}
 	
 	@Override
-	public String onAttack(L2NpcInstance npc, L2PcInstance attacker, int damage, boolean isPet)
+	public String onAttack(final L2NpcInstance npc, final L2PcInstance attacker, final int damage, final boolean isPet)
 	{
-		for (Transformer monster : _mobs)
+		for (final Transformer monster : _mobs)
 		{
 			if (npc.getNpcId() == monster.getId())
 			{
@@ -152,15 +152,15 @@ public class Transform extends Quest implements Runnable
 						npc.broadcastPacket(new CreatureSay(npc.getObjectId(), 0, npc.getName(), Message[Rnd.get(monster.getMessage())]));
 					}
 					npc.onDecay();
-					L2Attackable newNpc = (L2Attackable) this.addSpawn(monster.getIdPoly(), npc);
-					L2Character originalAttacker = isPet ? attacker.getPet() : attacker;
+					final L2Attackable newNpc = (L2Attackable) this.addSpawn(monster.getIdPoly(), npc);
+					final L2Character originalAttacker = isPet ? attacker.getPet() : attacker;
 					newNpc.setRunning();
 					newNpc.addDamageHate(originalAttacker, 0, 999);
 					newNpc.getAI().setIntention(CtrlIntention.AI_INTENTION_ATTACK, originalAttacker);
 					
 					// NPC Spawn Effect L2OFF
-					NPCSpawnTask spawnEffectTask = new NPCSpawnTask(newNpc, 4000, 800000);
-					Thread effectThread = new Thread(spawnEffectTask);
+					final NPCSpawnTask spawnEffectTask = new NPCSpawnTask(newNpc, 4000, 800000);
+					final Thread effectThread = new Thread(spawnEffectTask);
 					effectThread.start();
 					
 					// Like L2OFF auto target new mob (like an aggression)
@@ -172,9 +172,9 @@ public class Transform extends Quest implements Runnable
 	}
 	
 	@Override
-	public String onKill(L2NpcInstance npc, L2PcInstance killer, boolean isPet)
+	public String onKill(final L2NpcInstance npc, final L2PcInstance killer, final boolean isPet)
 	{
-		for (Transformer monster : _mobs)
+		for (final Transformer monster : _mobs)
 		{
 			if (npc.getNpcId() == monster.getId())
 			{
@@ -182,8 +182,8 @@ public class Transform extends Quest implements Runnable
 				{
 					npc.broadcastPacket(new CreatureSay(npc.getObjectId(), 0, npc.getName(), Message[Rnd.get(monster.getMessage())]));
 				}
-				L2Attackable newNpc = (L2Attackable) this.addSpawn(monster.getIdPoly(), npc);
-				L2Character originalAttacker = isPet ? killer.getPet() : killer;
+				final L2Attackable newNpc = (L2Attackable) this.addSpawn(monster.getIdPoly(), npc);
+				final L2Character originalAttacker = isPet ? killer.getPet() : killer;
 				newNpc.setRunning();
 				newNpc.addDamageHate(originalAttacker, 0, 999);
 				newNpc.getAI().setIntention(CtrlIntention.AI_INTENTION_ATTACK, originalAttacker);
@@ -191,7 +191,7 @@ public class Transform extends Quest implements Runnable
 		}
 		return super.onKill(npc, killer, isPet);
 	}
-
+	
 	@Override
 	public void run()
 	{
@@ -200,16 +200,16 @@ public class Transform extends Quest implements Runnable
 	private class NPCSpawnTask implements Runnable
 	{
 		
-		private L2NpcInstance spawn;
-		private long spawnEffectTime;
-		private int spawnAbnormalEffect;
+		private final L2NpcInstance spawn;
+		private final long spawnEffectTime;
+		private final int spawnAbnormalEffect;
 		
 		/**
 		 * @param spawn
 		 * @param spawnEffectTime
 		 * @param spawnAbnormalEffect
 		 */
-		public NPCSpawnTask(L2NpcInstance spawn, long spawnEffectTime, int spawnAbnormalEffect)
+		public NPCSpawnTask(final L2NpcInstance spawn, final long spawnEffectTime, final int spawnAbnormalEffect)
 		{
 			super();
 			this.spawn = spawn;
@@ -226,7 +226,7 @@ public class Transform extends Quest implements Runnable
 			{
 				Thread.sleep(spawnEffectTime);
 			}
-			catch (InterruptedException e)
+			catch (final InterruptedException e)
 			{
 			}
 			

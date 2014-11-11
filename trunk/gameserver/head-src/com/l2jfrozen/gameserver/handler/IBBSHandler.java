@@ -29,7 +29,7 @@ public interface IBBSHandler
 	 * @return as String [] _bbs)
 	 */
 	public String[] getBBSCommands();
-
+	
 	/**
 	 * @param command as String - _bbs<br>
 	 * @param activeChar as L2PcInstance - Alt+B<br>

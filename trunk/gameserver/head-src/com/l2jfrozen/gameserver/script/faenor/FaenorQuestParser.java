@@ -18,10 +18,9 @@
  */
 package com.l2jfrozen.gameserver.script.faenor;
 
-import java.util.logging.Logger;
-
 import javax.script.ScriptContext;
 
+import org.apache.log4j.Logger;
 import org.w3c.dom.Node;
 
 import com.l2jfrozen.Config;
@@ -34,62 +33,62 @@ import com.l2jfrozen.gameserver.script.ScriptEngine;
  */
 public class FaenorQuestParser extends FaenorParser
 {
-	protected static final Logger _log = Logger.getLogger(FaenorQuestParser.class.getName());
-
+	protected static final Logger LOGGER = Logger.getLogger(FaenorQuestParser.class);
+	
 	@Override
-	public void parseScript(Node questNode, ScriptContext context)
+	public void parseScript(final Node questNode, final ScriptContext context)
 	{
-		if(DEBUG)
+		if (DEBUG)
 		{
-			_log.info("Parsing Quest.");
+			LOGGER.info("Parsing Quest.");
 		}
-
-		String questID = attribute(questNode, "ID");
-
-		for(Node node = questNode.getFirstChild(); node != null; node = node.getNextSibling())
+		
+		final String questID = attribute(questNode, "ID");
+		
+		for (Node node = questNode.getFirstChild(); node != null; node = node.getNextSibling())
 		{
-			if(isNodeName(node, "DROPLIST"))
+			if (isNodeName(node, "DROPLIST"))
 			{
 				parseQuestDropList(node.cloneNode(true), questID);
 			}
-			else if(isNodeName(node, "DIALOG WINDOWS"))
+			else if (isNodeName(node, "DIALOG WINDOWS"))
 			{
-				//parseDialogWindows(node.cloneNode(true));
+				// parseDialogWindows(node.cloneNode(true));
 			}
-			else if(isNodeName(node, "INITIATOR"))
+			else if (isNodeName(node, "INITIATOR"))
 			{
-				//parseInitiator(node.cloneNode(true));
+				// parseInitiator(node.cloneNode(true));
 			}
-			else if(isNodeName(node, "STATE"))
+			else if (isNodeName(node, "STATE"))
 			{
-				//parseState(node.cloneNode(true));
+				// parseState(node.cloneNode(true));
 			}
 		}
 	}
-
-	private void parseQuestDropList(Node dropList, String questID) throws NullPointerException
+	
+	private void parseQuestDropList(final Node dropList, final String questID) throws NullPointerException
 	{
-		if(DEBUG)
+		if (DEBUG)
 		{
-			_log.info("Parsing Droplist.");
+			LOGGER.info("Parsing Droplist.");
 		}
-
-		for(Node node = dropList.getFirstChild(); node != null; node = node.getNextSibling())
+		
+		for (Node node = dropList.getFirstChild(); node != null; node = node.getNextSibling())
 		{
-			if(isNodeName(node, "DROP"))
+			if (isNodeName(node, "DROP"))
 			{
 				parseQuestDrop(node.cloneNode(true), questID);
 			}
 		}
 	}
-
-	private void parseQuestDrop(Node drop, String questID)// throws NullPointerException
+	
+	private void parseQuestDrop(final Node drop, final String questID)// throws NullPointerException
 	{
-		if(DEBUG)
+		if (DEBUG)
 		{
-			_log.info("Parsing Drop.");
+			LOGGER.info("Parsing Drop.");
 		}
-
+		
 		int npcID;
 		int itemID;
 		int min;
@@ -105,22 +104,22 @@ public class FaenorQuestParser extends FaenorParser
 			chance = getInt(attribute(drop, "Chance"));
 			states = attribute(drop, "States").split(",");
 		}
-		catch(NullPointerException e)
+		catch (final NullPointerException e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
 			throw new NullPointerException("Incorrect Drop Data");
 		}
-
-		if(DEBUG)
+		
+		if (DEBUG)
 		{
-			_log.info("Adding Drop to NpcID: " + npcID);
+			LOGGER.info("Adding Drop to NpcID: " + npcID);
 		}
-
+		
 		_bridge.addQuestDrop(npcID, itemID, min, max, chance, questID, states);
 	}
-
+	
 	static class FaenorQuestParserFactory extends ParserFactory
 	{
 		@Override
@@ -129,7 +128,7 @@ public class FaenorQuestParser extends FaenorParser
 			return new FaenorQuestParser();
 		}
 	}
-
+	
 	static
 	{
 		ScriptEngine.parserFactories.put(getParserName("Quest"), new FaenorQuestParserFactory());

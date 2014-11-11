@@ -24,82 +24,84 @@ import com.l2jfrozen.gameserver.model.zone.L2ZoneType;
 
 public class L2CustomZone extends L2ZoneType
 {
-
-	public L2CustomZone(int id)
+	
+	public L2CustomZone(final int id)
 	{
 		super(id);
 		_IsFlyingEnable = true;
 	}
-
+	
 	@Override
-	protected void onDieInside(L2Character l2character)
-	{}
-
-	@Override
-	protected void onReviveInside(L2Character l2character)
-	{}
-
-	@Override
-	public void setParameter(String name, String value)
+	protected void onDieInside(final L2Character l2character)
 	{
-		if(name.equals("name"))
+	}
+	
+	@Override
+	protected void onReviveInside(final L2Character l2character)
+	{
+	}
+	
+	@Override
+	public void setParameter(final String name, final String value)
+	{
+		switch (name)
 		{
-			_zoneName = value;
-		}
-		else if(name.equals("flying"))
-		{
-			_IsFlyingEnable = Boolean.parseBoolean(value);
-		}
-		else
-		{
-			super.setParameter(name, value);
+			case "name":
+				_zoneName = value;
+				break;
+			case "flying":
+				_IsFlyingEnable = Boolean.parseBoolean(value);
+				break;
+			default:
+				super.setParameter(name, value);
+				break;
 		}
 	}
-
+	
 	@Override
-	protected void onEnter(L2Character character)
+	protected void onEnter(final L2Character character)
 	{
-		if(character instanceof L2PcInstance)
+		if (character instanceof L2PcInstance)
 		{
-			L2PcInstance player = (L2PcInstance) character;
-			if(!player.isGM() && player.isFlying() && !player.isInJail() && !_IsFlyingEnable)
+			final L2PcInstance player = (L2PcInstance) character;
+			if (!player.isGM() && player.isFlying() && !player.isInJail() && !_IsFlyingEnable)
 			{
 				player.teleToLocation(com.l2jfrozen.gameserver.datatables.csv.MapRegionTable.TeleportWhereType.Town);
 			}
-
-			if(_zoneName.equalsIgnoreCase("tradeoff"))
+			
+			if (_zoneName.equalsIgnoreCase("tradeoff"))
 			{
 				player.sendMessage("Trade restrictions are involved.");
 				player.setTradeDisabled(true);
 			}
 		}
 	}
-
+	
 	@Override
-	protected void onExit(L2Character character)
+	protected void onExit(final L2Character character)
 	{
-		if(character instanceof L2PcInstance)
+		if (character instanceof L2PcInstance)
 		{
-			L2PcInstance player = (L2PcInstance) character;
-
-			if(_zoneName.equalsIgnoreCase("tradeoff"))
+			final L2PcInstance player = (L2PcInstance) character;
+			
+			if (_zoneName.equalsIgnoreCase("tradeoff"))
 			{
 				player.sendMessage("Trade restrictions removed.");
 				player.setTradeDisabled(false);
 			}
 		}
 	}
-
+	
 	public String getZoneName()
 	{
 		return _zoneName;
 	}
-
+	
 	public boolean isFlyingEnable()
 	{
 		return _IsFlyingEnable;
 	}
-
+	
 	private String _zoneName;
 	private boolean _IsFlyingEnable;
 }

@@ -28,16 +28,19 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 /**
  * This class handles commands for GMs to respond to petitions.
- * 
  * @author Tempy
  */
 public class AdminPetition implements IAdminCommandHandler
 {
 	private static final String[] ADMIN_COMMANDS =
 	{
-			"admin_view_petitions", "admin_view_petition", "admin_accept_petition", "admin_reject_petition", "admin_reset_petitions"
+		"admin_view_petitions",
+		"admin_view_petition",
+		"admin_accept_petition",
+		"admin_reject_petition",
+		"admin_reset_petitions"
 	};
-
+	
 	private enum CommandEnum
 	{
 		admin_view_petitions,
@@ -48,32 +51,35 @@ public class AdminPetition implements IAdminCommandHandler
 	}
 	
 	@Override
-	public boolean useAdminCommand(String command, L2PcInstance activeChar)
+	public boolean useAdminCommand(final String command, final L2PcInstance activeChar)
 	{
-		StringTokenizer st = new StringTokenizer(command);
+		final StringTokenizer st = new StringTokenizer(command);
 		
-		CommandEnum comm = CommandEnum.valueOf(st.nextToken());
+		final CommandEnum comm = CommandEnum.valueOf(st.nextToken());
 		
-		if(comm == null)
+		if (comm == null)
 			return false;
 		
-		switch(comm)
+		switch (comm)
 		{
-			case admin_view_petitions:{
+			case admin_view_petitions:
+			{
 				PetitionManager.getInstance().sendPendingPetitionList(activeChar);
 				return true;
 			}
-			case admin_view_petition:{
+			case admin_view_petition:
+			{
 				
 				int petitionId = -1;
-
-				if(st.hasMoreTokens()){
+				
+				if (st.hasMoreTokens())
+				{
 					
 					try
 					{
 						petitionId = Integer.parseInt(st.nextToken());
 					}
-					catch(Exception e)
+					catch (final Exception e)
 					{
 						activeChar.sendMessage("Usage: //admin_view_petition petition_id");
 						return false;
@@ -85,24 +91,25 @@ public class AdminPetition implements IAdminCommandHandler
 				return true;
 				
 			}
-			case admin_accept_petition:{
+			case admin_accept_petition:
+			{
 				
-				
-				if(PetitionManager.getInstance().isPlayerInConsultation(activeChar))
+				if (PetitionManager.getInstance().isPlayerInConsultation(activeChar))
 				{
 					activeChar.sendPacket(new SystemMessage(SystemMessageId.ONLY_ONE_ACTIVE_PETITION_AT_TIME));
 					return true;
 				}
 				
 				int petitionId = -1;
-
-				if(st.hasMoreTokens()){
+				
+				if (st.hasMoreTokens())
+				{
 					
 					try
 					{
 						petitionId = Integer.parseInt(st.nextToken());
 					}
-					catch(Exception e)
+					catch (final Exception e)
 					{
 						activeChar.sendMessage("Usage: //admin_accept_petition petition_id");
 						return false;
@@ -110,30 +117,32 @@ public class AdminPetition implements IAdminCommandHandler
 					
 				}
 				
-				if(PetitionManager.getInstance().isPetitionInProcess(petitionId))
+				if (PetitionManager.getInstance().isPetitionInProcess(petitionId))
 				{
 					activeChar.sendPacket(new SystemMessage(SystemMessageId.PETITION_UNDER_PROCESS));
 					return true;
 				}
-
-				if(!PetitionManager.getInstance().acceptPetition(activeChar, petitionId))
+				
+				if (!PetitionManager.getInstance().acceptPetition(activeChar, petitionId))
 				{
 					activeChar.sendPacket(new SystemMessage(SystemMessageId.NOT_UNDER_PETITION_CONSULTATION));
 					return false;
 				}
 				return true;
 			}
-			case admin_reject_petition:{
+			case admin_reject_petition:
+			{
 				
 				int petitionId = -1;
-
-				if(st.hasMoreTokens()){
+				
+				if (st.hasMoreTokens())
+				{
 					
 					try
 					{
 						petitionId = Integer.parseInt(st.nextToken());
 					}
-					catch(Exception e)
+					catch (final Exception e)
 					{
 						activeChar.sendMessage("Usage: //admin_reject_petition petition_id");
 						return false;
@@ -141,7 +150,7 @@ public class AdminPetition implements IAdminCommandHandler
 					
 				}
 				
-				if(!PetitionManager.getInstance().rejectPetition(activeChar, petitionId))
+				if (!PetitionManager.getInstance().rejectPetition(activeChar, petitionId))
 				{
 					activeChar.sendPacket(new SystemMessage(SystemMessageId.FAILED_CANCEL_PETITION_TRY_LATER));
 					return false;
@@ -151,23 +160,23 @@ public class AdminPetition implements IAdminCommandHandler
 			}
 			case admin_reset_petitions:
 			{
-				if(PetitionManager.getInstance().isPetitionInProcess())
+				if (PetitionManager.getInstance().isPetitionInProcess())
 				{
 					activeChar.sendPacket(new SystemMessage(SystemMessageId.PETITION_UNDER_PROCESS));
 					return false;
 				}
-
+				
 				PetitionManager.getInstance().clearPendingPetitions();
 				return true;
 			}
 		}
 		return false;
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;
 	}
-
+	
 }

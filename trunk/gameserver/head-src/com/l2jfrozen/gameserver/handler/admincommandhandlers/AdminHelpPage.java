@@ -25,40 +25,26 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 
 /**
- * This class handles following admin commands: - help path = shows /data/html/admin/path file to char, should not be
- * used by GM's directly
- * 
+ * This class handles following admin commands: - help path = shows /data/html/admin/path file to char, should not be used by GM's directly
  * @version $Revision: 1.2.4.3 $ $Date: 2005/04/11 10:06:02 $
  */
 public class AdminHelpPage implements IAdminCommandHandler
 {
-
+	
 	private static final String[] ADMIN_COMMANDS =
 	{
 		"admin_help"
 	};
-
+	
 	@Override
-	public boolean useAdminCommand(String command, L2PcInstance activeChar)
+	public boolean useAdminCommand(final String command, final L2PcInstance activeChar)
 	{
 		/*
-		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
-			return false;
-		}
+		 * if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){ return false; } if(Config.GMAUDIT) { Logger _logAudit = Logger.getLogger("gmaudit"); LogRecord record = new LogRecord(Level.INFO, command); record.setParameters(new Object[] { "GM: " +
+		 * activeChar.getName(), " to target [" + activeChar.getTarget() + "] " }); _logAudit.LOGGER(record); }
+		 */
 		
-		if(Config.GMAUDIT)
-		{
-			Logger _logAudit = Logger.getLogger("gmaudit");
-			LogRecord record = new LogRecord(Level.INFO, command);
-			record.setParameters(new Object[]
-			{
-					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
-			});
-			_logAudit.log(record);
-		}
-		*/
-
-		if(command.startsWith("admin_help"))
+		if (command.startsWith("admin_help"))
 		{
 			try
 			{
@@ -66,26 +52,26 @@ public class AdminHelpPage implements IAdminCommandHandler
 				showHelpPage(activeChar, val);
 				val = null;
 			}
-			catch(StringIndexOutOfBoundsException e)
+			catch (final StringIndexOutOfBoundsException e)
 			{
-				//case of empty filename
-				if(Config.ENABLE_ALL_EXCEPTIONS)
+				// case of empty filename
+				if (Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 			}
 		}
-
+		
 		return true;
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;
 	}
-
-	//FIXME: implement method to send html to player in L2PcInstance directly
-	//PUBLIC & STATIC so other classes from package can include it directly
-	public static void showHelpPage(L2PcInstance targetChar, String filename)
+	
+	// FIXME: implement method to send html to player in L2PcInstance directly
+	// PUBLIC & STATIC so other classes from package can include it directly
+	public static void showHelpPage(final L2PcInstance targetChar, final String filename)
 	{
 		String content = HtmCache.getInstance().getHtmForce("data/html/admin/" + filename);
 		NpcHtmlMessage adminReply = new NpcHtmlMessage(5);
@@ -94,8 +80,8 @@ public class AdminHelpPage implements IAdminCommandHandler
 		content = null;
 		adminReply = null;
 	}
-
-	public static void showSubMenuPage(L2PcInstance targetChar, String filename)
+	
+	public static void showSubMenuPage(final L2PcInstance targetChar, final String filename)
 	{
 		String content = HtmCache.getInstance().getHtmForce("data/html/admin/" + filename);
 		NpcHtmlMessage adminReply = new NpcHtmlMessage(5);

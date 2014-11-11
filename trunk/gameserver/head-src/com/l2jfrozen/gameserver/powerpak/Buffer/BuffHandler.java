@@ -55,183 +55,186 @@ import com.l2jfrozen.gameserver.taskmanager.AttackStanceTaskManager;
 public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler, IBBSHandler
 {
 	private static final String PARENT_DIR = "data/html/buffer/";
-	private Map<Integer,ArrayList<Buff>> _buffs;
-	private Map<Integer, String> _visitedPages;
-	private ArrayList<Buff> getOwnBuffs(int objectId)
+	private final Map<Integer, ArrayList<Buff>> _buffs;
+	private final Map<Integer, String> _visitedPages;
+	
+	private ArrayList<Buff> getOwnBuffs(final int objectId)
 	{
 		
-		if(_buffs.get(objectId)==null)
-			synchronized(_buffs)
+		if (_buffs.get(objectId) == null)
+			synchronized (_buffs)
 			{
-				_buffs.put(objectId,new ArrayList<Buff>());
+				_buffs.put(objectId, new ArrayList<Buff>());
 			}
 		return _buffs.get(objectId);
 	}
-
+	
 	public BuffHandler()
 	{
-		_buffs = new FastMap<Integer,ArrayList<Buff>>();
-		_visitedPages = new FastMap<Integer,String>();
+		_buffs = new FastMap<>();
+		_visitedPages = new FastMap<>();
 	}
-
+	
 	@Override
 	public String[] getVoicedCommandList()
 	{
-		return new String[] {PowerPakConfig.BUFFER_COMMAND};
+		return new String[]
+		{
+			PowerPakConfig.BUFFER_COMMAND
+		};
 	}
-
-	private boolean checkAllowed(L2PcInstance activeChar)
+	
+	private boolean checkAllowed(final L2PcInstance activeChar)
 	{
 		String msg = null;
-		if(activeChar.isSitting())
+		if (activeChar.isSitting())
 			msg = "Can't use buffer when sitting";
-		else if(activeChar.isCastingNow()  || activeChar.isCastingPotionNow())
+		else if (activeChar.isCastingNow() || activeChar.isCastingPotionNow())
 			msg = "Can't use buffer when casting";
-		else if(activeChar.isAlikeDead())
+		else if (activeChar.isAlikeDead())
 			msg = "Can't use buffer while dead";
-		else if(PowerPakConfig.BUFFER_EXCLUDE_ON.contains("ALL"))
+		else if (PowerPakConfig.BUFFER_EXCLUDE_ON.contains("ALL"))
 			msg = "Buffer is not available in this area";
-		else if(PowerPakConfig.BUFFER_EXCLUDE_ON.contains("CURSED") && activeChar.isCursedWeaponEquiped())
-			msg = "Can't use Buffer with Cursed Weapon"; 
-		else if(PowerPakConfig.BUFFER_EXCLUDE_ON.contains("ATTACK") && AttackStanceTaskManager.getInstance().getAttackStanceTask(activeChar))
+		else if (PowerPakConfig.BUFFER_EXCLUDE_ON.contains("CURSED") && activeChar.isCursedWeaponEquiped())
+			msg = "Can't use Buffer with Cursed Weapon";
+		else if (PowerPakConfig.BUFFER_EXCLUDE_ON.contains("ATTACK") && AttackStanceTaskManager.getInstance().getAttackStanceTask(activeChar))
 			msg = "Buffer is not available during the battle";
-		else if(PowerPakConfig.BUFFER_EXCLUDE_ON.contains("DUNGEON") && activeChar.isIn7sDungeon())
+		else if (PowerPakConfig.BUFFER_EXCLUDE_ON.contains("DUNGEON") && activeChar.isIn7sDungeon())
 			msg = "Buffer is not available in the catacombs and necropolis";
-		else if(PowerPakConfig.BUFFER_EXCLUDE_ON.contains("RB") && activeChar.isInsideZone(L2Character.ZONE_NOSUMMONFRIEND))
+		else if (PowerPakConfig.BUFFER_EXCLUDE_ON.contains("RB") && activeChar.isInsideZone(L2Character.ZONE_NOSUMMONFRIEND))
 			msg = "Buffer is not available in this area";
-		else if(PowerPakConfig.BUFFER_EXCLUDE_ON.contains("PVP") && activeChar.isInsideZone(L2Character.ZONE_PVP))
+		else if (PowerPakConfig.BUFFER_EXCLUDE_ON.contains("PVP") && activeChar.isInsideZone(L2Character.ZONE_PVP))
 			msg = "Buffer is not available in this area";
-		else if(PowerPakConfig.BUFFER_EXCLUDE_ON.contains("PEACE") && activeChar.isInsideZone(L2Character.ZONE_PEACE))
+		else if (PowerPakConfig.BUFFER_EXCLUDE_ON.contains("PEACE") && activeChar.isInsideZone(L2Character.ZONE_PEACE))
 			msg = "Buffer is not available in this area";
-		else if(PowerPakConfig.BUFFER_EXCLUDE_ON.contains("SIEGE") && activeChar.isInsideZone(L2Character.ZONE_SIEGE))
+		else if (PowerPakConfig.BUFFER_EXCLUDE_ON.contains("SIEGE") && activeChar.isInsideZone(L2Character.ZONE_SIEGE))
 			msg = "Buffer is not available in this area";
-		else if(PowerPakConfig.BUFFER_EXCLUDE_ON.contains("OLYMPIAD") && (activeChar.isInOlympiadMode() ||
-				activeChar.isInsideZone(L2Character.ZONE_OLY) || Olympiad.getInstance().isRegistered(activeChar) ||
-				Olympiad.getInstance().isRegisteredInComp(activeChar))) 
+		else if (PowerPakConfig.BUFFER_EXCLUDE_ON.contains("OLYMPIAD") && (activeChar.isInOlympiadMode() || activeChar.isInsideZone(L2Character.ZONE_OLY) || Olympiad.getInstance().isRegistered(activeChar) || Olympiad.getInstance().isRegisteredInComp(activeChar)))
 			msg = "Buffer is not available in Olympiad";
-		else if(PowerPakConfig.BUFFER_EXCLUDE_ON.contains("EVENT") && 
-				(activeChar.isInFunEvent()))
+		else if (PowerPakConfig.BUFFER_EXCLUDE_ON.contains("EVENT") && (activeChar.isInFunEvent()))
 			msg = "Buffer is not available in this event";
-		else if(PowerPakConfig.BUFFER_EXCLUDE_ON.contains("TVT") && 
-				activeChar._inEventTvT && TvT.is_started() )
+		else if (PowerPakConfig.BUFFER_EXCLUDE_ON.contains("TVT") && activeChar._inEventTvT && TvT.is_started())
 			msg = "Buffer is not available in TVT";
-		else if(PowerPakConfig.BUFFER_EXCLUDE_ON.contains("CTF") && 
-				activeChar._inEventCTF && CTF.is_started() )
+		else if (PowerPakConfig.BUFFER_EXCLUDE_ON.contains("CTF") && activeChar._inEventCTF && CTF.is_started())
 			msg = "Buffer is not available in CTF";
-		else if(PowerPakConfig.BUFFER_EXCLUDE_ON.contains("DM") && 
-				activeChar._inEventDM && DM.is_started() )
+		else if (PowerPakConfig.BUFFER_EXCLUDE_ON.contains("DM") && activeChar._inEventDM && DM.is_started())
 			msg = "Buffer is not available in DM";
 		
-		if(msg!=null)
+		if (msg != null)
 			activeChar.sendMessage(msg);
-
-		return msg==null;
+		
+		return msg == null;
 	}
-
+	
 	@Override
-	public boolean useVoicedCommand(String command, L2PcInstance activeChar,
-			String target)
+	public boolean useVoicedCommand(final String command, final L2PcInstance activeChar, final String target)
 	{
-		if(activeChar == null)
-			return  false;
-
-		if(!checkAllowed(activeChar))
+		if (activeChar == null)
 			return false;
-
-		if(command.compareTo(PowerPakConfig.BUFFER_COMMAND)==0)
+		
+		if (!checkAllowed(activeChar))
+			return false;
+		
+		if (command.compareTo(PowerPakConfig.BUFFER_COMMAND) == 0)
 		{
-			NpcHtmlMessage htm = new NpcHtmlMessage(activeChar.getLastQuestNpcObject());
-			String text = HtmCache.getInstance().getHtm("data/html/default/"+PowerPakConfig.BUFFER_NPC+".htm");
+			final NpcHtmlMessage htm = new NpcHtmlMessage(activeChar.getLastQuestNpcObject());
+			final String text = HtmCache.getInstance().getHtm("data/html/default/" + PowerPakConfig.BUFFER_NPC + ".htm");
 			htm.setHtml(text);
 			activeChar.sendPacket(htm);
 		}
 		return false;
 	}
-
-	private static final String [] _BYPASSCMD = {"dobuff"};
+	
+	private static final String[] _BYPASSCMD =
+	{
+		"dobuff"
+	};
+	
 	@Override
 	public String[] getByPassCommands()
 	{
 		return _BYPASSCMD;
 	}
-
+	
 	@Override
-	public void handleCommand(String command, final L2PcInstance player,
-			String parameters)
+	public void handleCommand(final String command, final L2PcInstance player, final String parameters)
 	{
-		if(player==null)
+		if (player == null)
 			return;
-
-		if(!checkAllowed(player))
+		
+		if (!checkAllowed(player))
 			return;
-
+		
 		L2NpcInstance buffer = null;
 		
-		if(!PowerPakConfig.BUFFER_USEBBS && !PowerPakConfig.BUFFER_USECOMMAND){
+		if (!PowerPakConfig.BUFFER_USEBBS && !PowerPakConfig.BUFFER_USECOMMAND)
+		{
 			
-			if(player.getTarget()!=null)
-				if(player.getTarget() instanceof L2NpcInstance)
+			if (player.getTarget() != null)
+				if (player.getTarget() instanceof L2NpcInstance)
 				{
-					buffer = (L2NpcInstance)player.getTarget();
-					if(buffer.getTemplate().getNpcId()!=PowerPakConfig.BUFFER_NPC)
-						buffer=null;
+					buffer = (L2NpcInstance) player.getTarget();
+					if (buffer.getTemplate().getNpcId() != PowerPakConfig.BUFFER_NPC)
+						buffer = null;
 				}
 			
-			//Possible fix to Buffer - 1
+			// Possible fix to Buffer - 1
 			if (buffer == null)
 				return;
-
-			//Possible fix to Buffer - 2
+			
+			// Possible fix to Buffer - 2
 			if (!player.isInsideRadius(buffer, L2NpcInstance.INTERACTION_DISTANCE, false, false))
 				return;
 			
-		}//if buffer is null means that buffer will be applied directly (voice and bbs)
+		}// if buffer is null means that buffer will be applied directly (voice and bbs)
 		
-		if(parameters.contains("Pet")){
-			if(player.getPet()==null){
+		if (parameters.contains("Pet"))
+		{
+			if (player.getPet() == null)
+			{
 				return;
 			}
 		}
 		
-		StringTokenizer st = new StringTokenizer(parameters, " ");
+		final StringTokenizer st = new StringTokenizer(parameters, " ");
 		
-		String currentCommand = st.nextToken();
+		final String currentCommand = st.nextToken();
 		
-		if(parameters.compareTo("ClearBuffs")==0)
+		if (parameters.compareTo("ClearBuffs") == 0)
 		{
 			getOwnBuffs(player.getObjectId()).clear();
 			player.sendMessage("Buff set cleared");
 		}
-		else if(parameters.compareTo("ClearPetBuffs")==0)
+		else if (parameters.compareTo("ClearPetBuffs") == 0)
 		{
 			getOwnBuffs(player.getPet().getObjectId()).clear();
 			player.sendMessage("Pet Buff set cleared");
 		}
-		else if(parameters.compareTo("RemoveAll")==0)
+		else if (parameters.compareTo("RemoveAll") == 0)
 		{
 			final L2Effect[] effects = player.getAllEffects();
 			
-			for(L2Effect e : effects)
+			for (final L2Effect e : effects)
 			{
-				if(e.getEffectType()==L2Effect.EffectType.BUFF)
+				if (e.getEffectType() == L2Effect.EffectType.BUFF)
 					player.removeEffect(e);
 			}
 		}
-		else if(parameters.compareTo("RemovePetAll")==0)
+		else if (parameters.compareTo("RemovePetAll") == 0)
 		{
 			
 			final L2Effect[] effects = player.getPet().getAllEffects();
 			
-			for(L2Effect e : effects)
+			for (final L2Effect e : effects)
 			{
-				if(e.getEffectType()==L2Effect.EffectType.BUFF)
+				if (e.getEffectType() == L2Effect.EffectType.BUFF)
 					player.getPet().removeEffect(e);
 			}
 		}
-		else if(parameters.startsWith("Chat"))
+		else if (parameters.startsWith("Chat"))
 		{
 			String chatIndex = parameters.substring(4).trim();
-			synchronized(_visitedPages)
+			synchronized (_visitedPages)
 			{
 				_visitedPages.put(player.getObjectId(), chatIndex);
 			}
@@ -239,232 +242,253 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 			chatIndex = "-" + chatIndex;
 			String text = HtmCache.getInstance().getHtm("data/html/buffer/buffer" + chatIndex + ".htm");
 			
-			if(command.startsWith("bbsbuff"))
+			if (command.startsWith("bbsbuff"))
 			{
 				text = text.replace("-h custom_do", "bbs_bbs");
 				BaseBBSManager.separateAndSend(text, player);
 			}
 			else
 			{
-				NpcHtmlMessage htm = new NpcHtmlMessage(player.getLastQuestNpcObject());
+				final NpcHtmlMessage htm = new NpcHtmlMessage(player.getLastQuestNpcObject());
 				htm.setHtml(text);
 				player.sendPacket(htm);
 			}
 		}
-		else if(parameters.startsWith("RestoreAll")) {
-			if(player.getAdena()<PowerPakConfig.BUFFER_PRICE*3) {
-				player.sendMessage("You don't have enough adena");
-				return;
-			}
-			player.getStatus().setCurrentCp(player.getMaxCp());
-			player.getStatus().setCurrentMp(player.getMaxMp());
-			player.getStatus().setCurrentHp(player.getMaxHp());
-			player.reduceAdena("Buff", PowerPakConfig.BUFFER_PRICE*3, null, true);
-		}
-		else if(parameters.startsWith("RestorePetAll")) {
-			if(player.getAdena()<PowerPakConfig.BUFFER_PRICE*3) {
-				player.sendMessage("You don't have enough adena");
-				return;
-			}
-			player.getPet().getStatus().setCurrentMp(player.getPet().getMaxMp());
-			player.getPet().getStatus().setCurrentHp(player.getPet().getMaxHp());
-			player.reduceAdena("Buff", PowerPakConfig.BUFFER_PRICE*3, null, true);
-		}
-		else if(parameters.startsWith("RestoreCP")) {
-			if(player.getAdena()<PowerPakConfig.BUFFER_PRICE) {
-				player.sendMessage("You don't have enough adena");
-				return;
-			}
-			player.getStatus().setCurrentCp(player.getMaxCp());
-			player.reduceAdena("Buff", PowerPakConfig.BUFFER_PRICE, null, true);
-		}
-		else if(parameters.startsWith("RestoreMP")) {
-			if(player.getAdena()<PowerPakConfig.BUFFER_PRICE) {
-				player.sendMessage("You don't have enough adena");
-				return;
-			}
-			player.getStatus().setCurrentMp(player.getMaxMp());
-			player.reduceAdena("Buff", PowerPakConfig.BUFFER_PRICE, null, true);
-		}
-		else if(parameters.startsWith("RestorePetMP")) {
-			if(player.getAdena()<PowerPakConfig.BUFFER_PRICE) {
-				player.sendMessage("You don't have enough adena");
-				return;
-			}
-			player.getPet().getStatus().setCurrentMp(player.getPet().getMaxMp());
-			player.reduceAdena("Buff", PowerPakConfig.BUFFER_PRICE, null, true);
-		}
-		else if(parameters.startsWith("RestoreHP")) {
-			if(player.getAdena()<PowerPakConfig.BUFFER_PRICE) {
-				player.sendMessage("You don't have enough adena");
-				return;
-			}
-			player.getStatus().setCurrentHp(player.getMaxHp());
-			player.reduceAdena("Buff", PowerPakConfig.BUFFER_PRICE, null, true);
-		}
-		else if(parameters.startsWith("RestorePetHP")) {
-			if(player.getAdena()<PowerPakConfig.BUFFER_PRICE) {
-				player.sendMessage("You don't have enough adena");
-				return;
-			}
-			player.getPet().getStatus().setCurrentHp(player.getPet().getMaxHp());
-			player.reduceAdena("Buff", PowerPakConfig.BUFFER_PRICE, null, true);
-		}
-		else if(parameters.startsWith("MakeBuffs") || parameters.startsWith("RestoreBuffs"))
+		else if (parameters.startsWith("RestoreAll"))
 		{
-			String buffName = parameters.substring(9).trim();
+			if (player.getAdena() < PowerPakConfig.BUFFER_PRICE * 3)
+			{
+				player.sendMessage("You don't have enough adena");
+				return;
+			}
+			player.getStatus().setCurrentCp(player.getMaxCp());
+			player.getStatus().setCurrentMp(player.getMaxMp());
+			player.getStatus().setCurrentHp(player.getMaxHp());
+			player.reduceAdena("Buff", PowerPakConfig.BUFFER_PRICE * 3, null, true);
+		}
+		else if (parameters.startsWith("RestorePetAll"))
+		{
+			if (player.getAdena() < PowerPakConfig.BUFFER_PRICE * 3)
+			{
+				player.sendMessage("You don't have enough adena");
+				return;
+			}
+			player.getPet().getStatus().setCurrentMp(player.getPet().getMaxMp());
+			player.getPet().getStatus().setCurrentHp(player.getPet().getMaxHp());
+			player.reduceAdena("Buff", PowerPakConfig.BUFFER_PRICE * 3, null, true);
+		}
+		else if (parameters.startsWith("RestoreCP"))
+		{
+			if (player.getAdena() < PowerPakConfig.BUFFER_PRICE)
+			{
+				player.sendMessage("You don't have enough adena");
+				return;
+			}
+			player.getStatus().setCurrentCp(player.getMaxCp());
+			player.reduceAdena("Buff", PowerPakConfig.BUFFER_PRICE, null, true);
+		}
+		else if (parameters.startsWith("RestoreMP"))
+		{
+			if (player.getAdena() < PowerPakConfig.BUFFER_PRICE)
+			{
+				player.sendMessage("You don't have enough adena");
+				return;
+			}
+			player.getStatus().setCurrentMp(player.getMaxMp());
+			player.reduceAdena("Buff", PowerPakConfig.BUFFER_PRICE, null, true);
+		}
+		else if (parameters.startsWith("RestorePetMP"))
+		{
+			if (player.getAdena() < PowerPakConfig.BUFFER_PRICE)
+			{
+				player.sendMessage("You don't have enough adena");
+				return;
+			}
+			player.getPet().getStatus().setCurrentMp(player.getPet().getMaxMp());
+			player.reduceAdena("Buff", PowerPakConfig.BUFFER_PRICE, null, true);
+		}
+		else if (parameters.startsWith("RestoreHP"))
+		{
+			if (player.getAdena() < PowerPakConfig.BUFFER_PRICE)
+			{
+				player.sendMessage("You don't have enough adena");
+				return;
+			}
+			player.getStatus().setCurrentHp(player.getMaxHp());
+			player.reduceAdena("Buff", PowerPakConfig.BUFFER_PRICE, null, true);
+		}
+		else if (parameters.startsWith("RestorePetHP"))
+		{
+			if (player.getAdena() < PowerPakConfig.BUFFER_PRICE)
+			{
+				player.sendMessage("You don't have enough adena");
+				return;
+			}
+			player.getPet().getStatus().setCurrentHp(player.getPet().getMaxHp());
+			player.reduceAdena("Buff", PowerPakConfig.BUFFER_PRICE, null, true);
+		}
+		else if (parameters.startsWith("MakeBuffs") || parameters.startsWith("RestoreBuffs"))
+		{
+			final String buffName = parameters.substring(9).trim();
 			int totaladena = 0;
 			ArrayList<Buff> buffs = null;
-			if(parameters.startsWith("RestoreBuffs"))
+			if (parameters.startsWith("RestoreBuffs"))
 				buffs = getOwnBuffs(player.getObjectId());
-			else	
+			else
 				buffs = BuffTable.getInstance().getBuffsForName(buffName);
-			if(buffs!=null && buffs.size()==1)
+			if (buffs != null && buffs.size() == 1)
 			{
-				if(!getOwnBuffs(player.getObjectId()).contains(buffs.get(0)))
+				if (!getOwnBuffs(player.getObjectId()).contains(buffs.get(0)))
 					getOwnBuffs(player.getObjectId()).add(buffs.get(0));
 			}
-			if(buffs==null || buffs.size()==0){
+			if (buffs == null || buffs.size() == 0)
+			{
 				player.sendMessage("Your buff set is missing");
 				return;
 			}
-			for(Buff buff: buffs)
+			for (final Buff buff : buffs)
 			{
 				
-				L2Skill skill = SkillTable.getInstance().getInfo(buff._skillId, buff._skillLevel);
-				if(skill!=null)
+				final L2Skill skill = SkillTable.getInstance().getInfo(buff._skillId, buff._skillLevel);
+				if (skill != null)
 				{
-					if(player.getLevel()>= buff._minLevel && player.getLevel()<=buff._maxLevel)
+					if (player.getLevel() >= buff._minLevel && player.getLevel() <= buff._maxLevel)
 					{
-						if(buff._price>0)
+						if (buff._price > 0)
 						{
-							totaladena+=buff._price;
-							if(player.getAdena()<totaladena)
+							totaladena += buff._price;
+							if (player.getAdena() < totaladena)
 							{
 								player.sendMessage("You don't have enough adena");
 								break;
-							} 
+							}
 						}
-						if(!buff._force && buffer!=null)
+						if (!buff._force && buffer != null)
 						{
 							buffer.setBusy(true);
 							buffer.setCurrentMp(buffer.getMaxMp());
 							buffer.setTarget(player);
-							//buffer.doCast(skill);
-							skill.getEffects(buffer, player,false,false,false);
+							// buffer.doCast(skill);
+							skill.getEffects(buffer, player, false, false, false);
 							buffer.setBusy(false);
-						} else
-							skill.getEffects(player, player,false,false,false);
+						}
+						else
+							skill.getEffects(player, player, false, false, false);
 					}
 					try
 					{
 						Thread.sleep(100); // Delay for the packet...
 					}
-					catch(InterruptedException e)
+					catch (final InterruptedException e)
 					{
-						if(Config.ENABLE_ALL_EXCEPTIONS)
+						if (Config.ENABLE_ALL_EXCEPTIONS)
 							e.printStackTrace();
 					}
 				}
 			}
-			if(totaladena>0)
+			if (totaladena > 0)
 				player.reduceAdena("Buff", totaladena, null, true);
-			if(_visitedPages.get(player.getObjectId())!=null)
-				handleCommand(command,player,"Chat "+_visitedPages.get(player.getObjectId()));
-			else 
+			if (_visitedPages.get(player.getObjectId()) != null)
+				handleCommand(command, player, "Chat " + _visitedPages.get(player.getObjectId()));
+			else
 				useVoicedCommand(PowerPakConfig.BUFFER_COMMAND, player, "");
-		}else if(parameters.startsWith("MakePetBuffs") || parameters.startsWith("RestorePetBuffs"))
+		}
+		else if (parameters.startsWith("MakePetBuffs") || parameters.startsWith("RestorePetBuffs"))
 		{
-			if(player.getPet()==null){
+			if (player.getPet() == null)
+			{
 				player.sendMessage("You have not a summoned pet");
 				return;
 			}
 			
-			String buffName = parameters.substring(12).trim();
+			final String buffName = parameters.substring(12).trim();
 			
 			int totaladena = 0;
 			ArrayList<Buff> buffs = null;
-			if(parameters.startsWith("RestorePetBuffs"))
+			if (parameters.startsWith("RestorePetBuffs"))
 				buffs = getOwnBuffs(player.getPet().getObjectId());
-			else	
+			else
 				buffs = BuffTable.getInstance().getBuffsForName(buffName);
 			
-			if(buffs!=null && buffs.size()==1)
+			if (buffs != null && buffs.size() == 1)
 			{
 				
-				if(!getOwnBuffs(player.getPet().getObjectId()).contains(buffs.get(0))){
+				if (!getOwnBuffs(player.getPet().getObjectId()).contains(buffs.get(0)))
+				{
 					getOwnBuffs(player.getPet().getObjectId()).add(buffs.get(0));
 				}
 			}
-			if(buffs==null || buffs.size()==0){
+			if (buffs == null || buffs.size() == 0)
+			{
 				player.sendMessage("Your pet buff set is missing");
 				return;
 			}
-			for(Buff buff: buffs)
+			for (final Buff buff : buffs)
 			{
 				
-				L2Skill skill = SkillTable.getInstance().getInfo(buff._skillId, buff._skillLevel);
-				if(skill!=null)
+				final L2Skill skill = SkillTable.getInstance().getInfo(buff._skillId, buff._skillLevel);
+				if (skill != null)
 				{
-					if(player.getLevel()>= buff._minLevel && player.getLevel()<=buff._maxLevel)
+					if (player.getLevel() >= buff._minLevel && player.getLevel() <= buff._maxLevel)
 					{
-						if(buff._price>0)
+						if (buff._price > 0)
 						{
-							totaladena+=buff._price;
-							if(player.getAdena()<totaladena)
+							totaladena += buff._price;
+							if (player.getAdena() < totaladena)
 							{
 								player.sendMessage("You don't have enough adena");
 								break;
-							} 
+							}
 						}
-						if(!buff._force && buffer!=null)
+						if (!buff._force && buffer != null)
 						{
 							buffer.setBusy(true);
 							buffer.setCurrentMp(buffer.getMaxMp());
 							buffer.setTarget(player.getPet());
-							skill.getEffects(buffer, player.getPet(),false,false,false);
-							//buffer.doCast(skill);
+							skill.getEffects(buffer, player.getPet(), false, false, false);
+							// buffer.doCast(skill);
 							buffer.setBusy(false);
-						} else
-							skill.getEffects(player, player.getPet(),false,false,false);
+						}
+						else
+							skill.getEffects(player, player.getPet(), false, false, false);
 					}
 					try
 					{
 						Thread.sleep(100); // Delay for the packet...
 					}
-					catch(InterruptedException e)
+					catch (final InterruptedException e)
 					{
-						if(Config.ENABLE_ALL_EXCEPTIONS)
+						if (Config.ENABLE_ALL_EXCEPTIONS)
 							e.printStackTrace();
 					}
 				}
 			}
-			if(totaladena>0)
+			if (totaladena > 0)
 				player.reduceAdena("Buff", totaladena, null, true);
-			if(_visitedPages.get(player.getObjectId())!=null)
-				handleCommand(command,player,"Chat "+_visitedPages.get(player.getObjectId()));
-			else 
+			if (_visitedPages.get(player.getObjectId()) != null)
+				handleCommand(command, player, "Chat " + _visitedPages.get(player.getObjectId()));
+			else
 				useVoicedCommand(PowerPakConfig.BUFFER_COMMAND, player, "");
 			
-			
-		//SCHEMAS
-		}else if (currentCommand.startsWith("menu"))
+			// SCHEMAS
+		}
+		else if (currentCommand.startsWith("menu"))
 		{
-			NpcHtmlMessage html = new NpcHtmlMessage(1);
+			final NpcHtmlMessage html = new NpcHtmlMessage(1);
 			html.setFile(PARENT_DIR + "menu.htm");
 			sendHtmlMessage(player, html);
 		}
 		// handles giving effects {support player, support pet, givebuffs}
 		else if (currentCommand.startsWith("support"))
 		{
-			String targettype = st.nextToken();
+			final String targettype = st.nextToken();
 			showGiveBuffsWindow(player, targettype);
 		}
 		else if (currentCommand.startsWith("givebuffs"))
 		{
-			String targettype = st.nextToken();
-			String scheme_key = st.nextToken();
-			int cost = Integer.parseInt(st.nextToken());
+			final String targettype = st.nextToken();
+			final String scheme_key = st.nextToken();
+			final int cost = Integer.parseInt(st.nextToken());
 			if (cost == 0 || cost <= player.getInventory().getAdena())
 			{
 				L2Character target = player;
@@ -473,27 +497,29 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 				
 				if (target != null)
 				{
-					for (L2Skill sk : CharSchemesTable.getInstance().getScheme(player.getObjectId(), scheme_key))
-						if(buffer!=null)
+					for (final L2Skill sk : CharSchemesTable.getInstance().getScheme(player.getObjectId(), scheme_key))
+						if (buffer != null)
 						{
 							buffer.setBusy(true);
 							buffer.setCurrentMp(buffer.getMaxMp());
 							buffer.setTarget(target);
-							//buffer.doCast(skill);
-							sk.getEffects(buffer, target,false,false,false);
+							// buffer.doCast(skill);
+							sk.getEffects(buffer, target, false, false, false);
 							buffer.setBusy(false);
-						} else
-							sk.getEffects(target, target,false,false,false);
+						}
+						else
+							sk.getEffects(target, target, false, false, false);
 					
-						//sk.getEffects(buffer, target);
+					// sk.getEffects(buffer, target);
 					
 					player.reduceAdena("NPC Buffer", cost, null, true);
-				
-				}else
+					
+				}
+				else
 				{
 					player.sendMessage("Incorrect Target");
 					// go to main menu
-					NpcHtmlMessage html = new NpcHtmlMessage(1);
+					final NpcHtmlMessage html = new NpcHtmlMessage(1);
 					html.setFile(PARENT_DIR + "menu.htm");
 					sendHtmlMessage(player, html);
 				}
@@ -507,36 +533,33 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 		// handles edit schemes {skillselect, skillunselect}
 		else if (currentCommand.startsWith("editscheme"))
 		{
-			String skill_group = st.nextToken();
+			final String skill_group = st.nextToken();
 			String scheme_key = null;
 			try
 			{
 				scheme_key = st.nextToken();
 			}
-			catch (Exception e)
+			catch (final Exception e)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
+				if (Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 			}
 			showEditSchemeWindow(player, skill_group, scheme_key);
 		}
 		else if (currentCommand.startsWith("skill"))
 		{
-			String skill_group = st.nextToken();
-			String scheme_key = st.nextToken();
-			int skill_id = Integer.parseInt(st.nextToken());
-			int level = BufferSkillsTable.getInstance().getSkillLevelById(skill_id);
+			final String skill_group = st.nextToken();
+			final String scheme_key = st.nextToken();
+			final int skill_id = Integer.parseInt(st.nextToken());
+			final int level = BufferSkillsTable.getInstance().getSkillLevelById(skill_id);
 			if (currentCommand.startsWith("skillselect") && !scheme_key.equalsIgnoreCase("unselected"))
 			{
-				if(CharSchemesTable.getInstance() != null
-						&& CharSchemesTable.getInstance().getScheme(player.getObjectId(), scheme_key)!=null
-						&& CharSchemesTable.getInstance().getScheme(player.getObjectId(), scheme_key).size() < PowerPakConfig.NPCBUFFER_MAX_SKILLS)
+				if (CharSchemesTable.getInstance() != null && CharSchemesTable.getInstance().getScheme(player.getObjectId(), scheme_key) != null && CharSchemesTable.getInstance().getScheme(player.getObjectId(), scheme_key).size() < PowerPakConfig.NPCBUFFER_MAX_SKILLS)
 					CharSchemesTable.getInstance().getScheme(player.getObjectId(), scheme_key).add(SkillTable.getInstance().getInfo(skill_id, level));
 				else
 					player.sendMessage("This scheme has reached maximun amount of buffs");
 			}
-			else if (currentCommand.startsWith("skillunselect") && CharSchemesTable.getInstance() != null
-					&& CharSchemesTable.getInstance().getScheme(player.getObjectId(), scheme_key)!=null)
+			else if (currentCommand.startsWith("skillunselect") && CharSchemesTable.getInstance() != null && CharSchemesTable.getInstance().getScheme(player.getObjectId(), scheme_key) != null)
 				CharSchemesTable.getInstance().getScheme(player.getObjectId(), scheme_key).remove(SkillTable.getInstance().getInfo(skill_id, level));
 			showEditSchemeWindow(player, skill_group, scheme_key);
 		}
@@ -545,13 +568,14 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 			showManageSchemeWindow(player);
 		else if (currentCommand.startsWith("createscheme"))
 		{
-			if(!st.hasMoreTokens()){
+			if (!st.hasMoreTokens())
+			{
 				player.sendMessage("Error: Specify Schema Name!");
 				showManageSchemeWindow(player);
 				return;
 			}
 			
-			String name = st.nextToken();
+			final String name = st.nextToken();
 			
 			if (name.length() > 14)
 			{
@@ -579,13 +603,14 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 		// handles deletion
 		else if (currentCommand.startsWith("deletescheme"))
 		{
-			if(!st.hasMoreTokens()){
+			if (!st.hasMoreTokens())
+			{
 				player.sendMessage("Error: Specify Schema Name!");
 				showManageSchemeWindow(player);
 				return;
 			}
 			
-			String name = st.nextToken();
+			final String name = st.nextToken();
 			if (CharSchemesTable.getInstance().getAllSchemes(player.getObjectId()) != null && CharSchemesTable.getInstance().getAllSchemes(player.getObjectId()).containsKey(name))
 			{
 				CharSchemesTable.getInstance().getAllSchemes(player.getObjectId()).remove(name);
@@ -595,42 +620,48 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 		// handles cleanning
 		else if (currentCommand.startsWith("clearscheme"))
 		{
-			if(!st.hasMoreTokens()){
+			if (!st.hasMoreTokens())
+			{
 				player.sendMessage("Error: Specify Schema Name!");
 				showManageSchemeWindow(player);
 				return;
 			}
 			
-			String name = st.nextToken();
+			final String name = st.nextToken();
 			if (CharSchemesTable.getInstance().getAllSchemes(player.getObjectId()) != null && CharSchemesTable.getInstance().getAllSchemes(player.getObjectId()).containsKey(name))
 			{
 				CharSchemesTable.getInstance().getAllSchemes(player.getObjectId()).get(name).clear();
 				showManageSchemeWindow(player);
 			}
 		}
-		//predefined buffs
+		// predefined buffs
 		else if (currentCommand.startsWith("fighterbuff") || currentCommand.startsWith("magebuff"))
 		{
 			
-			ArrayList<L2Skill> skills_to_buff = new ArrayList<L2Skill>();
-			if(currentCommand.startsWith("magebuff")){
+			final ArrayList<L2Skill> skills_to_buff = new ArrayList<>();
+			if (currentCommand.startsWith("magebuff"))
+			{
 				
-				for(int skillId:PowerPakConfig.MAGE_SKILL_LIST.keySet()){
+				for (final int skillId : PowerPakConfig.MAGE_SKILL_LIST.keySet())
+				{
 					
-					L2Skill skill = SkillTable.getInstance().getInfo(skillId, PowerPakConfig.MAGE_SKILL_LIST.get(skillId));
-					if(skill!=null)
+					final L2Skill skill = SkillTable.getInstance().getInfo(skillId, PowerPakConfig.MAGE_SKILL_LIST.get(skillId));
+					if (skill != null)
 					{
 						skills_to_buff.add(skill);
 					}
 					
 				}
 				
-			}else{
+			}
+			else
+			{
 				
-				for(int skillId:PowerPakConfig.FIGHTER_SKILL_LIST.keySet()){
+				for (final int skillId : PowerPakConfig.FIGHTER_SKILL_LIST.keySet())
+				{
 					
-					L2Skill skill = SkillTable.getInstance().getInfo(skillId, PowerPakConfig.FIGHTER_SKILL_LIST.get(skillId));
-					if(skill!=null)
+					final L2Skill skill = SkillTable.getInstance().getInfo(skillId, PowerPakConfig.FIGHTER_SKILL_LIST.get(skillId));
+					if (skill != null)
 					{
 						skills_to_buff.add(skill);
 					}
@@ -639,25 +670,24 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 				
 			}
 			
-			
 			String targettype = "";
-			if(st.hasMoreTokens())
+			if (st.hasMoreTokens())
 				targettype = st.nextToken();
 			
 			int cost = 0;
-			if(PowerPakConfig.BUFFER_PRICE>0)
-				cost = PowerPakConfig.BUFFER_PRICE*skills_to_buff.size();
+			if (PowerPakConfig.BUFFER_PRICE > 0)
+				cost = PowerPakConfig.BUFFER_PRICE * skills_to_buff.size();
 			
 			if (cost == 0 || cost <= player.getInventory().getAdena())
 			{
 				L2Character target = player;
 				if (targettype.equalsIgnoreCase("pet"))
 					target = player.getPet();
-
+				
 				if (target != null)
 				{
-					for (L2Skill sk : skills_to_buff)
-						sk.getEffects(target, target,false,false,false);
+					for (final L2Skill sk : skills_to_buff)
+						sk.getEffects(target, target, false, false, false);
 					player.reduceAdena("NPC Buffer", cost, null, true);
 				}
 				else
@@ -673,33 +703,36 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 			
 		}
 	}
-
-	private static String [] _BBSCommand = {"bbsbuff"};
+	
+	private static String[] _BBSCommand =
+	{
+		"bbsbuff"
+	};
+	
 	@Override
 	public String[] getBBSCommands()
 	{
 		return _BBSCommand;
 	}
-
-	private void sendHtmlMessage(L2PcInstance player, NpcHtmlMessage html)
+	
+	private void sendHtmlMessage(final L2PcInstance player, final NpcHtmlMessage html)
 	{
-		//html.replace("%objectId%", String.valueOf(getObjectId()));
-		//html.replace("%npcId%", String.valueOf(getNpcId()));
+		// html.replace("%objectId%", String.valueOf(getObjectId()));
+		// html.replace("%npcId%", String.valueOf(getNpcId()));
 		player.sendPacket(html);
 	}
-
+	
 	/**
 	 * Sends an html packet to player with Give Buffs menu info for player and pet, depending on targettype parameter {player, pet}
-	 *
 	 * @param player
 	 * @param targettype
 	 */
-	private void showGiveBuffsWindow(L2PcInstance player, String targettype)
+	private void showGiveBuffsWindow(final L2PcInstance player, final String targettype)
 	{
-		TextBuilder tb = new TextBuilder();
+		final TextBuilder tb = new TextBuilder();
 		tb.append("<html><title>Buffer - Giving buffs to " + targettype + "</title>");
 		tb.append("<body> Here are your defined profiles and their fee, just click on it to receive effects<br>");
-		FastMap<String, FastList<L2Skill>> map = CharSchemesTable.getInstance().getAllSchemes(player.getObjectId());
+		final FastMap<String, FastList<L2Skill>> map = CharSchemesTable.getInstance().getAllSchemes(player.getObjectId());
 		if (CharSchemesTable.getInstance().getAllSchemes(player.getObjectId()) == null || CharSchemesTable.getInstance().getAllSchemes(player.getObjectId()).isEmpty())
 			tb.append("You have not defined any valid scheme, please go to Manage scheme and create at least one");
 		else
@@ -714,19 +747,18 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 			tb.append("</table>");
 		}
 		tb.append("</body></html>");
-		NpcHtmlMessage html = new NpcHtmlMessage(1);
+		final NpcHtmlMessage html = new NpcHtmlMessage(1);
 		html.setHtml(tb.toString());
 		sendHtmlMessage(player, html);
 	}
-
+	
 	/**
 	 * Sends an html packet to player with Manage scheme menu info. This allows player to create/delete/clear schemes
-	 *
 	 * @param player
 	 */
-	private void showManageSchemeWindow(L2PcInstance player)
+	private void showManageSchemeWindow(final L2PcInstance player)
 	{
-		TextBuilder tb = new TextBuilder();
+		final TextBuilder tb = new TextBuilder();
 		tb.append("<html><title>Buffer - Manage Schemes</title>");
 		tb.append("<body><br>");
 		if (CharSchemesTable.getInstance().getAllSchemes(player.getObjectId()) == null || CharSchemesTable.getInstance().getAllSchemes(player.getObjectId()).isEmpty())
@@ -749,21 +781,20 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 		tb.append("<br><br>");
 		tb.append("<a action=\"bypass -h custom_dobuff menu\">Back</a>");
 		tb.append("</body></html>");
-		NpcHtmlMessage html = new NpcHtmlMessage(1);
+		final NpcHtmlMessage html = new NpcHtmlMessage(1);
 		html.setHtml(tb.toString());
 		sendHtmlMessage(player, html);
 	}
-
+	
 	/**
 	 * This sends an html packet to player with Edit Scheme Menu info. This allows player to edit each created scheme (add/delete skills)
-	 *
 	 * @param player
 	 * @param skill_group
 	 * @param scheme_key
 	 */
-	private void showEditSchemeWindow(L2PcInstance player, String skill_group, String scheme_key)
+	private void showEditSchemeWindow(final L2PcInstance player, final String skill_group, final String scheme_key)
 	{
-		NpcHtmlMessage html = new NpcHtmlMessage(1);
+		final NpcHtmlMessage html = new NpcHtmlMessage(1);
 		html.setFile(PARENT_DIR + "schememenu.htm");
 		html.replace("%typesframe%", getTypesFrame(scheme_key));
 		if (skill_group.equalsIgnoreCase("unselected"))
@@ -780,16 +811,16 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 		}
 		sendHtmlMessage(player, html);
 	}
-
+	
 	/**
 	 * Returns a table with info about player's scheme list.<br>
 	 * If player scheme list is null, it returns a warning message
-	 * @param player 
-	 * @param skill_group 
-	 * @param scheme_key 
-	 * @return 
+	 * @param player
+	 * @param skill_group
+	 * @param scheme_key
+	 * @return
 	 */
-	private String getPlayerSchemeListFrame(L2PcInstance player, String skill_group, String scheme_key)
+	private String getPlayerSchemeListFrame(final L2PcInstance player, String skill_group, String scheme_key)
 	{
 		if (CharSchemesTable.getInstance().getAllSchemes(player.getObjectId()) == null || CharSchemesTable.getInstance().getAllSchemes(player.getObjectId()).isEmpty())
 			return "Please create at least one scheme";
@@ -797,7 +828,7 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 			skill_group = "def";
 		if (scheme_key == null)
 			scheme_key = "def";
-		TextBuilder tb = new TextBuilder();
+		final TextBuilder tb = new TextBuilder();
 		tb.append("<table>");
 		int count = 0;
 		for (FastMap.Entry<String, FastList<L2Skill>> e = CharSchemesTable.getInstance().getAllSchemes(player.getObjectId()).head(), end = CharSchemesTable.getInstance().getAllSchemes(player.getObjectId()).tail(); (e = e.getNext()) != end;)
@@ -817,23 +848,23 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 		tb.append("</table>");
 		return tb.toString();
 	}
-
+	
 	/**
 	 * @param player
 	 * @param skill_group
 	 * @param scheme_key
 	 * @return a table with info about skills stored in each skill_group
 	 */
-	private String getGroupSkillListFrame(L2PcInstance player, String skill_group, String scheme_key)
+	private String getGroupSkillListFrame(final L2PcInstance player, final String skill_group, final String scheme_key)
 	{
 		if (skill_group == null || skill_group == "unselected")
 			return "Please, select a valid group of skills";
 		else if (scheme_key == null || scheme_key.equalsIgnoreCase("unselected"))
 			return "Please, select a valid scheme";
-		TextBuilder tb = new TextBuilder();
+		final TextBuilder tb = new TextBuilder();
 		tb.append("<table>");
 		int count = 0;
-		for (L2Skill sk : BufferSkillsTable.getInstance().getSkillsByType(skill_group))
+		for (final L2Skill sk : BufferSkillsTable.getInstance().getSkillsByType(skill_group))
 		{
 			if (CharSchemesTable.getInstance().getScheme(player.getObjectId(), scheme_key) != null && !CharSchemesTable.getInstance().getScheme(player.getObjectId(), scheme_key).isEmpty() && CharSchemesTable.getInstance().getSchemeContainsSkill(player.getObjectId(), scheme_key, sk.getId()))
 				continue;
@@ -852,14 +883,14 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 		tb.append("</table>");
 		return tb.toString();
 	}
-
+	
 	/**
 	 * @param player
 	 * @param skill_group
 	 * @param scheme_key
 	 * @return a table with info about selected skills
 	 */
-	private String getPlayerSkillListFrame(L2PcInstance player, String skill_group, String scheme_key)
+	private String getPlayerSkillListFrame(final L2PcInstance player, final String skill_group, final String scheme_key)
 	{
 		if (skill_group == null || skill_group == "unselected")
 			return "<br>Please, select a valid group of skills";
@@ -869,11 +900,11 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 			return "Please choose your Scheme";
 		if (CharSchemesTable.getInstance().getScheme(player.getObjectId(), scheme_key).isEmpty())
 			return "Empty Scheme";
-		TextBuilder tb = new TextBuilder();
+		final TextBuilder tb = new TextBuilder();
 		tb.append("Scheme: " + scheme_key + "<br>");
 		tb.append("<table>");
 		int count = 0;
-		for (L2Skill sk : CharSchemesTable.getInstance().getScheme(player.getObjectId(), scheme_key))
+		for (final L2Skill sk : CharSchemesTable.getInstance().getScheme(player.getObjectId(), scheme_key))
 		{
 			if (count == 0)
 				tb.append("<tr>");
@@ -890,19 +921,19 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 		tb.append("</table>");
 		return tb.toString();
 	}
-
+	
 	/**
 	 * @param scheme_key
 	 * @return an string with skill_groups table.
 	 */
 	private String getTypesFrame(String scheme_key)
 	{
-		TextBuilder tb = new TextBuilder();
+		final TextBuilder tb = new TextBuilder();
 		tb.append("<table>");
 		int count = 0;
 		if (scheme_key == null)
 			scheme_key = "unselected";
-		for (String s : BufferSkillsTable.getInstance().getSkillsTypeList())
+		for (final String s : BufferSkillsTable.getInstance().getSkillsTypeList())
 		{
 			if (count == 0)
 				tb.append("<tr>");
@@ -919,20 +950,19 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 		tb.append("</table>");
 		return tb.toString();
 	}
-
+	
 	/**
 	 * @param list
 	 * @return fee for all skills contained in list.
 	 */
-	private int getFee(FastList<L2Skill> list)
+	private int getFee(final FastList<L2Skill> list)
 	{
 		int fee = 0;
 		if (PowerPakConfig.NPCBUFFER_STATIC_BUFF_COST >= 0)
 			return list.size() * PowerPakConfig.NPCBUFFER_STATIC_BUFF_COST;
-		for (L2Skill sk : list)
+		for (final L2Skill sk : list)
 			fee += BufferSkillsTable.getInstance().getSkillFee(sk.getId());
 		return fee;
 	}
-	
 	
 }

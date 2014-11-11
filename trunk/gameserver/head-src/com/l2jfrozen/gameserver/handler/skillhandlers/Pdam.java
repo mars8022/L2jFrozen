@@ -20,7 +20,8 @@ package com.l2jfrozen.gameserver.handler.skillhandlers;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
@@ -55,7 +56,7 @@ import com.l2jfrozen.util.random.Rnd;
 public class Pdam implements ISkillHandler
 {
 	// all the items ids that this handler knowns
-	private static Logger _log = Logger.getLogger(Pdam.class.getName());
+	private static Logger LOGGER = Logger.getLogger(Pdam.class);
 	
 	/*
 	 * (non-Javadoc)
@@ -73,7 +74,7 @@ public class Pdam implements ISkillHandler
 	 * @see com.l2jfrozen.gameserver.handler.IItemHandler#useItem(com.l2jfrozen.gameserver.model.L2PcInstance, com.l2jfrozen.gameserver.model.L2ItemInstance)
 	 */
 	@Override
-	public void useSkill(L2Character activeChar, L2Skill skill, L2Object[] targets)
+	public void useSkill(final L2Character activeChar, final L2Skill skill, final L2Object[] targets)
 	{
 		if (activeChar.isAlikeDead())
 			return;
@@ -81,17 +82,17 @@ public class Pdam implements ISkillHandler
 		int damage = 0;
 		
 		if (Config.DEBUG)
-			_log.fine("Begin Skill processing in Pdam.java " + skill.getSkillType());
+			LOGGER.debug("Begin Skill processing in Pdam.java " + skill.getSkillType());
 		
 		// Calculate targets based on vegeance
-		List<L2Object> target_s = new ArrayList<L2Object>();
+		final List<L2Object> target_s = new ArrayList<>();
 		
-		for (L2Object _target : targets)
+		for (final L2Object _target : targets)
 		{
 			
 			target_s.add(_target);
 			
-			L2Character target = (L2Character) _target;
+			final L2Character target = (L2Character) _target;
 			
 			if (target.vengeanceSkill(skill))
 			{
@@ -99,12 +100,15 @@ public class Pdam implements ISkillHandler
 			}
 		}
 		
-		boolean bss = activeChar.checkBss();
-		boolean sps = activeChar.checkSps();
-		boolean ss = activeChar.checkSs();
+		final boolean bss = activeChar.checkBss();
+		final boolean sps = activeChar.checkSps();
+		final boolean ss = activeChar.checkSs();
 		
-		for (L2Object target2 : target_s)
+		for (final L2Object target2 : target_s)
 		{
+			if (target2 == null)
+				continue;
+			
 			L2Character target = (L2Character) target2;
 			Formulas f = Formulas.getInstance();
 			L2ItemInstance weapon = activeChar.getActiveWeaponInstance();
@@ -128,8 +132,8 @@ public class Pdam implements ISkillHandler
 				continue;
 			}
 			
-			boolean dual = activeChar.isUsingDualWeapon();
-			boolean shld = Formulas.calcShldUse(activeChar, target);
+			final boolean dual = activeChar.isUsingDualWeapon();
+			final boolean shld = Formulas.calcShldUse(activeChar, target);
 			// PDAM critical chance not affected by buffs, only by STR. Only some skills are meant to crit.
 			boolean crit = false;
 			if (skill.getBaseCritRate() > 0)
@@ -166,7 +170,7 @@ public class Pdam implements ISkillHandler
 					activeChar.sendDamageMessage(target, damage, false, crit, false);
 				else
 				{
-					SystemMessage smsg = new SystemMessage(SystemMessageId.S1_GAVE_YOU_S2_DMG);
+					final SystemMessage smsg = new SystemMessage(SystemMessageId.S1_GAVE_YOU_S2_DMG);
 					smsg.addString(target.getName());
 					smsg.addNumber(damage);
 					activeChar.sendPacket(smsg);
@@ -213,7 +217,7 @@ public class Pdam implements ISkillHandler
 				}
 				
 				// Success of lethal effect
-				int chance = Rnd.get(100);
+				final int chance = Rnd.get(100);
 				if (target != activeChar && !target.isRaid() && chance < skill.getLethalChance1() && !(target instanceof L2DoorInstance) && !(target instanceof L2NpcInstance && ((L2NpcInstance) target).getNpcId() == 35062))
 				{
 					// 1st lethal effect activate (cp to 1 or if target is npc then hp to 50%)
@@ -301,19 +305,19 @@ public class Pdam implements ISkillHandler
 						// only players can reduce CPs each other
 						if (activeChar instanceof L2PcInstance && target instanceof L2PcInstance && !target.isInvul())
 						{
-							L2PcInstance player = (L2PcInstance) target;
+							final L2PcInstance player = (L2PcInstance) target;
 							
 							double hp_damage = 0;
 							
 							if (damage >= player.getCurrentCp())
 							{
-								double cur_cp = player.getCurrentCp();
+								final double cur_cp = player.getCurrentCp();
 								hp_damage = damage - cur_cp;
 								player.setCurrentCp(1);
 							}
 							else
 							{
-								double cur_cp = player.getCurrentCp();
+								final double cur_cp = player.getCurrentCp();
 								player.setCurrentCp(cur_cp - damage);
 								
 							}
@@ -348,13 +352,13 @@ public class Pdam implements ISkillHandler
 						effect.addNumCharges(1);
 						
 						activeChar.sendPacket(new EtcStatusUpdate((L2PcInstance) activeChar));
-						SystemMessage sm = new SystemMessage(SystemMessageId.FORCE_INCREASED_TO_S1);
+						final SystemMessage sm = new SystemMessage(SystemMessageId.FORCE_INCREASED_TO_S1);
 						sm.addNumber(effectcharge);
 						activeChar.sendPacket(sm);
 					}
 					else
 					{
-						SystemMessage sm = new SystemMessage(SystemMessageId.FORCE_MAXLEVEL_REACHED);
+						final SystemMessage sm = new SystemMessage(SystemMessageId.FORCE_MAXLEVEL_REACHED);
 						activeChar.sendPacket(sm);
 					}
 				}
@@ -391,11 +395,11 @@ public class Pdam implements ISkillHandler
 			if (bss)
 				activeChar.removeBss();
 			else if (sps)
-				activeChar.removeSps();		
+				activeChar.removeSps();
 		}
 		else
-		{		
-			activeChar.removeSs();			
+		{
+			activeChar.removeSs();
 		}
 		
 		if (skill.isSuicideAttack() && !activeChar.isInvul())

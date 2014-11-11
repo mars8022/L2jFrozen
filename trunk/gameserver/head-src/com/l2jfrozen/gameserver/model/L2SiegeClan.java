@@ -31,7 +31,7 @@ public class L2SiegeClan
 	// ===============================================================
 	// Data Field
 	private int _clanId = 0;
-	private List<L2NpcInstance> _flag = new FastList<L2NpcInstance>();
+	private List<L2NpcInstance> _flag = new FastList<>();
 	private int _numFlagsAdded = 0;
 	private SiegeClanType _type;
 	
@@ -46,7 +46,7 @@ public class L2SiegeClan
 	// =========================================================
 	// Constructor
 	
-	public L2SiegeClan(int clanId, SiegeClanType type)
+	public L2SiegeClan(final int clanId, final SiegeClanType type)
 	{
 		_clanId = clanId;
 		_type = type;
@@ -59,18 +59,18 @@ public class L2SiegeClan
 		return _numFlagsAdded;
 	}
 	
-	public void addFlag(L2NpcInstance flag)
+	public void addFlag(final L2NpcInstance flag)
 	{
 		_numFlagsAdded++;
 		getFlag().add(flag);
 	}
 	
-	public boolean removeFlag(L2NpcInstance flag)
+	public boolean removeFlag(final L2NpcInstance flag)
 	{
 		if (flag == null)
 			return false;
 		
-		boolean ret = getFlag().remove(flag);
+		final boolean ret = getFlag().remove(flag);
 		
 		// flag.deleteMe();
 		// check if null objects or dups remain in the list.
@@ -85,7 +85,7 @@ public class L2SiegeClan
 		}
 		
 		// now delete nulls
-		int n;		
+		int n;
 		boolean more = true;
 		
 		while (more)
@@ -114,7 +114,7 @@ public class L2SiegeClan
 	
 	public void removeFlags()
 	{
-		for (L2NpcInstance flag : getFlag())
+		for (final L2NpcInstance flag : getFlag())
 		{
 			removeFlag(flag);
 		}
@@ -131,7 +131,7 @@ public class L2SiegeClan
 	{
 		if (_flag == null)
 		{
-			_flag = new FastList<L2NpcInstance>();
+			_flag = new FastList<>();
 		}
 		
 		return _flag;
@@ -142,7 +142,7 @@ public class L2SiegeClan
 		return _type;
 	}
 	
-	public void setType(SiegeClanType setType)
+	public void setType(final SiegeClanType setType)
 	{
 		_type = setType;
 	}

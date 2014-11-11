@@ -28,52 +28,51 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 public final class TradeDone extends L2GameClientPacket
 {
 	private int _response;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_response = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance player = getClient().getActiveChar();
-		if(player == null)
+		final L2PcInstance player = getClient().getActiveChar();
+		if (player == null)
 			return;
-
+		
 		if (!getClient().getFloodProtectors().getTransaction().tryPerformAction("trade"))
 		{
 			player.sendMessage("You trading too fast.");
 			return;
 		}
 		
-		
-		TradeList trade = player.getActiveTradeList();
-		if(trade == null)
+		final TradeList trade = player.getActiveTradeList();
+		if (trade == null)
 		{
-			//_log.warning("player.getTradeList == null in " + getType() + " for player " + player.getName());
+			// LOGGER.warn("player.getTradeList == null in " + getType() + " for player " + player.getName());
 			return;
 		}
-
-		if(trade.getOwner().getActiveEnchantItem() != null || trade.getPartner().getActiveEnchantItem() != null)
+		
+		if (trade.getOwner().getActiveEnchantItem() != null || trade.getPartner().getActiveEnchantItem() != null)
 			return;
-
-		if(trade.isLocked())
+		
+		if (trade.isLocked())
 			return;
-
-		//abort cast anyway
+		
+		// abort cast anyway
 		player.abortCast(true);
 		
-		if(player.isCastingNow() || player.isCastingPotionNow())
+		if (player.isCastingNow() || player.isCastingPotionNow())
 		{
 			player.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-
-		if(_response == 1)
+		
+		if (_response == 1)
 		{
-			if(trade.getPartner() == null || L2World.getInstance().findObject(trade.getPartner().getObjectId()) == null)
+			if (trade.getPartner() == null || L2World.getInstance().findObject(trade.getPartner().getObjectId()) == null)
 			{
 				// Trade partner not found, cancel trade
 				player.cancelActiveTrade();
@@ -82,8 +81,8 @@ public final class TradeDone extends L2GameClientPacket
 				msg = null;
 				return;
 			}
-
-			if(!player.getAccessLevel().allowTransaction())
+			
+			if (!player.getAccessLevel().allowTransaction())
 			{
 				player.sendMessage("Unsufficient privileges.");
 				player.cancelActiveTrade();
@@ -97,6 +96,7 @@ public final class TradeDone extends L2GameClientPacket
 			player.cancelActiveTrade();
 		}
 	}
+	
 	@Override
 	public String getType()
 	{

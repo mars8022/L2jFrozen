@@ -12,7 +12,7 @@ public class SkillCoolTime extends L2GameServerPacket
 	@SuppressWarnings("rawtypes")
 	public Collection _reuseTimeStamps;
 	
-	public SkillCoolTime(L2PcInstance cha)
+	public SkillCoolTime(final L2PcInstance cha)
 	{
 		_reuseTimeStamps = cha.getReuseTimeStamps();
 	}
@@ -22,16 +22,16 @@ public class SkillCoolTime extends L2GameServerPacket
 	protected final void writeImpl()
 	{
 		@SuppressWarnings("cast")
-		L2PcInstance activeChar = ((L2GameClient) getClient()).getActiveChar();
+		final L2PcInstance activeChar = ((L2GameClient) getClient()).getActiveChar();
 		if (activeChar == null)
 			return;
 		writeC(193);
 		writeD(_reuseTimeStamps.size());
 		L2PcInstance.TimeStamp ts;
-		for (Iterator i$ = _reuseTimeStamps.iterator(); i$.hasNext(); writeD((int) ts.getRemaining() / 1000))
+		for (final Iterator i$ = _reuseTimeStamps.iterator(); i$.hasNext(); writeD((int) ts.getRemaining() / 1000))
 		{
 			ts = (L2PcInstance.TimeStamp) i$.next();
-			writeD(ts.getSkill());
+			writeD(ts.getSkill().getId());
 			writeD(0);
 			writeD((int) ts.getReuse() / 1000);
 		}

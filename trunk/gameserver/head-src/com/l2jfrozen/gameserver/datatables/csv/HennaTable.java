@@ -26,9 +26,10 @@ import java.io.IOException;
 import java.io.LineNumberReader;
 import java.util.Map;
 import java.util.StringTokenizer;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.templates.L2Henna;
@@ -36,34 +37,33 @@ import com.l2jfrozen.gameserver.templates.StatsSet;
 
 /**
  * This class ...
- * 
  * @version $Revision$ $Date$
  */
 public class HennaTable
 {
-	private static Logger _log = Logger.getLogger(HennaTable.class.getName());
-
+	private static Logger LOGGER = Logger.getLogger(HennaTable.class);
+	
 	private static HennaTable _instance;
-
-	private Map<Integer, L2Henna> _henna;
-	private boolean _initialized = true;
-
+	
+	private final Map<Integer, L2Henna> _henna;
+	private final boolean _initialized = true;
+	
 	public static HennaTable getInstance()
 	{
-		if(_instance == null)
+		if (_instance == null)
 		{
 			_instance = new HennaTable();
 		}
-
+		
 		return _instance;
 	}
-
+	
 	private HennaTable()
 	{
-		_henna = new FastMap<Integer, L2Henna>();
+		_henna = new FastMap<>();
 		restoreHennaData();
 	}
-
+	
 	private void restoreHennaData()
 	{
 		FileReader reader = null;
@@ -72,28 +72,28 @@ public class HennaTable
 		
 		try
 		{
-			File fileData = new File(Config.DATAPACK_ROOT+"/data/csv/henna.csv");
+			final File fileData = new File(Config.DATAPACK_ROOT + "/data/csv/henna.csv");
 			
 			reader = new FileReader(fileData);
 			buff = new BufferedReader(reader);
 			lnr = new LineNumberReader(buff);
 			
 			String line = null;
-
-			while((line = lnr.readLine()) != null)
+			
+			while ((line = lnr.readLine()) != null)
 			{
-				//ignore comments
-				if(line.trim().length() == 0 || line.startsWith("#"))
+				// ignore comments
+				if (line.trim().length() == 0 || line.startsWith("#"))
 				{
 					continue;
 				}
-
-				StringTokenizer st = new StringTokenizer(line, ";");
-
+				
+				final StringTokenizer st = new StringTokenizer(line, ";");
+				
 				StatsSet hennaDat = new StatsSet();
-				int id = Integer.parseInt(st.nextToken());
+				final int id = Integer.parseInt(st.nextToken());
 				hennaDat.set("symbol_id", id);
-				st.nextToken(); //next token...ignore name
+				st.nextToken(); // next token...ignore name
 				hennaDat.set("dye", Integer.parseInt(st.nextToken()));
 				hennaDat.set("amount", Integer.parseInt(st.nextToken()));
 				hennaDat.set("price", Integer.parseInt(st.nextToken()));
@@ -103,71 +103,71 @@ public class HennaTable
 				hennaDat.set("stat_MEM", Integer.parseInt(st.nextToken()));
 				hennaDat.set("stat_DEX", Integer.parseInt(st.nextToken()));
 				hennaDat.set("stat_WIT", Integer.parseInt(st.nextToken()));
-
+				
 				L2Henna template = new L2Henna(hennaDat);
 				_henna.put(id, template);
 				hennaDat = null;
 				template = null;
 			}
-
-			_log.config("HennaTable: Loaded " + _henna.size() + " Templates.");
+			
+			LOGGER.info("HennaTable: Loaded " + _henna.size() + " Templates.");
 		}
-		catch(FileNotFoundException e)
+		catch (final FileNotFoundException e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning(Config.DATAPACK_ROOT+"/data/csv/henna.csv is missing in data folder");
+			LOGGER.warn(Config.DATAPACK_ROOT + "/data/csv/henna.csv is missing in data folder");
 		}
-		catch(IOException e0)
+		catch (final IOException e0)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e0.printStackTrace();
 			
-			_log.warning("Error while creating table: " + e0.getMessage() + "\n" + e0);
+			LOGGER.warn("Error while creating table: " + e0.getMessage() + "\n" + e0);
 		}
 		finally
 		{
-			if(lnr != null)
+			if (lnr != null)
 				try
 				{
 					lnr.close();
 				}
-				catch(Exception e1)
+				catch (final Exception e1)
 				{
 					e1.printStackTrace();
 				}
 			
-			if(buff != null)
+			if (buff != null)
 				try
 				{
 					buff.close();
 				}
-				catch(Exception e1)
+				catch (final Exception e1)
 				{
 					e1.printStackTrace();
 				}
 			
-			if(reader != null)
+			if (reader != null)
 				try
 				{
 					reader.close();
 				}
-				catch(Exception e1)
+				catch (final Exception e1)
 				{
 					e1.printStackTrace();
 				}
 		}
 	}
-
+	
 	public boolean isInitialized()
 	{
 		return _initialized;
 	}
-
-	public L2Henna getTemplate(int id)
+	
+	public L2Henna getTemplate(final int id)
 	{
 		return _henna.get(id);
 	}
-
+	
 }

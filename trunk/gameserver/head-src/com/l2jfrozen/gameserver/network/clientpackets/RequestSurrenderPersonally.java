@@ -17,7 +17,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.datatables.sql.ClanTable;
 import com.l2jfrozen.gameserver.model.L2Clan;
@@ -28,45 +28,45 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 public final class RequestSurrenderPersonally extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(RequestSurrenderPledgeWar.class.getName());
-
+	private static Logger LOGGER = Logger.getLogger(RequestSurrenderPledgeWar.class);
+	
 	private String _pledgeName;
 	private L2Clan _clan;
 	private L2PcInstance _activeChar;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_pledgeName = readS();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
 		_activeChar = getClient().getActiveChar();
-		if(_activeChar == null)
+		if (_activeChar == null)
 			return;
-
-		_log.info("RequestSurrenderPersonally by " + getClient().getActiveChar().getName() + " with " + _pledgeName);
+		
+		LOGGER.info("RequestSurrenderPersonally by " + getClient().getActiveChar().getName() + " with " + _pledgeName);
 		_clan = getClient().getActiveChar().getClan();
-		L2Clan clan = ClanTable.getInstance().getClanByName(_pledgeName);
-		if(_clan == null)
+		final L2Clan clan = ClanTable.getInstance().getClanByName(_pledgeName);
+		if (_clan == null)
 			return;
-
-		if(clan == null)
+		
+		if (clan == null)
 		{
 			_activeChar.sendMessage("No such clan.");
 			_activeChar.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-
-		if(!_clan.isAtWarWith(clan.getClanId()) || _activeChar.getWantsPeace() == 1)
+		
+		if (!_clan.isAtWarWith(clan.getClanId()) || _activeChar.getWantsPeace() == 1)
 		{
 			_activeChar.sendMessage("You aren't at war with this clan.");
 			_activeChar.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-
+		
 		_activeChar.setWantsPeace(1);
 		_activeChar.deathPenalty(false);
 		SystemMessage msg = new SystemMessage(SystemMessageId.YOU_HAVE_PERSONALLY_SURRENDERED_TO_THE_S1_CLAN);
@@ -75,7 +75,7 @@ public final class RequestSurrenderPersonally extends L2GameClientPacket
 		msg = null;
 		ClanTable.getInstance().checkSurrender(_clan, clan);
 	}
-
+	
 	@Override
 	public String getType()
 	{

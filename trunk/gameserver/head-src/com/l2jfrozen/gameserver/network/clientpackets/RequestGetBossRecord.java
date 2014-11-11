@@ -31,32 +31,32 @@ public class RequestGetBossRecord extends L2GameClientPacket
 {
 	@SuppressWarnings("unused")
 	private int _bossId;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_bossId = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance activeChar = getClient().getActiveChar();
-		if(activeChar == null)
+		final L2PcInstance activeChar = getClient().getActiveChar();
+		if (activeChar == null)
 			return;
-
-		int points = RaidBossPointsManager.getPointsByOwnerId(activeChar.getObjectId());
-		int ranking = RaidBossPointsManager.calculateRanking(activeChar.getObjectId());
-
+		
+		final int points = RaidBossPointsManager.getPointsByOwnerId(activeChar.getObjectId());
+		final int ranking = RaidBossPointsManager.calculateRanking(activeChar.getObjectId());
+		
 		// trigger packet
 		activeChar.sendPacket(new ExGetBossRecord(ranking, points, RaidBossPointsManager.getList(activeChar)));
 		sendPacket(ActionFailed.STATIC_PACKET);
 	}
-
+	
 	@Override
 	public String getType()
 	{
 		return "[C] D0:18 RequestGetBossRecord";
 	}
-
+	
 }

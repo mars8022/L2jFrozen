@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Clan;
@@ -30,7 +30,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 public final class RequestOustPledgeMember extends L2GameClientPacket
 {
-	static Logger _log = Logger.getLogger(RequestOustPledgeMember.class.getName());
+	static Logger LOGGER = Logger.getLogger(RequestOustPledgeMember.class);
 	
 	private String _target;
 	
@@ -43,7 +43,7 @@ public final class RequestOustPledgeMember extends L2GameClientPacket
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance activeChar = getClient().getActiveChar();
+		final L2PcInstance activeChar = getClient().getActiveChar();
 		if (activeChar == null)
 			return;
 		
@@ -65,13 +65,13 @@ public final class RequestOustPledgeMember extends L2GameClientPacket
 			return;
 		}
 		
-		L2Clan clan = activeChar.getClan();
+		final L2Clan clan = activeChar.getClan();
 		
-		L2ClanMember member = clan.getClanMember(_target);
+		final L2ClanMember member = clan.getClanMember(_target);
 		
 		if (member == null)
 		{
-			_log.warning("Target (" + _target + ") is not member of the clan");
+			LOGGER.warn("Target (" + _target + ") is not member of the clan");
 			return;
 		}
 		
@@ -97,7 +97,7 @@ public final class RequestOustPledgeMember extends L2GameClientPacket
 		clan.broadcastToOnlineMembers(new PledgeShowMemberListDelete(_target));
 		if (member.isOnline())
 		{
-			L2PcInstance player = member.getPlayerInstance();
+			final L2PcInstance player = member.getPlayerInstance();
 			player.sendPacket(new SystemMessage(SystemMessageId.CLAN_MEMBERSHIP_TERMINATED));
 			player.setActiveWarehouse(null);
 		}

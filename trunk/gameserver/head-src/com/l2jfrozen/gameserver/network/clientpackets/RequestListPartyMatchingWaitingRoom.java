@@ -18,7 +18,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.ExListPartyMatchingWaitingRoom;
 
 /**
- * @author  Gnacik
+ * @author Gnacik
  */
 public class RequestListPartyMatchingWaitingRoom extends L2GameClientPacket
 {
@@ -34,24 +34,23 @@ public class RequestListPartyMatchingWaitingRoom extends L2GameClientPacket
 		_minlvl = readD();
 		_maxlvl = readD();
 		_mode = readD();
-
+		
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance _activeChar = getClient().getActiveChar();
+		final L2PcInstance _activeChar = getClient().getActiveChar();
 		if (_activeChar == null)
 			return;
 		
 		_activeChar.sendPacket(new ExListPartyMatchingWaitingRoom(_activeChar, _page, _minlvl, _maxlvl, _mode));
 	}
-
+	
 	@Override
 	public String getType()
 	{
 		return "[C] D0:16 RequestListPartyMatchingWaitingRoom";
 	}
-
+	
 }
-

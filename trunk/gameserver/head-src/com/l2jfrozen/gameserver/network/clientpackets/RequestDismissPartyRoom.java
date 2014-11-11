@@ -22,7 +22,6 @@ import com.l2jfrozen.gameserver.model.PartyMatchRoom;
 import com.l2jfrozen.gameserver.model.PartyMatchRoomList;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
-
 /**
  * Format: (ch) dd
  * @author -Wooden-
@@ -39,7 +38,7 @@ public class RequestDismissPartyRoom extends L2GameClientPacket
 		_roomid = readD();
 		_data2 = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
@@ -47,13 +46,13 @@ public class RequestDismissPartyRoom extends L2GameClientPacket
 		if (_activeChar == null)
 			return;
 		
-		PartyMatchRoom _room = PartyMatchRoomList.getInstance().getRoom(_roomid);
+		final PartyMatchRoom _room = PartyMatchRoomList.getInstance().getRoom(_roomid);
 		if (_room == null)
 			return;
 		
 		PartyMatchRoomList.getInstance().deleteRoom(_roomid);
 	}
-
+	
 	@Override
 	public String getType()
 	{

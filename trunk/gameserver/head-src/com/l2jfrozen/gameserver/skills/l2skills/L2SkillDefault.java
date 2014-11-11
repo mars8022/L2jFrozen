@@ -27,19 +27,19 @@ import com.l2jfrozen.gameserver.templates.StatsSet;
 
 public class L2SkillDefault extends L2Skill
 {
-
-	public L2SkillDefault(StatsSet set)
+	
+	public L2SkillDefault(final StatsSet set)
 	{
 		super(set);
 	}
-
+	
 	@Override
-	public void useSkill(L2Character caster, L2Object[] targets)
+	public void useSkill(final L2Character caster, final L2Object[] targets)
 	{
 		caster.sendPacket(ActionFailed.STATIC_PACKET);
-		SystemMessage sm = new SystemMessage(SystemMessageId.S1_S2);
+		final SystemMessage sm = new SystemMessage(SystemMessageId.S1_S2);
 		sm.addString("Skill not implemented.  Skill ID: " + getId() + " " + getSkillType());
 		caster.sendPacket(sm);
 	}
-
+	
 }

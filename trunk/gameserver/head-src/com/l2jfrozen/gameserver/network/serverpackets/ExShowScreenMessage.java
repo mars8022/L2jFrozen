@@ -19,19 +19,19 @@ package com.l2jfrozen.gameserver.network.serverpackets;
  */
 public class ExShowScreenMessage extends L2GameServerPacket
 {
-	private int _type;
-	private int _sysMessageId;
-	private int _unk1;
-	private int _unk2;
-	private int _unk3;
-	private int _unk4;
-	private int _size;
-	private int _position;
-	private boolean _effect;
-	private String _text;
-	private int _time;
+	private final int _type;
+	private final int _sysMessageId;
+	private final int _unk1;
+	private final int _unk2;
+	private final int _unk3;
+	private final int _unk4;
+	private final int _size;
+	private final int _position;
+	private final boolean _effect;
+	private final String _text;
+	private final int _time;
 	
-	public ExShowScreenMessage(String text, int time)
+	public ExShowScreenMessage(final String text, final int time)
 	{
 		_type = 1;
 		_sysMessageId = -1;
@@ -46,7 +46,7 @@ public class ExShowScreenMessage extends L2GameServerPacket
 		_effect = false;
 	}
 	
-	public ExShowScreenMessage(int type, int messageId, int position, int unk1, int size, int unk2, int unk3, boolean showEffect, int time, int unk4, String text)
+	public ExShowScreenMessage(final int type, final int messageId, final int position, final int unk1, final int size, final int unk2, final int unk3, final boolean showEffect, final int time, final int unk4, final String text)
 	{
 		_type = type;
 		_sysMessageId = messageId;

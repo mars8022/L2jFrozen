@@ -25,12 +25,12 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2BoatInstance;
  */
 public class VehicleInfo extends L2GameServerPacket
 {
-	private L2BoatInstance _boat;
-
+	private final L2BoatInstance _boat;
+	
 	/**
-	 * @param boat 
+	 * @param boat
 	 */
-	public VehicleInfo(L2BoatInstance boat)
+	public VehicleInfo(final L2BoatInstance boat)
 	{
 		_boat = boat;
 		// TODO Auto-generated constructor stub
@@ -45,7 +45,7 @@ public class VehicleInfo extends L2GameServerPacket
 		writeD(_boat.getY());
 		writeD(_boat.getZ());
 		writeD(_boat.getPosition().getHeading());
-
+		
 	}
 	
 	@Override

@@ -20,7 +20,6 @@ package com.l2jfrozen.gameserver.network.clientpackets;
 
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
-import java.util.logging.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2World;
@@ -35,48 +34,49 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
  */
 public final class RequestSendFriendMsg extends L2GameClientPacket
 {
-	private static Logger _logChat = Logger.getLogger("chat");
-
+	private static java.util.logging.Logger _logChat = java.util.logging.Logger.getLogger("chat");
+	
 	private String _message;
 	private String _reciever;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_message = readS();
 		_reciever = readS();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance activeChar = getClient().getActiveChar();
-		if(activeChar == null)
+		final L2PcInstance activeChar = getClient().getActiveChar();
+		if (activeChar == null)
 			return;
-
-		L2PcInstance targetPlayer = L2World.getInstance().getPlayer(_reciever);
-		if(targetPlayer == null || !targetPlayer.getFriendList().contains(activeChar.getName()))
+		
+		final L2PcInstance targetPlayer = L2World.getInstance().getPlayer(_reciever);
+		if (targetPlayer == null || !targetPlayer.getFriendList().contains(activeChar.getName()))
 		{
 			activeChar.sendPacket(new SystemMessage(SystemMessageId.TARGET_IS_NOT_FOUND_IN_THE_GAME));
 			return;
 		}
-
-		if(Config.LOG_CHAT)
+		
+		if (Config.LOG_CHAT)
 		{
-			LogRecord record = new LogRecord(Level.INFO, _message);
+			final LogRecord record = new LogRecord(Level.INFO, _message);
 			record.setLoggerName("chat");
 			record.setParameters(new Object[]
 			{
-					"PRIV_MSG", "[" + activeChar.getName() + " to " + _reciever + "]"
+				"PRIV_MSG",
+				"[" + activeChar.getName() + " to " + _reciever + "]"
 			});
-
+			
 			_logChat.log(record);
 		}
-
-		FriendRecvMsg frm = new FriendRecvMsg(activeChar.getName(), _reciever, _message);
+		
+		final FriendRecvMsg frm = new FriendRecvMsg(activeChar.getName(), _reciever, _message);
 		targetPlayer.sendPacket(frm);
 	}
-
+	
 	@Override
 	public String getType()
 	{

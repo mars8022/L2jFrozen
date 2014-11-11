@@ -20,7 +20,6 @@ package com.l2jfrozen.gameserver.network.serverpackets;
 
 /**
  * Format: (ch).
- *
  * @author -Wooden-
  */
 public class ExOrcMove extends L2GameServerPacket

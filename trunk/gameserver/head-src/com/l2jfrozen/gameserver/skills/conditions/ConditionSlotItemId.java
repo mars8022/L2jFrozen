@@ -28,25 +28,25 @@ import com.l2jfrozen.gameserver.skills.Env;
  */
 public final class ConditionSlotItemId extends ConditionInventory
 {
-
+	
 	private final int _itemId;
 	private final int _enchantLevel;
-
-	public ConditionSlotItemId(int slot, int itemId, int enchantLevel)
+	
+	public ConditionSlotItemId(final int slot, final int itemId, final int enchantLevel)
 	{
 		super(slot);
 		_itemId = itemId;
 		_enchantLevel = enchantLevel;
 	}
-
+	
 	@Override
-	public boolean testImpl(Env env)
+	public boolean testImpl(final Env env)
 	{
-		if(!(env.player instanceof L2PcInstance))
+		if (!(env.player instanceof L2PcInstance))
 			return false;
-		Inventory inv = ((L2PcInstance) env.player).getInventory();
-		L2ItemInstance item = inv.getPaperdollItem(_slot);
-		if(item == null)
+		final Inventory inv = ((L2PcInstance) env.player).getInventory();
+		final L2ItemInstance item = inv.getPaperdollItem(_slot);
+		if (item == null)
 			return _itemId == 0;
 		return item.getItemId() == _itemId && item.getEnchantLevel() >= _enchantLevel;
 	}

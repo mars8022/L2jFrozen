@@ -17,78 +17,81 @@
  */
 package com.l2jfrozen.gameserver.managers;
 
-import java.util.logging.Logger;
-
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.zone.type.L2OlympiadStadiumZone;
 
 public class OlympiadStadiaManager
 {
-    protected static Logger _log = Logger.getLogger(OlympiadStadiaManager.class.getName());
-
-    // =========================================================
-    private static OlympiadStadiaManager _instance;
-    public static final OlympiadStadiaManager getInstance()
-    {
-        if (_instance == null)
-        {
-            System.out.println("Initializing OlympiadStadiaManager");
-            _instance = new OlympiadStadiaManager();
-        }
-        return _instance;
-    }
-    // =========================================================
-
-    
-    // =========================================================
-    // Data Field
-    private FastList<L2OlympiadStadiumZone> _olympiadStadias;
-    
-    // =========================================================
-    // Constructor
-    public OlympiadStadiaManager()
-    {
-    }
-
-    // =========================================================
-    // Property - Public
-    
-    public void addStadium(L2OlympiadStadiumZone arena)
-    {
-    	if (_olympiadStadias == null)
-    		_olympiadStadias = new FastList<L2OlympiadStadiumZone>();
-    	
-    	_olympiadStadias.add(arena);
-    }
-    
-    public final L2OlympiadStadiumZone getStadium(L2Character character)
-    {
-    	for (L2OlympiadStadiumZone temp : _olympiadStadias)
-    		if (temp.isCharacterInZone(character)) return temp;
-    	
-    	return null;
-    }
-    
-    public final L2OlympiadStadiumZone getStadiumByLoc(int x, int y, int z)
+	protected static Logger LOGGER = Logger.getLogger(OlympiadStadiaManager.class);
+	
+	// =========================================================
+	private static OlympiadStadiaManager _instance;
+	
+	public static final OlympiadStadiaManager getInstance()
 	{
-		if(_olympiadStadias != null)
+		if (_instance == null)
 		{
-			for(L2OlympiadStadiumZone temp : _olympiadStadias)
-				if(temp.isInsideZone(x, y, z))
-					return temp;
+			LOGGER.info("Initializing OlympiadStadiaManager");
+			_instance = new OlympiadStadiaManager();
 		}
-
+		return _instance;
+	}
+	
+	// =========================================================
+	
+	// =========================================================
+	// Data Field
+	private FastList<L2OlympiadStadiumZone> _olympiadStadias;
+	
+	// =========================================================
+	// Constructor
+	public OlympiadStadiaManager()
+	{
+	}
+	
+	// =========================================================
+	// Property - Public
+	
+	public void addStadium(final L2OlympiadStadiumZone arena)
+	{
+		if (_olympiadStadias == null)
+			_olympiadStadias = new FastList<>();
+		
+		_olympiadStadias.add(arena);
+	}
+	
+	public final L2OlympiadStadiumZone getStadium(final L2Character character)
+	{
+		for (final L2OlympiadStadiumZone temp : _olympiadStadias)
+			if (temp.isCharacterInZone(character))
+				return temp;
+		
 		return null;
 	}
-    
-    @Deprecated
-    public final L2OlympiadStadiumZone getOlympiadStadiumById(int olympiadStadiumId)
-    {
-    	for (L2OlympiadStadiumZone temp : _olympiadStadias)
-    		if (temp.getStadiumId() == olympiadStadiumId) return temp;
-        return null;
-    }
-
+	
+	public final L2OlympiadStadiumZone getStadiumByLoc(final int x, final int y, final int z)
+	{
+		if (_olympiadStadias != null)
+		{
+			for (final L2OlympiadStadiumZone temp : _olympiadStadias)
+				if (temp.isInsideZone(x, y, z))
+					return temp;
+		}
+		
+		return null;
+	}
+	
+	@Deprecated
+	public final L2OlympiadStadiumZone getOlympiadStadiumById(final int olympiadStadiumId)
+	{
+		for (final L2OlympiadStadiumZone temp : _olympiadStadias)
+			if (temp.getStadiumId() == olympiadStadiumId)
+				return temp;
+		return null;
+	}
+	
 }

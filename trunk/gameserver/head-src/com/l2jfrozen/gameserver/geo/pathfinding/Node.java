@@ -18,7 +18,6 @@
  */
 package com.l2jfrozen.gameserver.geo.pathfinding;
 
-
 public abstract class Node
 {
 	private final int _neighborsIdx;
@@ -26,19 +25,19 @@ public abstract class Node
 	private Node _parent;
 	private short _cost;
 	
-	protected Node(int neighborsIdx)
+	protected Node(final int neighborsIdx)
 	{
 		_neighborsIdx = neighborsIdx;
 	}
 	
-	public final void setParent(Node p)
+	public final void setParent(final Node p)
 	{
 		_parent = p;
 	}
 	
-	public final void setCost(int cost)
+	public final void setCost(final int cost)
 	{
-		_cost = (short)cost;
+		_cost = (short) cost;
 	}
 	
 	public final void attachNeighbors()
@@ -80,11 +79,12 @@ public abstract class Node
 	}
 	
 	@Override
-	public final boolean equals(Object obj) {
-		if(!(obj instanceof Node))
+	public final boolean equals(final Object obj)
+	{
+		if (!(obj instanceof Node))
 			return false;
 		
-		Node n = (Node)obj;
+		final Node n = (Node) obj;
 		
 		return getNodeX() == n.getNodeX() && getNodeY() == n.getNodeY() && getZ() == n.getZ();
 	}

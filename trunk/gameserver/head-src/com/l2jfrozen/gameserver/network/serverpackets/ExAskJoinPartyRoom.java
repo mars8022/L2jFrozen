@@ -19,17 +19,17 @@ package com.l2jfrozen.gameserver.network.serverpackets;
 
 /**
  * Format: ch S
- * @author  KenM
+ * @author KenM
  */
 public class ExAskJoinPartyRoom extends L2GameServerPacket
 {
-	private String _charName;
-
-	public ExAskJoinPartyRoom(String charName)
+	private final String _charName;
+	
+	public ExAskJoinPartyRoom(final String charName)
 	{
 		_charName = charName;
 	}
-
+	
 	@Override
 	protected void writeImpl()
 	{
@@ -37,7 +37,7 @@ public class ExAskJoinPartyRoom extends L2GameServerPacket
 		writeH(0x34);
 		writeS(_charName);
 	}
-
+	
 	@Override
 	public String getType()
 	{

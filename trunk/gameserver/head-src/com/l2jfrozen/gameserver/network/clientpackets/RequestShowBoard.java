@@ -25,7 +25,7 @@ public final class RequestShowBoard extends L2GameClientPacket
 {
 	@SuppressWarnings("unused")
 	private int _unknown;
-
+	
 	/**
 	 * packet type id 0x57 sample 57 01 00 00 00 // unknown (always 1?) format: cd
 	 */
@@ -34,13 +34,13 @@ public final class RequestShowBoard extends L2GameClientPacket
 	{
 		_unknown = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
 		CommunityBoard.getInstance().handleCommands(getClient(), Config.BBS_DEFAULT);
 	}
-
+	
 	@Override
 	public String getType()
 	{

@@ -26,32 +26,32 @@ import com.l2jfrozen.gameserver.skills.Env;
  */
 final class EffectSleep extends L2Effect
 {
-
-	public EffectSleep(Env env, EffectTemplate template)
+	
+	public EffectSleep(final Env env, final EffectTemplate template)
 	{
 		super(env, template);
 	}
-
+	
 	@Override
 	public EffectType getEffectType()
 	{
 		return EffectType.SLEEP;
 	}
-
+	
 	/** Notify started */
 	@Override
 	public void onStart()
 	{
 		getEffected().startSleeping();
 	}
-
+	
 	/** Notify exited */
 	@Override
 	public void onExit()
 	{
 		getEffected().stopSleeping(this);
 	}
-
+	
 	@Override
 	public boolean onActionTime()
 	{

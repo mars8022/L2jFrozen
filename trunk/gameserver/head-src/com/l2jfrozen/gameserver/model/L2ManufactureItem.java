@@ -22,32 +22,31 @@ import com.l2jfrozen.gameserver.datatables.csv.RecipeTable;
 
 /**
  * This class ...
- * 
  * @version $Revision: 1.1.2.2.2.1 $ $Date: 2005/03/27 15:29:32 $
  */
 public class L2ManufactureItem
 {
-	private int _recipeId;
-	private int _cost;
-	private boolean _isDwarven;
-
-	public L2ManufactureItem(int recipeId, int cost)
+	private final int _recipeId;
+	private final int _cost;
+	private final boolean _isDwarven;
+	
+	public L2ManufactureItem(final int recipeId, final int cost)
 	{
 		_recipeId = recipeId;
 		_cost = cost;
 		_isDwarven = RecipeTable.getInstance().getRecipeById(_recipeId).isDwarvenRecipe();
 	}
-
+	
 	public int getRecipeId()
 	{
 		return _recipeId;
 	}
-
+	
 	public int getCost()
 	{
 		return _cost;
 	}
-
+	
 	public boolean isDwarven()
 	{
 		return _isDwarven;

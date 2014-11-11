@@ -1,4 +1,5 @@
 package com.l2jfrozen.util.database;
+
 /*
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -14,11 +15,10 @@ package com.l2jfrozen.util.database;
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
@@ -26,20 +26,20 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 public class L2DatabaseFactory_c3p0 extends L2DatabaseFactory
 {
-	static Logger _log = Logger.getLogger(L2DatabaseFactory_c3p0.class.getName());
+	static Logger LOGGER = Logger.getLogger(L2DatabaseFactory_c3p0.class);
 	
 	private ComboPooledDataSource _source;
 	
 	// =========================================================
 	// Constructor
-	public L2DatabaseFactory_c3p0() throws SQLException
+	public L2DatabaseFactory_c3p0()
 	{
 		try
 		{
 			if (Config.DATABASE_MAX_CONNECTIONS < 2)
 			{
 				Config.DATABASE_MAX_CONNECTIONS = 2;
-				_log.warning("A minimum of " + Config.DATABASE_MAX_CONNECTIONS + " db connections are required.");
+				LOGGER.warn("A minimum of " + Config.DATABASE_MAX_CONNECTIONS + " db connections are required.");
 			}
 			
 			_source = new ComboPooledDataSource();
@@ -62,7 +62,7 @@ public class L2DatabaseFactory_c3p0 extends L2DatabaseFactory
 			_source.setAutomaticTestTable("connection_test_table");
 			_source.setTestConnectionOnCheckin(false);
 			
-			// testing OnCheckin used with IdleConnectionTestPeriod is faster than  testing on checkout
+			// testing OnCheckin used with IdleConnectionTestPeriod is faster than testing on checkout
 			
 			_source.setIdleConnectionTestPeriod(3600); // test idle connection every 60 sec
 			_source.setMaxIdleTime(Config.DATABASE_MAX_IDLE_TIME); // 0 = idle connections never expire
@@ -70,7 +70,7 @@ public class L2DatabaseFactory_c3p0 extends L2DatabaseFactory
 			// but I prefer to disconnect all connections not used
 			// for more than 1 hour
 			
-			// enables statement caching,  there is a "semi-bug" in c3p0 0.9.0 but in 0.9.0.2 and later it's fixed
+			// enables statement caching, there is a "semi-bug" in c3p0 0.9.0 but in 0.9.0.2 and later it's fixed
 			_source.setMaxStatementsPerConnection(100);
 			
 			_source.setBreakAfterAcquireFailure(false); // never fail if any way possible
@@ -88,86 +88,79 @@ public class L2DatabaseFactory_c3p0 extends L2DatabaseFactory
 			_source.getConnection().close();
 			
 			if (Config.DEBUG)
-				_log.fine("Database Connection Working");
+				LOGGER.debug("Database Connection Working");
 			
 			if (Config.DATABASE_DRIVER.toLowerCase().contains("microsoft"))
 				_providerType = ProviderType.MsSql;
 			else
 				_providerType = ProviderType.MySql;
 		}
-		catch (SQLException x)
+		catch (final Exception e)
 		{
-			if (Config.DEBUG)
-				_log.fine("Database Connection FAILED");
-			// re-throw the exception
-			throw x;
-		}
-		catch (Exception e)
-		{
-			if (Config.DEBUG)
-				_log.fine("Database Connection FAILED");
-			throw new SQLException("Could not init DB connection:" + e.getMessage());
+			LOGGER.error("Couldn't init DB connection, im dead x.x", e);
+			System.exit(1);
 		}
 	}
 	
 	@Override
 	public void shutdown()
 	{
-		try{
-			//sleep 10 seconds before the final source shutdown
+		try
+		{
+			// sleep 10 seconds before the final source shutdown
 			Thread.sleep(10000);
-		}catch(Exception e){
-			//nothing
+		}
+		catch (final Exception e)
+		{
+			// nothing
 		}
 		
 		try
 		{
 			_source.close();
 		}
-		catch (Exception e)
+		catch (final Exception e)
 		{
-			e.printStackTrace();
-			_log.log(Level.INFO, "", e);
+			LOGGER.equals(e);
 		}
 		try
 		{
 			_source = null;
 		}
-		catch (Exception e)
+		catch (final Exception e)
 		{
-			e.printStackTrace();
-			_log.log(Level.INFO, "", e);
+			LOGGER.equals(e);
 		}
 	}
 	
 	@Override
-	public Connection getConnection(boolean checkclose) 
-	{ 
+	public Connection getConnection(final boolean checkclose)
+	{
 		Connection con = null;
-
-		while(con == null && _source!=null)
+		
+		while (con == null && _source != null)
 		{
 			try
 			{
 				con = _source.getConnection();
-				if(checkclose)
+				if (checkclose)
 					ThreadPoolManager.getInstance().scheduleGeneral(new ConnectionCloser(con, new RuntimeException()), Config.DATABASE_CONNECTION_TIMEOUT);
 			}
-			catch(SQLException e)
+			catch (final SQLException e)
 			{
-				_log.severe("L2DatabaseFactory: getConnection() failed, trying again" + e);
+				LOGGER.error("L2DatabaseFactory: getConnection() failed, trying again", e);
 			}
 		}
-
+		
 		return con;
 	}
 	
 	@Override
-	public Connection getConnection(long max_connection_time) 
-	{ 
+	public Connection getConnection(final long max_connection_time)
+	{
 		Connection con = null;
-
-		while(con == null && _source!=null)
+		
+		while (con == null && _source != null)
 		{
 			try
 			{
@@ -175,15 +168,12 @@ public class L2DatabaseFactory_c3p0 extends L2DatabaseFactory
 				ThreadPoolManager.getInstance().scheduleGeneral(new ConnectionCloser(con, new RuntimeException()), max_connection_time);
 				
 			}
-			catch(SQLException e)
+			catch (final SQLException e)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
-					e.printStackTrace();
-				
-				_log.severe("L2DatabaseFactory: getConnection() failed, trying again \n" + e);
+				LOGGER.error("L2DatabaseFactory: getConnection() failed, trying again", e);
 			}
 		}
-
+		
 		return con;
 	}
 	
@@ -197,5 +187,5 @@ public class L2DatabaseFactory_c3p0 extends L2DatabaseFactory
 	{
 		return _source.getNumIdleConnectionsDefaultUser();
 	}
-
+	
 }

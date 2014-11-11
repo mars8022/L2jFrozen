@@ -32,36 +32,36 @@ public final class RequestPledgeMemberInfo extends L2GameClientPacket
 	@SuppressWarnings("unused")
 	private int _unk1;
 	private String _player;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_unk1 = readD();
 		_player = readS();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-		//System.out.println("C5: RequestPledgeMemberInfo d:"+_unk1);
-		//System.out.println("C5: RequestPledgeMemberInfo S:"+_player);
-		L2PcInstance activeChar = getClient().getActiveChar();
-		if(activeChar == null)
+		// LOGGER.info("C5: RequestPledgeMemberInfo d:"+_unk1);
+		// LOGGER.info("C5: RequestPledgeMemberInfo S:"+_player);
+		final L2PcInstance activeChar = getClient().getActiveChar();
+		if (activeChar == null)
 			return;
-		//do we need powers to do that??
-		L2Clan clan = activeChar.getClan();
-		if(clan == null)
+		// do we need powers to do that??
+		final L2Clan clan = activeChar.getClan();
+		if (clan == null)
 			return;
-		L2ClanMember member = clan.getClanMember(_player);
-		if(member == null)
+		final L2ClanMember member = clan.getClanMember(_player);
+		if (member == null)
 			return;
 		activeChar.sendPacket(new PledgeReceiveMemberInfo(member));
 	}
-
+	
 	@Override
 	public String getType()
 	{
 		return "[C] D0:1D RequestPledgeMemberInfo";
 	}
-
+	
 }

@@ -28,11 +28,11 @@ public class Snoop extends L2GameServerPacket
 {
 	private static final String _S__D5_SNOOP = "[S] D5 Snoop";
 	private final L2PcInstance _snooped;
-	private int _type;
-	private String _speaker;
-	private String _msg;
+	private final int _type;
+	private final String _speaker;
+	private final String _msg;
 	
-	public Snoop(L2PcInstance snooped, int type, String speaker, String msg)
+	public Snoop(final L2PcInstance snooped, final int type, final String speaker, final String msg)
 	{
 		_snooped = snooped;
 		_type = type;

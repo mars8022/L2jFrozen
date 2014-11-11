@@ -34,39 +34,39 @@ public class Nectar implements IItemHandler
 	{
 		6391
 	};
-
+	
 	@Override
-	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
+	public void useItem(final L2PlayableInstance playable, final L2ItemInstance item)
 	{
-		if(!(playable instanceof L2PcInstance))
+		if (!(playable instanceof L2PcInstance))
 			return;
-
+		
 		L2PcInstance activeChar = (L2PcInstance) playable;
-
-		if(!(activeChar.getTarget() instanceof L2GourdInstance))
+		
+		if (!(activeChar.getTarget() instanceof L2GourdInstance))
 		{
 			activeChar.sendPacket(new SystemMessage(SystemMessageId.TARGET_IS_INCORRECT));
 			return;
 		}
-
-		if(!activeChar.getName().equalsIgnoreCase(((L2GourdInstance) activeChar.getTarget()).getOwner()))
+		
+		if (!activeChar.getName().equalsIgnoreCase(((L2GourdInstance) activeChar.getTarget()).getOwner()))
 		{
 			activeChar.sendPacket(new SystemMessage(SystemMessageId.TARGET_IS_INCORRECT));
 			return;
 		}
-
-		L2Object[] targets = new L2Object[1];
+		
+		final L2Object[] targets = new L2Object[1];
 		targets[0] = activeChar.getTarget();
-
-		int itemId = item.getItemId();
-		if(itemId == 6391)
+		
+		final int itemId = item.getItemId();
+		if (itemId == 6391)
 		{
-			activeChar.useMagic(SkillTable.getInstance().getInfo(9999, 1), false, false);
+			activeChar.useMagic(SkillTable.getInstance().getInfo(9998, 1), false, false);
 		}
-
+		
 		activeChar = null;
 	}
-
+	
 	@Override
 	public int[] getItemIds()
 	{

@@ -20,8 +20,8 @@ package com.l2jfrozen.gameserver.handler.admincommandhandlers;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.GmListTable;
@@ -39,42 +39,30 @@ public class AdminDonator implements IAdminCommandHandler
 	{
 		"admin_setdonator"
 	};
-
-	protected static final Logger _log = Logger.getLogger(AdminDonator.class.getName());
+	
+	protected static final Logger LOGGER = Logger.getLogger(AdminDonator.class);
 	
 	@Override
-	public boolean useAdminCommand(String command, L2PcInstance activeChar)
+	public boolean useAdminCommand(final String command, final L2PcInstance activeChar)
 	{
 		/*
-		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
-			return false;
-		}
+		 * if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){ return false; } if(Config.GMAUDIT) { Logger _logAudit = Logger.getLogger("gmaudit"); LogRecord record = new LogRecord(Level.INFO, command); record.setParameters(new Object[] { "GM: " +
+		 * activeChar.getName(), " to target [" + activeChar.getTarget() + "] " }); _logAudit.LOGGER(record); }
+		 */
 		
-		if(Config.GMAUDIT)
-		{
-			Logger _logAudit = Logger.getLogger("gmaudit");
-			LogRecord record = new LogRecord(Level.INFO, command);
-			record.setParameters(new Object[]
-			{
-					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
-			});
-			_logAudit.log(record);
-		}
-		*/
-
-		if(activeChar == null)
+		if (activeChar == null)
 			return false;
-
-		if(command.startsWith("admin_setdonator"))
+		
+		if (command.startsWith("admin_setdonator"))
 		{
 			L2Object target = activeChar.getTarget();
-
-			if(target instanceof L2PcInstance)
+			
+			if (target instanceof L2PcInstance)
 			{
 				L2PcInstance targetPlayer = (L2PcInstance) target;
-				boolean newDonator = !targetPlayer.isDonator();
-
-				if(newDonator)
+				final boolean newDonator = !targetPlayer.isDonator();
+				
+				if (newDonator)
 				{
 					targetPlayer.setDonator(true);
 					targetPlayer.updateNameTitleColor();
@@ -91,35 +79,35 @@ public class AdminDonator implements IAdminCommandHandler
 					sendMessages(false, targetPlayer, activeChar, false, true);
 					targetPlayer.broadcastUserInfo();
 				}
-
+				
 				targetPlayer = null;
 			}
 			else
 			{
 				activeChar.sendMessage("Impossible to set a non Player Target as Donator.");
-				_log.info("GM: " + activeChar.getName() + " is trying to set a non Player Target as Donator.");
-
+				LOGGER.info("GM: " + activeChar.getName() + " is trying to set a non Player Target as Donator.");
+				
 				return false;
 			}
-
+			
 			target = null;
 		}
 		return true;
 	}
-
-	private void sendMessages(boolean forNewDonator, L2PcInstance player, L2PcInstance gm, boolean announce, boolean notifyGmList)
+	
+	private void sendMessages(final boolean forNewDonator, final L2PcInstance player, final L2PcInstance gm, final boolean announce, final boolean notifyGmList)
 	{
-		if(forNewDonator)
+		if (forNewDonator)
 		{
 			player.sendMessage(gm.getName() + " has granted Donator Status for you!");
 			gm.sendMessage("You've granted Donator Status for " + player.getName());
-
-			if(announce)
+			
+			if (announce)
 			{
 				Announcements.getInstance().announceToAll(player.getName() + " has received Donator Status!");
 			}
-
-			if(notifyGmList)
+			
+			if (notifyGmList)
 			{
 				GmListTable.broadcastMessageToGMs("Warn: " + gm.getName() + " has set " + player.getName() + " as Donator !");
 			}
@@ -128,41 +116,41 @@ public class AdminDonator implements IAdminCommandHandler
 		{
 			player.sendMessage(gm.getName() + " has revoked Donator Status from you!");
 			gm.sendMessage("You've revoked Donator Status from " + player.getName());
-
-			if(announce)
+			
+			if (announce)
 			{
 				Announcements.getInstance().announceToAll(player.getName() + " has lost Donator Status!");
 			}
-
-			if(notifyGmList)
+			
+			if (notifyGmList)
 			{
 				GmListTable.broadcastMessageToGMs("Warn: " + gm.getName() + " has removed Donator Status of player" + player.getName());
 			}
 		}
 	}
-
+	
 	/**
-	 * @param player 
+	 * @param player
 	 * @param newDonator
 	 */
-	private void updateDatabase(L2PcInstance player, boolean newDonator)
+	private void updateDatabase(final L2PcInstance player, final boolean newDonator)
 	{
 		Connection con = null;
 		try
 		{
 			// prevents any NPE.
 			// ----------------
-			if(player == null)
+			if (player == null)
 				return;
-
+			
 			// Database Connection
-			//--------------------------------
+			// --------------------------------
 			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement stmt = con.prepareStatement(newDonator ? INSERT_DATA : DEL_DATA);
-
+			
 			// if it is a new donator insert proper data
 			// --------------------------------------------
-			if(newDonator)
+			if (newDonator)
 			{
 				stmt.setInt(1, player.getObjectId());
 				stmt.setString(2, player.getName());
@@ -182,24 +170,24 @@ public class AdminDonator implements IAdminCommandHandler
 				stmt = null;
 			}
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.SEVERE, "Error: could not update database: ", e);
+			LOGGER.error("Error: could not update database: ", e);
 		}
 		finally
 		{
 			CloseUtil.close(con);
 		}
 	}
-
+	
 	// Updates That Will be Executed by MySQL
 	// ----------------------------------------
 	String INSERT_DATA = "REPLACE INTO characters_custom_data (obj_Id, char_name, hero, noble, donator) VALUES (?,?,?,?,?)";
 	String DEL_DATA = "UPDATE characters_custom_data SET donator = 0 WHERE obj_Id=?";
-
+	
 	/**
 	 * @return
 	 */

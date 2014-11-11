@@ -18,7 +18,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.HashMap;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
@@ -31,6 +32,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.CreatureSay;
 import com.l2jfrozen.gameserver.network.serverpackets.SocialAction;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -44,13 +46,13 @@ import com.l2jfrozen.util.database.L2DatabaseFactory;
  */
 public class L2Rebirth
 {
-	private static Logger _log = Logger.getLogger(BitSetIDFactory.class.getName());
+	private static Logger LOGGER = Logger.getLogger(BitSetIDFactory.class);
 	
 	/** The current instance - static repeller. */
 	private static L2Rebirth _instance = null;
 	
 	/** Basically, this will act as a cache so it doesnt have to read DB information on relog. */
-	private HashMap<Integer, Integer> _playersRebirthInfo = new HashMap<Integer, Integer>();
+	private final HashMap<Integer, Integer> _playersRebirthInfo = new HashMap<>();
 	
 	/**
 	 * Creates a new NON-STATIC instance.
@@ -78,7 +80,7 @@ public class L2Rebirth
 	 * @param player the player
 	 * @param command the command
 	 */
-	public void handleCommand(L2PcInstance player, String command)
+	public void handleCommand(final L2PcInstance player, final String command)
 	{
 		if (command.startsWith("custom_rebirth_requestrebirth"))
 		{
@@ -94,11 +96,11 @@ public class L2Rebirth
 	 * Display's an HTML window with the Rebirth Options.
 	 * @param player the player
 	 */
-	public void displayRebirthWindow(L2PcInstance player)
+	public void displayRebirthWindow(final L2PcInstance player)
 	{
 		try
 		{
-			int currBirth = getRebirthLevel(player); // Returns the player's current birth level
+			final int currBirth = getRebirthLevel(player); // Returns the player's current birth level
 			
 			// Don't send html if player is already at max rebirth count.
 			if (currBirth >= Config.REBIRTH_MAX)
@@ -108,7 +110,7 @@ public class L2Rebirth
 			}
 			
 			// Returns true if BASE CLASS is a mage.
-			boolean isMage = player.getBaseTemplate().classId.isMage();
+			final boolean isMage = player.getBaseTemplate().classId.isMage();
 			// Returns the skill based on next Birth and if isMage.
 			L2Skill skill = getRebirthSkill((currBirth + 1), isMage);
 			
@@ -124,7 +126,7 @@ public class L2Rebirth
 			icon = null;
 			
 		}
-		catch (Exception e)
+		catch (final Exception e)
 		{
 			e.printStackTrace();
 		}
@@ -134,12 +136,12 @@ public class L2Rebirth
 	 * Checks to see if the player is eligible for a Rebirth, if so it grants it and stores information.
 	 * @param player the player
 	 */
-	public void requestRebirth(L2PcInstance player)
+	public void requestRebirth(final L2PcInstance player)
 	{
 		// Check to see if Rebirth is enabled to avoid hacks
 		if (!Config.REBIRTH_ENABLE)
 		{
-			_log.warning("[WARNING] Player " + player.getName() + " is trying to use rebirth system when it's disabled.");
+			LOGGER.warn("[WARNING] Player " + player.getName() + " is trying to use rebirth system when it's disabled.");
 			return;
 		}
 		
@@ -156,7 +158,7 @@ public class L2Rebirth
 			return;
 		}
 		
-		int currBirth = getRebirthLevel(player);
+		final int currBirth = getRebirthLevel(player);
 		int itemNeeded = 0;
 		int itemAmount = 0;
 		
@@ -168,9 +170,9 @@ public class L2Rebirth
 		
 		// Get the requirements
 		int loopBirth = 0;
-		for (String readItems : Config.REBIRTH_ITEM_PRICE)
+		for (final String readItems : Config.REBIRTH_ITEM_PRICE)
 		{
-			String[] currItem = readItems.split(",");
+			final String[] currItem = readItems.split(",");
 			if (loopBirth == currBirth)
 			{
 				itemNeeded = Integer.parseInt(currItem[0]);
@@ -189,7 +191,7 @@ public class L2Rebirth
 		}
 		
 		// Check and see if its the player's first Rebirth calling.
-		boolean firstBirth = currBirth == 0;
+		final boolean firstBirth = currBirth == 0;
 		// Player meets requirements and starts Rebirth Process.
 		grantRebirth(player, (currBirth + 1), firstBirth);
 	}
@@ -200,12 +202,12 @@ public class L2Rebirth
 	 * @param newBirthCount the new birth count
 	 * @param firstBirth the first birth
 	 */
-	public void grantRebirth(L2PcInstance player, int newBirthCount, boolean firstBirth)
+	public void grantRebirth(final L2PcInstance player, final int newBirthCount, final boolean firstBirth)
 	{
 		try
 		{
-			double actual_hp = player.getCurrentHp();
-			double actual_cp = player.getCurrentCp();
+			final double actual_hp = player.getCurrentHp();
+			final double actual_cp = player.getCurrentCp();
 			
 			int max_level = ExperienceData.getInstance().getMaxLevel();
 			
@@ -241,7 +243,7 @@ public class L2Rebirth
 			}
 			
 			// Remove the player's current skills.
-			for (L2Skill skill : player.getAllSkills())
+			for (final L2Skill skill : player.getAllSkills())
 			{
 				player.removeSkill(skill);
 			}
@@ -276,7 +278,7 @@ public class L2Rebirth
 			// Update skill list
 			player.sendSkillList();
 		}
-		catch (Exception e)
+		catch (final Exception e)
 		{
 			e.printStackTrace();
 		}
@@ -286,7 +288,7 @@ public class L2Rebirth
 	 * Special effects when the player levels.
 	 * @param player the player
 	 */
-	public void displayCongrats(L2PcInstance player)
+	public void displayCongrats(final L2PcInstance player)
 	{
 		// Victory Social Action.
 		player.setTarget(player);
@@ -301,7 +303,7 @@ public class L2Rebirth
 	 * @param itemAmount the item amount
 	 * @return true, if successful
 	 */
-	public boolean playerIsEligible(L2PcInstance player, int itemId, int itemAmount)
+	public boolean playerIsEligible(final L2PcInstance player, final int itemId, final int itemAmount)
 	{
 		String itemName = ItemTable.getInstance().getTemplate(itemId).getName();
 		L2ItemInstance itemNeeded = player.getInventory().getItemByItemId(itemId);
@@ -326,12 +328,12 @@ public class L2Rebirth
 	 * Gives the available Bonus Skills to the player.
 	 * @param player the player
 	 */
-	public void grantRebirthSkills(L2PcInstance player)
+	public void grantRebirthSkills(final L2PcInstance player)
 	{
 		// returns the current Rebirth Level
-		int rebirthLevel = getRebirthLevel(player);
+		final int rebirthLevel = getRebirthLevel(player);
 		// Returns true if BASE CLASS is a mage.
-		boolean isMage = player.getBaseTemplate().classId.isMage();
+		final boolean isMage = player.getBaseTemplate().classId.isMage();
 		
 		// Simply return since no bonus skills are granted.
 		if (rebirthLevel == 0)
@@ -341,7 +343,7 @@ public class L2Rebirth
 		CreatureSay rebirthText = null;
 		for (int i = 0; i < rebirthLevel; i++)
 		{
-			L2Skill bonusSkill = getRebirthSkill((i + 1), isMage);
+			final L2Skill bonusSkill = getRebirthSkill((i + 1), isMage);
 			player.addSkill(bonusSkill, false);
 			
 			// If you'd rather make it simple, simply comment this out and replace with a simple player.sendmessage();
@@ -357,9 +359,9 @@ public class L2Rebirth
 	 * @param player the player
 	 * @return the rebirth level
 	 */
-	public int getRebirthLevel(L2PcInstance player)
+	public int getRebirthLevel(final L2PcInstance player)
 	{
-		int playerId = player.getObjectId();
+		final int playerId = player.getObjectId();
 		
 		if (_playersRebirthInfo.get(playerId) == null)
 		{
@@ -375,7 +377,7 @@ public class L2Rebirth
 	 * @param mage the mage
 	 * @return the rebirth skill
 	 */
-	public L2Skill getRebirthSkill(int rebirthLevel, boolean mage)
+	public L2Skill getRebirthSkill(final int rebirthLevel, final boolean mage)
 	{
 		L2Skill skill = null;
 		
@@ -383,9 +385,9 @@ public class L2Rebirth
 		if (mage)
 		{
 			int loopBirth = 0;
-			for (String readSkill : Config.REBIRTH_MAGE_SKILL)
+			for (final String readSkill : Config.REBIRTH_MAGE_SKILL)
 			{
-				String[] currSkill = readSkill.split(",");
+				final String[] currSkill = readSkill.split(",");
 				if (loopBirth == (rebirthLevel - 1))
 				{
 					skill = SkillTable.getInstance().getInfo(Integer.parseInt(currSkill[0]), Integer.parseInt(currSkill[1]));
@@ -398,9 +400,9 @@ public class L2Rebirth
 		else
 		{
 			int loopBirth = 0;
-			for (String readSkill : Config.REBIRTH_FIGHTER_SKILL)
+			for (final String readSkill : Config.REBIRTH_FIGHTER_SKILL)
 			{
-				String[] currSkill = readSkill.split(",");
+				final String[] currSkill = readSkill.split(",");
 				if (loopBirth == (rebirthLevel - 1))
 				{
 					skill = SkillTable.getInstance().getInfo(Integer.parseInt(currSkill[0]), Integer.parseInt(currSkill[1]));
@@ -416,9 +418,9 @@ public class L2Rebirth
 	 * Database caller to retrieve player's current Rebirth Level.
 	 * @param player the player
 	 */
-	public void loadRebirthInfo(L2PcInstance player)
+	public void loadRebirthInfo(final L2PcInstance player)
 	{
-		int playerId = player.getObjectId();
+		final int playerId = player.getObjectId();
 		int rebirthCount = 0;
 		
 		Connection con = null;
@@ -435,13 +437,13 @@ public class L2Rebirth
 				rebirthCount = rset.getInt("rebirthCount");
 			}
 			
-			rset.close();
-			statement.close();
+			DatabaseUtils.close(rset);
+			DatabaseUtils.close(statement);
 			statement = null;
 			rset = null;
 			
 		}
-		catch (Exception e)
+		catch (final Exception e)
 		{
 			e.printStackTrace();
 		}
@@ -457,7 +459,7 @@ public class L2Rebirth
 	 * Stores the player's information in the DB.
 	 * @param player the player
 	 */
-	public void storePlayerBirth(L2PcInstance player)
+	public void storePlayerBirth(final L2PcInstance player)
 	{
 		Connection con = null;
 		try
@@ -471,7 +473,7 @@ public class L2Rebirth
 			_playersRebirthInfo.put(player.getObjectId(), 1);
 			
 		}
-		catch (Exception e)
+		catch (final Exception e)
 		{
 			e.printStackTrace();
 		}
@@ -487,12 +489,12 @@ public class L2Rebirth
 	 * @param player the player
 	 * @param newRebirthCount the new rebirth count
 	 */
-	public void updatePlayerBirth(L2PcInstance player, int newRebirthCount)
+	public void updatePlayerBirth(final L2PcInstance player, final int newRebirthCount)
 	{
 		Connection con = null;
 		try
 		{
-			int playerId = player.getObjectId();
+			final int playerId = player.getObjectId();
 			
 			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement("UPDATE `rebirth_manager` SET rebirthCount = ? WHERE playerId = ?");
@@ -503,7 +505,7 @@ public class L2Rebirth
 			
 			_playersRebirthInfo.put(playerId, newRebirthCount);
 		}
-		catch (Exception e)
+		catch (final Exception e)
 		{
 			e.printStackTrace();
 		}

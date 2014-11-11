@@ -28,11 +28,9 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
  * <BR>
  * 01 00 // Number of Attribute Trame of the Packet <BR>
  * <BR>
- * c6 37 50 40 // Attribute Identifier : 01-Level, 02-Experience, 03-STR, 04-DEX, 05-CON, 06-INT, 07-WIT, 08-MEN,
- * 09-Current HP, 0a, Max HP...<BR>
+ * c6 37 50 40 // Attribute Identifier : 01-Level, 02-Experience, 03-STR, 04-DEX, 05-CON, 06-INT, 07-WIT, 08-MEN, 09-Current HP, 0a, Max HP...<BR>
  * cd 09 00 00 // Attribute Value <BR>
  * format d d(dd)
- * 
  * @version $Revision: 1.3.2.1.2.5 $ $Date: 2005/03/27 15:29:39 $
  */
 public class StatusUpdate extends L2GameServerPacket
@@ -46,16 +44,16 @@ public class StatusUpdate extends L2GameServerPacket
 	public static final int INT = 0x06;
 	public static final int WIT = 0x07;
 	public static final int MEN = 0x08;
-
+	
 	public static final int CUR_HP = 0x09;
 	public static final int MAX_HP = 0x0a;
 	public static final int CUR_MP = 0x0b;
 	public static final int MAX_MP = 0x0c;
-
+	
 	public static final int SP = 0x0d;
 	public static final int CUR_LOAD = 0x0e;
 	public static final int MAX_LOAD = 0x0f;
-
+	
 	public static final int P_ATK = 0x11;
 	public static final int ATK_SPD = 0x12;
 	public static final int P_DEF = 0x13;
@@ -67,10 +65,10 @@ public class StatusUpdate extends L2GameServerPacket
 	public static final int M_DEF = 0x19;
 	public static final int PVP_FLAG = 0x1a;
 	public static final int KARMA = 0x1b;
-
+	
 	public static final int CUR_CP = 0x21;
 	public static final int MAX_CP = 0x22;
-
+	
 	private L2PcInstance _actor;
 	
 	private Vector<Attribute> _attributes;
@@ -79,45 +77,43 @@ public class StatusUpdate extends L2GameServerPacket
 	class Attribute
 	{
 		
-		//id values 09 - current health 0a - max health 0b - current mana 0c - max mana
+		// id values 09 - current health 0a - max health 0b - current mana 0c - max mana
 		public int id;
 		public int value;
-
-		Attribute(int pId, int pValue)
+		
+		Attribute(final int pId, final int pValue)
 		{
 			id = pId;
 			value = pValue;
 		}
 	}
-
-	public StatusUpdate(L2PcInstance actor)
+	
+	public StatusUpdate(final L2PcInstance actor)
 	{
 		_actor = actor;
 	}
-
 	
-	public StatusUpdate(int objectId)
+	public StatusUpdate(final int objectId)
 	{
-		_attributes = new Vector<Attribute>();
+		_attributes = new Vector<>();
 		_objectId = objectId;
 	}
 	
-	public void addAttribute(int id, int level)
+	public void addAttribute(final int id, final int level)
 	{
 		_attributes.add(new Attribute(id, level));
 	}
-
-	
 	
 	@Override
 	protected final void writeImpl()
 	{
 		writeC(0x0e);
 		
-		if(_actor!=null){
+		if (_actor != null)
+		{
 			writeD(_actor.getObjectId());
-			writeD(28); //all the attributes
-
+			writeD(28); // all the attributes
+			
 			writeD(LEVEL);
 			writeD(_actor.getLevel());
 			writeD(EXP);
@@ -178,23 +174,26 @@ public class StatusUpdate extends L2GameServerPacket
 			writeD(MAX_CP);
 			writeD(_actor.getMaxCp());
 			
-		}else{
+		}
+		else
+		{
 			
 			writeD(_objectId);
 			writeD(_attributes.size());
-
-			for(int i = 0; i < _attributes.size(); i++)
+			
+			for (int i = 0; i < _attributes.size(); i++)
 			{
-				Attribute temp = _attributes.get(i);
-
+				final Attribute temp = _attributes.get(i);
+				
 				writeD(temp.id);
 				writeD(temp.value);
 			}
 		}
 		
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType()
 	 */
 	@Override

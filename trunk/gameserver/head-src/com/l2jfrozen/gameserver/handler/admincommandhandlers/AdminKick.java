@@ -30,30 +30,19 @@ public class AdminKick implements IAdminCommandHandler
 {
 	private static final String[] ADMIN_COMMANDS =
 	{
-			"admin_kick", "admin_kick_non_gm"
+		"admin_kick",
+		"admin_kick_non_gm"
 	};
-
+	
 	@Override
-	public boolean useAdminCommand(String command, L2PcInstance activeChar)
+	public boolean useAdminCommand(final String command, final L2PcInstance activeChar)
 	{
 		/*
-		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
-			return false;
-		}
+		 * if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){ return false; } if(Config.GMAUDIT) { Logger _logAudit = Logger.getLogger("gmaudit"); LogRecord record = new LogRecord(Level.INFO, command); record.setParameters(new Object[] { "GM: " +
+		 * activeChar.getName(), " to target [" + activeChar.getTarget() + "] " }); _logAudit.LOGGER(record); }
+		 */
 		
-		if(Config.GMAUDIT)
-		{
-			Logger _logAudit = Logger.getLogger("gmaudit");
-			LogRecord record = new LogRecord(Level.INFO, command);
-			record.setParameters(new Object[]
-			{
-					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
-			});
-			_logAudit.log(record);
-		}
-		*/
-
-		if(command.startsWith("admin_kick"))
+		if (command.startsWith("admin_kick"))
 		{
 			StringTokenizer st = new StringTokenizer(command);
 			
@@ -61,40 +50,40 @@ public class AdminKick implements IAdminCommandHandler
 			{
 				activeChar.sendMessage("Type //kick name");
 			}
-
-			if(st.countTokens() > 1)
+			
+			if (st.countTokens() > 1)
 			{
 				st.nextToken();
-
+				
 				final String player = st.nextToken();
 				final L2PcInstance plyr = L2World.getInstance().getPlayer(player);
 				
-				if(plyr != null)
+				if (plyr != null)
 				{
 					plyr.logout(true);
 					activeChar.sendMessage("You kicked " + plyr.getName() + " from the game.");
 					RegionBBSManager.getInstance().changeCommunityBoard();
 				}
 				
-				if(plyr != null && plyr.isOffline())
+				if (plyr != null && plyr.isOffline())
 				{
 					plyr.deleteMe();
 					activeChar.sendMessage("You kicked Offline Player " + plyr.getName() + " from the game.");
 					RegionBBSManager.getInstance().changeCommunityBoard();
 				}
-
+				
 			}
-
+			
 			st = null;
 		}
-
-		if(command.startsWith("admin_kick_non_gm"))
+		
+		if (command.startsWith("admin_kick_non_gm"))
 		{
 			int counter = 0;
-
-			for(L2PcInstance player : L2World.getInstance().getAllPlayers())
+			
+			for (final L2PcInstance player : L2World.getInstance().getAllPlayers())
 			{
-				if(!player.isGM())
+				if (!player.isGM())
 				{
 					counter++;
 					player.sendPacket(new LeaveWorld());
@@ -106,11 +95,11 @@ public class AdminKick implements IAdminCommandHandler
 		}
 		return true;
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;
 	}
-
+	
 }

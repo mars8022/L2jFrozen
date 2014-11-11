@@ -24,16 +24,15 @@ import com.l2jfrozen.gameserver.network.serverpackets.ExPartyRoomMember;
 import com.l2jfrozen.gameserver.network.serverpackets.PartyMatchDetail;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
-
 /**
  * @author Gnacik
  */
 
 public final class RequestPartyMatchDetail extends L2GameClientPacket
 {
-
+	
 	private int _roomid;
-
+	
 	@SuppressWarnings("unused")
 	private int _unk1;
 	@SuppressWarnings("unused")
@@ -46,8 +45,7 @@ public final class RequestPartyMatchDetail extends L2GameClientPacket
 	{
 		_roomid = readD();
 		/*
-		 * IF player click on Room all unk are 0
-		 * IF player click AutoJoin values are -1 1 1
+		 * IF player click on Room all unk are 0 IF player click AutoJoin values are -1 1 1
 		 */
 		_unk1 = readD();
 		_unk2 = readD();
@@ -57,11 +55,11 @@ public final class RequestPartyMatchDetail extends L2GameClientPacket
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance _activeChar = getClient().getActiveChar();
+		final L2PcInstance _activeChar = getClient().getActiveChar();
 		if (_activeChar == null)
 			return;
 		
-		PartyMatchRoom _room = PartyMatchRoomList.getInstance().getRoom(_roomid);
+		final PartyMatchRoom _room = PartyMatchRoomList.getInstance().getRoom(_roomid);
 		if (_room == null)
 			return;
 		
@@ -75,9 +73,9 @@ public final class RequestPartyMatchDetail extends L2GameClientPacket
 			_activeChar.sendPacket(new PartyMatchDetail(_activeChar, _room));
 			_activeChar.sendPacket(new ExPartyRoomMember(_activeChar, _room, 0));
 			
-			for(L2PcInstance _member : _room.getPartyMembers())
+			for (final L2PcInstance _member : _room.getPartyMembers())
 			{
-				if(_member == null)
+				if (_member == null)
 					continue;
 				
 				_member.sendPacket(new ExManagePartyRoomMember(_activeChar, _room, 0));
@@ -91,7 +89,7 @@ public final class RequestPartyMatchDetail extends L2GameClientPacket
 		else
 			_activeChar.sendPacket(new SystemMessage(SystemMessageId.CANT_ENTER_PARTY_ROOM));
 	}
-
+	
 	@Override
 	public String getType()
 	{

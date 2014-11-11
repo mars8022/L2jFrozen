@@ -28,10 +28,10 @@ public class CreatureSay extends L2GameServerPacket
 {
 	// ddSS
 	private static final String _S__4A_CREATURESAY = "[S] 4A CreatureSay";
-	private int _objectId;
-	private int _textType;
-	private String _charName;
-	private String _text;
+	private final int _objectId;
+	private final int _textType;
+	private final String _charName;
+	private final String _text;
 	
 	/**
 	 * @param objectId
@@ -39,7 +39,7 @@ public class CreatureSay extends L2GameServerPacket
 	 * @param charName
 	 * @param text
 	 */
-	public CreatureSay(int objectId, int messageType, String charName, String text)
+	public CreatureSay(final int objectId, final int messageType, final String charName, final String text)
 	{
 		_objectId = objectId;
 		_textType = messageType;
@@ -57,7 +57,7 @@ public class CreatureSay extends L2GameServerPacket
 		writeS(_charName);
 		writeS(_text);
 		
-		L2PcInstance _pci = getClient().getActiveChar();
+		final L2PcInstance _pci = getClient().getActiveChar();
 		if (_pci != null)
 		{
 			_pci.broadcastSnoop(_textType, _charName, _text, this);

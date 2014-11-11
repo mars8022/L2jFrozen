@@ -14,7 +14,7 @@
  */
 package com.l2jfrozen.gameserver.network;
 
-import com.l2jfrozen.netcore.Config;
+import com.l2jfrozen.netcore.NetcoreConfig;
 
 public class ClientStats
 {
@@ -51,7 +51,7 @@ public class ClientStats
 	
 	public ClientStats()
 	{
-		BUFFER_SIZE = Config.getInstance().CLIENT_PACKET_QUEUE_MEASURE_INTERVAL;
+		BUFFER_SIZE = NetcoreConfig.getInstance().CLIENT_PACKET_QUEUE_MEASURE_INTERVAL;
 		_packetsInSecond = new int[BUFFER_SIZE];
 		_head = BUFFER_SIZE - 1;
 	}
@@ -69,10 +69,10 @@ public class ClientStats
 	
 	/**
 	 * Later during flood returns true (and send ActionFailed) once per second.
-	 * @param queueSize 
+	 * @param queueSize
 	 * @return true if flood detected first and ActionFailed packet need to be sent.
 	 */
-	protected final boolean countPacket(int queueSize)
+	protected final boolean countPacket(final int queueSize)
 	{
 		processedPackets++;
 		totalQueueSize += queueSize;
@@ -86,7 +86,7 @@ public class ClientStats
 	
 	/**
 	 * Counts unknown packets and return true if threshold is reached.
-	 * @return 
+	 * @return
 	 */
 	protected final boolean countUnknownPacket()
 	{
@@ -101,20 +101,20 @@ public class ClientStats
 		}
 		
 		_unknownPacketsInMin++;
-		return _unknownPacketsInMin > Config.getInstance().CLIENT_PACKET_QUEUE_MAX_UNKNOWN_PER_MIN;
+		return _unknownPacketsInMin > NetcoreConfig.getInstance().CLIENT_PACKET_QUEUE_MAX_UNKNOWN_PER_MIN;
 	}
 	
 	/**
 	 * Counts burst length and return true if execution of the queue need to be aborted.
 	 * @param count - current number of processed packets in burst
-	 * @return 
+	 * @return
 	 */
-	protected final boolean countBurst(int count)
+	protected final boolean countBurst(final int count)
 	{
 		if (count > maxBurstSize)
 			maxBurstSize = count;
 		
-		if (count < Config.getInstance().CLIENT_PACKET_QUEUE_MAX_BURST_SIZE)
+		if (count < NetcoreConfig.getInstance().CLIENT_PACKET_QUEUE_MAX_BURST_SIZE)
 			return false;
 		
 		totalBursts++;
@@ -123,7 +123,7 @@ public class ClientStats
 	
 	/**
 	 * Counts queue overflows and return true if threshold is reached.
-	 * @return 
+	 * @return
 	 */
 	protected final boolean countQueueOverflow()
 	{
@@ -139,12 +139,12 @@ public class ClientStats
 		}
 		
 		_overflowsInMin++;
-		return _overflowsInMin > Config.getInstance().CLIENT_PACKET_QUEUE_MAX_OVERFLOWS_PER_MIN;
+		return _overflowsInMin > NetcoreConfig.getInstance().CLIENT_PACKET_QUEUE_MAX_OVERFLOWS_PER_MIN;
 	}
 	
 	/**
 	 * Counts underflow exceptions and return true if threshold is reached.
-	 * @return 
+	 * @return
 	 */
 	protected final boolean countUnderflowException()
 	{
@@ -159,27 +159,26 @@ public class ClientStats
 		}
 		
 		_underflowReadsInMin++;
-		return _underflowReadsInMin > Config.getInstance().CLIENT_PACKET_QUEUE_MAX_UNDERFLOWS_PER_MIN;
+		return _underflowReadsInMin > NetcoreConfig.getInstance().CLIENT_PACKET_QUEUE_MAX_UNDERFLOWS_PER_MIN;
 	}
 	
 	/**
 	 * Returns true if maximum number of floods per minute is reached.
-	 * @return 
+	 * @return
 	 */
 	protected final boolean countFloods()
 	{
-		return _floodsInMin > Config.getInstance().CLIENT_PACKET_QUEUE_MAX_FLOODS_PER_MIN;
+		return _floodsInMin > NetcoreConfig.getInstance().CLIENT_PACKET_QUEUE_MAX_FLOODS_PER_MIN;
 	}
 	
 	private final boolean longFloodDetected()
 	{
-		return (_totalCount / BUFFER_SIZE) > Config.getInstance().CLIENT_PACKET_QUEUE_MAX_AVERAGE_PACKETS_PER_SECOND;
+		return (_totalCount / BUFFER_SIZE) > NetcoreConfig.getInstance().CLIENT_PACKET_QUEUE_MAX_AVERAGE_PACKETS_PER_SECOND;
 	}
 	
 	/**
-	 * Returns true if flood detected first and ActionFailed packet need to be sent.
-	 * Later during flood returns true (and send ActionFailed) once per second.
-	 * @return 
+	 * Returns true if flood detected first and ActionFailed packet need to be sent. Later during flood returns true (and send ActionFailed) once per second.
+	 * @return
 	 */
 	private final synchronized boolean countPacket()
 	{
@@ -190,9 +189,7 @@ public class ClientStats
 			_packetCountStartTick = tick;
 			
 			// clear flag if no more flooding during last seconds
-			if (_floodDetected
-					&& !longFloodDetected()
-					&& _packetsInSecond[_head] < Config.getInstance().CLIENT_PACKET_QUEUE_MAX_PACKETS_PER_SECOND / 2)
+			if (_floodDetected && !longFloodDetected() && _packetsInSecond[_head] < NetcoreConfig.getInstance().CLIENT_PACKET_QUEUE_MAX_PACKETS_PER_SECOND / 2)
 				_floodDetected = false;
 			
 			// wrap head of the buffer around the tail
@@ -208,7 +205,7 @@ public class ClientStats
 		final int count = ++_packetsInSecond[_head];
 		if (!_floodDetected)
 		{
-			if (count > Config.getInstance().CLIENT_PACKET_QUEUE_MAX_PACKETS_PER_SECOND)
+			if (count > NetcoreConfig.getInstance().CLIENT_PACKET_QUEUE_MAX_PACKETS_PER_SECOND)
 				shortFloods++;
 			else if (longFloodDetected())
 				longFloods++;

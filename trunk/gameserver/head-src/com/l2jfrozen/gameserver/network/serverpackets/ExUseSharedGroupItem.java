@@ -19,7 +19,6 @@ package com.l2jfrozen.gameserver.network.serverpackets;
 
 /**
  * Format: ch dddd.
- *
  * @author KenM
  */
 public class ExUseSharedGroupItem extends L2GameServerPacket
@@ -28,17 +27,16 @@ public class ExUseSharedGroupItem extends L2GameServerPacket
 	private static final String _S__FE_49_EXUSESHAREDGROUPITEM = "[S] FE:49 ExUseSharedGroupItem";
 	
 	/** The _unk4. */
-	private int _unk1, _unk2, _unk3, _unk4;
-
+	private final int _unk1, _unk2, _unk3, _unk4;
+	
 	/**
 	 * Instantiates a new ex use shared group item.
-	 *
 	 * @param unk1 the unk1
 	 * @param unk2 the unk2
 	 * @param unk3 the unk3
 	 * @param unk4 the unk4
 	 */
-	public ExUseSharedGroupItem(int unk1, int unk2, int unk3, int unk4)
+	public ExUseSharedGroupItem(final int unk1, final int unk2, final int unk3, final int unk4)
 	{
 		_unk1 = unk1;
 		_unk2 = unk2;
@@ -51,16 +49,15 @@ public class ExUseSharedGroupItem extends L2GameServerPacket
 	{
 		writeC(0xfe);
 		writeH(0x49);
-
+		
 		writeD(_unk1);
 		writeD(_unk2);
 		writeD(_unk3);
 		writeD(_unk4);
 	}
-
+	
 	/**
 	 * Gets the type.
-	 *
 	 * @return the type
 	 */
 	@Override

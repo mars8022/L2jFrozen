@@ -29,22 +29,22 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 public class PartyMatchRoomList
 {
 	private int _maxid = 1;
-	private Map<Integer, PartyMatchRoom> _rooms;
+	private final Map<Integer, PartyMatchRoom> _rooms;
 	
 	private PartyMatchRoomList()
 	{
-		_rooms = new FastMap<Integer, PartyMatchRoom>();
+		_rooms = new FastMap<>();
 	}
 	
-	public synchronized void addPartyMatchRoom(int id, PartyMatchRoom room)
+	public synchronized void addPartyMatchRoom(final int id, final PartyMatchRoom room)
 	{
 		_rooms.put(id, room);
 		_maxid++;
 	}
 	
-	public void deleteRoom(int id)
+	public void deleteRoom(final int id)
 	{
-		for (L2PcInstance _member : getRoom(id).getPartyMembers())
+		for (final L2PcInstance _member : getRoom(id).getPartyMembers())
 		{
 			if (_member == null)
 				continue;
@@ -58,7 +58,7 @@ public class PartyMatchRoomList
 		_rooms.remove(id);
 	}
 	
-	public PartyMatchRoom getRoom(int id)
+	public PartyMatchRoom getRoom(final int id)
 	{
 		return _rooms.get(id);
 	}
@@ -78,20 +78,20 @@ public class PartyMatchRoomList
 		return _maxid;
 	}
 	
-	public PartyMatchRoom getPlayerRoom(L2PcInstance player)
+	public PartyMatchRoom getPlayerRoom(final L2PcInstance player)
 	{
-		for (PartyMatchRoom _room : _rooms.values())
-			for (L2PcInstance member : _room.getPartyMembers())
+		for (final PartyMatchRoom _room : _rooms.values())
+			for (final L2PcInstance member : _room.getPartyMembers())
 				if (member.equals(player))
 					return _room;
 		
 		return null;
 	}
 	
-	public int getPlayerRoomId(L2PcInstance player)
+	public int getPlayerRoomId(final L2PcInstance player)
 	{
-		for (PartyMatchRoom _room : _rooms.values())
-			for (L2PcInstance member : _room.getPartyMembers())
+		for (final PartyMatchRoom _room : _rooms.values())
+			for (final L2PcInstance member : _room.getPartyMembers())
 				if (member.equals(player))
 					return _room.getId();
 		

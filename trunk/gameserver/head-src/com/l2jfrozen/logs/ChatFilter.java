@@ -24,7 +24,7 @@ import java.util.logging.LogRecord;
 public class ChatFilter implements Filter
 {
 	@Override
-	public boolean isLoggable(LogRecord record)
+	public boolean isLoggable(final LogRecord record)
 	{
 		return record.getLoggerName() == "chat";
 	}

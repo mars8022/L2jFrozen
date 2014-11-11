@@ -30,44 +30,32 @@ public class AdminBoat implements IAdminCommandHandler
 	{
 		"admin_boat"
 	};
-
+	
 	@Override
-	public boolean useAdminCommand(String command, L2PcInstance activeChar)
+	public boolean useAdminCommand(final String command, final L2PcInstance activeChar)
 	{
 		/*
-		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
-			return false;
-		}
+		 * if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){ return false; } if(Config.GMAUDIT) { Logger _logAudit = Logger.getLogger("gmaudit"); LogRecord record = new LogRecord(Level.INFO, command); record.setParameters(new Object[] { "GM: " +
+		 * activeChar.getName(), " to target [" + activeChar.getTarget() + "] " }); _logAudit.LOGGER(record); }
+		 */
 		
-		if(Config.GMAUDIT)
-		{
-			Logger _logAudit = Logger.getLogger("gmaudit");
-			LogRecord record = new LogRecord(Level.INFO, command);
-			record.setParameters(new Object[]
-			{
-					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
-			});
-			_logAudit.log(record);
-		}
-		*/
-
 		L2BoatInstance boat = activeChar.getBoat();
-
-		if(boat == null)
+		
+		if (boat == null)
 		{
 			activeChar.sendMessage("Usage only possible while riding a boat.");
 			return false;
 		}
-
+		
 		StringTokenizer st = new StringTokenizer(command);
 		st.nextToken();
-
-		if(st.hasMoreTokens())
+		
+		if (st.hasMoreTokens())
 		{
-			String cmd = st.nextToken();
-			if(cmd.equals("cycle"))
+			final String cmd = st.nextToken();
+			if (cmd.equals("cycle"))
 			{
-				if(boat.isInCycle())
+				if (boat.isInCycle())
 				{
 					boat.stopCycle();
 					activeChar.sendMessage("Boat cycle stopped.");
@@ -78,7 +66,7 @@ public class AdminBoat implements IAdminCommandHandler
 					activeChar.sendMessage("Boat cycle started.");
 				}
 			}
-			else if(cmd.equals("reload"))
+			else if (cmd.equals("reload"))
 			{
 				boat.reloadPath();
 				activeChar.sendMessage("Boat path reloaded.");
@@ -97,18 +85,18 @@ public class AdminBoat implements IAdminCommandHandler
 			activeChar.sendMessage("Position: " + boat.getX() + " " + boat.getY() + " " + boat.getZ() + " " + boat.getPosition().getHeading());
 			activeChar.sendMessage("==============================");
 		}
-
+		
 		st = null;
 		boat = null;
-
+		
 		return true;
 	}
-
-	private void showUsage(L2PcInstance cha)
+	
+	private void showUsage(final L2PcInstance cha)
 	{
 		cha.sendMessage("Usage: //boat [cycle|reload]");
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{

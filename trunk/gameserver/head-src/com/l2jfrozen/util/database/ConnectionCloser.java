@@ -20,28 +20,27 @@ package com.l2jfrozen.util.database;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.logging.Logger;
 
+import org.apache.log4j.Logger;
 
 /**
- * 
- * 
  * @author Enzo
  */
 public class ConnectionCloser implements Runnable
 {
-	private static final Logger _log = Logger.getLogger(ConnectionCloser.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(ConnectionCloser.class);
 	
-	
-	private final Connection c ;
+	private final Connection c;
 	private final RuntimeException exp;
 	
-	public ConnectionCloser(Connection con, RuntimeException e)
+	public ConnectionCloser(final Connection con, final RuntimeException e)
 	{
 		c = con;
 		exp = e;
 	}
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see java.lang.Runnable#run()
 	 */
 	@Override
@@ -49,17 +48,17 @@ public class ConnectionCloser implements Runnable
 	{
 		try
 		{
-			if (c!=null && !c.isClosed())
+			if (c != null && !c.isClosed())
 			{
-				_log.severe( "Unclosed connection! Trace: " + exp.getStackTrace()[1]+" "+ exp);
-				//c.close();
+				LOGGER.warn("Unclosed connection! Trace: " + exp);
+				// c.close();
 				
 			}
 		}
-		catch (SQLException e)
+		catch (final SQLException e)
 		{
-			//the close operation could generate exception, but there is not any problem
-			//e.printStackTrace();
+			// the close operation could generate exception, but there is not any problem
+			// e.printStackTrace();
 		}
 		
 	}

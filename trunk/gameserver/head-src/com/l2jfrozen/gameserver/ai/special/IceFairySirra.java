@@ -15,7 +15,6 @@
 package com.l2jfrozen.gameserver.ai.special;
 
 import java.util.concurrent.Future;
-import java.util.logging.Level;
 
 import javolution.util.FastList;
 
@@ -39,7 +38,6 @@ import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 
 /**
  * Ice Fairy Sirra AI
- * 
  * @author Kerberos
  */
 
@@ -49,38 +47,41 @@ public class IceFairySirra extends Quest implements Runnable
 	private static final int SILVER_HEMOCYTE = 8057;
 	private static L2BossZone _freyasZone;
 	private static L2PcInstance _player = null;
-	protected FastList<L2NpcInstance> _allMobs = new FastList<L2NpcInstance>();
+	protected FastList<L2NpcInstance> _allMobs = new FastList<>();
 	protected Future<?> _onDeadEventTask = null;
-
-	public IceFairySirra(int id, String name, String descr)
+	
+	public IceFairySirra(final int id, final String name, final String descr)
 	{
 		super(id, name, descr);
-		int[] mobs =
+		final int[] mobs =
 		{
-				STEWARD, 22100, 22102, 22104
+			STEWARD,
+			22100,
+			22102,
+			22104
 		};
-
-		for(int mob : mobs)
+		
+		for (final int mob : mobs)
 		{
-			//TODO:
+			// TODO:
 			addEventId(mob, Quest.QuestEventType.QUEST_START);
 			addEventId(mob, Quest.QuestEventType.QUEST_TALK);
 			addEventId(mob, Quest.QuestEventType.NPC_FIRST_TALK);
 		}
-
+		
 		init();
 	}
-
+	
 	@Override
-	public String onFirstTalk(L2NpcInstance npc, L2PcInstance player)
+	public String onFirstTalk(final L2NpcInstance npc, final L2PcInstance player)
 	{
-		if(player.getQuestState("IceFairySirra") == null)
+		if (player.getQuestState("IceFairySirra") == null)
 		{
 			newQuestState(player);
 		}
 		player.setLastQuestNpcObject(npc.getObjectId());
 		String filename = "";
-		if(npc.isBusy())
+		if (npc.isBusy())
 		{
 			filename = getHtmlPath(10);
 		}
@@ -91,19 +92,19 @@ public class IceFairySirra extends Quest implements Runnable
 		sendHtml(npc, player, filename);
 		return null;
 	}
-
+	
 	@Override
-	public String onAdvEvent(String event, L2NpcInstance npc, L2PcInstance player)
+	public String onAdvEvent(final String event, final L2NpcInstance npc, final L2PcInstance player)
 	{
-		if(event.equalsIgnoreCase("check_condition"))
+		if (event.equalsIgnoreCase("check_condition"))
 		{
-			if(npc.isBusy())//should never happen
+			if (npc.isBusy())// should never happen
 				return super.onAdvEvent(event, npc, player);
 			
 			String filename = "";
-			if(player.isInParty() && player.getParty().getPartyLeaderOID() == player.getObjectId())
-			{		
-				if(checkItems(player))
+			if (player.isInParty() && player.getParty().getPartyLeaderOID() == player.getObjectId())
+			{
+				if (checkItems(player))
 				{
 					startQuestTimer("start", 100000, null, player);
 					_player = player;
@@ -120,15 +121,15 @@ public class IceFairySirra extends Quest implements Runnable
 			}
 			else
 			{
-			  filename = getHtmlPath(1);
+				filename = getHtmlPath(1);
 			}
 			sendHtml(npc, player, filename);
 		}
-		else if(event.equalsIgnoreCase("start"))
+		else if (event.equalsIgnoreCase("start"))
 		{
-			if(_freyasZone == null)
+			if (_freyasZone == null)
 			{
-				_log.warning("IceFairySirraManager: Failed to load zone");
+				LOGGER.warn("IceFairySirraManager: Failed to load zone");
 				cleanUp();
 				return super.onAdvEvent(event, npc, player);
 			}
@@ -138,51 +139,51 @@ public class IceFairySirra extends Quest implements Runnable
 			startQuestTimer("Party_Port", 2000, null, player);
 			startQuestTimer("End", 1802000, null, player);
 		}
-		else if(event.equalsIgnoreCase("Party_Port"))
+		else if (event.equalsIgnoreCase("Party_Port"))
 		{
 			teleportInside(player);
 			screenMessage(player, "Steward: Please restore the Queen's appearance!", 10000);
 			startQuestTimer("30MinutesRemaining", 300000, null, player);
 		}
-		else if(event.equalsIgnoreCase("30MinutesRemaining"))
+		else if (event.equalsIgnoreCase("30MinutesRemaining"))
 		{
 			screenMessage(player, "30 minute(s) are remaining.", 10000);
 			startQuestTimer("20minutesremaining", 600000, null, player);
 		}
-		else if(event.equalsIgnoreCase("20MinutesRemaining"))
+		else if (event.equalsIgnoreCase("20MinutesRemaining"))
 		{
 			screenMessage(player, "20 minute(s) are remaining.", 10000);
 			startQuestTimer("10minutesremaining", 600000, null, player);
 		}
-		else if(event.equalsIgnoreCase("10MinutesRemaining"))
+		else if (event.equalsIgnoreCase("10MinutesRemaining"))
 		{
 			screenMessage(player, "Steward: Waste no time! Please hurry!", 10000);
 		}
-		else if(event.equalsIgnoreCase("End"))
+		else if (event.equalsIgnoreCase("End"))
 		{
 			screenMessage(player, "Steward: Was it indeed too much to ask.", 10000);
 			cleanUp();
 		}
 		return super.onAdvEvent(event, npc, player);
 	}
-
+	
 	public void init()
 	{
 		_freyasZone = GrandBossManager.getInstance().getZone(105546, -127892, -2768);
-		if(_freyasZone == null)
+		if (_freyasZone == null)
 		{
-			_log.warning("IceFairySirraManager: Failed to load zone");
+			LOGGER.warn("IceFairySirraManager: Failed to load zone");
 			return;
 		}
 		_freyasZone.setZoneEnabled(false);
-		L2NpcInstance steward = findTemplate(STEWARD);
-		if(steward != null)
+		final L2NpcInstance steward = findTemplate(STEWARD);
+		if (steward != null)
 		{
 			steward.setBusy(false);
 		}
 		openGates();
 	}
-
+	
 	public void cleanUp()
 	{
 		init();
@@ -190,30 +191,30 @@ public class IceFairySirra extends Quest implements Runnable
 		cancelQuestTimer("20MinutesRemaining", null, _player);
 		cancelQuestTimer("10MinutesRemaining", null, _player);
 		cancelQuestTimer("End", null, _player);
-		for(L2NpcInstance mob : _allMobs)
+		for (final L2NpcInstance mob : _allMobs)
 		{
 			try
 			{
 				mob.getSpawn().stopRespawn();
 				mob.deleteMe();
 			}
-			catch(Exception e)
+			catch (final Exception e)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
+				if (Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				_log.log(Level.SEVERE, "IceFairySirraManager: Failed deleting mob.", e);
+				LOGGER.error("IceFairySirraManager: Failed deleting mob.", e);
 			}
 		}
 		_allMobs.clear();
 	}
-
-	public L2NpcInstance findTemplate(int npcId)
+	
+	public L2NpcInstance findTemplate(final int npcId)
 	{
 		L2NpcInstance npc = null;
-		for(L2Spawn spawn : SpawnTable.getInstance().getSpawnTable().values())
+		for (final L2Spawn spawn : SpawnTable.getInstance().getSpawnTable().values())
 		{
-			if(spawn != null && spawn.getNpcid() == npcId)
+			if (spawn != null && spawn.getNpcid() == npcId)
 			{
 				npc = spawn.getLastSpawn();
 				break;
@@ -221,67 +222,67 @@ public class IceFairySirra extends Quest implements Runnable
 		}
 		return npc;
 	}
-
+	
 	protected void openGates()
 	{
-		for(int i = 23140001; i < 23140003; i++)
+		for (int i = 23140001; i < 23140003; i++)
 		{
 			try
 			{
-				L2DoorInstance door = DoorTable.getInstance().getDoor(i);
-				if(door != null)
+				final L2DoorInstance door = DoorTable.getInstance().getDoor(i);
+				if (door != null)
 				{
 					door.openMe();
 				}
 				else
 				{
-					_log.warning("IceFairySirraManager: Attempted to open undefined door. doorId: " + i);
+					LOGGER.warn("IceFairySirraManager: Attempted to open undefined door. doorId: " + i);
 				}
 			}
-			catch(Exception e)
+			catch (final Exception e)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
+				if (Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				_log.log(Level.SEVERE, "IceFairySirraManager: Failed closing door", e);
+				LOGGER.error("IceFairySirraManager: Failed closing door", e);
 			}
 		}
 	}
-
+	
 	protected void closeGates()
 	{
-		for(int i = 23140001; i < 23140003; i++)
+		for (int i = 23140001; i < 23140003; i++)
 		{
 			try
 			{
-				L2DoorInstance door = DoorTable.getInstance().getDoor(i);
-				if(door != null)
+				final L2DoorInstance door = DoorTable.getInstance().getDoor(i);
+				if (door != null)
 				{
 					door.closeMe();
 				}
 				else
 				{
-					_log.warning("IceFairySirraManager: Attempted to close undefined door. doorId: " + i);
+					LOGGER.warn("IceFairySirraManager: Attempted to close undefined door. doorId: " + i);
 				}
 			}
-			catch(Exception e)
+			catch (final Exception e)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
+				if (Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
-				_log.log(Level.SEVERE, "IceFairySirraManager: Failed closing door", e);
+				LOGGER.error("IceFairySirraManager: Failed closing door", e);
 			}
 		}
 	}
-
-	public boolean checkItems(L2PcInstance player)
+	
+	public boolean checkItems(final L2PcInstance player)
 	{
-		if(player.getParty() != null)
+		if (player.getParty() != null)
 		{
-			for(L2PcInstance pc : player.getParty().getPartyMembers())
+			for (final L2PcInstance pc : player.getParty().getPartyMembers())
 			{
-				L2ItemInstance i = pc.getInventory().getItemByItemId(SILVER_HEMOCYTE);
-				if(i == null || i.getCount() < 10)
+				final L2ItemInstance i = pc.getInventory().getItemByItemId(SILVER_HEMOCYTE);
+				if (i == null || i.getCount() < 10)
 					return false;
 			}
 		}
@@ -289,14 +290,14 @@ public class IceFairySirra extends Quest implements Runnable
 			return false;
 		return true;
 	}
-
-	public void destroyItems(L2PcInstance player)
+	
+	public void destroyItems(final L2PcInstance player)
 	{
-		if(player.getParty() != null)
+		if (player.getParty() != null)
 		{
-			for(L2PcInstance pc : player.getParty().getPartyMembers())
+			for (final L2PcInstance pc : player.getParty().getPartyMembers())
 			{
-				L2ItemInstance i = pc.getInventory().getItemByItemId(SILVER_HEMOCYTE);
+				final L2ItemInstance i = pc.getInventory().getItemByItemId(SILVER_HEMOCYTE);
 				pc.destroyItem("Hemocytes", i.getObjectId(), 10, null, false);
 			}
 		}
@@ -305,17 +306,17 @@ public class IceFairySirra extends Quest implements Runnable
 			cleanUp();
 		}
 	}
-
-	public void teleportInside(L2PcInstance player)
+	
+	public void teleportInside(final L2PcInstance player)
 	{
-		if(player.getParty() != null)
+		if (player.getParty() != null)
 		{
-			for(L2PcInstance pc : player.getParty().getPartyMembers())
+			for (final L2PcInstance pc : player.getParty().getPartyMembers())
 			{
 				pc.teleToLocation(113533, -126159, -3488, false);
-				if(_freyasZone == null)
+				if (_freyasZone == null)
 				{
-					_log.warning("IceFairySirraManager: Failed to load zone");
+					LOGGER.warn("IceFairySirraManager: Failed to load zone");
 					cleanUp();
 					return;
 				}
@@ -327,12 +328,12 @@ public class IceFairySirra extends Quest implements Runnable
 			cleanUp();
 		}
 	}
-
-	public void screenMessage(L2PcInstance player, String text, int time)
+	
+	public void screenMessage(final L2PcInstance player, final String text, final int time)
 	{
-		if(player.getParty() != null)
+		if (player.getParty() != null)
 		{
-			for(L2PcInstance pc : player.getParty().getPartyMembers())
+			for (final L2PcInstance pc : player.getParty().getPartyMembers())
 			{
 				pc.sendPacket(new ExShowScreenMessage(text, time));
 			}
@@ -342,35 +343,50 @@ public class IceFairySirra extends Quest implements Runnable
 			cleanUp();
 		}
 	}
-
+	
 	public void doSpawns()
 	{
-		int[][] mobs =
+		final int[][] mobs =
 		{
-				{
-						29060, 105546, -127892, -2768
-				},
-				{
-						29056, 102779, -125920, -2840
-				},
-				{
-						22100, 111719, -126646, -2992
-				},
-				{
-						22102, 109509, -128946, -3216
-				},
-				{
-						22104, 109680, -125756, -3136
-				}
+			{
+				29060,
+				105546,
+				-127892,
+				-2768
+			},
+			{
+				29056,
+				102779,
+				-125920,
+				-2840
+			},
+			{
+				22100,
+				111719,
+				-126646,
+				-2992
+			},
+			{
+				22102,
+				109509,
+				-128946,
+				-3216
+			},
+			{
+				22104,
+				109680,
+				-125756,
+				-3136
+			}
 		};
 		L2Spawn spawnDat;
 		L2NpcTemplate template;
 		try
 		{
-			for(int i = 0; i < 5; i++)
+			for (int i = 0; i < 5; i++)
 			{
 				template = NpcTable.getInstance().getTemplate(mobs[i][0]);
-				if(template != null)
+				if (template != null)
 				{
 					spawnDat = new L2Spawn(template);
 					spawnDat.setAmount(1);
@@ -385,57 +401,58 @@ public class IceFairySirra extends Quest implements Runnable
 				}
 				else
 				{
-					_log.warning("IceFairySirraManager: Data missing in NPC table for ID: " + mobs[i][0]);
+					LOGGER.warn("IceFairySirraManager: Data missing in NPC table for ID: " + mobs[i][0]);
 				}
 			}
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("IceFairySirraManager: Spawns could not be initialized: " + e);
+			LOGGER.warn("IceFairySirraManager: Spawns could not be initialized: " + e);
 		}
 	}
-
-	public String getHtmlPath(int val)
+	
+	public String getHtmlPath(final int val)
 	{
 		String pom = "";
-
+		
 		pom = "32029-" + val;
-		if(val == 0)
+		if (val == 0)
 		{
 			pom = "32029";
 		}
-
-		String temp = "data/html/default/" + pom + ".htm";
-
-		if(!Config.LAZY_CACHE)
+		
+		final String temp = "data/html/default/" + pom + ".htm";
+		
+		if (!Config.LAZY_CACHE)
 		{
 			// If not running lazy cache the file must be in the cache or it doesnt exist
-			if(HtmCache.getInstance().contains(temp))
+			if (HtmCache.getInstance().contains(temp))
 				return temp;
 		}
 		else
 		{
-			if(HtmCache.getInstance().isLoadable(temp))
+			if (HtmCache.getInstance().isLoadable(temp))
 				return temp;
 		}
-
+		
 		// If the file is not found, the standard message "I have nothing to say to you" is returned
 		return "data/html/npcdefault.htm";
 	}
-
-	public void sendHtml(L2NpcInstance npc, L2PcInstance player, String filename)
+	
+	public void sendHtml(final L2NpcInstance npc, final L2PcInstance player, final String filename)
 	{
-		NpcHtmlMessage html = new NpcHtmlMessage(npc.getObjectId());
+		final NpcHtmlMessage html = new NpcHtmlMessage(npc.getObjectId());
 		html.setFile(filename);
 		html.replace("%objectId%", String.valueOf(npc.getObjectId()));
 		player.sendPacket(html);
 		player.sendPacket(ActionFailed.STATIC_PACKET);
 	}
-
+	
 	@Override
 	public void run()
-	{}
+	{
+	}
 }

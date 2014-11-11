@@ -19,19 +19,18 @@
 package com.l2jfrozen.gameserver.network.serverpackets;
 
 import com.l2jfrozen.gameserver.model.L2Character;
+import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
 /**
- * 0000: 01 7a 73 10 4c b2 0b 00 00 a3 fc 00 00 e8 f1 ff .zs.L........... 0010: ff bd 0b 00 00 b3 fc 00 00 e8 f1 ff ff
- * ............. ddddddd
- * 
+ * 0000: 01 7a 73 10 4c b2 0b 00 00 a3 fc 00 00 e8 f1 ff .zs.L........... 0010: ff bd 0b 00 00 b3 fc 00 00 e8 f1 ff ff ............. ddddddd
  * @version $Revision: 1.3.4.3 $ $Date: 2005/03/27 15:29:57 $
  */
 public class CharMoveToLocation extends L2GameServerPacket
 {
 	private static final String _S__01_CHARMOVETOLOCATION = "[S] 01 CharMoveToLocation";
-	private int _charObjId, _x, _y, _z, _xDst, _yDst, _zDst;
-
-	public CharMoveToLocation(L2Character cha)
+	private final int _charObjId, _x, _y, _z, _xDst, _yDst, _zDst;
+	
+	public CharMoveToLocation(final L2Character cha)
 	{
 		_charObjId = cha.getObjectId();
 		_x = cha.getX();
@@ -41,24 +40,31 @@ public class CharMoveToLocation extends L2GameServerPacket
 		_yDst = cha.getYdestination();
 		_zDst = cha.getZdestination();
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
+		final L2PcInstance activeChar = getClient().getActiveChar();
+		
+		// reset old Moving task
+		if (activeChar != null && activeChar.isMovingTaskDefined())
+			activeChar.setMovingTaskDefined(false);
+		
 		writeC(0x01);
-
+		
 		writeD(_charObjId);
-
+		
 		writeD(_xDst);
 		writeD(_yDst);
 		writeD(_zDst);
-
+		
 		writeD(_x);
 		writeD(_y);
 		writeD(_z);
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType()
 	 */
 	@Override
@@ -66,5 +72,5 @@ public class CharMoveToLocation extends L2GameServerPacket
 	{
 		return _S__01_CHARMOVETOLOCATION;
 	}
-
+	
 }

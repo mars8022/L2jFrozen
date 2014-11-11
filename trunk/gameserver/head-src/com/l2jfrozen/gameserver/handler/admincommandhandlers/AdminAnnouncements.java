@@ -71,16 +71,16 @@ public class AdminAnnouncements implements IAdminCommandHandler
 	}
 	
 	@Override
-	public boolean useAdminCommand(String command, L2PcInstance activeChar)
+	public boolean useAdminCommand(String command, final L2PcInstance activeChar)
 	{
 		/*
 		 * if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){ return false; } if(Config.GMAUDIT) { Logger _logAudit = Logger.getLogger("gmaudit"); LogRecord record = new LogRecord(Level.INFO, command); record.setParameters(new Object[] { "GM: " +
-		 * activeChar.getName(), " to target [" + activeChar.getTarget() + "] " }); _logAudit.log(record); }
+		 * activeChar.getName(), " to target [" + activeChar.getTarget() + "] " }); _logAudit.LOGGER(record); }
 		 */
 		
-		StringTokenizer st = new StringTokenizer(command);
+		final StringTokenizer st = new StringTokenizer(command);
 		
-		String comm_s = st.nextToken();
+		final String comm_s = st.nextToken();
 		String text = "";
 		int index = 0;
 		
@@ -117,7 +117,7 @@ public class AdminAnnouncements implements IAdminCommandHandler
 				*/
 				
 			case admin_announce_announcements:
-				for (L2PcInstance player : L2World.getInstance().getAllPlayers())
+				for (final L2PcInstance player : L2World.getInstance().getAllPlayers())
 				{
 					Announcements.getInstance().showAnnouncements(player);
 				}
@@ -145,13 +145,13 @@ public class AdminAnnouncements implements IAdminCommandHandler
 				
 				if (st.hasMoreTokens())
 				{
-					String index_s = st.nextToken();
+					final String index_s = st.nextToken();
 					
 					try
 					{
 						index = Integer.parseInt(index_s);
 					}
-					catch (NumberFormatException e)
+					catch (final NumberFormatException e)
 					{
 						activeChar.sendMessage("Usage: //del_announcement <index> (number >=0)");
 					}
@@ -181,7 +181,7 @@ public class AdminAnnouncements implements IAdminCommandHandler
 				if (Config.GM_CRITANNOUNCER_NAME && text1.length() > 0)
 					text1 = activeChar.getName() + ": " + text1;
 				
-				CreatureSay cs = new CreatureSay(activeChar.getObjectId(), Say2.CRITICAL_ANNOUNCE, "", text1);
+				final CreatureSay cs = new CreatureSay(activeChar.getObjectId(), Say2.CRITICAL_ANNOUNCE, "", text1);
 				Broadcast.toAllOnlinePlayers(cs);
 				return true;
 				
@@ -201,7 +201,7 @@ public class AdminAnnouncements implements IAdminCommandHandler
 						delay = Integer.parseInt(st.nextToken().trim());
 						
 					}
-					catch (NumberFormatException e)
+					catch (final NumberFormatException e)
 					{
 						
 						activeChar.sendMessage("Usage: //add_autoannouncement <delay> (Seconds > 30) <Announcements>");
@@ -244,7 +244,7 @@ public class AdminAnnouncements implements IAdminCommandHandler
 						index = Integer.parseInt(st.nextToken());
 						
 					}
-					catch (NumberFormatException e)
+					catch (final NumberFormatException e)
 					{
 						
 						activeChar.sendMessage("Usage: //del_autoannouncement <index> (number >= 0)");

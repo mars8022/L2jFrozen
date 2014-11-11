@@ -32,44 +32,43 @@ import com.l2jfrozen.Config;
 
 /**
  * This is a class loader for the dynamic extensions used by DynamicExtension class.
- * 
  * @version $Revision: $ $Date: $
  * @author galun
  */
 public class JarClassLoader extends ClassLoader
 {
-	private final HashSet<String> _jars = new HashSet<String>();
-
-	public void addJarFile(String filename)
+	private final HashSet<String> _jars = new HashSet<>();
+	
+	public void addJarFile(final String filename)
 	{
 		_jars.add(filename);
 	}
-
+	
 	@Override
-	public Class<?> findClass(String name) throws ClassNotFoundException
+	public Class<?> findClass(final String name) throws ClassNotFoundException
 	{
 		try
 		{
-			byte[] b = loadClassData(name);
+			final byte[] b = loadClassData(name);
 			return defineClass(name, b, 0, b.length);
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
 			throw new ClassNotFoundException(name);
 		}
 	}
-
-	private byte[] loadClassData(String name) throws IOException
+	
+	private byte[] loadClassData(final String name) throws IOException
 	{
 		byte[] classData = null;
-
-		for(String jarFile : _jars)
+		
+		for (final String jarFile : _jars)
 		{
 			boolean breakable = false;
-			File file = new File(jarFile);
+			final File file = new File(jarFile);
 			ZipFile zipFile = null;
 			InputStream is = null;
 			DataInputStream zipStream = null;
@@ -78,10 +77,10 @@ public class JarClassLoader extends ClassLoader
 			{
 				zipFile = new ZipFile(file);
 				
-				String fileName = name.replace('.', '/') + ".class";
-				ZipEntry entry = zipFile.getEntry(fileName);
-
-				if(entry == null)
+				final String fileName = name.replace('.', '/') + ".class";
+				final ZipEntry entry = zipFile.getEntry(fileName);
+				
+				if (entry == null)
 				{
 					continue;
 				}
@@ -94,32 +93,34 @@ public class JarClassLoader extends ClassLoader
 				breakable = true;
 				
 			}
-			catch(ZipException e2)
+			catch (final ZipException e2)
 			{
 				e2.printStackTrace();
 			}
-			catch(IOException e2)
+			catch (final IOException e2)
 			{
 				e2.printStackTrace();
 			}
-			finally{
+			finally
+			{
 				
-				if(zipStream!=null)
+				if (zipStream != null)
 					try
 					{
 						zipStream.close();
 					}
-					catch(IOException e1)
+					catch (final IOException e1)
 					{
 						e1.printStackTrace();
 					}
 				
-				if(is!=null){
+				if (is != null)
+				{
 					try
 					{
 						is.close();
 					}
-					catch(IOException e)
+					catch (final IOException e)
 					{
 						e.printStackTrace();
 					}
@@ -127,13 +128,12 @@ public class JarClassLoader extends ClassLoader
 				
 			}
 			
-			if(breakable)
+			if (breakable)
 				break;
-			
 			
 		}
 		
-		if(classData == null)
+		if (classData == null)
 			throw new IOException("class not found in " + _jars);
 		
 		return classData;

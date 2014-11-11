@@ -28,22 +28,22 @@ public class NpcStat extends CharStat
 {
 	// =========================================================
 	// Data Field
-
+	
 	// =========================================================
 	// Constructor
-	public NpcStat(L2NpcInstance activeChar)
+	public NpcStat(final L2NpcInstance activeChar)
 	{
 		super(activeChar);
-
+		
 		setLevel(getActiveChar().getTemplate().level);
 	}
-
+	
 	// =========================================================
 	// Method - Public
-
+	
 	// =========================================================
 	// Method - Private
-
+	
 	// =========================================================
 	// Property - Public
 	@Override
@@ -51,27 +51,14 @@ public class NpcStat extends CharStat
 	{
 		return (L2NpcInstance) super.getActiveChar();
 	}
-
+	
 	@Override
 	public final int getMaxHp()
 	{
 		return (int) calcStat(Stats.MAX_HP, getActiveChar().getTemplate().baseHpMax, null, null);
 	}
 	/*
-	@Override
-	public final int getWalkSpeed()
-	{
-		return  getRunSpeed()/2;
-	}
-	
-	@Override
-	public float getMovementSpeedMultiplier()
-	{
-		if (getActiveChar() == null)
-			return 1;
-		float val = getRunSpeed() * 1f / getActiveChar().getTemplate().baseRunSpd;
-		val = val/2;
-		return val;
-	} 
-	*/
+	 * @Override public final int getWalkSpeed() { return getRunSpeed()/2; }
+	 * @Override public float getMovementSpeedMultiplier() { if (getActiveChar() == null) return 1; float val = getRunSpeed() * 1f / getActiveChar().getTemplate().baseRunSpd; val = val/2; return val; }
+	 */
 }

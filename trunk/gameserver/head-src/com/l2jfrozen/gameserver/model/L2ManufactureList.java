@@ -24,7 +24,6 @@ import javolution.util.FastList;
 
 /**
  * This class ...
- * 
  * @version $Revision: 1.1.2.1.2.2 $ $Date: 2005/03/27 15:29:33 $
  */
 public class L2ManufactureList
@@ -32,36 +31,36 @@ public class L2ManufactureList
 	private List<L2ManufactureItem> _list;
 	private boolean _confirmed;
 	private String _manufactureStoreName;
-
+	
 	public L2ManufactureList()
 	{
-		_list = new FastList<L2ManufactureItem>();
+		_list = new FastList<>();
 		_confirmed = false;
 	}
-
+	
 	public int size()
 	{
 		return _list.size();
 	}
-
-	public void setConfirmedTrade(boolean x)
+	
+	public void setConfirmedTrade(final boolean x)
 	{
 		_confirmed = x;
 	}
-
+	
 	public boolean hasConfirmed()
 	{
 		return _confirmed;
 	}
-
+	
 	/**
-	 * @param manufactureStoreName 
+	 * @param manufactureStoreName
 	 */
-	public void setStoreName(String manufactureStoreName)
+	public void setStoreName(final String manufactureStoreName)
 	{
 		_manufactureStoreName = manufactureStoreName;
 	}
-
+	
 	/**
 	 * @return Returns the _manufactureStoreName.
 	 */
@@ -69,20 +68,20 @@ public class L2ManufactureList
 	{
 		return _manufactureStoreName;
 	}
-
-	public void add(L2ManufactureItem item)
+	
+	public void add(final L2ManufactureItem item)
 	{
 		_list.add(item);
 	}
-
+	
 	public List<L2ManufactureItem> getList()
 	{
 		return _list;
 	}
-
-	public void setList(List<L2ManufactureItem> list)
+	
+	public void setList(final List<L2ManufactureItem> list)
 	{
 		_list = list;
 	}
-
+	
 }

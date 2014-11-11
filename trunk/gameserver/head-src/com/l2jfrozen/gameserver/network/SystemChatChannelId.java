@@ -46,26 +46,28 @@ public enum SystemChatChannelId
 	CHAT_BATTLEFIELD("BATTLEFIELD"), // ^ id = 20
 	CHAT_NONE("NONE");
 	private String _channelName;
-
-	private SystemChatChannelId(String channelName)
+	
+	private SystemChatChannelId(final String channelName)
 	{
 		_channelName = channelName;
 	}
-
+	
 	public int getId()
 	{
 		return this.ordinal();
 	}
-
+	
 	public String getName()
 	{
 		return _channelName;
 	}
-
-	public static SystemChatChannelId getChatType(int channelId)
+	
+	public static SystemChatChannelId getChatType(final int channelId)
 	{
-		for (SystemChatChannelId channel : SystemChatChannelId.values()) {
-			if (channel.getId() == channelId) {
+		for (final SystemChatChannelId channel : SystemChatChannelId.values())
+		{
+			if (channel.getId() == channelId)
+			{
 				return channel;
 			}
 		}

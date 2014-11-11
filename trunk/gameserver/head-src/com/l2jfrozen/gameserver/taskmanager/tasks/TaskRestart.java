@@ -17,6 +17,8 @@
  */
 package com.l2jfrozen.gameserver.taskmanager.tasks;
 
+import org.apache.log4j.Logger;
+
 import com.l2jfrozen.gameserver.Shutdown;
 import com.l2jfrozen.gameserver.taskmanager.Task;
 import com.l2jfrozen.gameserver.taskmanager.TaskManager.ExecutedTask;
@@ -26,6 +28,7 @@ import com.l2jfrozen.gameserver.taskmanager.TaskManager.ExecutedTask;
  */
 public final class TaskRestart extends Task
 {
+	private static final Logger LOGGER = Logger.getLogger(TaskRestart.class);
 	public static final String NAME = "restart";
 	
 	/*
@@ -43,9 +46,11 @@ public final class TaskRestart extends Task
 	 * @see com.l2jfrozen.gameserver.tasks.Task#onTimeElapsed(com.l2jfrozen.gameserver.tasks.TaskManager.ExecutedTask)
 	 */
 	@Override
-	public void onTimeElapsed(ExecutedTask task)
+	public void onTimeElapsed(final ExecutedTask task)
 	{
-		Shutdown handler = new Shutdown(Integer.valueOf(task.getParams()[2]), true, true, false);
+		LOGGER.info("[GlobalTask] Server Restart launched.");
+		
+		final Shutdown handler = new Shutdown(Integer.valueOf(task.getParams()[2]), true, true, false);
 		handler.start();
 	}
 }

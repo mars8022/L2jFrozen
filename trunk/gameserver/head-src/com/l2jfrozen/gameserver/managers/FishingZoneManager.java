@@ -19,6 +19,8 @@ package com.l2jfrozen.gameserver.managers;
 
 import javolution.util.FastList;
 
+import org.apache.log4j.Logger;
+
 import com.l2jfrozen.gameserver.model.zone.type.L2FishingZone;
 import com.l2jfrozen.gameserver.model.zone.type.L2WaterZone;
 
@@ -26,71 +28,70 @@ public class FishingZoneManager
 {
 	// =========================================================
 	private static FishingZoneManager _instance;
-
+	private static final Logger LOGGER = Logger.getLogger(FishingZoneManager.class);
+	
 	public static final FishingZoneManager getInstance()
 	{
-		if(_instance == null)
+		if (_instance == null)
 		{
-			System.out.println("Initializing FishingZoneManager");
+			LOGGER.info("Initializing FishingZoneManager");
 			_instance = new FishingZoneManager();
 		}
 		return _instance;
 	}
-
+	
 	// =========================================================
-
+	
 	// =========================================================
 	// Data Field
 	private FastList<L2FishingZone> _fishingZones;
 	private FastList<L2WaterZone> _waterZones;
-
+	
 	// =========================================================
 	// Constructor
 	public FishingZoneManager()
-	{}
-
+	{
+	}
+	
 	// =========================================================
 	// Property - Public
-
-	public void addFishingZone(L2FishingZone fishingZone)
+	
+	public void addFishingZone(final L2FishingZone fishingZone)
 	{
-		if(_fishingZones == null)
+		if (_fishingZones == null)
 		{
-			_fishingZones = new FastList<L2FishingZone>();
+			_fishingZones = new FastList<>();
 		}
-
+		
 		_fishingZones.add(fishingZone);
 	}
-
-	public void addWaterZone(L2WaterZone waterZone)
+	
+	public void addWaterZone(final L2WaterZone waterZone)
 	{
-		if(_waterZones == null)
+		if (_waterZones == null)
 		{
-			_waterZones = new FastList<L2WaterZone>();
+			_waterZones = new FastList<>();
 		}
-
+		
 		_waterZones.add(waterZone);
 	}
-
-	/* isInsideFishingZone() - This function was modified to check the coordinates without caring for Z.
-	 * This allows for the player to fish off bridges, into the water, or from other similar high places. One
-	 * should be able to cast the line from up into the water, not only fishing whith one's feet wet. :)
-	 *
-	 *  TODO: Consider in the future, limiting the maximum height one can be above water, if we start getting
-	 *  "orbital fishing" players... xD
+	
+	/*
+	 * isInsideFishingZone() - This function was modified to check the coordinates without caring for Z. This allows for the player to fish off bridges, into the water, or from other similar high places. One should be able to cast the line from up into the water, not only fishing whith one's feet
+	 * wet. :) TODO: Consider in the future, limiting the maximum height one can be above water, if we start getting "orbital fishing" players... xD
 	 */
-	public final L2FishingZone isInsideFishingZone(int x, int y, int z)
+	public final L2FishingZone isInsideFishingZone(final int x, final int y, final int z)
 	{
-		for(L2FishingZone temp : _fishingZones)
-			if(temp.isInsideZone(x, y, temp.getWaterZ() - 10))
+		for (final L2FishingZone temp : _fishingZones)
+			if (temp.isInsideZone(x, y, temp.getWaterZ() - 10))
 				return temp;
 		return null;
 	}
-
-	public final L2WaterZone isInsideWaterZone(int x, int y, int z)
+	
+	public final L2WaterZone isInsideWaterZone(final int x, final int y, final int z)
 	{
-		for(L2WaterZone temp : _waterZones)
-			if(temp.isInsideZone(x, y, temp.getWaterZ()))
+		for (final L2WaterZone temp : _waterZones)
+			if (temp.isInsideZone(x, y, temp.getWaterZ()))
 				return temp;
 		return null;
 	}

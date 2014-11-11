@@ -17,9 +17,10 @@ package com.l2jfrozen.gameserver.model.zone.type;
 import java.util.Collection;
 import java.util.Map.Entry;
 import java.util.concurrent.Future;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.model.L2Character;
@@ -38,7 +39,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class L2EffectZone extends L2ZoneType
 {
-	public static final Logger _log = Logger.getLogger(L2EffectZone.class.getName());
+	public static final Logger LOGGER = Logger.getLogger(L2EffectZone.class);
 	
 	private int _chance;
 	private int _initialDelay;
@@ -48,7 +49,7 @@ public class L2EffectZone extends L2ZoneType
 	private volatile Future<?> _task;
 	protected volatile FastMap<Integer, Integer> _skills;
 	
-	public L2EffectZone(int id)
+	public L2EffectZone(final int id)
 	{
 		super(id);
 		_chance = 100;
@@ -59,53 +60,61 @@ public class L2EffectZone extends L2ZoneType
 	}
 	
 	@Override
-	public void setParameter(String name, String value)
+	public void setParameter(final String name, final String value)
 	{
-		if (name.equals("chance"))
-			_chance = Integer.parseInt(value);
-		else if (name.equals("initialDelay"))
-			_initialDelay = Integer.parseInt(value);
-		else if (name.equals("defaultStatus"))
-			_enabled = Boolean.parseBoolean(value);
-		else if (name.equals("reuse"))
-			_reuse = Integer.parseInt(value);
-		else if (name.equals("skillIdLvl"))
+		switch (name)
 		{
-			String[] propertySplit = value.split(";");
-			_skills = new FastMap<Integer, Integer>(propertySplit.length);
-			for (String skill : propertySplit)
-			{
-				String[] skillSplit = skill.split("-");
-				if (skillSplit.length != 2)
-					_log.warning(StringUtil.concat(getClass().getSimpleName()+": invalid config property -> skillsIdLvl \"", skill, "\""));
-				else
+			case "chance":
+				_chance = Integer.parseInt(value);
+				break;
+			case "initialDelay":
+				_initialDelay = Integer.parseInt(value);
+				break;
+			case "defaultStatus":
+				_enabled = Boolean.parseBoolean(value);
+				break;
+			case "reuse":
+				_reuse = Integer.parseInt(value);
+				break;
+			case "skillIdLvl":
+				final String[] propertySplit = value.split(";");
+				_skills = new FastMap<>(propertySplit.length);
+				for (final String skill : propertySplit)
 				{
-					try
+					final String[] skillSplit = skill.split("-");
+					if (skillSplit.length != 2)
+						LOGGER.warn(StringUtil.concat(getClass().getSimpleName() + ": invalid config property -> skillsIdLvl \"", skill, "\""));
+					else
 					{
-						_skills.put(Integer.parseInt(skillSplit[0]), Integer.parseInt(skillSplit[1]));
-					}
-					catch (NumberFormatException nfe)
-					{
-						if (!skill.isEmpty())
-							_log.warning(StringUtil.concat(getClass().getSimpleName()+": invalid config property -> skillsIdLvl \"", skillSplit[0], "\"", skillSplit[1]));
+						try
+						{
+							_skills.put(Integer.parseInt(skillSplit[0]), Integer.parseInt(skillSplit[1]));
+						}
+						catch (final NumberFormatException nfe)
+						{
+							if (!skill.isEmpty())
+								LOGGER.warn(StringUtil.concat(getClass().getSimpleName() + ": invalid config property -> skillsIdLvl \"", skillSplit[0], "\"", skillSplit[1]));
+						}
 					}
 				}
-			}
+				break;
+			case "showDangerIcon":
+				_isShowDangerIcon = Boolean.parseBoolean(value);
+				break;
+			default:
+				super.setParameter(name, value);
+				break;
 		}
-		else if (name.equals("showDangerIcon"))
-			_isShowDangerIcon = Boolean.parseBoolean(value);
-		else
-			super.setParameter(name, value);
 	}
 	
 	@Override
-	protected void onEnter(L2Character character)
+	protected void onEnter(final L2Character character)
 	{
 		if (_skills != null)
 		{
 			if (_task == null)
 			{
-				synchronized(this)
+				synchronized (this)
 				{
 					if (_task == null)
 						_task = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new ApplySkill(), _initialDelay, _reuse);
@@ -121,7 +130,7 @@ public class L2EffectZone extends L2ZoneType
 	}
 	
 	@Override
-	protected void onExit(L2Character character)
+	protected void onExit(final L2Character character)
 	{
 		if (character instanceof L2PcInstance && _isShowDangerIcon)
 		{
@@ -137,7 +146,7 @@ public class L2EffectZone extends L2ZoneType
 		}
 	}
 	
-	protected L2Skill getSkill(int skillId, int skillLvl)
+	protected L2Skill getSkill(final int skillId, final int skillLvl)
 	{
 		return SkillTable.getInstance().getInfo(skillId, skillLvl);
 	}
@@ -152,7 +161,7 @@ public class L2EffectZone extends L2ZoneType
 		return _enabled;
 	}
 	
-	public void addSkill(int skillId, int skillLvL)
+	public void addSkill(final int skillId, final int skillLvL)
 	{
 		if (skillLvL < 1) // remove skill
 		{
@@ -162,7 +171,7 @@ public class L2EffectZone extends L2ZoneType
 		
 		if (_skills == null)
 		{
-			synchronized(this)
+			synchronized (this)
 			{
 				if (_skills == null)
 					_skills = new FastMap<Integer, Integer>(3).shared();
@@ -171,7 +180,7 @@ public class L2EffectZone extends L2ZoneType
 		_skills.put(skillId, skillLvL);
 	}
 	
-	public void removeSkill(int skillId)
+	public void removeSkill(final int skillId)
 	{
 		if (_skills != null)
 			_skills.remove(skillId);
@@ -183,14 +192,14 @@ public class L2EffectZone extends L2ZoneType
 			_skills.clear();
 	}
 	
-	public int getSkillLevel(int skillId)
+	public int getSkillLevel(final int skillId)
 	{
 		if (_skills == null || !_skills.containsKey(skillId))
 			return 0;
 		return _skills.get(skillId);
 	}
 	
-	public void setZoneEnabled(boolean val)
+	public void setZoneEnabled(final boolean val)
 	{
 		_enabled = val;
 	}
@@ -213,27 +222,29 @@ public class L2EffectZone extends L2ZoneType
 		{
 			if (isEnabled())
 			{
-				for (L2Character temp : L2EffectZone.this.getCharacterList())
+				for (final L2Character temp : L2EffectZone.this.getCharacterList())
 				{
 					
 					if (temp != null && !temp.isDead())
 					{
-						if(!(temp instanceof L2PlayableInstance)) //effect on zones are just applied to Playable Instances
+						if (!(temp instanceof L2PlayableInstance)) // effect on zones are just applied to Playable Instances
 							continue;
 						
 						if (Rnd.get(100) < getChance())
 						{
-							for (Entry<Integer, Integer> e : _skills.entrySet())
+							for (final Entry<Integer, Integer> e : _skills.entrySet())
 							{
-								L2Skill skill = getSkill(e.getKey(), e.getValue());
+								final L2Skill skill = getSkill(e.getKey(), e.getValue());
 								
-								if(skill == null){
-									_log.warning("ATTENTION: Skill "+e.getKey()+" cannot be loaded.. Verify Skill definition into data/stats/skill folder...");
+								if (skill == null)
+								{
+									LOGGER.warn("ATTENTION: Skill " + e.getKey() + " cannot be loaded.. Verify Skill definition into data/stats/skill folder...");
 									continue;
 								}
 								
 								if (skill.checkCondition(temp, temp, false))
-									if (temp.getFirstEffect(e.getKey()) == null){
+									if (temp.getFirstEffect(e.getKey()) == null)
+									{
 										
 										skill.getEffects(temp, temp);
 										
@@ -247,8 +258,12 @@ public class L2EffectZone extends L2ZoneType
 	}
 	
 	@Override
-	public void onDieInside(L2Character character) { }
+	public void onDieInside(final L2Character character)
+	{
+	}
 	
 	@Override
-	public void onReviveInside(L2Character character) { }
+	public void onReviveInside(final L2Character character)
+	{
+	}
 }

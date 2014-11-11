@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
@@ -29,7 +29,7 @@ import com.l2jfrozen.gameserver.util.Util;
 
 public final class RequestPrivateStoreManageSell extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(EnterWorld.class.getName());
+	private static Logger LOGGER = Logger.getLogger(EnterWorld.class);
 	
 	@Override
 	protected void readImpl()
@@ -39,7 +39,7 @@ public final class RequestPrivateStoreManageSell extends L2GameClientPacket
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance player = getClient().getActiveChar();
+		final L2PcInstance player = getClient().getActiveChar();
 		if (player == null)
 			return;
 		
@@ -47,7 +47,7 @@ public final class RequestPrivateStoreManageSell extends L2GameClientPacket
 		if (!player.isVisible() || player.isLocked())
 		{
 			Util.handleIllegalPlayerAction(player, "Player " + player.getName() + " try exploit at login with privatestore!", Config.DEFAULT_PUNISH);
-			_log.warning("Player " + player.getName() + " try exploit at login with privatestore!");
+			LOGGER.warn("Player " + player.getName() + " try exploit at login with privatestore!");
 			return;
 		}
 		
@@ -72,7 +72,7 @@ public final class RequestPrivateStoreManageSell extends L2GameClientPacket
 		}
 		
 		// You can't open store when the task is launched
-		if(player.isSittingTaskLaunched())
+		if (player.isSittingTaskLaunched())
 		{
 			sendPacket(ActionFailed.STATIC_PACKET);
 			return;
@@ -107,7 +107,7 @@ public final class RequestPrivateStoreManageSell extends L2GameClientPacket
 			
 			if (Config.SELL_BY_ITEM)
 			{
-				CreatureSay cs11 = new CreatureSay(0, 15, "", "ATTENTION: Store System is not based on Adena, be careful!"); // 8D
+				final CreatureSay cs11 = new CreatureSay(0, 15, "", "ATTENTION: Store System is not based on Adena, be careful!"); // 8D
 				player.sendPacket(cs11);
 			}
 			

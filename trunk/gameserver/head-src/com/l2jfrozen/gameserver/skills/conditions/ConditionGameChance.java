@@ -27,14 +27,14 @@ import com.l2jfrozen.util.random.Rnd;
 public class ConditionGameChance extends Condition
 {
 	private final int _chance;
-
-	public ConditionGameChance(int chance)
+	
+	public ConditionGameChance(final int chance)
 	{
 		_chance = chance;
 	}
-
+	
 	@Override
-	public boolean testImpl(Env env)
+	public boolean testImpl(final Env env)
 	{
 		return Rnd.get(100) < _chance;
 	}

@@ -32,27 +32,28 @@ class PacketHistory
 {
 	protected Map<Class<?>, Long> _info;
 	protected long _timeStamp;
-
-	protected static final XMLFormat<PacketHistory> PACKET_HISTORY_XML = new XMLFormat<PacketHistory>(PacketHistory.class) {
+	
+	protected static final XMLFormat<PacketHistory> PACKET_HISTORY_XML = new XMLFormat<PacketHistory>(PacketHistory.class)
+	{
 		/**
 		 * @see javolution.xml.XMLFormat#read(javolution.xml.XMLFormat.InputElement, java.lang.Object)
 		 */
 		@Override
-		public void read(InputElement xml, PacketHistory packetHistory) throws XMLStreamException
+		public void read(final InputElement xml, final PacketHistory packetHistory) throws XMLStreamException
 		{
 			packetHistory._timeStamp = xml.getAttribute("time-stamp", 0);
 			packetHistory._info = xml.<Map<Class<?>, Long>> get("info");
 		}
-
+		
 		/**
 		 * @see javolution.xml.XMLFormat#write(java.lang.Object, javolution.xml.XMLFormat.OutputElement)
 		 */
 		@Override
-		public void write(PacketHistory packetHistory, OutputElement xml) throws XMLStreamException
+		public void write(final PacketHistory packetHistory, final OutputElement xml) throws XMLStreamException
 		{
 			xml.setAttribute("time-stamp", new Date(packetHistory._timeStamp).toString());
-
-			for(Class<?> cls : packetHistory._info.keySet())
+			
+			for (final Class<?> cls : packetHistory._info.keySet())
 			{
 				xml.setAttribute(cls.getSimpleName(), packetHistory._info.get(cls));
 			}

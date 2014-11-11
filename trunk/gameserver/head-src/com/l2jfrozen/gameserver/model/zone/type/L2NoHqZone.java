@@ -18,10 +18,8 @@ import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.zone.L2ZoneType;
 
-
 /**
  * Zone where 'Build Headquarters' is not allowed.
- * 
  * @author Gnat
  */
 public class L2NoHqZone extends L2ZoneType

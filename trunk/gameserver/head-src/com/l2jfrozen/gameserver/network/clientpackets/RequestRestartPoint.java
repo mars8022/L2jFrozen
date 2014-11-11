@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.csv.MapRegionTable;
@@ -44,7 +44,7 @@ import com.l2jfrozen.gameserver.util.Util;
  */
 public final class RequestRestartPoint extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(RequestRestartPoint.class.getName());
+	private static Logger LOGGER = Logger.getLogger(RequestRestartPoint.class);
 	
 	protected int _requestedPointType;
 	protected boolean _continuation;
@@ -59,7 +59,7 @@ public final class RequestRestartPoint extends L2GameClientPacket
 	{
 		L2PcInstance activeChar;
 		
-		DeathTask(L2PcInstance _activeChar)
+		DeathTask(final L2PcInstance _activeChar)
 		{
 			activeChar = _activeChar;
 		}
@@ -111,7 +111,7 @@ public final class RequestRestartPoint extends L2GameClientPacket
 								activeChar.restoreExp(ClanHallManager.getInstance().getClanHallByOwner(activeChar.getClan()).getFunction(ClanHall.FUNC_RESTORE_EXP).getLvl());
 							}
 							
-							break;				
+							break;
 						}
 						
 						loc = MapRegionTable.getInstance().getTeleToLocation(activeChar, MapRegionTable.TeleportWhereType.Town);
@@ -206,7 +206,7 @@ public final class RequestRestartPoint extends L2GameClientPacket
 							break;
 						}
 						loc = MapRegionTable.getInstance().getTeleToLocation(activeChar, MapRegionTable.TeleportWhereType.Town);
-						break;				
+						break;
 				}
 				
 				// Stand up and teleport, proof dvp video.
@@ -214,10 +214,10 @@ public final class RequestRestartPoint extends L2GameClientPacket
 				activeChar.setIsPendingRevive(true);
 				activeChar.teleToLocation(loc, true);
 			}
-			catch (Throwable e)
+			catch (final Throwable e)
 			{
-				e.printStackTrace();				
-				// _log.log(Level.SEVERE, "", e);
+				e.printStackTrace();
+				// LOGGER.error( "", e);
 			}
 		}
 	}
@@ -225,7 +225,7 @@ public final class RequestRestartPoint extends L2GameClientPacket
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance activeChar = getClient().getActiveChar();
+		final L2PcInstance activeChar = getClient().getActiveChar();
 		
 		if (activeChar == null)
 			return;
@@ -238,11 +238,11 @@ public final class RequestRestartPoint extends L2GameClientPacket
 		}
 		else if (!activeChar.isAlikeDead())
 		{
-			_log.warning("Living player [" + activeChar.getName() + "] called RestartPointPacket! Ban this player!");
+			LOGGER.warn("Living player [" + activeChar.getName() + "] called RestartPointPacket! Ban this player!");
 			return;
 		}
 		
-		Castle castle = CastleManager.getInstance().getCastle(activeChar.getX(), activeChar.getY(), activeChar.getZ());
+		final Castle castle = CastleManager.getInstance().getCastle(activeChar.getX(), activeChar.getY(), activeChar.getZ());
 		if (castle != null && castle.getSiege().getIsInProgress())
 		{
 			if (activeChar.getClan() != null && castle.getSiege().checkIsAttacker(activeChar.getClan()))

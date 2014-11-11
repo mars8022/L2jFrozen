@@ -18,10 +18,10 @@ import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javolution.util.FastSet;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.thread.L2Thread;
 import com.l2jfrozen.util.Util;
@@ -32,73 +32,73 @@ import com.l2jfrozen.util.Util;
  */
 public final class DeadlockDetector implements Runnable
 {
-	protected static final Logger _log = Logger.getLogger(DeadlockDetector.class.getName());
-	private final Set<Long> _logged = new FastSet<Long>();
-
+	protected static final Logger LOGGER = Logger.getLogger(DeadlockDetector.class);
+	private final Set<Long> _logged = new FastSet<>();
+	
 	private static DeadlockDetector _instance;
-
+	
 	public static DeadlockDetector getInstance()
 	{
-		if(_instance == null)
+		if (_instance == null)
 		{
 			_instance = new DeadlockDetector();
 		}
-
+		
 		return _instance;
 	}
-
+	
 	private DeadlockDetector()
 	{
-		_log.info("DeadlockDetector daemon started.");
+		LOGGER.info("DeadlockDetector daemon started.");
 	}
-
+	
 	@Override
 	public void run()
 	{
-		long[] ids = findDeadlockedThreadIDs();
-
-		if(ids == null)
+		final long[] ids = findDeadlockedThreadIDs();
+		
+		if (ids == null)
 			return;
-
-		List<Thread> deadlocked = new ArrayList<Thread>();
-
-		for(long id : ids)
-			if(_logged.add(id))
+		
+		final List<Thread> deadlocked = new ArrayList<>();
+		
+		for (final long id : ids)
+			if (_logged.add(id))
 			{
 				deadlocked.add(findThreadById(id));
 			}
-
-		if(!deadlocked.isEmpty())
+		
+		if (!deadlocked.isEmpty())
 		{
 			Util.printSection("Deadlocked Thread(s)");
-
-			for(Thread thread : deadlocked)
+			
+			for (final Thread thread : deadlocked)
 			{
-				for(String line : L2Thread.getStats(thread))
+				for (final String line : L2Thread.getStats(thread))
 				{
-					_log.log(Level.SEVERE, line);
+					LOGGER.error(line);
 				}
 			}
-
+			
 			Util.printSection("End");
 		}
 	}
-
+	
 	private long[] findDeadlockedThreadIDs()
 	{
-		if(ManagementFactory.getThreadMXBean().isSynchronizerUsageSupported())
+		if (ManagementFactory.getThreadMXBean().isSynchronizerUsageSupported())
 			return ManagementFactory.getThreadMXBean().findDeadlockedThreads();
 		return ManagementFactory.getThreadMXBean().findMonitorDeadlockedThreads();
 	}
-
-	private Thread findThreadById(long id)
+	
+	private Thread findThreadById(final long id)
 	{
-		for(Thread thread : Thread.getAllStackTraces().keySet())
-			if(thread.getId() == id)
+		for (final Thread thread : Thread.getAllStackTraces().keySet())
+			if (thread.getId() == id)
 				return thread;
-
+		
 		throw new IllegalStateException("Deadlocked Thread not found!");
-
+		
 	}
-
+	
 }

@@ -19,10 +19,10 @@
 package com.l2jfrozen.gameserver.script.faenor;
 
 import java.util.Date;
-import java.util.logging.Logger;
 
 import javax.script.ScriptContext;
 
+import org.apache.log4j.Logger;
 import org.w3c.dom.Node;
 
 import com.l2jfrozen.Config;
@@ -38,32 +38,33 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
  */
 public class FaenorEventParser extends FaenorParser
 {
-	static Logger _log = Logger.getLogger(FaenorEventParser.class.getName());
+	static Logger LOGGER = Logger.getLogger(FaenorEventParser.class);
 	private DateRange _eventDates = null;
-
+	
 	@Override
-	public void parseScript(final Node eventNode, ScriptContext context)
+	public void parseScript(final Node eventNode, final ScriptContext context)
 	{
-		String ID = attribute(eventNode, "ID");
-
-		if(DEBUG)
+		final String ID = attribute(eventNode, "ID");
+		
+		if (DEBUG)
 		{
-			_log.fine("Parsing Event \"" + ID + "\"");
+			LOGGER.debug("Parsing Event \"" + ID + "\"");
 		}
-
+		
 		_eventDates = DateRange.parse(attribute(eventNode, "Active"), DATE_FORMAT);
-
-		Date currentDate = new Date();
-		if(_eventDates.getEndDate().before(currentDate))
+		
+		final Date currentDate = new Date();
+		if (_eventDates.getEndDate().before(currentDate))
 		{
-			_log.info("Event ID: (" + ID + ") has passed... Ignored.");
+			LOGGER.info("Event ID: (" + ID + ") has passed... Ignored.");
 			return;
 		}
-
-		if(_eventDates.getStartDate().after(currentDate))
+		
+		if (_eventDates.getStartDate().after(currentDate))
 		{
-			_log.info("Event ID: (" + ID + ") is not active yet... Ignored.");
-			ThreadPoolManager.getInstance().scheduleGeneral(new Runnable() {
+			LOGGER.info("Event ID: (" + ID + ") is not active yet... Ignored.");
+			ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
+			{
 				@Override
 				public void run()
 				{
@@ -72,91 +73,91 @@ public class FaenorEventParser extends FaenorParser
 			}, _eventDates.getStartDate().getTime() - currentDate.getTime());
 			return;
 		}
-
+		
 		parseEventDropAndMessage(eventNode);
 	}
-
-	protected void parseEventDropAndMessage(Node eventNode)
+	
+	protected void parseEventDropAndMessage(final Node eventNode)
 	{
-
-		for(Node node = eventNode.getFirstChild(); node != null; node = node.getNextSibling())
+		
+		for (Node node = eventNode.getFirstChild(); node != null; node = node.getNextSibling())
 		{
-
-			if(isNodeName(node, "DropList"))
+			
+			if (isNodeName(node, "DropList"))
 			{
 				parseEventDropList(node);
 			}
-			else if(isNodeName(node, "Message"))
+			else if (isNodeName(node, "Message"))
 			{
 				parseEventMessage(node);
 			}
 		}
 	}
-
-	private void parseEventMessage(Node sysMsg)
+	
+	private void parseEventMessage(final Node sysMsg)
 	{
-		if(DEBUG)
+		if (DEBUG)
 		{
-			_log.fine("Parsing Event Message.");
+			LOGGER.debug("Parsing Event Message.");
 		}
-
+		
 		try
 		{
-			String type = attribute(sysMsg, "Type");
-			String[] message = attribute(sysMsg, "Msg").split("\n");
-
-			if(type.equalsIgnoreCase("OnJoin"))
+			final String type = attribute(sysMsg, "Type");
+			final String[] message = attribute(sysMsg, "Msg").split("\n");
+			
+			if (type.equalsIgnoreCase("OnJoin"))
 			{
 				_bridge.onPlayerLogin(message, _eventDates);
 			}
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
-			_log.warning("Error in event parser.");
+			LOGGER.warn("Error in event parser.");
 			e.printStackTrace();
 		}
 	}
-
-	private void parseEventDropList(Node dropList)
+	
+	private void parseEventDropList(final Node dropList)
 	{
-		if(DEBUG)
+		if (DEBUG)
 		{
-			_log.fine("Parsing Droplist.");
+			LOGGER.debug("Parsing Droplist.");
 		}
-
-		for(Node node = dropList.getFirstChild(); node != null; node = node.getNextSibling())
+		
+		for (Node node = dropList.getFirstChild(); node != null; node = node.getNextSibling())
 		{
-			if(isNodeName(node, "AllDrop"))
+			if (isNodeName(node, "AllDrop"))
 			{
 				parseEventDrop(node);
 			}
 		}
 	}
-
-	private void parseEventDrop(Node drop)
+	
+	private void parseEventDrop(final Node drop)
 	{
-		if(DEBUG)
+		if (DEBUG)
 		{
-			_log.fine("Parsing Drop.");
+			LOGGER.debug("Parsing Drop.");
 		}
-
+		
 		try
 		{
-			int[] items = IntList.parse(attribute(drop, "Items"));
-			int[] count = IntList.parse(attribute(drop, "Count"));
-			double chance = getPercent(attribute(drop, "Chance"));
-
+			final int[] items = IntList.parse(attribute(drop, "Items"));
+			final int[] count = IntList.parse(attribute(drop, "Count"));
+			final double chance = getPercent(attribute(drop, "Chance"));
+			
 			_bridge.addEventDrop(items, count, chance, _eventDates);
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("ERROR(parseEventDrop):" + e.getMessage());
+			LOGGER.warn("ERROR(parseEventDrop):" + e.getMessage());
 		}
 	}
-
+	
 	static class FaenorEventParserFactory extends ParserFactory
 	{
 		@Override
@@ -165,7 +166,7 @@ public class FaenorEventParser extends FaenorParser
 			return new FaenorEventParser();
 		}
 	}
-
+	
 	static
 	{
 		ScriptEngine.parserFactories.put(getParserName("Event"), new FaenorEventParserFactory());

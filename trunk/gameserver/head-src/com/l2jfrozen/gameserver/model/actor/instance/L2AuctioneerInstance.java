@@ -45,40 +45,40 @@ public final class L2AuctioneerInstance extends L2FolkInstance
 	private static final int COND_ALL_FALSE = 0;
 	private static final int COND_BUSY_BECAUSE_OF_SIEGE = 1;
 	private static final int COND_REGULAR = 3;
-
-	private Map<Integer, Auction> _pendingAuctions = new FastMap<Integer, Auction>();
-
-	public L2AuctioneerInstance(int objectId, L2NpcTemplate template)
+	
+	private final Map<Integer, Auction> _pendingAuctions = new FastMap<>();
+	
+	public L2AuctioneerInstance(final int objectId, final L2NpcTemplate template)
 	{
 		super(objectId, template);
 	}
-
+	
 	@Override
-	public void onAction(L2PcInstance player)
+	public void onAction(final L2PcInstance player)
 	{
-		if(!canTarget(player))
+		if (!canTarget(player))
 			return;
-
+		
 		player.setLastFolkNPC(this);
-
+		
 		// Check if the L2PcInstance already target the L2NpcInstance
-		if(this != player.getTarget())
+		if (this != player.getTarget())
 		{
 			// Set the target of the L2PcInstance player
 			player.setTarget(this);
-
+			
 			// Send a Server->Client packet MyTargetSelected to the L2PcInstance player
 			MyTargetSelected my = new MyTargetSelected(getObjectId(), 0);
 			player.sendPacket(my);
 			my = null;
-
+			
 			// Send a Server->Client packet ValidateLocation to correct the L2NpcInstance position and heading on the client
 			player.sendPacket(new ValidateLocation(this));
 		}
 		else
 		{
 			// Calculate the distance between the L2PcInstance and the L2NpcInstance
-			if(!canInteract(player))
+			if (!canInteract(player))
 			{
 				// Notify the L2PcInstance AI with AI_INTENTION_INTERACT
 				player.getAI().setIntention(CtrlIntention.AI_INTENTION_INTERACT, this);
@@ -91,60 +91,60 @@ public final class L2AuctioneerInstance extends L2FolkInstance
 		// Send a Server->Client ActionFailed to the L2PcInstance in order to avoid that the client wait another packet
 		player.sendPacket(ActionFailed.STATIC_PACKET);
 	}
-
+	
 	@Override
-	public void onBypassFeedback(L2PcInstance player, String command)
+	public void onBypassFeedback(final L2PcInstance player, final String command)
 	{
-		int condition = validateCondition(player);
-		if(condition == COND_ALL_FALSE)
+		final int condition = validateCondition(player);
+		if (condition == COND_ALL_FALSE)
 		{
-			//TODO: html
+			// TODO: html
 			player.sendMessage("Wrong conditions.");
 			return;
 		}
-
-		if(condition == COND_BUSY_BECAUSE_OF_SIEGE)
+		
+		if (condition == COND_BUSY_BECAUSE_OF_SIEGE)
 		{
-			//TODO: html
+			// TODO: html
 			player.sendMessage("Busy because of siege.");
 			return;
 		}
-		else if(condition == COND_REGULAR)
+		else if (condition == COND_REGULAR)
 		{
 			StringTokenizer st = new StringTokenizer(command, " ");
 			String actualCommand = st.nextToken(); // Get actual command
-
+			
 			String val = "";
-			if(st.countTokens() >= 1)
+			if (st.countTokens() >= 1)
 			{
 				val = st.nextToken();
 			}
-
-			if(actualCommand.equalsIgnoreCase("auction"))
+			
+			if (actualCommand.equalsIgnoreCase("auction"))
 			{
-				if(val == "")
+				if (val == "")
 					return;
-
+				
 				try
 				{
-					int days = Integer.parseInt(val);
+					final int days = Integer.parseInt(val);
 					try
 					{
 						SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 						int bid = 0;
-						if(st.countTokens() >= 1)
+						if (st.countTokens() >= 1)
 						{
 							bid = Integer.parseInt(st.nextToken());
 						}
-
+						
 						Auction a = new Auction(player.getClan().getHasHideout(), player.getClan(), days * 86400000L, bid, ClanHallManager.getInstance().getClanHallByOwner(player.getClan()).getName());
-						if(_pendingAuctions.get(a.getId()) != null)
+						if (_pendingAuctions.get(a.getId()) != null)
 						{
 							_pendingAuctions.remove(a.getId());
 						}
-
+						
 						_pendingAuctions.put(a.getId(), a);
-
+						
 						String filename = "data/html/auction/AgitSale3.htm";
 						NpcHtmlMessage html = new NpcHtmlMessage(1);
 						html.setFile(filename);
@@ -156,30 +156,30 @@ public final class L2AuctioneerInstance extends L2FolkInstance
 						html.replace("%AGIT_LINK_BACK%", "bypass -h npc_" + getObjectId() + "_sale2");
 						html.replace("%objectId%", String.valueOf(getObjectId()));
 						player.sendPacket(html);
-
+						
 						html = null;
 						format = null;
 						a = null;
 						filename = null;
 					}
-					catch(Exception e)
+					catch (final Exception e)
 					{
-						if(Config.ENABLE_ALL_EXCEPTIONS)
+						if (Config.ENABLE_ALL_EXCEPTIONS)
 							e.printStackTrace();
 						
 						player.sendMessage("Invalid bid!");
 					}
 				}
-				catch(Exception e)
+				catch (final Exception e)
 				{
-					if(Config.ENABLE_ALL_EXCEPTIONS)
+					if (Config.ENABLE_ALL_EXCEPTIONS)
 						e.printStackTrace();
 					
 					player.sendMessage("Invalid auction duration!");
 				}
 				return;
 			}
-			if(actualCommand.equalsIgnoreCase("confirmAuction"))
+			if (actualCommand.equalsIgnoreCase("confirmAuction"))
 			{
 				try
 				{
@@ -188,40 +188,40 @@ public final class L2AuctioneerInstance extends L2FolkInstance
 					_pendingAuctions.remove(player.getClan().getHasHideout());
 					a = null;
 				}
-				catch(Exception e)
+				catch (final Exception e)
 				{
-					if(Config.ENABLE_ALL_EXCEPTIONS)
+					if (Config.ENABLE_ALL_EXCEPTIONS)
 						e.printStackTrace();
 					
 					player.sendMessage("Invalid auction");
 				}
 				return;
 			}
-			else if(actualCommand.equalsIgnoreCase("bidding"))
+			else if (actualCommand.equalsIgnoreCase("bidding"))
 			{
-				if(val == "")
+				if (val == "")
 					return;
-				if(Config.DEBUG)
+				if (Config.DEBUG)
 				{
 					player.sendMessage("bidding show successful");
 				}
-
+				
 				try
 				{
 					SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-					int auctionId = Integer.parseInt(val);
-
-					if(Config.DEBUG)
+					final int auctionId = Integer.parseInt(val);
+					
+					if (Config.DEBUG)
 					{
 						player.sendMessage("auction test started");
 					}
-
+					
 					String filename = "data/html/auction/AgitAuctionInfo.htm";
 					Auction a = AuctionManager.getInstance().getAuction(auctionId);
-
+					
 					NpcHtmlMessage html = new NpcHtmlMessage(1);
 					html.setFile(filename);
-					if(a != null)
+					if (a != null)
 					{
 						html.replace("%AGIT_NAME%", a.getItemName());
 						html.replace("%OWNER_PLEDGE_NAME%", a.getSellerClanName());
@@ -241,88 +241,89 @@ public final class L2AuctioneerInstance extends L2FolkInstance
 					}
 					else
 					{
-						_log.warning("Auctioneer Auction null for AuctionId : " + auctionId);
+						LOGGER.warn("Auctioneer Auction null for AuctionId : " + auctionId);
 					}
 					player.sendPacket(html);
-
+					
 					format = null;
 					filename = null;
 					html = null;
 				}
-				catch(Exception e)
+				catch (final Exception e)
 				{
-					if(Config.ENABLE_ALL_EXCEPTIONS)
+					if (Config.ENABLE_ALL_EXCEPTIONS)
 						e.printStackTrace();
 					
 					player.sendMessage("Invalid auction!");
 				}
-
+				
 				return;
 			}
-			else if(actualCommand.equalsIgnoreCase("bid"))
+			else if (actualCommand.equalsIgnoreCase("bid"))
 			{
-				if(val == "")
+				if (val == "")
 					return;
-
+				
 				try
 				{
-					int auctionId = Integer.parseInt(val);
+					final int auctionId = Integer.parseInt(val);
 					try
 					{
 						int bid = 0;
-						if(st.countTokens() >= 1)
+						if (st.countTokens() >= 1)
 						{
 							bid = Integer.parseInt(st.nextToken());
 						}
-
+						
 						AuctionManager.getInstance().getAuction(auctionId).setBid(player, bid);
 					}
-					catch(NumberFormatException e){
+					catch (final NumberFormatException e)
+					{
 						player.sendMessage("Invalid bid!");
 					}
-					catch(Exception e)
+					catch (final Exception e)
 					{
-						if(Config.ENABLE_ALL_EXCEPTIONS)
+						if (Config.ENABLE_ALL_EXCEPTIONS)
 							e.printStackTrace();
 					}
 				}
-				catch(Exception e)
+				catch (final Exception e)
 				{
-					if(Config.ENABLE_ALL_EXCEPTIONS)
+					if (Config.ENABLE_ALL_EXCEPTIONS)
 						e.printStackTrace();
 					
 					player.sendMessage("Invalid auction!");
 				}
-
+				
 				return;
 			}
-			else if(actualCommand.equalsIgnoreCase("bid1"))
+			else if (actualCommand.equalsIgnoreCase("bid1"))
 			{
-				if(player.getClan() == null || player.getClan().getLevel() < 2)
+				if (player.getClan() == null || player.getClan().getLevel() < 2)
 				{
 					player.sendMessage("Your clan's level needs to be at least 2, before you can bid in an auction");
 					return;
 				}
-
-				if(val == "")
+				
+				if (val == "")
 					return;
-
-				if(player.getClan().getAuctionBiddedAt() > 0 && player.getClan().getAuctionBiddedAt() != Integer.parseInt(val) || player.getClan().getHasHideout() > 0)
+				
+				if (player.getClan().getAuctionBiddedAt() > 0 && player.getClan().getAuctionBiddedAt() != Integer.parseInt(val) || player.getClan().getHasHideout() > 0)
 				{
 					player.sendMessage("You can't bid at more than one auction");
 					return;
 				}
-
+				
 				try
 				{
 					String filename = "data/html/auction/AgitBid1.htm";
-
+					
 					int minimumBid = AuctionManager.getInstance().getAuction(Integer.parseInt(val)).getHighestBidderMaxBid();
-					if(minimumBid == 0)
+					if (minimumBid == 0)
 					{
 						minimumBid = AuctionManager.getInstance().getAuction(Integer.parseInt(val)).getStartingBid();
 					}
-
+					
 					NpcHtmlMessage html = new NpcHtmlMessage(1);
 					html.setFile(filename);
 					html.replace("%AGIT_LINK_BACK%", "bypass -h npc_" + getObjectId() + "_bidding " + val);
@@ -330,21 +331,21 @@ public final class L2AuctioneerInstance extends L2FolkInstance
 					html.replace("%AGIT_AUCTION_MINBID%", String.valueOf(minimumBid));
 					html.replace("npc_%objectId%_bid", "npc_" + getObjectId() + "_bid " + val);
 					player.sendPacket(html);
-
+					
 					filename = null;
 					html = null;
 					return;
 				}
-				catch(Exception e)
+				catch (final Exception e)
 				{
-					if(Config.ENABLE_ALL_EXCEPTIONS)
+					if (Config.ENABLE_ALL_EXCEPTIONS)
 						e.printStackTrace();
 					
 					player.sendMessage("Invalid auction!");
 				}
 				return;
 			}
-			else if(actualCommand.equalsIgnoreCase("list"))
+			else if (actualCommand.equalsIgnoreCase("list"))
 			{
 				List<Auction> auctions = AuctionManager.getInstance().getAuctions();
 				SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
@@ -352,9 +353,9 @@ public final class L2AuctioneerInstance extends L2FolkInstance
 				int limit = 15;
 				int start;
 				int i = 1;
-				double npage = Math.ceil((float) auctions.size() / limit);
-
-				if(val == "")
+				final double npage = Math.ceil((float) auctions.size() / limit);
+				
+				if (val == "")
 				{
 					start = 1;
 				}
@@ -363,26 +364,26 @@ public final class L2AuctioneerInstance extends L2FolkInstance
 					start = limit * (Integer.parseInt(val) - 1) + 1;
 					limit *= Integer.parseInt(val);
 				}
-
-				if(Config.DEBUG)
+				
+				if (Config.DEBUG)
 				{
 					player.sendMessage("cmd list: auction test started");
 				}
-
+				
 				String items = "";
 				items += "<table width=280 border=0><tr>";
-				for(int j = 1; j <= npage; j++)
+				for (int j = 1; j <= npage; j++)
 				{
 					items += "<td><center><a action=\"bypass -h npc_" + getObjectId() + "_list " + j + "\"> Page " + j + " </a></center></td>";
 				}
 				items += "</tr></table>" + "<table width=280 border=0>";
-				for(Auction a : auctions)
+				for (final Auction a : auctions)
 				{
-					if(i > limit)
+					if (i > limit)
 					{
 						break;
 					}
-					else if(i < start)
+					else if (i < start)
 					{
 						i++;
 						continue;
@@ -391,31 +392,31 @@ public final class L2AuctioneerInstance extends L2FolkInstance
 					{
 						i++;
 					}
-
+					
 					items += "<tr>" + "<td>" + ClanHallManager.getInstance().getClanHallById(a.getItemId()).getLocation() + "</td>" + "<td><a action=\"bypass -h npc_" + getObjectId() + "_bidding " + a.getId() + "\">" + a.getItemName() + "</a></td>" + "<td>" + format.format(a.getEndDate()) + "</td>" + "<td>" + a.getStartingBid() + "</td>" + "</tr>";
 				}
 				items += "</table>";
 				String filename = "data/html/auction/AgitAuctionList.htm";
-
-				NpcHtmlMessage html = new NpcHtmlMessage(1);
+				
+				final NpcHtmlMessage html = new NpcHtmlMessage(1);
 				html.setFile(filename);
 				html.replace("%AGIT_LINK_BACK%", "bypass -h npc_" + getObjectId() + "_start");
 				html.replace("%itemsField%", items);
 				player.sendPacket(html);
-
+				
 				auctions = null;
 				format = null;
 				items = null;
 				filename = null;
 				return;
 			}
-			else if(actualCommand.equalsIgnoreCase("bidlist"))
+			else if (actualCommand.equalsIgnoreCase("bidlist"))
 			{
 				int auctionId = 0;
-
-				if(val == "")
+				
+				if (val == "")
 				{
-					if(player.getClan().getAuctionBiddedAt() <= 0)
+					if (player.getClan().getAuctionBiddedAt() <= 0)
 						return;
 					auctionId = player.getClan().getAuctionBiddedAt();
 				}
@@ -423,21 +424,21 @@ public final class L2AuctioneerInstance extends L2FolkInstance
 				{
 					auctionId = Integer.parseInt(val);
 				}
-
-				if(Config.DEBUG)
+				
+				if (Config.DEBUG)
 				{
 					player.sendMessage("cmd bidlist: auction test started");
 				}
-
+				
 				String biders = "";
 				Map<Integer, Bidder> bidders = AuctionManager.getInstance().getAuction(auctionId).getBidders();
-
-				for(Bidder b : bidders.values())
+				
+				for (final Bidder b : bidders.values())
 				{
 					biders += "<tr>" + "<td>" + b.getClanName() + "</td><td>" + b.getName() + "</td><td>" + b.getTimeBid().get(Calendar.YEAR) + "/" + (b.getTimeBid().get(Calendar.MONTH) + 1) + "/" + b.getTimeBid().get(Calendar.DATE) + "</td><td>" + b.getBid() + "</td>" + "</tr>";
 				}
 				String filename = "data/html/auction/AgitBidderList.htm";
-
+				
 				NpcHtmlMessage html = new NpcHtmlMessage(1);
 				html.setFile(filename);
 				html.replace("%AGIT_LIST%", biders);
@@ -445,23 +446,23 @@ public final class L2AuctioneerInstance extends L2FolkInstance
 				html.replace("%x%", val);
 				html.replace("%objectId%", String.valueOf(getObjectId()));
 				player.sendPacket(html);
-
+				
 				biders = null;
 				bidders = null;
 				filename = null;
 				html = null;
 				return;
 			}
-			else if(actualCommand.equalsIgnoreCase("selectedItems"))
+			else if (actualCommand.equalsIgnoreCase("selectedItems"))
 			{
-				if(player.getClan() != null && player.getClan().getHasHideout() == 0 && player.getClan().getAuctionBiddedAt() > 0)
+				if (player.getClan() != null && player.getClan().getHasHideout() == 0 && player.getClan().getAuctionBiddedAt() > 0)
 				{
 					SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 					String filename = "data/html/auction/AgitBidInfo.htm";
 					NpcHtmlMessage html = new NpcHtmlMessage(1);
 					html.setFile(filename);
 					Auction a = AuctionManager.getInstance().getAuction(player.getClan().getAuctionBiddedAt());
-					if(a != null)
+					if (a != null)
 					{
 						html.replace("%AGIT_NAME%", a.getItemName());
 						html.replace("%OWNER_PLEDGE_NAME%", a.getSellerClanName());
@@ -480,23 +481,23 @@ public final class L2AuctioneerInstance extends L2FolkInstance
 					}
 					else
 					{
-						_log.warning("Auctioneer Auction null for AuctionBiddedAt : " + player.getClan().getAuctionBiddedAt());
+						LOGGER.warn("Auctioneer Auction null for AuctionBiddedAt : " + player.getClan().getAuctionBiddedAt());
 					}
 					player.sendPacket(html);
-
+					
 					format = null;
 					filename = null;
 					html = null;
 					return;
 				}
-				else if(player.getClan() != null && AuctionManager.getInstance().getAuction(player.getClan().getHasHideout()) != null)
+				else if (player.getClan() != null && AuctionManager.getInstance().getAuction(player.getClan().getHasHideout()) != null)
 				{
 					SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 					String filename = "data/html/auction/AgitSaleInfo.htm";
 					NpcHtmlMessage html = new NpcHtmlMessage(1);
 					html.setFile(filename);
 					Auction a = AuctionManager.getInstance().getAuction(player.getClan().getHasHideout());
-					if(a != null)
+					if (a != null)
 					{
 						html.replace("%AGIT_NAME%", a.getItemName());
 						html.replace("%AGIT_OWNER_PLEDGE_NAME%", a.getSellerClanName());
@@ -516,23 +517,23 @@ public final class L2AuctioneerInstance extends L2FolkInstance
 					}
 					else
 					{
-						_log.warning("Auctioneer Auction null for getHasHideout : " + player.getClan().getHasHideout());
+						LOGGER.warn("Auctioneer Auction null for getHasHideout : " + player.getClan().getHasHideout());
 					}
 					player.sendPacket(html);
-
+					
 					format = null;
 					filename = null;
 					html = null;
 					return;
 				}
-				else if(player.getClan() != null && player.getClan().getHasHideout() != 0)
+				else if (player.getClan() != null && player.getClan().getHasHideout() != 0)
 				{
-					int ItemId = player.getClan().getHasHideout();
+					final int ItemId = player.getClan().getHasHideout();
 					String filename = "data/html/auction/AgitInfo.htm";
 					NpcHtmlMessage html = new NpcHtmlMessage(1);
 					html.setFile(filename);
-
-					if(ClanHallManager.getInstance().getClanHallById(ItemId) != null)
+					
+					if (ClanHallManager.getInstance().getClanHallById(ItemId) != null)
 					{
 						html.replace("%AGIT_NAME%", ClanHallManager.getInstance().getClanHallById(ItemId).getName());
 						html.replace("%AGIT_OWNER_PLEDGE_NAME%", player.getClan().getName());
@@ -545,18 +546,18 @@ public final class L2AuctioneerInstance extends L2FolkInstance
 					}
 					else
 					{
-						_log.warning("Clan Hall ID NULL : " + ItemId + " Can be caused by concurent write in ClanHallManager");
+						LOGGER.warn("Clan Hall ID NULL : " + ItemId + " Can be caused by concurent write in ClanHallManager");
 					}
 					player.sendPacket(html);
-
+					
 					filename = null;
 					html = null;
 					return;
 				}
 			}
-			else if(actualCommand.equalsIgnoreCase("cancelBid"))
+			else if (actualCommand.equalsIgnoreCase("cancelBid"))
 			{
-				int bid = AuctionManager.getInstance().getAuction(player.getClan().getAuctionBiddedAt()).getBidders().get(player.getClanId()).getBid();
+				final int bid = AuctionManager.getInstance().getAuction(player.getClan().getAuctionBiddedAt()).getBidders().get(player.getClanId()).getBid();
 				String filename = "data/html/auction/AgitBidCancel.htm";
 				NpcHtmlMessage html = new NpcHtmlMessage(1);
 				html.setFile(filename);
@@ -565,23 +566,23 @@ public final class L2AuctioneerInstance extends L2FolkInstance
 				html.replace("%AGIT_LINK_BACK%", "bypass -h npc_" + getObjectId() + "_selectedItems");
 				html.replace("%objectId%", String.valueOf(getObjectId()));
 				player.sendPacket(html);
-
+				
 				filename = null;
 				html = null;
 				return;
 			}
-			else if(actualCommand.equalsIgnoreCase("doCancelBid"))
+			else if (actualCommand.equalsIgnoreCase("doCancelBid"))
 			{
-				if(AuctionManager.getInstance().getAuction(player.getClan().getAuctionBiddedAt()) != null)
+				if (AuctionManager.getInstance().getAuction(player.getClan().getAuctionBiddedAt()) != null)
 				{
 					AuctionManager.getInstance().getAuction(player.getClan().getAuctionBiddedAt()).cancelBid(player.getClanId());
 					player.sendMessage("You have succesfully canceled your bidding at the auction");
 				}
 				return;
 			}
-			else if(actualCommand.equalsIgnoreCase("cancelAuction"))
+			else if (actualCommand.equalsIgnoreCase("cancelAuction"))
 			{
-				if(!((player.getClanPrivileges() & L2Clan.CP_CH_AUCTION) == L2Clan.CP_CH_AUCTION))
+				if (!((player.getClanPrivileges() & L2Clan.CP_CH_AUCTION) == L2Clan.CP_CH_AUCTION))
 				{
 					player.sendMessage("You don't have the right privilleges to do this");
 					return;
@@ -593,21 +594,21 @@ public final class L2AuctioneerInstance extends L2FolkInstance
 				html.replace("%AGIT_LINK_BACK%", "bypass -h npc_" + getObjectId() + "_selectedItems");
 				html.replace("%objectId%", String.valueOf(getObjectId()));
 				player.sendPacket(html);
-
+				
 				filename = null;
 				html = null;
 				return;
 			}
-			else if(actualCommand.equalsIgnoreCase("doCancelAuction"))
+			else if (actualCommand.equalsIgnoreCase("doCancelAuction"))
 			{
-				if(AuctionManager.getInstance().getAuction(player.getClan().getHasHideout()) != null)
+				if (AuctionManager.getInstance().getAuction(player.getClan().getHasHideout()) != null)
 				{
 					AuctionManager.getInstance().getAuction(player.getClan().getHasHideout()).cancelAuction();
 					player.sendMessage("Your auction has been canceled");
 				}
 				return;
 			}
-			else if(actualCommand.equalsIgnoreCase("sale2"))
+			else if (actualCommand.equalsIgnoreCase("sale2"))
 			{
 				String filename = "data/html/auction/AgitSale2.htm";
 				NpcHtmlMessage html = new NpcHtmlMessage(1);
@@ -616,14 +617,14 @@ public final class L2AuctioneerInstance extends L2FolkInstance
 				html.replace("%AGIT_LINK_BACK%", "bypass -h npc_" + getObjectId() + "_sale");
 				html.replace("%objectId%", String.valueOf(getObjectId()));
 				player.sendPacket(html);
-
+				
 				filename = null;
 				html = null;
 				return;
 			}
-			else if(actualCommand.equalsIgnoreCase("sale"))
+			else if (actualCommand.equalsIgnoreCase("sale"))
 			{
-				if(!((player.getClanPrivileges() & L2Clan.CP_CH_AUCTION) == L2Clan.CP_CH_AUCTION))
+				if (!((player.getClanPrivileges() & L2Clan.CP_CH_AUCTION) == L2Clan.CP_CH_AUCTION))
 				{
 					player.sendMessage("You don't have the right privilleges to do this");
 					return;
@@ -636,15 +637,15 @@ public final class L2AuctioneerInstance extends L2FolkInstance
 				html.replace("%AGIT_LINK_BACK%", "bypass -h npc_" + getObjectId() + "_selectedItems");
 				html.replace("%objectId%", String.valueOf(getObjectId()));
 				player.sendPacket(html);
-
+				
 				filename = null;
 				html = null;
 				return;
 			}
-			else if(actualCommand.equalsIgnoreCase("rebid"))
+			else if (actualCommand.equalsIgnoreCase("rebid"))
 			{
 				SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-				if(!((player.getClanPrivileges() & L2Clan.CP_CH_AUCTION) == L2Clan.CP_CH_AUCTION))
+				if (!((player.getClanPrivileges() & L2Clan.CP_CH_AUCTION) == L2Clan.CP_CH_AUCTION))
 				{
 					player.sendMessage("You don't have the right privileges to do this");
 					return;
@@ -655,7 +656,7 @@ public final class L2AuctioneerInstance extends L2FolkInstance
 					NpcHtmlMessage html = new NpcHtmlMessage(1);
 					html.setFile(filename);
 					Auction a = AuctionManager.getInstance().getAuction(player.getClan().getAuctionBiddedAt());
-					if(a != null)
+					if (a != null)
 					{
 						html.replace("%AGIT_AUCTION_BID%", String.valueOf(a.getBidders().get(player.getClanId()).getBid()));
 						html.replace("%AGIT_AUCTION_MINBID%", String.valueOf(a.getStartingBid()));
@@ -666,24 +667,24 @@ public final class L2AuctioneerInstance extends L2FolkInstance
 					}
 					else
 					{
-						_log.warning("Auctioneer Auction null for AuctionBiddedAt : " + player.getClan().getAuctionBiddedAt());
+						LOGGER.warn("Auctioneer Auction null for AuctionBiddedAt : " + player.getClan().getAuctionBiddedAt());
 					}
 					player.sendPacket(html);
 					filename = null;
 					html = null;
 				}
-				catch(Exception e)
+				catch (final Exception e)
 				{
-					if(Config.ENABLE_ALL_EXCEPTIONS)
+					if (Config.ENABLE_ALL_EXCEPTIONS)
 						e.printStackTrace();
 					
 					player.sendMessage("Invalid auction!");
 				}
-
+				
 				format = null;
 				return;
 			}
-			else if(actualCommand.equalsIgnoreCase("location"))
+			else if (actualCommand.equalsIgnoreCase("location"))
 			{
 				NpcHtmlMessage html = new NpcHtmlMessage(1);
 				html.setFile("data/html/auction/location.htm");
@@ -694,7 +695,7 @@ public final class L2AuctioneerInstance extends L2FolkInstance
 				html = null;
 				return;
 			}
-			else if(actualCommand.equalsIgnoreCase("start"))
+			else if (actualCommand.equalsIgnoreCase("start"))
 			{
 				showMessageWindow(player);
 				return;
@@ -704,14 +705,14 @@ public final class L2AuctioneerInstance extends L2FolkInstance
 		}
 		super.onBypassFeedback(player, command);
 	}
-
-	public void showMessageWindow(L2PcInstance player)
+	
+	public void showMessageWindow(final L2PcInstance player)
 	{
 		String filename = "data/html/auction/auction-no.htm";
-
-		int condition = validateCondition(player);
-
-		if(condition == COND_BUSY_BECAUSE_OF_SIEGE)
+		
+		final int condition = validateCondition(player);
+		
+		if (condition == COND_BUSY_BECAUSE_OF_SIEGE)
 		{
 			filename = "data/html/auction/auction-busy.htm"; // Busy because of siege
 		}
@@ -719,35 +720,35 @@ public final class L2AuctioneerInstance extends L2FolkInstance
 		{
 			filename = "data/html/auction/auction.htm";
 		}
-
+		
 		NpcHtmlMessage html = new NpcHtmlMessage(1);
 		html.setFile(filename);
 		html.replace("%objectId%", String.valueOf(getObjectId()));
 		html.replace("%npcId%", String.valueOf(getNpcId()));
 		html.replace("%npcname%", getName());
 		player.sendPacket(html);
-
+		
 		filename = null;
 		html = null;
 	}
-
-	private int validateCondition(L2PcInstance player)
+	
+	private int validateCondition(final L2PcInstance player)
 	{
-		if(getCastle() != null && getCastle().getCastleId() > 0)
+		if (getCastle() != null && getCastle().getCastleId() > 0)
 		{
-			if(getCastle().getSiege().getIsInProgress())
+			if (getCastle().getSiege().getIsInProgress())
 				return COND_BUSY_BECAUSE_OF_SIEGE; // Busy because of siege
 			return COND_REGULAR;
 		}
 		return COND_ALL_FALSE;
 	}
-
-	private String getPictureName(L2PcInstance plyr)
+	
+	private String getPictureName(final L2PcInstance plyr)
 	{
-		int nearestTownId = MapRegionTable.getInstance().getMapRegion(plyr.getX(), plyr.getY());
+		final int nearestTownId = MapRegionTable.getInstance().getMapRegion(plyr.getX(), plyr.getY());
 		String nearestTown;
-
-		switch(nearestTownId)
+		
+		switch (nearestTownId)
 		{
 			case 5:
 				nearestTown = "GLUDIO";
@@ -774,7 +775,7 @@ public final class L2AuctioneerInstance extends L2FolkInstance
 				nearestTown = "ADEN";
 				break;
 		}
-
+		
 		return nearestTown;
 	}
 }

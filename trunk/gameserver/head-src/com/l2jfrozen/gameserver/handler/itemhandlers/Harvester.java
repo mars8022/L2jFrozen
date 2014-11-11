@@ -35,7 +35,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
  */
 public class Harvester implements IItemHandler
 {
-
+	
 	private static final int[] ITEM_IDS =
 	{
 		5125
@@ -43,35 +43,35 @@ public class Harvester implements IItemHandler
 	};
 	L2PcInstance _activeChar;
 	L2MonsterInstance _target;
-
+	
 	@Override
-	public void useItem(L2PlayableInstance playable, L2ItemInstance _item)
+	public void useItem(final L2PlayableInstance playable, final L2ItemInstance _item)
 	{
-		if(!(playable instanceof L2PcInstance))
+		if (!(playable instanceof L2PcInstance))
 			return;
-
-		if(CastleManorManager.getInstance().isDisabled())
+		
+		if (CastleManorManager.getInstance().isDisabled())
 			return;
-
+		
 		_activeChar = (L2PcInstance) playable;
-		if(_activeChar.getTarget() == null || !(_activeChar.getTarget() instanceof L2MonsterInstance))
+		if (_activeChar.getTarget() == null || !(_activeChar.getTarget() instanceof L2MonsterInstance))
 		{
 			_activeChar.sendPacket(new SystemMessage(SystemMessageId.TARGET_IS_INCORRECT));
 			_activeChar.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-
+		
 		_target = (L2MonsterInstance) _activeChar.getTarget();
-		if(_target == null || !_target.isDead())
+		if (_target == null || !_target.isDead())
 		{
 			_activeChar.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-
-		L2Skill skill = SkillTable.getInstance().getInfo(2098, 1); //harvesting skill
+		
+		final L2Skill skill = SkillTable.getInstance().getInfo(2098, 1); // harvesting skill
 		_activeChar.useMagic(skill, false, false);
 	}
-
+	
 	@Override
 	public int[] getItemIds()
 	{

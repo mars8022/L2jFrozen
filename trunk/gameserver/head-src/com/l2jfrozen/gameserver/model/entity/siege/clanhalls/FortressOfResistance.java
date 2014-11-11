@@ -18,9 +18,9 @@
  */
 
 /*
-*  Author: Qwerty, Scoria dev.
-*  v 2.1
-*/
+ *  Author: Qwerty, Scoria dev.
+ *  v 2.1
+ */
 
 package com.l2jfrozen.gameserver.model.entity.siege.clanhalls;
 
@@ -30,9 +30,10 @@ import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.concurrent.ScheduledFuture;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
@@ -45,68 +46,69 @@ import com.l2jfrozen.gameserver.model.spawn.L2Spawn;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class FortressOfResistance
 {
-	private static final Logger _log = Logger.getLogger(FortressOfResistance.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(FortressOfResistance.class);
 	private static FortressOfResistance _instance;
-	private FastMap<Integer, DamageInfo> _clansDamageInfo;
-
+	private final FastMap<Integer, DamageInfo> _clansDamageInfo;
+	
 	private static int START_DAY = 1;
 	private static int HOUR = Config.PARTISAN_HOUR;
 	private static int MINUTES = Config.PARTISAN_MINUTES;
-
+	
 	private static final int BOSS_ID = 35368;
 	private static final int MESSENGER_ID = 35382;
-
+	
 	private ScheduledFuture<?> _nurka;
 	private ScheduledFuture<?> _announce;
-
-	private Calendar _capturetime = Calendar.getInstance();
-
+	
+	private final Calendar _capturetime = Calendar.getInstance();
+	
 	public static FortressOfResistance getInstance()
 	{
-		if(_instance == null)
+		if (_instance == null)
 		{
 			_instance = new FortressOfResistance();
 		}
 		return _instance;
 	}
-
+	
 	protected class DamageInfo
 	{
 		public L2Clan _clan;
 		public long _damage;
 	}
-
+	
 	private FortressOfResistance()
 	{
-		if(Config.PARTISAN_DAY == 1)
+		if (Config.PARTISAN_DAY == 1)
 		{
 			START_DAY = Calendar.MONDAY;
 		}
-		else if(Config.PARTISAN_DAY == 2)
+		else if (Config.PARTISAN_DAY == 2)
 		{
 			START_DAY = Calendar.TUESDAY;
 		}
-		else if(Config.PARTISAN_DAY == 3)
+		else if (Config.PARTISAN_DAY == 3)
 		{
 			START_DAY = Calendar.WEDNESDAY;
 		}
-		else if(Config.PARTISAN_DAY == 4)
+		else if (Config.PARTISAN_DAY == 4)
 		{
 			START_DAY = Calendar.THURSDAY;
 		}
-		else if(Config.PARTISAN_DAY == 5)
+		else if (Config.PARTISAN_DAY == 5)
 		{
 			START_DAY = Calendar.FRIDAY;
 		}
-		else if(Config.PARTISAN_DAY == 6)
+		else if (Config.PARTISAN_DAY == 6)
 		{
 			START_DAY = Calendar.SATURDAY;
 		}
-		else if(Config.PARTISAN_DAY == 7)
+		else if (Config.PARTISAN_DAY == 7)
 		{
 			START_DAY = Calendar.SUNDAY;
 		}
@@ -114,89 +116,82 @@ public class FortressOfResistance
 		{
 			START_DAY = Calendar.FRIDAY;
 		}
-
-		if(HOUR < 0 || HOUR > 23)
+		
+		if (HOUR < 0 || HOUR > 23)
 		{
 			HOUR = 21;
 		}
-		if(MINUTES < 0 || MINUTES > 59)
+		if (MINUTES < 0 || MINUTES > 59)
 		{
 			MINUTES = 0;
 		}
-
-		_clansDamageInfo = new FastMap<Integer, DamageInfo>();
-
+		
+		_clansDamageInfo = new FastMap<>();
+		
 		/*
+		 * synchronized (this) { setCalendarForNextCaprture(); long milliToCapture = getMilliToCapture(); RunMessengerSpawn rms = new RunMessengerSpawn(); ThreadPoolManager.getInstance().scheduleGeneral(rms, milliToCapture); LOGGER.info("Fortress of Resistanse: " + milliToCapture / 1000 +
+		 * " sec. to capture"); }
+		 */
 		synchronized (this)
 		{
 			setCalendarForNextCaprture();
-			long milliToCapture = getMilliToCapture();
-
-			RunMessengerSpawn rms = new RunMessengerSpawn();
-			ThreadPoolManager.getInstance().scheduleGeneral(rms, milliToCapture);
-			_log.info("Fortress of Resistanse: " + milliToCapture / 1000 + " sec. to capture");
-		}
-		*/
-		synchronized (this)
-		{
-			setCalendarForNextCaprture();
-			long milliToCapture = getMilliToCapture();
-
+			final long milliToCapture = getMilliToCapture();
+			
 			RunMessengerSpawn rms = new RunMessengerSpawn();
 			ThreadPoolManager.getInstance().scheduleGeneral(rms, milliToCapture);
 			
-			long total_millis = System.currentTimeMillis() + milliToCapture;
+			final long total_millis = System.currentTimeMillis() + milliToCapture;
 			
-			GregorianCalendar cal = (GregorianCalendar) Calendar.getInstance();
+			final GregorianCalendar cal = (GregorianCalendar) Calendar.getInstance();
 			cal.setTimeInMillis(total_millis);
-			String next_ch_siege_date = DateFormat.getInstance().format(cal.getTime());
+			final String next_ch_siege_date = DateFormat.getInstance().format(cal.getTime());
 			
-			_log.info("Fortress of Resistanse: siege will start the "+next_ch_siege_date);
+			LOGGER.info("Fortress of Resistanse: siege will start the " + next_ch_siege_date);
 			rms = null;
 		}
 	}
-
+	
 	private void setCalendarForNextCaprture()
 	{
 		int daysToChange = getDaysToCapture();
-
-		if(daysToChange == 7)
-			if(_capturetime.get(Calendar.HOUR_OF_DAY) < HOUR)
+		
+		if (daysToChange == 7)
+			if (_capturetime.get(Calendar.HOUR_OF_DAY) < HOUR)
 			{
 				daysToChange = 0;
 			}
-			else if(_capturetime.get(Calendar.HOUR_OF_DAY) == HOUR && _capturetime.get(Calendar.MINUTE) < MINUTES)
+			else if (_capturetime.get(Calendar.HOUR_OF_DAY) == HOUR && _capturetime.get(Calendar.MINUTE) < MINUTES)
 			{
 				daysToChange = 0;
 			}
-
-		if(daysToChange > 0)
+		
+		if (daysToChange > 0)
 		{
 			_capturetime.add(Calendar.DATE, daysToChange);
 		}
-
+		
 		_capturetime.set(Calendar.HOUR_OF_DAY, HOUR);
 		_capturetime.set(Calendar.MINUTE, MINUTES);
 	}
-
+	
 	private int getDaysToCapture()
 	{
-		int numDays = _capturetime.get(Calendar.DAY_OF_WEEK) - START_DAY;
-
-		if(numDays < 0)
+		final int numDays = _capturetime.get(Calendar.DAY_OF_WEEK) - START_DAY;
+		
+		if (numDays < 0)
 			return 0 - numDays;
-
+		
 		return 7 - numDays;
 	}
-
+	
 	private long getMilliToCapture()
 	{
-		long currTimeMillis = System.currentTimeMillis();
-		long captureTimeMillis = _capturetime.getTimeInMillis();
-
+		final long currTimeMillis = System.currentTimeMillis();
+		final long captureTimeMillis = _capturetime.getTimeInMillis();
+		
 		return captureTimeMillis - currTimeMillis;
 	}
-
+	
 	protected class RunMessengerSpawn implements Runnable
 	{
 		@Override
@@ -205,23 +200,23 @@ public class FortressOfResistance
 			MessengerSpawn();
 		}
 	}
-
+	
 	public void MessengerSpawn()
 	{
-		if(!ClanHallManager.getInstance().isFree(21))
+		if (!ClanHallManager.getInstance().isFree(21))
 		{
 			ClanHallManager.getInstance().setFree(21);
 		}
-
+		
 		Announce("Capture registration of Partisan Hideout has begun!");
 		Announce("Now its open for 1 hours!");
-
+		
 		L2NpcInstance result = null;
 		try
 		{
 			L2NpcTemplate template = NpcTable.getInstance().getTemplate(MESSENGER_ID);
-
-			L2Spawn spawn = new L2Spawn(template);
+			
+			final L2Spawn spawn = new L2Spawn(template);
 			spawn.setLocx(50335);
 			spawn.setLocy(111275);
 			spawn.setLocz(-1970);
@@ -229,16 +224,16 @@ public class FortressOfResistance
 			result = spawn.spawnOne();
 			template = null;
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
 			e.printStackTrace();
 		}
-		RunBossSpawn rbs = new RunBossSpawn();
-		ThreadPoolManager.getInstance().scheduleGeneral(rbs, 3600000); //60 * 60 * 1000
-		_log.info("Fortress of Resistanse: Messenger spawned!");
-		ThreadPoolManager.getInstance().scheduleGeneral(new DeSpawnTimer(result), 3600000); //60 * 60 * 1000
+		final RunBossSpawn rbs = new RunBossSpawn();
+		ThreadPoolManager.getInstance().scheduleGeneral(rbs, 3600000); // 60 * 60 * 1000
+		LOGGER.info("Fortress of Resistanse: Messenger spawned!");
+		ThreadPoolManager.getInstance().scheduleGeneral(new DeSpawnTimer(result), 3600000); // 60 * 60 * 1000
 	}
-
+	
 	protected class RunBossSpawn implements Runnable
 	{
 		@Override
@@ -247,20 +242,20 @@ public class FortressOfResistance
 			BossSpawn();
 		}
 	}
-
+	
 	public void BossSpawn()
 	{
-		if(!_clansDamageInfo.isEmpty())
+		if (!_clansDamageInfo.isEmpty())
 		{
 			_clansDamageInfo.clear();
 		}
-
+		
 		L2NpcInstance result = null;
 		try
 		{
 			L2NpcTemplate template = NpcTable.getInstance().getTemplate(BOSS_ID);
-
-			L2Spawn spawn = new L2Spawn(template);
+			
+			final L2Spawn spawn = new L2Spawn(template);
 			spawn.setLocx(44525);
 			spawn.setLocy(108867);
 			spawn.setLocz(-2020);
@@ -268,84 +263,84 @@ public class FortressOfResistance
 			result = spawn.spawnOne();
 			template = null;
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
 			e.printStackTrace();
 		}
-
-		_log.info("Fortress of Resistanse: Boss spawned!");
+		
+		LOGGER.info("Fortress of Resistanse: Boss spawned!");
 		Announce("Capture of Partisan Hideout has begun!");
 		Announce("You have one hour to kill Nurka!");
-
-		_nurka = ThreadPoolManager.getInstance().scheduleGeneral(new DeSpawnTimer(result), 3600000); //60 * 60 * 1000
+		
+		_nurka = ThreadPoolManager.getInstance().scheduleGeneral(new DeSpawnTimer(result), 3600000); // 60 * 60 * 1000
 		_announce = ThreadPoolManager.getInstance().scheduleGeneral(new AnnounceInfo("No one can`t kill Nurka! Partisan Hideout set free until next week!"), 3600000);
 	}
-
+	
 	protected class DeSpawnTimer implements Runnable
 	{
 		L2NpcInstance _npc = null;
-
-		public DeSpawnTimer(L2NpcInstance npc)
+		
+		public DeSpawnTimer(final L2NpcInstance npc)
 		{
 			_npc = npc;
 		}
-
+		
 		@Override
 		public void run()
 		{
 			_npc.onDecay();
 		}
 	}
-
-	public final boolean Conditions(L2PcInstance player)
+	
+	public final boolean Conditions(final L2PcInstance player)
 	{
-		if(player != null && player.getClan() != null && player.isClanLeader() && player.getClan().getAuctionBiddedAt() <= 0 && ClanHallManager.getInstance().getClanHallByOwner(player.getClan()) == null && player.getClan().getLevel() > 2)
+		if (player != null && player.getClan() != null && player.isClanLeader() && player.getClan().getAuctionBiddedAt() <= 0 && ClanHallManager.getInstance().getClanHallByOwner(player.getClan()) == null && player.getClan().getLevel() > 2)
 			return true;
 		return false;
 	}
-
+	
 	protected class AnnounceInfo implements Runnable
 	{
 		String _message;
-
-		public AnnounceInfo(String message)
+		
+		public AnnounceInfo(final String message)
 		{
 			_message = message;
 		}
-
+		
 		@Override
 		public void run()
 		{
 			Announce(_message);
 		}
 	}
-
-	public void Announce(String message)
+	
+	public void Announce(final String message)
 	{
 		Announcements.getInstance().announceToAll(message);
 	}
-
+	
 	public void CaptureFinish()
 	{
 		L2Clan clanIdMaxDamage = null;
 		long tempMaxDamage = 0;
-		for(DamageInfo damageInfo : _clansDamageInfo.values())
+		for (final DamageInfo damageInfo : _clansDamageInfo.values())
 		{
-			if(damageInfo != null)
+			if (damageInfo != null)
 			{
-				if(damageInfo._damage > tempMaxDamage)
+				if (damageInfo._damage > tempMaxDamage)
 				{
 					tempMaxDamage = damageInfo._damage;
 					clanIdMaxDamage = damageInfo._clan;
 				}
 			}
 		}
-		if(clanIdMaxDamage != null)
+		if (clanIdMaxDamage != null)
 		{
 			ClanHallManager.getInstance().setOwner(21, clanIdMaxDamage);
 			clanIdMaxDamage.setReputationScore(clanIdMaxDamage.getReputationScore() + 600, true);
 			update();
-
+			
 			Announce("Capture of Partisan Hideout is over.");
 			Announce("Now its belong to: '" + clanIdMaxDamage.getName() + "' until next capture.");
 		}
@@ -354,15 +349,15 @@ public class FortressOfResistance
 			Announce("Capture of Partisan Hideout is over.");
 			Announce("No one can`t capture Partisan Hideout.");
 		}
-
+		
 		_nurka.cancel(true);
 		_announce.cancel(true);
 	}
-
-	public void addSiegeDamage(L2Clan clan, long damage)
+	
+	public void addSiegeDamage(final L2Clan clan, final long damage)
 	{
 		DamageInfo clanDamage = _clansDamageInfo.get(clan.getClanId());
-		if(clanDamage != null)
+		if (clanDamage != null)
 		{
 			clanDamage._damage += damage;
 		}
@@ -374,7 +369,7 @@ public class FortressOfResistance
 			_clansDamageInfo.put(clan.getClanId(), clanDamage);
 		}
 	}
-
+	
 	private void update()
 	{
 		Connection con = null;
@@ -382,16 +377,16 @@ public class FortressOfResistance
 		{
 			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement;
-
+			
 			statement = con.prepareStatement("UPDATE clanhall SET paidUntil=?, paid=? WHERE id=?");
 			statement.setLong(1, System.currentTimeMillis() + 59760000);
 			statement.setInt(2, 1);
 			statement.setInt(3, 21);
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 			statement = null;
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
 			e.printStackTrace();
 		}

@@ -28,12 +28,12 @@ import com.l2jfrozen.util.random.Rnd;
 
 public class MonsterRace
 {
-	private L2NpcInstance[] _monsters;
+	private final L2NpcInstance[] _monsters;
 	private static MonsterRace _instance;
 	private Constructor<?> _constructor;
 	private int[][] _speeds;
-	private int[] _first, _second;
-
+	private final int[] _first, _second;
+	
 	private MonsterRace()
 	{
 		_monsters = new L2NpcInstance[8];
@@ -41,30 +41,30 @@ public class MonsterRace
 		_first = new int[2];
 		_second = new int[2];
 	}
-
+	
 	public static MonsterRace getInstance()
 	{
-		if(_instance == null)
+		if (_instance == null)
 		{
 			_instance = new MonsterRace();
 		}
-
+		
 		return _instance;
 	}
-
+	
 	public void newRace()
 	{
 		int random = 0;
-
-		for(int i = 0; i < 8; i++)
+		
+		for (int i = 0; i < 8; i++)
 		{
-			int id = 31003;
+			final int id = 31003;
 			random = Rnd.get(24);
-			while(true)
+			while (true)
 			{
-				for(int j = i - 1; j >= 0; j--)
+				for (int j = i - 1; j >= 0; j--)
 				{
-					if(_monsters[j].getTemplate().npcId == id + random)
+					if (_monsters[j].getTemplate().npcId == id + random)
 					{
 						random = Rnd.get(24);
 						continue;
@@ -74,33 +74,33 @@ public class MonsterRace
 			}
 			try
 			{
-				L2NpcTemplate template = NpcTable.getInstance().getTemplate(id + random);
+				final L2NpcTemplate template = NpcTable.getInstance().getTemplate(id + random);
 				_constructor = Class.forName("com.l2jfrozen.gameserver.model.actor.instance." + template.type + "Instance").getConstructors()[0];
-				int objectId = IdFactory.getInstance().getNextId();
+				final int objectId = IdFactory.getInstance().getNextId();
 				_monsters[i] = (L2NpcInstance) _constructor.newInstance(objectId, template);
 			}
-			catch(Exception e)
+			catch (final Exception e)
 			{
 				e.printStackTrace();
 			}
-			//_log.info("Monster "+i+" is id: "+(id+random));
+			// LOGGER.info("Monster "+i+" is id: "+(id+random));
 		}
 		newSpeeds();
-
+		
 	}
-
+	
 	public void newSpeeds()
 	{
 		_speeds = new int[8][20];
 		int total = 0;
 		_first[1] = 0;
 		_second[1] = 0;
-		for(int i = 0; i < 8; i++)
+		for (int i = 0; i < 8; i++)
 		{
 			total = 0;
-			for(int j = 0; j < 20; j++)
+			for (int j = 0; j < 20; j++)
 			{
-				if(j == 19)
+				if (j == 19)
 				{
 					_speeds[i][j] = 100;
 				}
@@ -110,22 +110,22 @@ public class MonsterRace
 				}
 				total += _speeds[i][j];
 			}
-
-			if(total >= _first[1])
+			
+			if (total >= _first[1])
 			{
 				_second[0] = _first[0];
 				_second[1] = _first[1];
 				_first[0] = 8 - i;
 				_first[1] = total;
 			}
-			else if(total >= _second[1])
+			else if (total >= _second[1])
 			{
 				_second[0] = 8 - i;
 				_second[1] = total;
 			}
 		}
 	}
-
+	
 	/**
 	 * @return Returns the monsters.
 	 */
@@ -133,7 +133,7 @@ public class MonsterRace
 	{
 		return _monsters;
 	}
-
+	
 	/**
 	 * @return Returns the speeds.
 	 */
@@ -141,12 +141,12 @@ public class MonsterRace
 	{
 		return _speeds;
 	}
-
+	
 	public int getFirstPlace()
 	{
 		return _first[0];
 	}
-
+	
 	public int getSecondPlace()
 	{
 		return _second[0];

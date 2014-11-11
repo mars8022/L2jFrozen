@@ -20,49 +20,49 @@ package com.l2jfrozen.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Logger;
 
 import javolution.text.TextBuilder;
 
+import org.apache.log4j.Logger;
+
 /**
  * This class ...
- * 
  * @version $Revision: 1.2 $ $Date: 2004/06/27 08:12:59 $
  * @author luisantonioa
  */
 public class Util
 {
-	protected static final Logger _log = Logger.getLogger(Util.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(Util.class);
 	
-	public static boolean isInternalIP(String ipAddress)
+	public static boolean isInternalIP(final String ipAddress)
 	{
 		return ipAddress.startsWith("192.168.") || ipAddress.startsWith("10.") || ipAddress.startsWith("127.0.0.1");
 	}
-
-	public static String printData(byte[] data, int len)
+	
+	public static String printData(final byte[] data, final int len)
 	{
-		TextBuilder result = new TextBuilder();
-
+		final TextBuilder result = new TextBuilder();
+		
 		int counter = 0;
-
-		for(int i = 0; i < len; i++)
+		
+		for (int i = 0; i < len; i++)
 		{
-			if(counter % 16 == 0)
+			if (counter % 16 == 0)
 			{
 				result.append(fillHex(i, 4) + ": ");
 			}
-
+			
 			result.append(fillHex(data[i] & 0xff, 2) + " ");
 			counter++;
-			if(counter == 16)
+			if (counter == 16)
 			{
 				result.append("   ");
-
+				
 				int charpoint = i - 15;
-				for(int a = 0; a < 16; a++)
+				for (int a = 0; a < 16; a++)
 				{
-					int t1 = data[charpoint++];
-					if(t1 > 0x1f && t1 < 0x80)
+					final int t1 = data[charpoint++];
+					if (t1 > 0x1f && t1 < 0x80)
 					{
 						result.append((char) t1);
 					}
@@ -71,25 +71,25 @@ public class Util
 						result.append('.');
 					}
 				}
-
+				
 				result.append('\n');
 				counter = 0;
 			}
 		}
-
-		int rest = data.length % 16;
-		if(rest > 0)
+		
+		final int rest = data.length % 16;
+		if (rest > 0)
 		{
-			for(int i = 0; i < 17 - rest; i++)
+			for (int i = 0; i < 17 - rest; i++)
 			{
 				result.append("   ");
 			}
-
+			
 			int charpoint = data.length - rest;
-			for(int a = 0; a < rest; a++)
+			for (int a = 0; a < rest; a++)
 			{
-				int t1 = data[charpoint++];
-				if(t1 > 0x1f && t1 < 0x80)
+				final int t1 = data[charpoint++];
+				if (t1 > 0x1f && t1 < 0x80)
 				{
 					result.append((char) t1);
 				}
@@ -98,139 +98,139 @@ public class Util
 					result.append('.');
 				}
 			}
-
+			
 			result.append('\n');
 		}
-
+		
 		return result.toString();
 	}
-
-	public static String fillHex(int data, int digits)
+	
+	public static String fillHex(final int data, final int digits)
 	{
 		String number = Integer.toHexString(data);
-
-		for(int i = number.length(); i < digits; i++)
+		
+		for (int i = number.length(); i < digits; i++)
 		{
 			number = "0" + number;
 		}
-
+		
 		return number;
 	}
-
+	
 	/**
 	 * @param s
 	 */
-
+	
 	public static void printSection(String s)
 	{
-		int maxlength = 79;
+		final int maxlength = 79;
 		s = "-[ " + s + " ]";
-		int slen = s.length();
-		if(slen > maxlength)
+		final int slen = s.length();
+		if (slen > maxlength)
 		{
-			_log.info(s);
+			LOGGER.info(s);
 			return;
 		}
 		int i;
-		for(i = 0; i < maxlength - slen; i++)
+		for (i = 0; i < maxlength - slen; i++)
 		{
 			s = "=" + s;
 		}
-		_log.info(s);
+		LOGGER.info(s);
 	}
-
+	
 	/**
 	 * @param raw
 	 * @return
 	 */
-	public static String printData(byte[] raw)
+	public static String printData(final byte[] raw)
 	{
 		return printData(raw, raw.length);
 	}
-
+	
 	/**
 	 * returns how many processors are installed on this system.
 	 */
 	private static void printCpuInfo()
 	{
-		_log.info("Avaible CPU(s): " + Runtime.getRuntime().availableProcessors());
-		_log.info("Processor(s) Identifier: " + System.getenv("PROCESSOR_IDENTIFIER"));
-		_log.info("..................................................");
-		_log.info("..................................................");
+		LOGGER.info("Avaible CPU(s): " + Runtime.getRuntime().availableProcessors());
+		LOGGER.info("Processor(s) Identifier: " + System.getenv("PROCESSOR_IDENTIFIER"));
+		LOGGER.info("..................................................");
+		LOGGER.info("..................................................");
 	}
-
+	
 	/**
 	 * returns the operational system server is running on it.
 	 */
 	private static void printOSInfo()
 	{
-		_log.info("OS: " + System.getProperty("os.name") + " Build: " + System.getProperty("os.version"));
-		_log.info("OS Arch: " + System.getProperty("os.arch"));
-		_log.info("..................................................");
-		_log.info("..................................................");
+		LOGGER.info("OS: " + System.getProperty("os.name") + " Build: " + System.getProperty("os.version"));
+		LOGGER.info("OS Arch: " + System.getProperty("os.arch"));
+		LOGGER.info("..................................................");
+		LOGGER.info("..................................................");
 	}
-
+	
 	/**
 	 * returns JAVA Runtime Enviroment properties
 	 */
 	private static void printJreInfo()
 	{
-		_log.info("Java Platform Information");
-		_log.info("Java Runtime  Name: " + System.getProperty("java.runtime.name"));
-		_log.info("Java Version: " + System.getProperty("java.version"));
-		_log.info("Java Class Version: " + System.getProperty("java.class.version"));
-		_log.info("..................................................");
-		_log.info("..................................................");
+		LOGGER.info("Java Platform Information");
+		LOGGER.info("Java Runtime  Name: " + System.getProperty("java.runtime.name"));
+		LOGGER.info("Java Version: " + System.getProperty("java.version"));
+		LOGGER.info("Java Class Version: " + System.getProperty("java.class.version"));
+		LOGGER.info("..................................................");
+		LOGGER.info("..................................................");
 	}
-
+	
 	/**
 	 * returns general infos related to machine
 	 */
 	private static void printRuntimeInfo()
 	{
-		_log.info("Runtime Information");
-		_log.info("Current Free Heap Size: " + Runtime.getRuntime().freeMemory() / 1024 / 1024 + " mb");
-		_log.info("Current Heap Size: " + Runtime.getRuntime().totalMemory() / 1024 / 1024 + " mb");
-		_log.info("Maximum Heap Size: " + Runtime.getRuntime().maxMemory() / 1024 / 1024 + " mb");
-		_log.info("..................................................");
-		_log.info("..................................................");
-
+		LOGGER.info("Runtime Information");
+		LOGGER.info("Current Free Heap Size: " + Runtime.getRuntime().freeMemory() / 1024 / 1024 + " mb");
+		LOGGER.info("Current Heap Size: " + Runtime.getRuntime().totalMemory() / 1024 / 1024 + " mb");
+		LOGGER.info("Maximum Heap Size: " + Runtime.getRuntime().maxMemory() / 1024 / 1024 + " mb");
+		LOGGER.info("..................................................");
+		LOGGER.info("..................................................");
+		
 	}
-
+	
 	/**
 	 * calls time service to get system time.
 	 */
 	private static void printSystemTime()
 	{
 		// instanciates Date Objec
-		Date dateInfo = new Date();
-
-		//generates a simple date format
-		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss aa");
-
-		//generates String that will get the formater info with values
-		String dayInfo = df.format(dateInfo);
-
-		_log.info("..................................................");
-		_log.info("System Time: " + dayInfo);
-		_log.info("..................................................");
+		final Date dateInfo = new Date();
+		
+		// generates a simple date format
+		final SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss aa");
+		
+		// generates String that will get the formater info with values
+		final String dayInfo = df.format(dateInfo);
+		
+		LOGGER.info("..................................................");
+		LOGGER.info("System Time: " + dayInfo);
+		LOGGER.info("..................................................");
 	}
-
+	
 	/**
 	 * gets system JVM properties.
 	 */
 	private static void printJvmInfo()
 	{
-		_log.info("Virtual Machine Information (JVM)");
-		_log.info("JVM Name: " + System.getProperty("java.vm.name"));
-		_log.info("JVM installation directory: " + System.getProperty("java.home"));
-		_log.info("JVM version: " + System.getProperty("java.vm.version"));
-		_log.info("JVM Vendor: " + System.getProperty("java.vm.vendor"));
-		_log.info("JVM Info: " + System.getProperty("java.vm.info"));
-		_log.info("..................................................");
-		_log.info("..................................................");
+		LOGGER.info("Virtual Machine Information (JVM)");
+		LOGGER.info("JVM Name: " + System.getProperty("java.vm.name"));
+		LOGGER.info("JVM installation directory: " + System.getProperty("java.home"));
+		LOGGER.info("JVM version: " + System.getProperty("java.vm.version"));
+		LOGGER.info("JVM Vendor: " + System.getProperty("java.vm.vendor"));
+		LOGGER.info("JVM Info: " + System.getProperty("java.vm.info"));
+		LOGGER.info("..................................................");
+		LOGGER.info("..................................................");
 	}
-
+	
 	/**
 	 * prints all other methods.
 	 */
@@ -243,33 +243,33 @@ public class Util
 		printJreInfo();
 		printJvmInfo();
 	}
-
+	
 	/**
 	 * converts a given time from minutes -> miliseconds
-	 * @param minutesToConvert 
+	 * @param minutesToConvert
 	 * @return
 	 */
-	public static int convertMinutesToMiliseconds(int minutesToConvert)
+	public static int convertMinutesToMiliseconds(final int minutesToConvert)
 	{
 		return minutesToConvert * 60000;
 	}
-
+	
 	public static int getAvailableProcessors()
 	{
-		Runtime rt = Runtime.getRuntime();
+		final Runtime rt = Runtime.getRuntime();
 		return rt.availableProcessors();
 	}
-
+	
 	public static String getOSName()
 	{
 		return System.getProperty("os.name");
 	}
-
+	
 	public static String getOSVersion()
 	{
 		return System.getProperty("os.version");
 	}
-
+	
 	public static String getOSArch()
 	{
 		return System.getProperty("os.arch");

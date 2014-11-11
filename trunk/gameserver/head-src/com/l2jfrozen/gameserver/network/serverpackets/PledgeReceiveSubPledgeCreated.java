@@ -25,12 +25,12 @@ import com.l2jfrozen.gameserver.model.L2Clan.SubPledge;
 public class PledgeReceiveSubPledgeCreated extends L2GameServerPacket
 {
 	private static final String _S__FE_3F_PLEDGERECEIVESUBPLEDGECREATED = "[S] FE:3F PledgeReceiveSubPledgeCreated";
-	private SubPledge _subPledge;
-
+	private final SubPledge _subPledge;
+	
 	/**
-	 * @param subPledge 
+	 * @param subPledge
 	 */
-	public PledgeReceiveSubPledgeCreated(SubPledge subPledge)
+	public PledgeReceiveSubPledgeCreated(final SubPledge subPledge)
 	{
 		_subPledge = subPledge;
 	}
@@ -40,7 +40,7 @@ public class PledgeReceiveSubPledgeCreated extends L2GameServerPacket
 	{
 		writeC(0xfe);
 		writeH(0x3f);
-
+		
 		writeD(0x01);
 		writeD(_subPledge.getId());
 		writeS(_subPledge.getName());

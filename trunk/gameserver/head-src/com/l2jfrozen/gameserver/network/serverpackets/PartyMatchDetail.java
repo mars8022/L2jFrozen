@@ -17,19 +17,18 @@ package com.l2jfrozen.gameserver.network.serverpackets;
 import com.l2jfrozen.gameserver.model.PartyMatchRoom;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
-
 /**
  * @author Gnacik
  */
 public class PartyMatchDetail extends L2GameServerPacket
 {
-	private PartyMatchRoom _room;
+	private final PartyMatchRoom _room;
 	
 	/**
-	 * @param player 
-	 * @param room 
+	 * @param player
+	 * @param room
 	 */
-	public PartyMatchDetail(L2PcInstance player, PartyMatchRoom room)
+	public PartyMatchDetail(final L2PcInstance player, final PartyMatchRoom room)
 	{
 		_room = room;
 	}
@@ -38,13 +37,13 @@ public class PartyMatchDetail extends L2GameServerPacket
 	protected final void writeImpl()
 	{
 		writeC(0x97);
-		writeD(_room.getId());			//	Room ID
-		writeD(_room.getMaxMembers());	//	Max Members
-		writeD(_room.getMinLvl());		//	Level Min
-		writeD(_room.getMaxLvl());		//	Level Max
-		writeD(_room.getLootType());	//	Loot Type
-		writeD(_room.getLocation());	//	Room Location
-		writeS(_room.getTitle());		//	Room title
+		writeD(_room.getId()); // Room ID
+		writeD(_room.getMaxMembers()); // Max Members
+		writeD(_room.getMinLvl()); // Level Min
+		writeD(_room.getMaxLvl()); // Level Max
+		writeD(_room.getLootType()); // Loot Type
+		writeD(_room.getLocation()); // Room Location
+		writeS(_room.getTitle()); // Room title
 	}
 	
 	@Override

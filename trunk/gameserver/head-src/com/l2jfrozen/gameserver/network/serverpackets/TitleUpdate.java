@@ -25,15 +25,15 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 public class TitleUpdate extends L2GameServerPacket
 {
 	private static final String _S__CC_TITLE_UPDATE = "[S] cc TitleUpdate";
-	private String _title;
-	private int _objectId;
-
-	public TitleUpdate(L2PcInstance cha)
+	private final String _title;
+	private final int _objectId;
+	
+	public TitleUpdate(final L2PcInstance cha)
 	{
 		_objectId = cha.getObjectId();
 		_title = cha.getTitle();
 	}
-
+	
 	/**
 	 * @see com.l2jfrozen.gameserver.network.serverpackets.L2GameServerPacket#writeImpl()
 	 */
@@ -44,7 +44,7 @@ public class TitleUpdate extends L2GameServerPacket
 		writeD(_objectId);
 		writeS(_title);
 	}
-
+	
 	/**
 	 * @see com.l2jfrozen.gameserver.network.serverpackets.L2GameServerPacket#getType()
 	 */
@@ -53,5 +53,5 @@ public class TitleUpdate extends L2GameServerPacket
 	{
 		return _S__CC_TITLE_UPDATE;
 	}
-
+	
 }

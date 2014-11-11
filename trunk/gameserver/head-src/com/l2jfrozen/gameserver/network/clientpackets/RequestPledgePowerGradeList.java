@@ -34,25 +34,25 @@ public final class RequestPledgePowerGradeList extends L2GameClientPacket
 	{
 		// trigger
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance player = getClient().getActiveChar();
-		L2Clan clan = player.getClan();
-
-		if(clan != null)
+		final L2PcInstance player = getClient().getActiveChar();
+		final L2Clan clan = player.getClan();
+		
+		if (clan != null)
 		{
-			RankPrivs[] privs = clan.getAllRankPrivs();
+			final RankPrivs[] privs = clan.getAllRankPrivs();
 			player.sendPacket(new PledgePowerGradeList(privs));
-			//_log.warning("plegdepowergradelist send, privs length: "+privs.length);
+			// LOGGER.warn("plegdepowergradelist send, privs length: "+privs.length);
 		}
 	}
-
+	
 	@Override
 	public String getType()
 	{
 		return "[C] D0:1A RequestPledgePowerGradeList";
 	}
-
+	
 }

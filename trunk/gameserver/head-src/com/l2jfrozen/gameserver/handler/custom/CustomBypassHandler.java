@@ -15,9 +15,10 @@
 package com.l2jfrozen.gameserver.handler.custom;
 
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.handler.ICustomByPassHandler;
@@ -34,14 +35,14 @@ import com.l2jfrozen.gameserver.model.entity.L2Rebirth;
  */
 public class CustomBypassHandler
 {
-	private static Logger _log = Logger.getLogger(BitSetIDFactory.class.getName());
+	private static Logger LOGGER = Logger.getLogger(BitSetIDFactory.class);
 	
 	private static CustomBypassHandler _instance = null;
-	private Map<String, ICustomByPassHandler> _handlers;
+	private final Map<String, ICustomByPassHandler> _handlers;
 	
 	private CustomBypassHandler()
 	{
-		_handlers = new FastMap<String, ICustomByPassHandler>();
+		_handlers = new FastMap<>();
 		
 		registerCustomBypassHandler(new ExtractableByPassHandler());
 	}
@@ -63,9 +64,9 @@ public class CustomBypassHandler
 	/**
 	 * @param handler as ICustomByPassHandler
 	 */
-	public void registerCustomBypassHandler(ICustomByPassHandler handler)
+	public void registerCustomBypassHandler(final ICustomByPassHandler handler)
 	{
-		for (String s : handler.getByPassCommands())
+		for (final String s : handler.getByPassCommands())
 		{
 			_handlers.put(s, handler);
 		}
@@ -76,13 +77,13 @@ public class CustomBypassHandler
 	 * @param player
 	 * @param command
 	 */
-	public void handleBypass(L2PcInstance player, String command)
+	public void handleBypass(final L2PcInstance player, final String command)
 	{
 		// Rebirth Manager and Engine Caller
 		
 		String cmd = "";
 		String params = "";
-		int iPos = command.indexOf(" ");
+		final int iPos = command.indexOf(" ");
 		if (iPos != -1)
 		{
 			cmd = command.substring(7, iPos);
@@ -92,7 +93,7 @@ public class CustomBypassHandler
 		{
 			cmd = command.substring(7);
 		}
-		ICustomByPassHandler ch = _handlers.get(cmd);
+		final ICustomByPassHandler ch = _handlers.get(cmd);
 		if (ch != null)
 		{
 			ch.handleCommand(cmd, player, params);
@@ -104,7 +105,7 @@ public class CustomBypassHandler
 				// Check to see if Rebirth is enabled to avoid hacks
 				if (!Config.REBIRTH_ENABLE)
 				{
-					_log.warning("[WARNING] Player " + player.getName() + " is trying to use rebirth system when it's disabled.");
+					LOGGER.warn("[WARNING] Player " + player.getName() + " is trying to use rebirth system when it's disabled.");
 					return;
 				}
 				

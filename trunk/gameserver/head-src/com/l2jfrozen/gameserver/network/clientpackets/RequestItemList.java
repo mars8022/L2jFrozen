@@ -27,17 +27,17 @@ public final class RequestItemList extends L2GameClientPacket
 	{
 		// trigger
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-		if(getClient() != null && getClient().getActiveChar() != null && !getClient().getActiveChar().isInvetoryDisabled())
+		if (getClient() != null && getClient().getActiveChar() != null && !getClient().getActiveChar().isInvetoryDisabled())
 		{
-			ItemList il = new ItemList(getClient().getActiveChar(), true);
+			final ItemList il = new ItemList(getClient().getActiveChar(), true);
 			sendPacket(il);
 		}
 	}
-
+	
 	@Override
 	public String getType()
 	{

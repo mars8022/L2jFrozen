@@ -30,11 +30,12 @@ package com.l2jfrozen.gameserver.util;
 
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
 import javolution.util.FastMap;
 import javolution.util.FastSet;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.NpcTable;
@@ -47,25 +48,24 @@ import com.l2jfrozen.util.random.Rnd;
 
 /**
  * This class ...
- * 
  * @version $Revision: 1.2 $ $Date: 2004/06/27 08:12:59 $
  */
 
 public class MinionList
 {
-	private static Logger _log = Logger.getLogger(L2MonsterInstance.class.getName());
-
+	private static Logger LOGGER = Logger.getLogger(L2MonsterInstance.class);
+	
 	/** List containing the current spawned minions for this L2MonsterInstance */
 	private final List<L2MinionInstance> minionReferences;
 	protected FastMap<Long, Integer> _respawnTasks = new FastMap<Long, Integer>().shared();
 	private final L2MonsterInstance master;
-
-	public MinionList(L2MonsterInstance pMaster)
+	
+	public MinionList(final L2MonsterInstance pMaster)
 	{
-		minionReferences = new FastList<L2MinionInstance>();
+		minionReferences = new FastList<>();
 		master = pMaster;
 	}
-
+	
 	public int countSpawnedMinions()
 	{
 		synchronized (minionReferences)
@@ -73,15 +73,15 @@ public class MinionList
 			return minionReferences.size();
 		}
 	}
-
-	public int countSpawnedMinionsById(int minionId)
+	
+	public int countSpawnedMinionsById(final int minionId)
 	{
 		int count = 0;
 		synchronized (minionReferences)
 		{
-			for(L2MinionInstance minion : getSpawnedMinions())
+			for (final L2MinionInstance minion : getSpawnedMinions())
 			{
-				if(minion.getNpcId() == minionId)
+				if (minion.getNpcId() == minionId)
 				{
 					count++;
 				}
@@ -89,59 +89,59 @@ public class MinionList
 		}
 		return count;
 	}
-
+	
 	public boolean hasMinions()
 	{
 		return getSpawnedMinions().size() > 0;
 	}
-
+	
 	public List<L2MinionInstance> getSpawnedMinions()
 	{
 		return minionReferences;
 	}
-
-	public void addSpawnedMinion(L2MinionInstance minion)
+	
+	public void addSpawnedMinion(final L2MinionInstance minion)
 	{
 		synchronized (minionReferences)
 		{
 			minionReferences.add(minion);
 		}
 	}
-
+	
 	public int lazyCountSpawnedMinionsGroups()
 	{
-		Set<Integer> seenGroups = new FastSet<Integer>();
-		for(L2MinionInstance minion : getSpawnedMinions())
+		final Set<Integer> seenGroups = new FastSet<>();
+		for (final L2MinionInstance minion : getSpawnedMinions())
 		{
 			seenGroups.add(minion.getNpcId());
 		}
 		return seenGroups.size();
 	}
-
-	public void removeSpawnedMinion(L2MinionInstance minion)
+	
+	public void removeSpawnedMinion(final L2MinionInstance minion)
 	{
 		synchronized (minionReferences)
 		{
 			minionReferences.remove(minion);
 		}
 	}
-
-	public void moveMinionToRespawnList(L2MinionInstance minion)
+	
+	public void moveMinionToRespawnList(final L2MinionInstance minion)
 	{
-		Long current = System.currentTimeMillis();
+		final Long current = System.currentTimeMillis();
 		synchronized (minionReferences)
 		{
 			minionReferences.remove(minion);
-			if(_respawnTasks.get(current) == null)
+			if (_respawnTasks.get(current) == null)
 			{
 				_respawnTasks.put(current, minion.getNpcId());
 			}
 			else
 			{
 				// nice AoE
-				for(int i = 1; i < 30; i++)
+				for (int i = 1; i < 30; i++)
 				{
-					if(_respawnTasks.get(current + i) == null)
+					if (_respawnTasks.get(current + i) == null)
 					{
 						_respawnTasks.put(current + i, minion.getNpcId());
 						break;
@@ -150,30 +150,30 @@ public class MinionList
 			}
 		}
 	}
-
+	
 	public void clearRespawnList()
 	{
 		_respawnTasks.clear();
 	}
-
+	
 	/**
 	 * Manage respawning of minions for this RaidBoss.<BR>
 	 * <BR>
 	 */
 	public void maintainMinions()
 	{
-		if(master == null || master.isAlikeDead())
+		if (master == null || master.isAlikeDead())
 			return;
-
-		Long current = System.currentTimeMillis();
-
-		if(_respawnTasks != null)
+		
+		final Long current = System.currentTimeMillis();
+		
+		if (_respawnTasks != null)
 		{
-			for(long deathTime : _respawnTasks.keySet())
+			for (final long deathTime : _respawnTasks.keySet())
 			{
-				double delay = Config.RAID_MINION_RESPAWN_TIMER;
-
-				if(current - deathTime > delay)
+				final double delay = Config.RAID_MINION_RESPAWN_TIMER;
+				
+				if (current - deathTime > delay)
 				{
 					spawnSingleMinion(_respawnTasks.get(deathTime));
 					_respawnTasks.remove(deathTime);
@@ -181,97 +181,93 @@ public class MinionList
 			}
 		}
 	}
-
+	
 	/**
 	 * Manage the spawn of all Minions of this RaidBoss.<BR>
 	 * <BR>
 	 * <B><U> Actions</U> :</B><BR>
 	 * <BR>
-	 * <li>Get the Minion data of all Minions that must be spawn</li> <li>For each Minion type, spawn the amount of
-	 * Minion needed</li><BR>
+	 * <li>Get the Minion data of all Minions that must be spawn</li> <li>For each Minion type, spawn the amount of Minion needed</li><BR>
 	 */
 	public void spawnMinions()
 	{
-		if(master == null || master.isAlikeDead())
+		if (master == null || master.isAlikeDead())
 			return;
-
-		List<L2MinionData> minions = master.getTemplate().getMinionData();
-
+		
+		final List<L2MinionData> minions = master.getTemplate().getMinionData();
+		
 		synchronized (minionReferences)
 		{
 			int minionCount, minionId, minionsToSpawn;
-
-			for(L2MinionData minion : minions)
+			
+			for (final L2MinionData minion : minions)
 			{
 				minionCount = minion.getAmount();
 				minionId = minion.getMinionId();
-
+				
 				minionsToSpawn = minionCount - countSpawnedMinionsById(minionId);
-
-				for(int i = 0; i < minionsToSpawn; i++)
+				
+				for (int i = 0; i < minionsToSpawn; i++)
 				{
 					spawnSingleMinion(minionId);
 				}
 			}
 		}
 	}
-
+	
 	/**
 	 * Init a Minion and add it in the world as a visible object.<BR>
 	 * <BR>
 	 * <B><U> Actions</U> :</B><BR>
 	 * <BR>
-	 * <li>Get the template of the Minion to spawn</li> <li>Create and Init the Minion and generate its Identifier</li>
-	 * <li>Set the Minion HP, MP and Heading</li> <li>Set the Minion leader to this RaidBoss</li> <li>Init the position
-	 * of the Minion and add it in the world as a visible object</li><BR>
+	 * <li>Get the template of the Minion to spawn</li> <li>Create and Init the Minion and generate its Identifier</li> <li>Set the Minion HP, MP and Heading</li> <li>Set the Minion leader to this RaidBoss</li> <li>Init the position of the Minion and add it in the world as a visible object</li><BR>
 	 * <BR>
-	 * 
 	 * @param minionid The I2NpcTemplate Identifier of the Minion to spawn
 	 */
-	public void spawnSingleMinion(int minionid)
+	public void spawnSingleMinion(final int minionid)
 	{
 		// Get the template of the Minion to spawn
-		L2NpcTemplate minionTemplate = NpcTable.getInstance().getTemplate(minionid);
-
+		final L2NpcTemplate minionTemplate = NpcTable.getInstance().getTemplate(minionid);
+		
 		// Create and Init the Minion and generate its Identifier
-		L2MinionInstance monster = new L2MinionInstance(IdFactory.getInstance().getNextId(), minionTemplate);
-
+		final L2MinionInstance monster = new L2MinionInstance(IdFactory.getInstance().getNextId(), minionTemplate);
+		
 		// Set the Minion HP, MP and Heading
 		monster.setCurrentHpMp(monster.getMaxHp(), monster.getMaxMp());
 		monster.setHeading(master.getHeading());
-
+		
 		// Set the Minion leader to this RaidBoss
 		monster.setLeader(master);
-
+		
 		// Init the position of the Minion and add it in the world as a visible object
 		int spawnConstant;
-		int randSpawnLim = 170;
+		final int randSpawnLim = 170;
 		int randPlusMin = 1;
 		spawnConstant = Rnd.nextInt(randSpawnLim);
-		//randomize +/-
+		// randomize +/-
 		randPlusMin = Rnd.nextInt(2);
-		if(randPlusMin == 1)
+		if (randPlusMin == 1)
 		{
 			spawnConstant *= -1;
 		}
-
-		int newX = master.getX() + spawnConstant;
+		
+		final int newX = master.getX() + spawnConstant;
 		spawnConstant = Rnd.nextInt(randSpawnLim);
-		//randomize +/-
+		// randomize +/-
 		randPlusMin = Rnd.nextInt(2);
-
-		if(randPlusMin == 1)
+		
+		if (randPlusMin == 1)
 		{
 			spawnConstant *= -1;
 		}
-
-		int newY = master.getY() + spawnConstant;
-
+		
+		final int newY = master.getY() + spawnConstant;
+		
 		monster.spawnMe(newX, newY, master.getZ());
-
-		if(Config.DEBUG)
+		
+		if (Config.DEBUG)
 		{
-			_log.fine("Spawned minion template " + minionTemplate.npcId + " with objid: " + monster.getObjectId() + " to boss " + master.getObjectId() + " ,at: " + monster.getX() + " x, " + monster.getY() + " y, " + monster.getZ() + " z");
+			LOGGER.debug("Spawned minion template " + minionTemplate.npcId + " with objid: " + monster.getObjectId() + " to boss " + master.getObjectId() + " ,at: " + monster.getX() + " x, " + monster.getY() + " y, " + monster.getZ() + " z");
 		}
 	}
 }

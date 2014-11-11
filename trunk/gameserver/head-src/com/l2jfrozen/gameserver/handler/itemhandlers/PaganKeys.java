@@ -44,10 +44,10 @@ public class PaganKeys implements IItemHandler
 	public static final int INTERACTION_DISTANCE = 100;
 	
 	@Override
-	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
+	public void useItem(final L2PlayableInstance playable, final L2ItemInstance item)
 	{
 		
-		int itemId = item.getItemId();
+		final int itemId = item.getItemId();
 		
 		if (!(playable instanceof L2PcInstance))
 			return;
@@ -61,7 +61,7 @@ public class PaganKeys implements IItemHandler
 			activeChar.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-		L2DoorInstance door = (L2DoorInstance) target;
+		final L2DoorInstance door = (L2DoorInstance) target;
 		
 		target = null;
 		
@@ -79,7 +79,7 @@ public class PaganKeys implements IItemHandler
 			return;
 		}
 		
-		int openChance = 35;
+		final int openChance = 35;
 		
 		if (!playable.destroyItem("Consume", item.getObjectId(), 1, null, false))
 			return;
@@ -101,7 +101,7 @@ public class PaganKeys implements IItemHandler
 						// test with: activeChar.sendPacket(new SystemMessage(SystemMessage.FAILED_TO_UNLOCK_DOOR));
 						activeChar.sendMessage("You failed to open Anterooms Door.");
 						activeChar.broadcastPacket(new SocialAction(activeChar.getObjectId(), 13));
-						PlaySound playSound = new PlaySound("interfacesound.system_close_01");
+						final PlaySound playSound = new PlaySound("interfacesound.system_close_01");
 						activeChar.sendPacket(playSound);
 					}
 				}
@@ -124,7 +124,7 @@ public class PaganKeys implements IItemHandler
 					{
 						activeChar.sendMessage("You failed to open Altar Entrance.");
 						activeChar.broadcastPacket(new SocialAction(activeChar.getObjectId(), 13));
-						PlaySound playSound = new PlaySound("interfacesound.system_close_01");
+						final PlaySound playSound = new PlaySound("interfacesound.system_close_01");
 						activeChar.sendPacket(playSound);
 					}
 				}
@@ -147,7 +147,7 @@ public class PaganKeys implements IItemHandler
 					{
 						activeChar.sendMessage("You failed to open Door of Darkness.");
 						activeChar.broadcastPacket(new SocialAction(activeChar.getObjectId(), 13));
-						PlaySound playSound = new PlaySound("interfacesound.system_close_01");
+						final PlaySound playSound = new PlaySound("interfacesound.system_close_01");
 						activeChar.sendPacket(playSound);
 					}
 				}

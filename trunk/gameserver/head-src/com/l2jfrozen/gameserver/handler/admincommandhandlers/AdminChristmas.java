@@ -27,59 +27,47 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
  */
 public class AdminChristmas implements IAdminCommandHandler
 {
-	//private final static Logger _log = LogFactory.getLog(AdminChristmas.class.getName());
-
+	// private final static Logger LOGGER = LogFactory.getLog(AdminChristmas.class);
+	
 	private static final String[] ADMIN_COMMANDS =
 	{
-			"admin_christmas_start", "admin_christmas_end"
+		"admin_christmas_start",
+		"admin_christmas_end"
 	};
-
+	
 	@Override
-	public boolean useAdminCommand(String command, L2PcInstance activeChar)
+	public boolean useAdminCommand(final String command, final L2PcInstance activeChar)
 	{
 		/*
-		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
-			return false;
-		}
+		 * if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){ return false; } if(Config.GMAUDIT) { Logger _logAudit = Logger.getLogger("gmaudit"); LogRecord record = new LogRecord(Level.INFO, command); record.setParameters(new Object[] { "GM: " +
+		 * activeChar.getName(), " to target [" + activeChar.getTarget() + "] " }); _logAudit.LOGGER(record); }
+		 */
 		
-		if(Config.GMAUDIT)
-		{
-			Logger _logAudit = Logger.getLogger("gmaudit");
-			LogRecord record = new LogRecord(Level.INFO, command);
-			record.setParameters(new Object[]
-			{
-					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
-			});
-			_logAudit.log(record);
-		}
-		*/
-
-
-		if(command.equals("admin_christmas_start"))
+		if (command.equals("admin_christmas_start"))
 		{
 			startChristmas(activeChar);
 		}
-
-		else if(command.equals("admin_christmas_end"))
+		
+		else if (command.equals("admin_christmas_end"))
 		{
 			endChristmas(activeChar);
 		}
-
+		
 		return true;
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;
 	}
-
-	private void startChristmas(L2PcInstance activeChar)
+	
+	private void startChristmas(final L2PcInstance activeChar)
 	{
 		ChristmasManager.getInstance().init(activeChar);
 	}
-
-	private void endChristmas(L2PcInstance activeChar)
+	
+	private void endChristmas(final L2PcInstance activeChar)
 	{
 		ChristmasManager.getInstance().end(activeChar);
 	}

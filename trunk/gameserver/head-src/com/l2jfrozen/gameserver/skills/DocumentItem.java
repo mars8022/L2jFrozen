@@ -44,56 +44,56 @@ import com.l2jfrozen.gameserver.templates.StatsSet;
 final class DocumentItem extends DocumentBase
 {
 	private Item _currentItem = null;
-	private List<L2Item> _itemsInFile = new FastList<L2Item>();
-	private Map<Integer, Item> _itemData = new FastMap<Integer, Item>();
-
+	private final List<L2Item> _itemsInFile = new FastList<>();
+	private Map<Integer, Item> _itemData = new FastMap<>();
+	
 	/**
-	 * @param pItemData 
-	 * @param file 
+	 * @param pItemData
+	 * @param file
 	 */
-	public DocumentItem(Map<Integer, Item> pItemData, File file)
+	public DocumentItem(final Map<Integer, Item> pItemData, final File file)
 	{
 		super(file);
 		_itemData = pItemData;
 	}
-
+	
 	/**
 	 * @param item
 	 */
-	private void setCurrentItem(Item item)
+	private void setCurrentItem(final Item item)
 	{
 		_currentItem = item;
 	}
-
+	
 	@Override
 	protected StatsSet getStatsSet()
 	{
 		return _currentItem.set;
 	}
-
+	
 	@Override
-	protected String getTableValue(String name)
+	protected String getTableValue(final String name)
 	{
 		return _tables.get(name)[_currentItem.currentLevel];
 	}
-
+	
 	@Override
-	protected String getTableValue(String name, int idx)
+	protected String getTableValue(final String name, final int idx)
 	{
 		return _tables.get(name)[idx - 1];
 	}
-
+	
 	@Override
-	protected void parseDocument(Document doc)
+	protected void parseDocument(final Document doc)
 	{
-		for(Node n = doc.getFirstChild(); n != null; n = n.getNextSibling())
+		for (Node n = doc.getFirstChild(); n != null; n = n.getNextSibling())
 		{
-			if("list".equalsIgnoreCase(n.getNodeName()))
+			if ("list".equalsIgnoreCase(n.getNodeName()))
 			{
-
-				for(Node d = n.getFirstChild(); d != null; d = d.getNextSibling())
+				
+				for (Node d = n.getFirstChild(); d != null; d = d.getNextSibling())
 				{
-					if("item".equalsIgnoreCase(d.getNodeName()))
+					if ("item".equalsIgnoreCase(d.getNodeName()))
 					{
 						setCurrentItem(new Item());
 						parseItem(d);
@@ -102,7 +102,7 @@ final class DocumentItem extends DocumentBase
 					}
 				}
 			}
-			else if("item".equalsIgnoreCase(n.getNodeName()))
+			else if ("item".equalsIgnoreCase(n.getNodeName()))
 			{
 				setCurrentItem(new Item());
 				parseItem(n);
@@ -110,71 +110,71 @@ final class DocumentItem extends DocumentBase
 			}
 		}
 	}
-
+	
 	protected void parseItem(Node n)
 	{
-		int itemId = Integer.parseInt(n.getAttributes().getNamedItem("id").getNodeValue());
-		String itemName = n.getAttributes().getNamedItem("name").getNodeValue();
-
+		final int itemId = Integer.parseInt(n.getAttributes().getNamedItem("id").getNodeValue());
+		final String itemName = n.getAttributes().getNamedItem("name").getNodeValue();
+		
 		_currentItem.id = itemId;
 		_currentItem.name = itemName;
-
+		
 		Item item;
-
-		if((item = _itemData.get(_currentItem.id)) == null)
+		
+		if ((item = _itemData.get(_currentItem.id)) == null)
 			throw new IllegalStateException("No SQL data for Item ID: " + itemId + " - name: " + itemName);
-
+		
 		_currentItem.set = item.set;
 		_currentItem.type = item.type;
-
-		Node first = n.getFirstChild();
-		for(n = first; n != null; n = n.getNextSibling())
+		
+		final Node first = n.getFirstChild();
+		for (n = first; n != null; n = n.getNextSibling())
 		{
-			if("table".equalsIgnoreCase(n.getNodeName()))
+			if ("table".equalsIgnoreCase(n.getNodeName()))
 			{
 				parseTable(n);
 			}
 		}
-
-		for(n = first; n != null; n = n.getNextSibling())
+		
+		for (n = first; n != null; n = n.getNextSibling())
 		{
-			if("set".equalsIgnoreCase(n.getNodeName()))
+			if ("set".equalsIgnoreCase(n.getNodeName()))
 			{
 				parseBeanSet(n, _itemData.get(_currentItem.id).set, 1);
 			}
 		}
-
-		for(n = first; n != null; n = n.getNextSibling())
+		
+		for (n = first; n != null; n = n.getNextSibling())
 		{
-			if("for".equalsIgnoreCase(n.getNodeName()))
+			if ("for".equalsIgnoreCase(n.getNodeName()))
 			{
 				makeItem();
 				parseTemplate(n, _currentItem.item);
 			}
 		}
 	}
-
+	
 	private void makeItem()
 	{
-		if(_currentItem.item != null)
+		if (_currentItem.item != null)
 			return;
-
-		if(_currentItem.type instanceof L2ArmorType)
+		
+		if (_currentItem.type instanceof L2ArmorType)
 		{
 			_currentItem.item = new L2Armor((L2ArmorType) _currentItem.type, _currentItem.set);
 		}
-		else if(_currentItem.type instanceof L2WeaponType)
+		else if (_currentItem.type instanceof L2WeaponType)
 		{
 			_currentItem.item = new L2Weapon((L2WeaponType) _currentItem.type, _currentItem.set);
 		}
-		else if(_currentItem.type instanceof L2EtcItemType)
+		else if (_currentItem.type instanceof L2EtcItemType)
 		{
 			_currentItem.item = new L2EtcItem((L2EtcItemType) _currentItem.type, _currentItem.set);
 		}
 		else
 			throw new Error("Unknown item type " + _currentItem.type);
 	}
-
+	
 	/**
 	 * @return
 	 */

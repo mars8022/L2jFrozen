@@ -15,28 +15,28 @@ import com.l2jfrozen.gameserver.network.serverpackets.SocialAction;
 
 public class NobleCustomItem implements IItemHandler
 {
-
+	
 	public NobleCustomItem()
 	{
-	//null
+		// null
 	}
-
+	
 	@Override
-	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
+	public void useItem(final L2PlayableInstance playable, final L2ItemInstance item)
 	{
-		if(Config.NOBLE_CUSTOM_ITEMS)
+		if (Config.NOBLE_CUSTOM_ITEMS)
 		{
-			if(!(playable instanceof L2PcInstance))
+			if (!(playable instanceof L2PcInstance))
 				return;
-
+			
 			L2PcInstance activeChar = (L2PcInstance) playable;
-
-			if(activeChar.isInOlympiadMode())
+			
+			if (activeChar.isInOlympiadMode())
 			{
 				activeChar.sendMessage("This Item Cannot Be Used On Olympiad Games.");
 			}
-
-			if(activeChar.isNoble())
+			
+			if (activeChar.isNoble())
 			{
 				activeChar.sendMessage("You Are Already A Noblesse!.");
 			}
@@ -52,16 +52,16 @@ public class NobleCustomItem implements IItemHandler
 			activeChar = null;
 		}
 	}
-
+	
 	@Override
 	public int[] getItemIds()
 	{
 		return ITEM_IDS;
 	}
-
+	
 	private static final int ITEM_IDS[] =
 	{
 		Config.NOOBLE_CUSTOM_ITEM_ID
 	};
-
+	
 }

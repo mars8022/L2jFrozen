@@ -30,24 +30,23 @@ public final class RequestExitPartyMatchingWaitingRoom extends L2GameClientPacke
 	@Override
 	protected void readImpl()
 	{
-		//trigger
+		// trigger
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance _activeChar = getClient().getActiveChar();
+		final L2PcInstance _activeChar = getClient().getActiveChar();
 		if (_activeChar == null)
 			return;
 		
 		PartyMatchWaitingList.getInstance().removePlayer(_activeChar);
 	}
-
+	
 	@Override
 	public String getType()
 	{
 		return "[C] D0:17 RequestExitPartyMatchingWaitingRoom";
 	}
-
+	
 }
-

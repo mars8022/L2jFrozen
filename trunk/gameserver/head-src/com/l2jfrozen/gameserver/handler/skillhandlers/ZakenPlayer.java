@@ -27,23 +27,23 @@ import com.l2jfrozen.util.random.Rnd;
 
 public class ZakenPlayer implements ISkillHandler
 {
-	// private static Logger _log = Logger.getLogger(ZakenPlayer.class.getName());
+	// private static Logger LOGGER = Logger.getLogger(ZakenPlayer.class);
 	private static final SkillType[] SKILL_IDS =
 	{
 		SkillType.ZAKENPLAYER
 	};
 	
 	@Override
-	public void useSkill(L2Character activeChar, L2Skill skill, L2Object[] targets)
+	public void useSkill(final L2Character activeChar, final L2Skill skill, final L2Object[] targets)
 	{
 		try
 		{
-			for (int index = 0; index < targets.length; index++)
+			for (final L2Object target1 : targets)
 			{
-				if (!(targets[index] instanceof L2Character))
+				if (!(target1 instanceof L2Character))
 					continue;
-				L2Character target = (L2Character) targets[index];
-				int ch = (Rnd.get(14) + 1);
+				final L2Character target = (L2Character) target1;
+				final int ch = (Rnd.get(14) + 1);
 				if (ch == 1)
 				{
 					target.teleToLocation(55299, 219120, -2952, true);
@@ -98,7 +98,7 @@ public class ZakenPlayer implements ISkillHandler
 				}
 			}
 		}
-		catch (Throwable e)
+		catch (final Throwable e)
 		{
 			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();

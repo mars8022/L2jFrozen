@@ -20,6 +20,8 @@ package com.l2jfrozen.gameserver.model.zone.type;
 
 import java.util.concurrent.Future;
 
+import org.apache.log4j.Logger;
+
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Skill;
@@ -32,6 +34,7 @@ import com.l2jfrozen.util.random.Rnd;
 
 public class L2PoisonZone extends L2ZoneType
 {
+	protected final Logger LOGGER = Logger.getLogger(L2PoisonZone.class);
 	protected int _skillId;
 	private int _chance;
 	private int _initialDelay;
@@ -40,8 +43,8 @@ public class L2PoisonZone extends L2ZoneType
 	private boolean _enabled;
 	private String _target;
 	private Future<?> _task;
-
-	public L2PoisonZone(int id)
+	
+	public L2PoisonZone(final int id)
 	{
 		super(id);
 		_skillId = 4070;
@@ -52,131 +55,129 @@ public class L2PoisonZone extends L2ZoneType
 		_enabled = true;
 		_target = "pc";
 	}
-
+	
 	@Override
-	public void setParameter(String name, String value)
+	public void setParameter(final String name, final String value)
 	{
-		if(name.equals("skillId"))
+		switch (name)
 		{
-			_skillId = Integer.parseInt(value);
-		}
-		else if(name.equals("skillLvl"))
-		{
-			_skillLvl = Integer.parseInt(value);
-		}
-		else if(name.equals("chance"))
-		{
-			_chance = Integer.parseInt(value);
-		}
-		else if(name.equals("initialDelay"))
-		{
-			_initialDelay = Integer.parseInt(value);
-		}
-		else if(name.equals("default_enabled"))
-		{
-			_enabled = Boolean.parseBoolean(value);
-		}
-		else if(name.equals("target"))
-		{
-			_target = String.valueOf(value);
-		}
-		else if(name.equals("reuse"))
-		{
-			_reuse = Integer.parseInt(value);
-		}
-		else
-		{
-			super.setParameter(name, value);
+			case "skillId":
+				_skillId = Integer.parseInt(value);
+				break;
+			case "skillLvl":
+				_skillLvl = Integer.parseInt(value);
+				break;
+			case "chance":
+				_chance = Integer.parseInt(value);
+				break;
+			case "initialDelay":
+				_initialDelay = Integer.parseInt(value);
+				break;
+			case "default_enabled":
+				_enabled = Boolean.parseBoolean(value);
+				break;
+			case "target":
+				_target = String.valueOf(value);
+				break;
+			case "reuse":
+				_reuse = Integer.parseInt(value);
+				break;
+			default:
+				super.setParameter(name, value);
+				break;
 		}
 	}
-
+	
 	@Override
-	protected void onEnter(L2Character character)
+	protected void onEnter(final L2Character character)
 	{
-		if((character instanceof L2PlayableInstance && _target.equalsIgnoreCase("pc") || character instanceof L2PcInstance && _target.equalsIgnoreCase("pc_only") || character instanceof L2MonsterInstance && _target.equalsIgnoreCase("npc")) && _task == null)
+		if ((character instanceof L2PlayableInstance && _target.equalsIgnoreCase("pc") || character instanceof L2PcInstance && _target.equalsIgnoreCase("pc_only") || character instanceof L2MonsterInstance && _target.equalsIgnoreCase("npc")) && _task == null)
 		{
-			_task = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new ApplySkill(/*this*/), _initialDelay, _reuse);
+			_task = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new ApplySkill(/* this */), _initialDelay, _reuse);
 		}
 	}
-
+	
 	@Override
-	protected void onExit(L2Character character)
+	protected void onExit(final L2Character character)
 	{
-		if(_characterList.isEmpty() && _task != null)
+		if (_characterList.isEmpty() && _task != null)
 		{
 			_task.cancel(true);
 			_task = null;
 		}
 	}
-
+	
 	public L2Skill getSkill()
 	{
 		return SkillTable.getInstance().getInfo(_skillId, _skillLvl);
 	}
-
+	
 	public String getTargetType()
 	{
 		return _target;
 	}
-
+	
 	public boolean isEnabled()
 	{
 		return _enabled;
 	}
-
+	
 	public int getChance()
 	{
 		return _chance;
 	}
-
-	public void setZoneEnabled(boolean val)
+	
+	public void setZoneEnabled(final boolean val)
 	{
 		_enabled = val;
 	}
-
-	/*protected Collection getCharacterList()
-	{
-	    return _characterList.values();
-	}*/
-
+	
+	/*
+	 * protected Collection getCharacterList() { return _characterList.values(); }
+	 */
+	
 	class ApplySkill implements Runnable
 	{
-//		private L2PoisonZone _poisonZone;
-
-//		ApplySkill(/*L2PoisonZone zone*/)
-//		{
-//			_poisonZone = zone;
-//		}
-
+		// private L2PoisonZone _poisonZone;
+		
+		// ApplySkill(/*L2PoisonZone zone*/)
+		// {
+		// _poisonZone = zone;
+		// }
+		
 		@Override
 		public void run()
 		{
-			if(isEnabled())
+			if (isEnabled())
 			{
-				for(L2Character temp : _characterList.values())
+				for (final L2Character temp : _characterList.values())
 				{
-					if(temp != null && !temp.isDead())
+					if (temp != null && !temp.isDead())
 					{
-						if((temp instanceof L2PlayableInstance && getTargetType().equalsIgnoreCase("pc") || temp instanceof L2PcInstance && getTargetType().equalsIgnoreCase("pc_only") || temp instanceof L2MonsterInstance && getTargetType().equalsIgnoreCase("npc")) && Rnd.get(100) < getChance())
+						if ((temp instanceof L2PlayableInstance && getTargetType().equalsIgnoreCase("pc") || temp instanceof L2PcInstance && getTargetType().equalsIgnoreCase("pc_only") || temp instanceof L2MonsterInstance && getTargetType().equalsIgnoreCase("npc")) && Rnd.get(100) < getChance())
 						{
 							L2Skill skill = null;
-							if((skill=getSkill())==null){
-								System.out.println("ATTENTION: error on zone with id "+getId());
-								System.out.println("Skill "+_skillId+","+_skillLvl+" not present between skills");
-							}else
-								skill.getEffects(temp, temp,false,false,false);
+							if ((skill = getSkill()) == null)
+							{
+								LOGGER.warn("ATTENTION: error on zone with id " + getId());
+								LOGGER.warn("Skill " + _skillId + "," + _skillLvl + " not present between skills");
+							}
+							else
+								skill.getEffects(temp, temp, false, false, false);
 						}
 					}
 				}
 			}
 		}
 	}
-
+	
 	@Override
-	public void onDieInside(L2Character l2character)
-	{}
-
+	public void onDieInside(final L2Character l2character)
+	{
+	}
+	
 	@Override
-	public void onReviveInside(L2Character l2character)
-	{}
+	public void onReviveInside(final L2Character l2character)
+	{
+	}
 }

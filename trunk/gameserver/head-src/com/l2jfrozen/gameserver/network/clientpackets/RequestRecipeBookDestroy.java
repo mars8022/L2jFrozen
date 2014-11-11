@@ -25,7 +25,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.RecipeBookItemList;
 public final class RequestRecipeBookDestroy extends L2GameClientPacket
 {
 	private int _recipeID;
-
+	
 	/**
 	 * Unknown Packet:ad 0000: ad 02 00 00 00
 	 */
@@ -34,26 +34,25 @@ public final class RequestRecipeBookDestroy extends L2GameClientPacket
 	{
 		_recipeID = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance activeChar = getClient().getActiveChar();
-		if(activeChar != null)
+		final L2PcInstance activeChar = getClient().getActiveChar();
+		if (activeChar != null)
 		{
 			if (!getClient().getFloodProtectors().getTransaction().tryPerformAction("RecipeDestroy"))
-	    		return;
-
-	    	
-			L2RecipeList rp = RecipeTable.getInstance().getRecipeList(_recipeID - 1);
-			if(rp == null)
 				return;
-
+			
+			final L2RecipeList rp = RecipeTable.getInstance().getRecipeList(_recipeID - 1);
+			if (rp == null)
+				return;
+			
 			activeChar.unregisterRecipeList(_recipeID);
-
-			RecipeBookItemList response = new RecipeBookItemList(rp.isDwarvenRecipe(), activeChar.getMaxMp());
-
-			if(rp.isDwarvenRecipe())
+			
+			final RecipeBookItemList response = new RecipeBookItemList(rp.isDwarvenRecipe(), activeChar.getMaxMp());
+			
+			if (rp.isDwarvenRecipe())
 			{
 				response.addRecipes(activeChar.getDwarvenRecipeBook());
 			}
@@ -61,11 +60,11 @@ public final class RequestRecipeBookDestroy extends L2GameClientPacket
 			{
 				response.addRecipes(activeChar.getCommonRecipeBook());
 			}
-
+			
 			activeChar.sendPacket(response);
 		}
 	}
-
+	
 	@Override
 	public String getType()
 	{

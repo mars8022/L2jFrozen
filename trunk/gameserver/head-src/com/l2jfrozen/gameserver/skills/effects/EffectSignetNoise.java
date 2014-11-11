@@ -25,43 +25,43 @@ import com.l2jfrozen.gameserver.skills.Env;
 public final class EffectSignetNoise extends L2Effect
 {
 	private L2EffectPointInstance _actor;
-
-	public EffectSignetNoise(Env env, EffectTemplate template)
+	
+	public EffectSignetNoise(final Env env, final EffectTemplate template)
 	{
 		super(env, template);
 	}
-
+	
 	@Override
 	public EffectType getEffectType()
 	{
 		return EffectType.SIGNET_GROUND;
 	}
-
+	
 	@Override
 	public void onStart()
 	{
 		_actor = (L2EffectPointInstance) getEffected();
 	}
-
+	
 	@Override
 	public boolean onActionTime()
 	{
-		if(getCount() == getTotalCount() - 1)
+		if (getCount() == getTotalCount() - 1)
 			return true; // do nothing first time
-
-		for(L2Character target : _actor.getKnownList().getKnownCharactersInRadius(getSkill().getSkillRadius()))
+			
+		for (final L2Character target : _actor.getKnownList().getKnownCharactersInRadius(getSkill().getSkillRadius()))
 		{
-			if(target == null)
+			if (target == null)
 			{
 				continue;
 			}
-
-			L2Effect[] effects = target.getAllEffects();
-			if(effects != null)
+			
+			final L2Effect[] effects = target.getAllEffects();
+			if (effects != null)
 			{
-				for(L2Effect effect : effects)
+				for (final L2Effect effect : effects)
 				{
-					if(effect.getSkill().isDance())
+					if (effect.getSkill().isDance())
 					{
 						effect.exit(true);
 					}
@@ -71,11 +71,11 @@ public final class EffectSignetNoise extends L2Effect
 		}
 		return true;
 	}
-
+	
 	@Override
 	public void onExit()
 	{
-		if(_actor != null)
+		if (_actor != null)
 		{
 			_actor.deleteMe();
 		}
