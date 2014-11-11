@@ -24,7 +24,7 @@ ADENA = 57
 HASTE_POTION = 734
 
 #Chance to get an S-grade random recipe instead of just adena and haste potion
-RPCHANCE=10
+RPCHANCE=20
 #Change this value to 1 if you wish 100% recipes, default 70%
 ALT_RP100=0
 
@@ -105,17 +105,12 @@ class Quest (JQuest) :
      st.set("cond","7")
    elif event == "31584-2.htm" :
      if st.getQuestItemsCount(FEE_OF_EGGS) == 5:
-        st.takeItems(FEE_OF_EGGS,5)
-        random = st.getRandom(1000)
-        if random < 800 :
+        st.takeItems(FEE_OF_EGGS,5)        
+        if st.getRandom(100) < RPCHANCE :
+          st.giveItems(range(6847+ALT_RP100,6853,2)[st.getRandom(3)],1)
+        else: 
           st.giveItems(ADENA,18800)
-          st.giveItems(HASTE_POTION,1)
-        elif random < 880 :
-          st.giveItems(6847,1+ALT_RP100)
-        elif random < 960 :
-          st.giveItems(6849,1+ALT_RP100)
-        elif random < 1000 :
-          st.giveItems(6851,1+ALT_RP100)
+          st.giveItems(HASTE_POTION,1)     
         st.playSound("ItemSound.quest_finish")
         st.exitQuest(1)
      else:
