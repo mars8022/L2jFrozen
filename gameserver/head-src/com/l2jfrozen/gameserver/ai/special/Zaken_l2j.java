@@ -14,7 +14,7 @@
  */
 package com.l2jfrozen.gameserver.ai.special;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
@@ -41,7 +41,7 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class Zaken_l2j extends Quest implements Runnable
 {
-	protected static final Logger log = Logger.getLogger(Zaken_l2j.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(Zaken_l2j.class);
 	
 	private int _1001 = 0; // used for first cancel of QuestTimer "1001"
 	private int _ai0 = 0; // used for zaken coords updater
@@ -123,14 +123,13 @@ public class Zaken_l2j extends Quest implements Runnable
 	
 	private static L2BossZone _Zone;
 	
-	public Zaken_l2j(int questId, String name, String descr)
+	public Zaken_l2j(final int questId, final String name, final String descr)
 	{
 		super(questId, name, descr);
 		
 		// Zaken doors handling
 		ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new Runnable()
 		{
-			@SuppressWarnings("synthetic-access")
 			@Override
 			public void run()
 			{
@@ -138,7 +137,7 @@ public class Zaken_l2j extends Quest implements Runnable
 				{
 					if (getTimeHour() == 0)
 					{
-						_log.info("Zaken door id 21240006 opened, game time 00.00.");
+						LOGGER.info("Zaken door id 21240006 opened, game time 00.00.");
 						DoorTable.getInstance().getDoor(21240006).openMe();
 						ThreadPoolManager.getInstance().scheduleGeneral(new Runnable()
 						{
@@ -147,26 +146,26 @@ public class Zaken_l2j extends Quest implements Runnable
 							{
 								try
 								{
-									_log.info("Zaken door id 21240006 closed.");
+									LOGGER.info("Zaken door id 21240006 closed.");
 									DoorTable.getInstance().getDoor(21240006).closeMe();
 								}
-								catch (Throwable e)
+								catch (final Throwable e)
 								{
 									if (Config.ENABLE_ALL_EXCEPTIONS)
 										e.printStackTrace();
 									
-									log.warning("Cannot close door ID: 21240006 " + e);
+									LOGGER.warn("Cannot close door ID: 21240006 " + e);
 								}
 							}
 						}, 300000L);
 					}
 				}
-				catch (Throwable e)
+				catch (final Throwable e)
 				{
 					if (Config.ENABLE_ALL_EXCEPTIONS)
 						e.printStackTrace();
 					
-					log.warning("Cannot open door ID: 21240006 " + e);
+					LOGGER.warn("Cannot open door ID: 21240006 " + e);
 				}
 			}
 		}, 2000L, 600000L);
@@ -176,12 +175,12 @@ public class Zaken_l2j extends Quest implements Runnable
 		
 		_Zone = GrandBossManager.getInstance().getZone(55312, 219168, -3223);
 		
-		StatsSet info = GrandBossManager.getInstance().getStatsSet(ZAKEN);
-		Integer status = GrandBossManager.getInstance().getBossStatus(ZAKEN);
+		final StatsSet info = GrandBossManager.getInstance().getStatsSet(ZAKEN);
+		final Integer status = GrandBossManager.getInstance().getBossStatus(ZAKEN);
 		if (status == DEAD)
 		{
 			// load the unlock date and time for zaken from DB
-			long temp = info.getLong("respawn_time") - System.currentTimeMillis();
+			final long temp = info.getLong("respawn_time") - System.currentTimeMillis();
 			// if zaken is locked until a certain time, mark it so and start the unlock timer
 			// the unlock time has not yet expired.
 			if (temp > 0)
@@ -189,30 +188,30 @@ public class Zaken_l2j extends Quest implements Runnable
 			else
 			{
 				// the time has already expired while the server was offline. Immediately spawn zaken.
-				L2GrandBossInstance zaken = (L2GrandBossInstance) addSpawn(ZAKEN, 55312, 219168, -3223, 0, false, 0);
+				final L2GrandBossInstance zaken = (L2GrandBossInstance) addSpawn(ZAKEN, 55312, 219168, -3223, 0, false, 0);
 				GrandBossManager.getInstance().setBossStatus(ZAKEN, ALIVE);
 				spawnBoss(zaken);
 			}
 		}
 		else
 		{
-			int loc_x = info.getInteger("loc_x");
-			int loc_y = info.getInteger("loc_y");
-			int loc_z = info.getInteger("loc_z");
-			int heading = info.getInteger("heading");
-			int hp = info.getInteger("currentHP");
-			int mp = info.getInteger("currentMP");
-			L2GrandBossInstance zaken = (L2GrandBossInstance) addSpawn(ZAKEN, loc_x, loc_y, loc_z, heading, false, 0);
+			final int loc_x = info.getInteger("loc_x");
+			final int loc_y = info.getInteger("loc_y");
+			final int loc_z = info.getInteger("loc_z");
+			final int heading = info.getInteger("heading");
+			final int hp = info.getInteger("currentHP");
+			final int mp = info.getInteger("currentMP");
+			final L2GrandBossInstance zaken = (L2GrandBossInstance) addSpawn(ZAKEN, loc_x, loc_y, loc_z, heading, false, 0);
 			zaken.setCurrentHpMp(hp, mp);
 			spawnBoss(zaken);
 		}
 	}
 	
-	public void spawnBoss(L2GrandBossInstance npc)
+	public void spawnBoss(final L2GrandBossInstance npc)
 	{
 		if (npc == null)
 		{
-			log.warning("Zaken AI failed to load, missing Zaken in grandboss_data.sql");
+			LOGGER.warn("Zaken AI failed to load, missing Zaken in grandboss_data.sql");
 			return;
 		}
 		GrandBossManager.getInstance().addBoss(npc);
@@ -227,7 +226,7 @@ public class Zaken_l2j extends Quest implements Runnable
 		_quest2 = 3;
 		if (_Zone == null)
 		{
-			log.warning("Zaken AI failed to load, missing zone for Zaken");
+			LOGGER.warn("Zaken AI failed to load, missing zone for Zaken");
 			return;
 		}
 		if (_Zone.isInsideZone(npc))
@@ -240,9 +239,9 @@ public class Zaken_l2j extends Quest implements Runnable
 	}
 	
 	@Override
-	public String onAdvEvent(String event, L2NpcInstance npc, L2PcInstance player)
+	public String onAdvEvent(final String event, final L2NpcInstance npc, final L2PcInstance player)
 	{
-		Integer status = GrandBossManager.getInstance().getBossStatus(ZAKEN);
+		final Integer status = GrandBossManager.getInstance().getBossStatus(ZAKEN);
 		
 		if (status == DEAD && event == null || !event.equalsIgnoreCase("zaken_unlock"))
 			return super.onAdvEvent(event, npc, player);
@@ -256,10 +255,10 @@ public class Zaken_l2j extends Quest implements Runnable
 			}
 			int sk_4223 = 0;
 			int sk_4227 = 0;
-			L2Effect[] effects = npc.getAllEffects();
+			final L2Effect[] effects = npc.getAllEffects();
 			if (effects != null && effects.length != 0)
 			{
-				for (L2Effect e : effects)
+				for (final L2Effect e : effects)
 				{
 					if (e.getSkill().getId() == 4227)
 					{
@@ -356,7 +355,7 @@ public class Zaken_l2j extends Quest implements Runnable
 						if (i1 == 1)
 						{
 							_quest0 = 0;
-							int i2 = Rnd.get(15);
+							final int i2 = Rnd.get(15);
 							_ai1 = Xcoords[i2] + Rnd.get(650);
 							_ai2 = Ycoords[i2] + Rnd.get(650);
 							_ai3 = Zcoords[i2];
@@ -402,7 +401,7 @@ public class Zaken_l2j extends Quest implements Runnable
 				if (_quest1 > 5)
 				{
 					((L2Attackable) npc).stopHating(c_ai0);
-					L2Character nextTarget = ((L2Attackable) npc).getMostHated();
+					final L2Character nextTarget = ((L2Attackable) npc).getMostHated();
 					if (nextTarget != null)
 						npc.getAI().setIntention(CtrlIntention.AI_INTENTION_ATTACK, nextTarget);
 					_quest1 = 0;
@@ -421,7 +420,7 @@ public class Zaken_l2j extends Quest implements Runnable
 			}
 			if (Rnd.get(40) < 1)
 			{
-				int i2 = Rnd.get(15);
+				final int i2 = Rnd.get(15);
 				_ai1 = Xcoords[i2] + Rnd.get(650);
 				_ai2 = Ycoords[i2] + Rnd.get(650);
 				_ai3 = Zcoords[i2];
@@ -440,13 +439,13 @@ public class Zaken_l2j extends Quest implements Runnable
 		{
 			if (_ai4 == 1)
 			{
-				int rr = Rnd.get(15);
+				final int rr = Rnd.get(15);
 				addSpawn(pirates_zombie_captain_b, Xcoords[rr] + Rnd.get(650), Ycoords[rr] + Rnd.get(650), Zcoords[rr], Rnd.get(65536), false, 0)/* .setIsRaidMinion(true) */;
 				_ai4 = 2;
 			}
 			else if (_ai4 == 2)
 			{
-				int rr = Rnd.get(15);
+				final int rr = Rnd.get(15);
 				addSpawn(doll_blader_b, Xcoords[rr] + Rnd.get(650), Ycoords[rr] + Rnd.get(650), Zcoords[rr], Rnd.get(65536), false, 0)/* .setIsRaidMinion(true) */;
 				_ai4 = 3;
 			}
@@ -567,7 +566,7 @@ public class Zaken_l2j extends Quest implements Runnable
 		
 		else if (event.equalsIgnoreCase("zaken_unlock"))
 		{
-			L2GrandBossInstance zaken = (L2GrandBossInstance) addSpawn(ZAKEN, 55312, 219168, -3223, 0, false, 0);
+			final L2GrandBossInstance zaken = (L2GrandBossInstance) addSpawn(ZAKEN, 55312, 219168, -3223, 0, false, 0);
 			GrandBossManager.getInstance().setBossStatus(ZAKEN, ALIVE);
 			spawnBoss(zaken);
 		}
@@ -579,16 +578,16 @@ public class Zaken_l2j extends Quest implements Runnable
 	}
 	
 	@Override
-	public String onFactionCall(L2NpcInstance npc, L2NpcInstance caller, L2PcInstance attacker, boolean isPet)
+	public String onFactionCall(final L2NpcInstance npc, final L2NpcInstance caller, final L2PcInstance attacker, final boolean isPet)
 	{
 		if (caller == null || npc == null)
 			return super.onFactionCall(npc, caller, attacker, isPet);
-		int npcId = npc.getNpcId();
-		int callerId = caller.getNpcId();
+		final int npcId = npc.getNpcId();
+		final int callerId = caller.getNpcId();
 		
 		if (getTimeHour() < 5 && callerId != ZAKEN && npcId == ZAKEN)
 		{
-			int damage = 0; // well damage required :x
+			final int damage = 0; // well damage required :x
 			if (npc.getAI().getIntention() == CtrlIntention.AI_INTENTION_IDLE && _ai0 == 0 && damage < 10 && Rnd.get((30 * 15)) < 1)// todo - damage missing
 			{
 				_ai0 = 1;
@@ -602,11 +601,11 @@ public class Zaken_l2j extends Quest implements Runnable
 	}
 	
 	@Override
-	public String onSpellFinished(L2NpcInstance npc, L2PcInstance player, L2Skill skill)
+	public String onSpellFinished(final L2NpcInstance npc, final L2PcInstance player, final L2Skill skill)
 	{
 		if (npc.getNpcId() == ZAKEN)
 		{
-			int skillId = skill.getId();
+			final int skillId = skill.getId();
 			if (skillId == 4222)
 			{
 				npc.teleToLocation(_ai1, _ai2, _ai3);
@@ -614,10 +613,10 @@ public class Zaken_l2j extends Quest implements Runnable
 			}
 			else if (skillId == 4216)
 			{
-				int i1 = Rnd.get(15);
+				final int i1 = Rnd.get(15);
 				player.teleToLocation(Xcoords[i1] + Rnd.get(650), Ycoords[i1] + Rnd.get(650), Zcoords[i1]);
 				((L2Attackable) npc).stopHating(player);
-				L2Character nextTarget = ((L2Attackable) npc).getMostHated();
+				final L2Character nextTarget = ((L2Attackable) npc).getMostHated();
 				if (nextTarget != null)
 					npc.getAI().setIntention(CtrlIntention.AI_INTENTION_ATTACK, nextTarget);
 				
@@ -714,7 +713,7 @@ public class Zaken_l2j extends Quest implements Runnable
 						((L2Attackable) npc).stopHating(c_quest4);
 					}
 				}
-				L2Character nextTarget = ((L2Attackable) npc).getMostHated();
+				final L2Character nextTarget = ((L2Attackable) npc).getMostHated();
 				if (nextTarget != null)
 					npc.getAI().setIntention(CtrlIntention.AI_INTENTION_ATTACK, nextTarget);
 			}
@@ -723,18 +722,18 @@ public class Zaken_l2j extends Quest implements Runnable
 	}
 	
 	@Override
-	public String onAttack(L2NpcInstance npc, L2PcInstance attacker, int damage, boolean isPet)
+	public String onAttack(final L2NpcInstance npc, final L2PcInstance attacker, final int damage, final boolean isPet)
 	{
-		int npcId = npc.getNpcId();
+		final int npcId = npc.getNpcId();
 		if (npcId == ZAKEN)
 		{
 			if (attacker.getMountType() == 1)
 			{
 				int sk_4258 = 0;
-				L2Effect[] effects = attacker.getAllEffects();
+				final L2Effect[] effects = attacker.getAllEffects();
 				if (effects != null && effects.length != 0)
 				{
-					for (L2Effect e : effects)
+					for (final L2Effect e : effects)
 					{
 						if (e.getSkill().getId() == 4258)
 						{
@@ -748,12 +747,12 @@ public class Zaken_l2j extends Quest implements Runnable
 					npc.doCast(SkillTable.getInstance().getInfo(4258, 1));
 				}
 			}
-			L2Character originalAttacker = isPet ? attacker.getPet() : attacker;
-			int hate = (int) (((damage / npc.getMaxHp()) / 0.05) * 20000);
+			final L2Character originalAttacker = isPet ? attacker.getPet() : attacker;
+			final int hate = (int) (((damage / npc.getMaxHp()) / 0.05) * 20000);
 			((L2Attackable) npc).addDamageHate(originalAttacker, 0, hate);
 			if (Rnd.get(10) < 1)
 			{
-				int i0 = Rnd.get((15 * 15));
+				final int i0 = Rnd.get((15 * 15));
 				if (i0 < 1)
 				{
 					npc.setTarget(attacker);
@@ -776,7 +775,7 @@ public class Zaken_l2j extends Quest implements Runnable
 				}
 				else if (i0 < 15)
 				{
-					for (L2Character character : npc.getKnownList().getKnownCharactersInRadius(100))
+					for (final L2Character character : npc.getKnownList().getKnownCharactersInRadius(100))
 					{
 						if (character != attacker)
 							continue;
@@ -802,7 +801,7 @@ public class Zaken_l2j extends Quest implements Runnable
 			else if (npc.getCurrentHp() < ((npc.getMaxHp() * _quest2) / 4.0))
 			{
 				_quest2 = (_quest2 - 1);
-				int i2 = Rnd.get(15);
+				final int i2 = Rnd.get(15);
 				_ai1 = Xcoords[i2] + Rnd.get(650);
 				_ai2 = Ycoords[i2] + Rnd.get(650);
 				_ai3 = Zcoords[i2];
@@ -814,11 +813,11 @@ public class Zaken_l2j extends Quest implements Runnable
 	}
 	
 	@Override
-	public String onKill(L2NpcInstance npc, L2PcInstance killer, boolean isPet)
+	public String onKill(final L2NpcInstance npc, final L2PcInstance killer, final boolean isPet)
 	{
-		int npcId = npc.getNpcId();
+		final int npcId = npc.getNpcId();
 		
-		Integer status = GrandBossManager.getInstance().getBossStatus(ZAKEN);
+		final Integer status = GrandBossManager.getInstance().getBossStatus(ZAKEN);
 		
 		if (npcId == ZAKEN)
 		{
@@ -828,15 +827,15 @@ public class Zaken_l2j extends Quest implements Runnable
 			{
 				GrandBossManager.getInstance().setBossStatus(ZAKEN, DEAD);
 				// time is 36hour +/- 17hour
-				long respawnTime = (long) (Config.ZAKEN_RESP_FIRST + Rnd.get(Config.ZAKEN_RESP_SECOND)) * 3600000;
+				final long respawnTime = (long) (Config.ZAKEN_RESP_FIRST + Rnd.get(Config.ZAKEN_RESP_SECOND)) * 3600000;
 				startQuestTimer("zaken_unlock", respawnTime, null, null);
 				cancelQuestTimer("1001", npc, null);
 				cancelQuestTimer("1003", npc, null);
 				// also save the respawn time so that the info is maintained past reboots
-				StatsSet info = GrandBossManager.getInstance().getStatsSet(ZAKEN);
+				final StatsSet info = GrandBossManager.getInstance().getStatsSet(ZAKEN);
 				info.set("respawn_time", System.currentTimeMillis() + respawnTime);
-				GrandBossManager.getInstance().setStatsSet(ZAKEN, info);			
-			}	
+				GrandBossManager.getInstance().setStatsSet(ZAKEN, info);
+			}
 		}
 		else if (status == ALIVE)
 		{
@@ -857,14 +856,14 @@ public class Zaken_l2j extends Quest implements Runnable
 	 */
 	
 	@Override
-	public String onAggroRangeEnter(L2NpcInstance npc, L2PcInstance player, boolean isPet)
+	public String onAggroRangeEnter(final L2NpcInstance npc, final L2PcInstance player, final boolean isPet)
 	{
-		int npcId = npc.getNpcId();
+		final int npcId = npc.getNpcId();
 		if (npcId == ZAKEN)
 		{
 			if (_Zone.isInsideZone(npc))
 			{
-				L2Character target = isPet ? player.getPet() : player;
+				final L2Character target = isPet ? player.getPet() : player;
 				((L2Attackable) npc).addDamageHate(target, 1, 200);
 			}
 			if (player.getZ() > (npc.getZ() - 100) && player.getZ() < (npc.getZ() + 100))
@@ -895,7 +894,7 @@ public class Zaken_l2j extends Quest implements Runnable
 				}
 				if (Rnd.get(15) < 1)
 				{
-					int i0 = Rnd.get((15 * 15));
+					final int i0 = Rnd.get((15 * 15));
 					if (i0 < 1)
 					{
 						npc.setTarget(player);
@@ -918,7 +917,7 @@ public class Zaken_l2j extends Quest implements Runnable
 					}
 					else if (i0 < 15)
 					{
-						for (L2Character character : npc.getKnownList().getKnownCharactersInRadius(100))
+						for (final L2Character character : npc.getKnownList().getKnownCharactersInRadius(100))
 						{
 							if (character != player)
 								continue;
@@ -951,5 +950,5 @@ public class Zaken_l2j extends Quest implements Runnable
 	@Override
 	public void run()
 	{
-	}	
+	}
 }

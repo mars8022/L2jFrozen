@@ -24,41 +24,30 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
 public class AdminBBS implements IAdminCommandHandler
 {
-	//private static Logger _log = Logger.getLogger(AdminKick.class.getName());
+	// private static Logger LOGGER = Logger.getLogger(AdminKick.class);
 	private static final String[] ADMIN_COMMANDS =
 	{
 		"admin_bbs"
 	};
-
-	/* (non-Javadoc)
-	 * @see com.l2jfrozen.gameserver.handler.IAdminCommandHandler#useAdminCommand
-	 * (java.lang.String, com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance)
+	
+	/*
+	 * (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.handler.IAdminCommandHandler#useAdminCommand (java.lang.String, com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance)
 	 */
 	@Override
-	public boolean useAdminCommand(String command, L2PcInstance activeChar)
+	public boolean useAdminCommand(final String command, final L2PcInstance activeChar)
 	{
 		/*
-		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
-			return false;
-		}
-		
-		if(Config.GMAUDIT)
-		{
-			Logger _logAudit = Logger.getLogger("gmaudit");
-			LogRecord record = new LogRecord(Level.INFO, command);
-			record.setParameters(new Object[]
-			{
-					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
-			});
-			_logAudit.log(record);
-		}
-		*/
+		 * if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){ return false; } if(Config.GMAUDIT) { Logger _logAudit = Logger.getLogger("gmaudit"); LogRecord record = new LogRecord(Level.INFO, command); record.setParameters(new Object[] { "GM: " +
+		 * activeChar.getName(), " to target [" + activeChar.getTarget() + "] " }); _logAudit.LOGGER(record); }
+		 */
 		
 		AdminBBSManager.getInstance().parsecmd(command, activeChar);
 		return true;
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.handler.IAdminCommandHandler#getAdminCommandList()
 	 */
 	@Override

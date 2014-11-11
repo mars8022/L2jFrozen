@@ -21,18 +21,13 @@ package com.l2jfrozen.gameserver.network.clientpackets;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
 
-
 /**
- * format ch
- * c: (id) 0xD0
- * h: (subid) 0x13
+ * format ch c: (id) 0xD0 h: (subid) 0x13
  * @author -Wooden-
- *
  */
 public final class RequestOlympiadMatchList extends L2GameClientPacket
 {
 	private static final String _C__D0_13_REQUESTOLYMPIADMATCHLIST = "[C] D0:13 RequestOlympiadMatchList";
-	
 	
 	@Override
 	protected void readImpl()
@@ -43,12 +38,13 @@ public final class RequestOlympiadMatchList extends L2GameClientPacket
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance activeChar = getClient().getActiveChar();
+		final L2PcInstance activeChar = getClient().getActiveChar();
 		if (activeChar == null)
 			return;
-		if (activeChar.inObserverMode()) Olympiad.sendMatchList(activeChar);
+		if (activeChar.inObserverMode())
+			Olympiad.sendMatchList(activeChar);
 	}
-
+	
 	@Override
 	public String getType()
 	{

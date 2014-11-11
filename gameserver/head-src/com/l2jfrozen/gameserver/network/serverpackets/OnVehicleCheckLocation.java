@@ -25,32 +25,33 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2BoatInstance;
  */
 public class OnVehicleCheckLocation extends L2GameServerPacket
 {
-	private L2BoatInstance _boat;
-	private int _x;
-	private int _y;
-	private int _z;
-
+	private final L2BoatInstance _boat;
+	private final int _x;
+	private final int _y;
+	private final int _z;
+	
 	/**
 	 * @param instance
 	 * @param x
 	 * @param y
 	 * @param z
 	 */
-	public OnVehicleCheckLocation(L2BoatInstance instance, int x, int y, int z)
+	public OnVehicleCheckLocation(final L2BoatInstance instance, final int x, final int y, final int z)
 	{
 		_boat = instance;
 		_x = x;
 		_y = y;
 		_z = z;
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#writeImpl()
 	 */
 	@Override
 	protected void writeImpl()
 	{
-
+		
 		writeC(0x5b);
 		writeD(_boat.getObjectId());
 		writeD(_x);
@@ -58,8 +59,9 @@ public class OnVehicleCheckLocation extends L2GameServerPacket
 		writeD(_z);
 		writeD(_boat.getPosition().getHeading());
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
 	 */
 	@Override
@@ -68,5 +70,5 @@ public class OnVehicleCheckLocation extends L2GameServerPacket
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
 }

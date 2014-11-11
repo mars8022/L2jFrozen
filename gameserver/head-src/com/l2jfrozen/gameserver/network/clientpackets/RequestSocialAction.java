@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.ai.CtrlIntention;
@@ -30,70 +30,57 @@ import com.l2jfrozen.gameserver.util.Util;
 
 public class RequestSocialAction extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(RequestSocialAction.class.getName());
+	private static Logger LOGGER = Logger.getLogger(RequestSocialAction.class);
 	private int _actionId;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_actionId = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance activeChar = getClient().getActiveChar();
-		if(activeChar == null)
+		final L2PcInstance activeChar = getClient().getActiveChar();
+		if (activeChar == null)
 			return;
-
+		
 		// You cannot do anything else while fishing
-		if(activeChar.isFishing())
+		if (activeChar.isFishing())
 		{
 			SystemMessage sm = new SystemMessage(SystemMessageId.CANNOT_DO_WHILE_FISHING_3);
 			activeChar.sendPacket(sm);
 			sm = null;
 			return;
 		}
-
+		
 		// check if its the actionId is allowed
-		if(_actionId < 2 || _actionId > 13)
+		if (_actionId < 2 || _actionId > 13)
 		{
 			Util.handleIllegalPlayerAction(activeChar, "Warning!! Character " + activeChar.getName() + " of account " + activeChar.getAccountName() + " requested an internal Social Action.", Config.DEFAULT_PUNISH);
 			return;
 		}
-
-		if(activeChar.getPrivateStoreType() == 0 && activeChar.getActiveRequester() == null && !activeChar.isAlikeDead() && (!activeChar.isAllSkillsDisabled() || activeChar.isInDuel()) && activeChar.getAI().getIntention() == CtrlIntention.AI_INTENTION_IDLE)
+		
+		if (activeChar.getPrivateStoreType() == 0 && activeChar.getActiveRequester() == null && !activeChar.isAlikeDead() && (!activeChar.isAllSkillsDisabled() || activeChar.isInDuel()) && activeChar.getAI().getIntention() == CtrlIntention.AI_INTENTION_IDLE)
 		{
-			if(Config.DEBUG)
+			if (Config.DEBUG)
 			{
-				_log.fine("Social Action:" + _actionId);
+				LOGGER.debug("Social Action:" + _actionId);
 			}
-
-			SocialAction atk = new SocialAction(activeChar.getObjectId(), _actionId);
+			
+			final SocialAction atk = new SocialAction(activeChar.getObjectId(), _actionId);
 			activeChar.broadcastPacket(atk);
 			/*
-			// Schedule a social task to wait for the animation to finish
-			ThreadPoolManager.getInstance().scheduleGeneral(new SocialTask(this), 2600);
-			activeChar.setIsParalyzed(true);
-			*/
+			 * // Schedule a social task to wait for the animation to finish ThreadPoolManager.getInstance().scheduleGeneral(new SocialTask(this), 2600); activeChar.setIsParalyzed(true);
+			 */
 		}
 	}
-
+	
 	/*
-	class SocialTask implements Runnable
-	{
-		L2PcInstance _player;
-		SocialTask(RequestSocialAction action)
-		{
-			_player = getClient().getActiveChar();
-		}
-		public void run()
-		{
-			_player.setIsParalyzed(false);
-		}
-	}
-	*/
-
+	 * class SocialTask implements Runnable { L2PcInstance _player; SocialTask(RequestSocialAction action) { _player = getClient().getActiveChar(); } public void run() { _player.setIsParalyzed(false); } }
+	 */
+	
 	@Override
 	public String getType()
 	{

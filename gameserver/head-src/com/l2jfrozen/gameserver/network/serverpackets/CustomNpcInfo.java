@@ -19,22 +19,22 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 
 public class CustomNpcInfo extends L2GameServerPacket
 {
-
+	
 	private static final String _S__03_CUSTOMNPCINFO = "[S] 03 CustomNpcInfo [dddddsddd dddddddddddd dddddddd hhhh d hhhhhhhhhhhh d hhhh hhhhhhhhhhhhhhhh dddddd dddddddd ffff ddd s ddddd ccccccc h c d c h ddd cc d ccc ddddddddddd]";
-	private L2NpcInstance _activeChar;
-
+	private final L2NpcInstance _activeChar;
+	
 	/**
-	 * @param cha 
+	 * @param cha
 	 */
-	public CustomNpcInfo(L2NpcInstance cha)
+	public CustomNpcInfo(final L2NpcInstance cha)
 	{
 		_activeChar = cha;
 		_activeChar.setClientX(_activeChar.getPosition().getX());
 		_activeChar.setClientY(_activeChar.getPosition().getY());
 		_activeChar.setClientZ(_activeChar.getPosition().getZ());
-
+		
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
@@ -103,7 +103,7 @@ public class CustomNpcInfo extends L2GameServerPacket
 		writeD((int) _activeChar.getStatus().getCurrentCp());
 		writeC(_activeChar.getCustomNpcInstance().getEnchantWeapon());
 		writeC(0x00);
-		writeD(0);//clan crest
+		writeD(0);// clan crest
 		writeC(_activeChar.getCustomNpcInstance().isNoble() ? 1 : 0);
 		writeC(_activeChar.getCustomNpcInstance().isHero() ? 1 : 0);
 		writeC(0);
@@ -115,8 +115,9 @@ public class CustomNpcInfo extends L2GameServerPacket
 		writeD(_activeChar.getCustomNpcInstance().titleColor());
 		writeD(0x00);
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType()
 	 */
 	@Override
@@ -124,12 +125,12 @@ public class CustomNpcInfo extends L2GameServerPacket
 	{
 		return _S__03_CUSTOMNPCINFO;
 	}
-
-	private final void write(char type, int value, int times)
+	
+	private final void write(final char type, final int value, final int times)
 	{
-		for(int i = 0; i < times; i++)
+		for (int i = 0; i < times; i++)
 		{
-			switch(type)
+			switch (type)
 			{
 				case 'C':
 					writeC(value);
@@ -146,5 +147,5 @@ public class CustomNpcInfo extends L2GameServerPacket
 			}
 		}
 	}
-
+	
 }

@@ -25,11 +25,11 @@ import java.io.LineNumberReader;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.controllers.RecipeController;
@@ -41,24 +41,24 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2RecipeInstance;
  */
 public class RecipeTable extends RecipeController
 {
-	private static final Logger _log = Logger.getLogger(RecipeTable.class.getName());
-	private Map<Integer, L2RecipeList> _lists;
-
+	private static final Logger LOGGER = Logger.getLogger(RecipeTable.class);
+	private final Map<Integer, L2RecipeList> _lists;
+	
 	private static RecipeTable instance;
-
+	
 	public static RecipeTable getInstance()
 	{
-		if(instance == null)
+		if (instance == null)
 		{
 			instance = new RecipeTable();
 		}
-
+		
 		return instance;
 	}
-
+	
 	private RecipeTable()
 	{
-		_lists = new FastMap<Integer, L2RecipeList>();
+		_lists = new FastMap<>();
 		String line = null;
 		
 		FileReader reader = null;
@@ -67,180 +67,177 @@ public class RecipeTable extends RecipeController
 		
 		try
 		{
-			File recipesData = new File(Config.DATAPACK_ROOT, "data/recipes.csv");
+			final File recipesData = new File(Config.DATAPACK_ROOT, "data/recipes.csv");
 			
 			reader = new FileReader(recipesData);
 			buff = new BufferedReader(reader);
 			lnr = new LineNumberReader(buff);
-
-			while((line = lnr.readLine()) != null)
+			
+			while ((line = lnr.readLine()) != null)
 			{
-				if(line.trim().length() == 0 || line.startsWith("#"))
+				if (line.trim().length() == 0 || line.startsWith("#"))
 				{
 					continue;
 				}
-
+				
 				parseList(line);
-
+				
 			}
-			_log.config("RecipeController: Loaded " + _lists.size() + " Recipes.");
+			LOGGER.info("RecipeController: Loaded " + _lists.size() + " Recipes.");
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			if(lnr != null)
+			if (lnr != null)
 			{
-				_log.log(Level.WARNING, "error while creating recipe controller in linenr: " + lnr.getLineNumber(), e);
+				LOGGER.warn("error while creating recipe controller in linenr: " + lnr.getLineNumber(), e);
 			}
 			else
 			{
-				_log.warning("No recipes were found in data folder");
+				LOGGER.warn("No recipes were found in data folder");
 			}
-
+			
 		}
 		finally
 		{
-			if(lnr != null)
+			if (lnr != null)
 				try
 				{
 					lnr.close();
 				}
-				catch(Exception e1)
+				catch (final Exception e1)
 				{
 					e1.printStackTrace();
 				}
 			
-			if(buff != null)
+			if (buff != null)
 				try
 				{
 					buff.close();
 				}
-				catch(Exception e1)
+				catch (final Exception e1)
 				{
 					e1.printStackTrace();
 				}
 			
-			if(reader != null)
+			if (reader != null)
 				try
 				{
 					reader.close();
 				}
-				catch(Exception e1)
+				catch (final Exception e1)
 				{
 					e1.printStackTrace();
 				}
 			
 		}
 	}
-
-	//TODO XMLize the recipe list
-	private void parseList(String line)
+	
+	// TODO XMLize the recipe list
+	private void parseList(final String line)
 	{
 		try
 		{
 			StringTokenizer st = new StringTokenizer(line, ";");
-			List<L2RecipeInstance> recipePartList = new FastList<L2RecipeInstance>();
-
-			//we use common/dwarf for easy reading of the recipes.csv file
+			final List<L2RecipeInstance> recipePartList = new FastList<>();
+			
+			// we use common/dwarf for easy reading of the recipes.csv file
 			String recipeTypeString = st.nextToken();
-
+			
 			// now parse the string into a boolean
 			boolean isDwarvenRecipe;
-
-			if(recipeTypeString.equalsIgnoreCase("dwarven"))
+			
+			if (recipeTypeString.equalsIgnoreCase("dwarven"))
 			{
 				isDwarvenRecipe = true;
 			}
-			else if(recipeTypeString.equalsIgnoreCase("common"))
+			else if (recipeTypeString.equalsIgnoreCase("common"))
 			{
 				isDwarvenRecipe = false;
 			}
 			else
-			{ //prints a helpfull message
-				_log.warning("Error parsing recipes.csv, unknown recipe type " + recipeTypeString);
+			{ // prints a helpfull message
+				LOGGER.warn("Error parsing recipes.csv, unknown recipe type " + recipeTypeString);
 				return;
 			}
-
+			
 			recipeTypeString = null;
-
+			
 			String recipeName = st.nextToken();
-			int id = Integer.parseInt(st.nextToken());
-			int recipeId = Integer.parseInt(st.nextToken());
-			int level = Integer.parseInt(st.nextToken());
-
-			//material
+			final int id = Integer.parseInt(st.nextToken());
+			final int recipeId = Integer.parseInt(st.nextToken());
+			final int level = Integer.parseInt(st.nextToken());
+			
+			// material
 			StringTokenizer st2 = new StringTokenizer(st.nextToken(), "[],");
-			while(st2.hasMoreTokens())
+			while (st2.hasMoreTokens())
 			{
 				StringTokenizer st3 = new StringTokenizer(st2.nextToken(), "()");
-				int rpItemId = Integer.parseInt(st3.nextToken());
-				int quantity = Integer.parseInt(st3.nextToken());
+				final int rpItemId = Integer.parseInt(st3.nextToken());
+				final int quantity = Integer.parseInt(st3.nextToken());
 				L2RecipeInstance rp = new L2RecipeInstance(rpItemId, quantity);
 				recipePartList.add(rp);
 				rp = null;
 				st3 = null;
 			}
 			st2 = null;
-
-			int itemId = Integer.parseInt(st.nextToken());
-			int count = Integer.parseInt(st.nextToken());
-
-			//npc fee
-			/*String notdoneyet = */st.nextToken();
-
-			int mpCost = Integer.parseInt(st.nextToken());
-			int successRate = Integer.parseInt(st.nextToken());
-
+			
+			final int itemId = Integer.parseInt(st.nextToken());
+			final int count = Integer.parseInt(st.nextToken());
+			
+			// npc fee
+			/* String notdoneyet = */st.nextToken();
+			
+			final int mpCost = Integer.parseInt(st.nextToken());
+			final int successRate = Integer.parseInt(st.nextToken());
+			
 			L2RecipeList recipeList = new L2RecipeList(id, level, recipeId, recipeName, successRate, mpCost, itemId, count, isDwarvenRecipe);
-
-			for(L2RecipeInstance recipePart : recipePartList)
+			
+			for (final L2RecipeInstance recipePart : recipePartList)
 			{
 				recipeList.addRecipe(recipePart);
 			}
 			_lists.put(new Integer(_lists.size()), recipeList);
-
+			
 			recipeList = null;
 			recipeName = null;
 			st = null;
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
-				e.printStackTrace();
-			
-			_log.severe("Exception in RecipeController.parseList() - " + e);
+			LOGGER.error("Exception in RecipeController.parseList()", e);
 		}
 	}
-
+	
 	public int getRecipesCount()
 	{
 		return _lists.size();
 	}
-
-	public L2RecipeList getRecipeList(int listId)
+	
+	public L2RecipeList getRecipeList(final int listId)
 	{
 		return _lists.get(listId);
 	}
-
-	public L2RecipeList getRecipeByItemId(int itemId)
+	
+	public L2RecipeList getRecipeByItemId(final int itemId)
 	{
-		for(int i = 0; i < _lists.size(); i++)
+		for (int i = 0; i < _lists.size(); i++)
 		{
-			L2RecipeList find = _lists.get(new Integer(i));
-			if(find.getRecipeId() == itemId)
+			final L2RecipeList find = _lists.get(new Integer(i));
+			if (find.getRecipeId() == itemId)
 				return find;
 		}
 		return null;
 	}
-
-	public L2RecipeList getRecipeById(int recId)
+	
+	public L2RecipeList getRecipeById(final int recId)
 	{
-		for(int i = 0; i < _lists.size(); i++)
+		for (int i = 0; i < _lists.size(); i++)
 		{
-			L2RecipeList find = _lists.get(new Integer(i));
-			if(find.getId() == recId)
+			final L2RecipeList find = _lists.get(new Integer(i));
+			if (find.getId() == recId)
 				return find;
 		}
 		return null;

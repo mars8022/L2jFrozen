@@ -20,7 +20,8 @@ package com.l2jfrozen.gameserver.network.clientpackets;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2World;
@@ -28,11 +29,12 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public final class RequestBlock extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(RequestBlock.class.getName());
+	private static Logger LOGGER = Logger.getLogger(RequestBlock.class);
 	
 	private final static int BLOCK = 0;
 	private final static int UNBLOCK = 1;
@@ -57,10 +59,11 @@ public final class RequestBlock extends L2GameClientPacket
 		}
 	}
 	
+	@SuppressWarnings("resource")
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance activeChar = getClient().getActiveChar();
+		final L2PcInstance activeChar = getClient().getActiveChar();
 		
 		if (activeChar == null)
 			return;
@@ -70,7 +73,7 @@ public final class RequestBlock extends L2GameClientPacket
 			case BLOCK:
 			case UNBLOCK:
 				
-				L2PcInstance _target = L2World.getInstance().getPlayer(_name);
+				final L2PcInstance _target = L2World.getInstance().getPlayer(_name);
 				
 				if (_target == null)
 				{
@@ -105,7 +108,7 @@ public final class RequestBlock extends L2GameClientPacket
 						PreparedStatement statement = con.prepareStatement("SELECT * FROM character_friends WHERE char_id = ? AND friend_name = ?");
 						statement.setInt(1, activeChar.getObjectId());
 						statement.setString(2, _name);
-						ResultSet rset = statement.executeQuery();
+						final ResultSet rset = statement.executeQuery();
 						
 						if (rset.next())
 						{
@@ -115,29 +118,26 @@ public final class RequestBlock extends L2GameClientPacket
 							statement.setInt(2, activeChar.getObjectId());
 							statement.setString(3, _name);
 							statement.execute();
-							
 						}
 						else
 						{
-							
 							statement = con.prepareStatement("INSERT INTO character_friends (char_id, friend_id, friend_name, not_blocked) VALUES (?, ?, ?, ?)");
 							statement.setInt(1, activeChar.getObjectId());
 							statement.setInt(2, _target.getObjectId());
 							statement.setString(3, _target.getName());
 							statement.setInt(4, _type);
 							statement.execute();
-							
 						}
-						
-						statement.close();
+						// Added suppression to method, stament is closed but eclipse still throwns resource leak, wtf?
+						DatabaseUtils.close(statement);
 						
 					}
-					catch (Exception e)
+					catch (final Exception e)
 					{
 						if (Config.ENABLE_ALL_EXCEPTIONS)
 							e.printStackTrace();
 						
-						_log.warning("could not add blocked objectid: ");
+						LOGGER.warn("could not add blocked objectid: ");
 						e.printStackTrace();
 					}
 					finally
@@ -155,19 +155,19 @@ public final class RequestBlock extends L2GameClientPacket
 					try
 					{
 						con = L2DatabaseFactory.getInstance().getConnection(false);
-						PreparedStatement statement = con.prepareStatement("DELETE FROM character_friends WHERE char_id = ? AND friend_name = ?");
+						final PreparedStatement statement = con.prepareStatement("DELETE FROM character_friends WHERE char_id = ? AND friend_name = ?");
 						statement.setInt(1, activeChar.getObjectId());
 						statement.setString(2, _name);
 						statement.execute();
-						statement.close();
+						DatabaseUtils.close(statement);
 						
 					}
-					catch (Exception e)
+					catch (final Exception e)
 					{
 						if (Config.ENABLE_ALL_EXCEPTIONS)
 							e.printStackTrace();
 						
-						_log.warning("could not add blocked objectid: ");
+						LOGGER.warn("could not add blocked objectid: ");
 						e.printStackTrace();
 					}
 					finally
@@ -196,7 +196,7 @@ public final class RequestBlock extends L2GameClientPacket
 				
 				break;
 			default:
-				_log.info("Unknown 0x0a block type: " + _type);
+				LOGGER.info("Unknown 0x0a block type: " + _type);
 		}
 	}
 	

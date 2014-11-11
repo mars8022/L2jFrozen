@@ -33,25 +33,25 @@ public class L2FastSet<E> extends L2FastCollection<E> implements Set<E>
 	
 	public L2FastSet()
 	{
-		_map = new FastMap<E, Object>();
+		_map = new FastMap<>();
 	}
 	
-	public L2FastSet(int capacity)
+	public L2FastSet(final int capacity)
 	{
-		_map = new FastMap<E, Object>(capacity);
+		_map = new FastMap<>(capacity);
 	}
 	
-	public L2FastSet(Set<? extends E> elements)
+	public L2FastSet(final Set<? extends E> elements)
 	{
-		_map = new FastMap<E, Object>(elements.size());
+		_map = new FastMap<>(elements.size());
 		
 		addAll(elements);
 	}
 	
 	@SuppressWarnings("deprecation")
-	public L2FastSet<E> setShared(boolean isShared)
+	public L2FastSet<E> setShared(final boolean isShared)
 	{
-		if(isShared)
+		if (isShared)
 			_map.shared();
 		else
 			_map.setShared(false);
@@ -76,25 +76,25 @@ public class L2FastSet<E> extends L2FastCollection<E> implements Set<E>
 	}
 	
 	@Override
-	public E valueOf(Record record)
+	public E valueOf(final Record record)
 	{
-		return ((FastMap.Entry<E, Object>)record).getKey();
+		return ((FastMap.Entry<E, Object>) record).getKey();
 	}
 	
 	@Override
-	public void delete(Record record)
+	public void delete(final Record record)
 	{
-		_map.remove(((FastMap.Entry<E, Object>)record).getKey());
+		_map.remove(((FastMap.Entry<E, Object>) record).getKey());
 	}
 	
 	@Override
-	public void delete(Record record, E value)
+	public void delete(final Record record, final E value)
 	{
 		_map.remove(value);
 	}
 	
 	@Override
-	public boolean add(E value)
+	public boolean add(final E value)
 	{
 		return _map.put(value, NULL) == null;
 	}
@@ -106,7 +106,7 @@ public class L2FastSet<E> extends L2FastCollection<E> implements Set<E>
 	}
 	
 	@Override
-	public boolean contains(Object o)
+	public boolean contains(final Object o)
 	{
 		return _map.containsKey(o);
 	}
@@ -124,7 +124,7 @@ public class L2FastSet<E> extends L2FastCollection<E> implements Set<E>
 	}
 	
 	@Override
-	public boolean remove(Object o)
+	public boolean remove(final Object o)
 	{
 		return _map.remove(o) != null;
 	}

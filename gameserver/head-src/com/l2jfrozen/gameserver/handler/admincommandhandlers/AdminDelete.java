@@ -31,84 +31,72 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 /**
  * This class handles following admin commands: - delete = deletes target
- * 
  * @version $Revision: 1.2.2.1.2.4 $ $Date: 2005/04/11 10:05:56 $
  */
 public class AdminDelete implements IAdminCommandHandler
 {
-	//private static Logger _log = Logger.getLogger(AdminDelete.class.getName());
-
+	// private static Logger LOGGER = Logger.getLogger(AdminDelete.class);
+	
 	private static final String[] ADMIN_COMMANDS =
 	{
 		"admin_delete"
 	};
-
+	
 	@Override
-	public boolean useAdminCommand(String command, L2PcInstance activeChar)
+	public boolean useAdminCommand(final String command, final L2PcInstance activeChar)
 	{
 		/*
-		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
-			return false;
-		}
+		 * if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){ return false; } if(Config.GMAUDIT) { Logger _logAudit = Logger.getLogger("gmaudit"); LogRecord record = new LogRecord(Level.INFO, command); record.setParameters(new Object[] { "GM: " +
+		 * activeChar.getName(), " to target [" + activeChar.getTarget() + "] " }); _logAudit.LOGGER(record); }
+		 */
 		
-		if(Config.GMAUDIT)
-		{
-			Logger _logAudit = Logger.getLogger("gmaudit");
-			LogRecord record = new LogRecord(Level.INFO, command);
-			record.setParameters(new Object[]
-			{
-					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
-			});
-			_logAudit.log(record);
-		}
-		*/
-
-		if(command.equals("admin_delete"))
+		if (command.equals("admin_delete"))
 		{
 			handleDelete(activeChar);
 		}
-
+		
 		return true;
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;
 	}
-
+	
 	// TODO: add possibility to delete any L2Object (except L2PcInstance)
-	private void handleDelete(L2PcInstance activeChar)
+	private void handleDelete(final L2PcInstance activeChar)
 	{
 		L2Object obj = activeChar.getTarget();
-
-		if(obj != null && obj instanceof L2NpcInstance)
+		
+		if (obj != null && obj instanceof L2NpcInstance)
 		{
-			L2NpcInstance target = (L2NpcInstance) obj;
+			final L2NpcInstance target = (L2NpcInstance) obj;
 			target.deleteMe();
-
+			
 			L2Spawn spawn = target.getSpawn();
-			if(spawn != null)
+			if (spawn != null)
 			{
 				spawn.stopRespawn();
-
-				if(RaidBossSpawnManager.getInstance().isDefined(spawn.getNpcid()) && !spawn.is_customBossInstance())
+				
+				if (RaidBossSpawnManager.getInstance().isDefined(spawn.getNpcid()) && !spawn.is_customBossInstance())
 				{
 					RaidBossSpawnManager.getInstance().deleteSpawn(spawn, true);
 					
-				}else
+				}
+				else
 				{
 					boolean update_db = true;
-					if(GrandBossManager.getInstance().isDefined(spawn.getNpcid()) && spawn.is_customBossInstance()) //if custom grandboss instance, it's not saved on database
+					if (GrandBossManager.getInstance().isDefined(spawn.getNpcid()) && spawn.is_customBossInstance()) // if custom grandboss instance, it's not saved on database
 						update_db = false;
 					
 					SpawnTable.getInstance().deleteSpawn(spawn, update_db);
 				}
 			}
-
+			
 			spawn = null;
 			obj = null;
-
+			
 			SystemMessage sm = new SystemMessage(SystemMessageId.S1_S2);
 			sm.addString("Deleted " + target.getName() + " from " + target.getObjectId() + ".");
 			activeChar.sendPacket(sm);

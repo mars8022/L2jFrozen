@@ -18,42 +18,42 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.controllers.RecipeController;
 
 public final class RequestRecipeBookOpen extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(RequestRecipeBookOpen.class.getName());
-
+	private static Logger LOGGER = Logger.getLogger(RequestRecipeBookOpen.class);
+	
 	private boolean _isDwarvenCraft;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_isDwarvenCraft = readD() == 0;
-		if(Config.DEBUG)
+		if (Config.DEBUG)
 		{
-			_log.info("RequestRecipeBookOpen : " + (_isDwarvenCraft ? "dwarvenCraft" : "commonCraft"));
+			LOGGER.info("RequestRecipeBookOpen : " + (_isDwarvenCraft ? "dwarvenCraft" : "commonCraft"));
 		}
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-		if(getClient().getActiveChar() == null)
+		if (getClient().getActiveChar() == null)
 			return;
-
-		if(getClient().getActiveChar().getPrivateStoreType() != 0)
+		
+		if (getClient().getActiveChar().getPrivateStoreType() != 0)
 		{
 			getClient().getActiveChar().sendMessage("Cannot use recipe book while trading");
 			return;
 		}
-
+		
 		RecipeController.getInstance().requestBookOpen(getClient().getActiveChar(), _isDwarvenCraft);
 	}
-
+	
 	@Override
 	public String getType()
 	{

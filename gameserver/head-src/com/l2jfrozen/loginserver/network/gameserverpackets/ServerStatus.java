@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.loginserver.network.gameserverpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.datatables.GameServerTable;
 import com.l2jfrozen.gameserver.datatables.GameServerTable.GameServerInfo;
@@ -29,48 +29,53 @@ import com.l2jfrozen.loginserver.network.clientpackets.ClientBasePacket;
  */
 public class ServerStatus extends ClientBasePacket
 {
-	protected static Logger _log = Logger.getLogger(ServerStatus.class.getName());
-
+	protected static Logger LOGGER = Logger.getLogger(ServerStatus.class);
+	
 	public static final String[] STATUS_STRING =
 	{
-			"Auto", "Good", "Normal", "Full", "Down", "Gm Only"
+		"Auto",
+		"Good",
+		"Normal",
+		"Full",
+		"Down",
+		"Gm Only"
 	};
-
+	
 	public static final int SERVER_LIST_STATUS = 0x01;
 	public static final int SERVER_LIST_CLOCK = 0x02;
 	public static final int SERVER_LIST_SQUARE_BRACKET = 0x03;
 	public static final int MAX_PLAYERS = 0x04;
 	public static final int TEST_SERVER = 0x05;
-
+	
 	public static final int STATUS_AUTO = 0x00;
 	public static final int STATUS_GOOD = 0x01;
 	public static final int STATUS_NORMAL = 0x02;
 	public static final int STATUS_FULL = 0x03;
 	public static final int STATUS_DOWN = 0x04;
 	public static final int STATUS_GM_ONLY = 0x05;
-
+	
 	public static final int ON = 0x01;
 	public static final int OFF = 0x00;
-
+	
 	/**
 	 * @param decrypt
-	 * @param serverId 
+	 * @param serverId
 	 */
-	public ServerStatus(byte[] decrypt, int serverId)
+	public ServerStatus(final byte[] decrypt, final int serverId)
 	{
 		super(decrypt);
-
+		
 		GameServerInfo gsi = GameServerTable.getInstance().getRegisteredGameServerById(serverId);
-		if(gsi != null)
+		if (gsi != null)
 		{
-			int size = readD();
-
-			for(int i = 0; i < size; i++)
+			final int size = readD();
+			
+			for (int i = 0; i < size; i++)
 			{
-				int type = readD();
-				int value = readD();
-
-				switch(type)
+				final int type = readD();
+				final int value = readD();
+				
+				switch (type)
 				{
 					case SERVER_LIST_STATUS:
 						gsi.setStatus(value);
@@ -90,7 +95,7 @@ public class ServerStatus extends ClientBasePacket
 				}
 			}
 		}
-
+		
 		gsi = null;
 	}
 }

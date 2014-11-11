@@ -27,40 +27,41 @@ import com.l2jfrozen.gameserver.geo.util.ObjectPool;
  */
 public final class CellNodeMap
 {
-	protected final L2FastSet<Node> _cellIndex = new L2FastSet<Node>(4096);
-
+	protected final L2FastSet<Node> _cellIndex = new L2FastSet<>(4096);
+	
 	protected CellNodeMap()
 	{
 		
 	}
-
-	public void add(Node n)
+	
+	public void add(final Node n)
 	{
 		_cellIndex.add(n);
 	}
-
-	public boolean contains(Node n)
+	
+	public boolean contains(final Node n)
 	{
 		return _cellIndex.contains(n);
 	}
-
+	
 	public static CellNodeMap newInstance()
 	{
 		return POOL.get();
 	}
-
-	public static void recycle(CellNodeMap map)
+	
+	public static void recycle(final CellNodeMap map)
 	{
 		POOL.store(map);
 	}
-
-	private static final ObjectPool<CellNodeMap> POOL = new ObjectPool<CellNodeMap>() {
+	
+	private static final ObjectPool<CellNodeMap> POOL = new ObjectPool<CellNodeMap>()
+	{
 		@Override
-		protected void reset(CellNodeMap map)
+		protected void reset(final CellNodeMap map)
 		{
 			map._cellIndex.clear();
 		}
-
+		
 		@Override
 		protected CellNodeMap create()
 		{

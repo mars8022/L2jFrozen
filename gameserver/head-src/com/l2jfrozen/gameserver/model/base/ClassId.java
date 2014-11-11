@@ -23,10 +23,8 @@ package com.l2jfrozen.gameserver.model.base;
  * <BR>
  * Data :<BR>
  * <BR>
- * <li>id : The Identifier of the class</li> <li>isMage : True if the class is a mage class</li> <li>race : The race of
- * this class</li> <li>parent : The parent ClassId or null if this class is the root</li><BR>
+ * <li>id : The Identifier of the class</li> <li>isMage : True if the class is a mage class</li> <li>race : The race of this class</li> <li>parent : The parent ClassId or null if this class is the root</li><BR>
  * <BR>
- * 
  * @version $Revision: 1.4.4.4 $ $Date: 2005/03/27 15:29:33 $
  */
 public enum ClassId
@@ -34,7 +32,7 @@ public enum ClassId
 	
 	/** The fighter. */
 	fighter(0x00, false, Race.human, null),
-
+	
 	/** The warrior. */
 	warrior(0x01, false, Race.human, fighter),
 	
@@ -61,7 +59,7 @@ public enum ClassId
 	
 	/** The hawkeye. */
 	hawkeye(0x09, false, Race.human, rogue),
-
+	
 	/** The mage. */
 	mage(0x0a, true, Race.human, null),
 	
@@ -85,7 +83,7 @@ public enum ClassId
 	
 	/** The prophet. */
 	prophet(0x11, true, Race.human, cleric),
-
+	
 	/** The elven fighter. */
 	elvenFighter(0x12, false, Race.elf, null),
 	
@@ -106,7 +104,7 @@ public enum ClassId
 	
 	/** The silver ranger. */
 	silverRanger(0x18, false, Race.elf, elvenScout),
-
+	
 	/** The elven mage. */
 	elvenMage(0x19, true, Race.elf, null),
 	
@@ -124,7 +122,7 @@ public enum ClassId
 	
 	/** The elder. */
 	elder(0x1e, true, Race.elf, oracle),
-
+	
 	/** The dark fighter. */
 	darkFighter(0x1f, false, Race.darkelf, null),
 	
@@ -145,7 +143,7 @@ public enum ClassId
 	
 	/** The phantom ranger. */
 	phantomRanger(0x25, false, Race.darkelf, assassin),
-
+	
 	/** The dark mage. */
 	darkMage(0x26, true, Race.darkelf, null),
 	
@@ -163,7 +161,7 @@ public enum ClassId
 	
 	/** The shillen elder. */
 	shillenElder(0x2b, true, Race.darkelf, shillienOracle),
-
+	
 	/** The orc fighter. */
 	orcFighter(0x2c, false, Race.orc, null),
 	
@@ -178,7 +176,7 @@ public enum ClassId
 	
 	/** The tyrant. */
 	tyrant(0x30, false, Race.orc, orcMonk),
-
+	
 	/** The orc mage. */
 	orcMage(0x31, false, Race.orc, null),
 	
@@ -190,7 +188,7 @@ public enum ClassId
 	
 	/** The warcryer. */
 	warcryer(0x34, true, Race.orc, orcShaman),
-
+	
 	/** The dwarven fighter. */
 	dwarvenFighter(0x35, false, Race.dwarf, null),
 	
@@ -205,12 +203,9 @@ public enum ClassId
 	
 	/** The warsmith. */
 	warsmith(0x39, false, Race.dwarf, artisan),
-
+	
 	/*
-	 * Dummy Entries (id's already in decimal format)
-	 * btw FU NCSoft for the amount of work you put me
-	 * through to do this!!
-	 * <START>
+	 * Dummy Entries (id's already in decimal format) btw FU NCSoft for the amount of work you put me through to do this!! <START>
 	 */
 	/** The dummy entry1. */
 	dummyEntry1(58, false, null, null),
@@ -302,10 +297,9 @@ public enum ClassId
 	/** The dummy entry30. */
 	dummyEntry30(87, false, null, null),
 	/*
-	 * <END>
-	 * Of Dummy entries
+	 * <END> Of Dummy entries
 	 */
-
+	
 	/*
 	 * Now the bad boys! new class ids :)) (3rd classes)
 	 */
@@ -341,7 +335,7 @@ public enum ClassId
 	
 	/** The hierophant. */
 	hierophant(0x62, true, Race.human, prophet),
-
+	
 	/** The eva templar. */
 	evaTemplar(0x63, false, Race.elf, templeKnight),
 	
@@ -362,7 +356,7 @@ public enum ClassId
 	
 	/** The eva saint. */
 	evaSaint(0x69, true, Race.elf, elder),
-
+	
 	/** The shillien templar. */
 	shillienTemplar(0x6a, false, Race.darkelf, shillienKnight),
 	
@@ -383,7 +377,7 @@ public enum ClassId
 	
 	/** The shillien saint. */
 	shillienSaint(0x70, true, Race.darkelf, shillenElder),
-
+	
 	/** The titan. */
 	titan(0x71, false, Race.orc, destroyer),
 	
@@ -395,136 +389,132 @@ public enum ClassId
 	
 	/** The doomcryer. */
 	doomcryer(0x74, true, Race.orc, warcryer),
-
+	
 	/** The fortune seeker. */
 	fortuneSeeker(0x75, false, Race.dwarf, bountyHunter),
 	
 	/** The maestro. */
 	maestro(0x76, false, Race.dwarf, warsmith);
-
+	
 	/** The Identifier of the Class. */
 	private final int _id;
-
+	
 	/** True if the class is a mage class. */
 	private final boolean _isMage;
-
+	
 	/** The Race object of the class. */
 	private final Race _race;
-
+	
 	/** The parent ClassId or null if this class is a root. */
 	private final ClassId _parent;
-
+	
 	/**
 	 * Constructor of ClassId.<BR>
 	 * <BR>
-	 *
 	 * @param pId the id
 	 * @param pIsMage the is mage
 	 * @param pRace the race
 	 * @param pParent the parent
 	 */
-	private ClassId(int pId, boolean pIsMage, Race pRace, ClassId pParent)
+	private ClassId(final int pId, final boolean pIsMage, final Race pRace, final ClassId pParent)
 	{
 		_id = pId;
 		_isMage = pIsMage;
 		_race = pRace;
 		_parent = pParent;
 	}
-
+	
 	/**
 	 * Return the Identifier of the Class.<BR>
 	 * <BR>
-	 *
 	 * @return the id
 	 */
 	public final int getId()
 	{
 		return _id;
 	}
-
+	
 	/**
 	 * Return True if the class is a mage class.<BR>
 	 * <BR>
-	 *
 	 * @return true, if is mage
 	 */
 	public final boolean isMage()
 	{
 		return _isMage;
 	}
-
+	
 	/**
 	 * Return the Race object of the class.<BR>
 	 * <BR>
-	 *
 	 * @return the race
 	 */
 	public final Race getRace()
 	{
 		return _race;
 	}
-
+	
 	/**
 	 * Return True if this Class is a child of the selected ClassId.<BR>
 	 * <BR>
-	 *
 	 * @param cid The parent ClassId to check
 	 * @return true, if successful
 	 */
-	public final boolean childOf(ClassId cid)
+	public final boolean childOf(final ClassId cid)
 	{
-		if(_parent == null)
+		if (_parent == null)
 			return false;
-
-		if(_parent == cid)
+		
+		if (_parent == cid)
 			return true;
-
+		
 		return _parent.childOf(cid);
-
+		
 	}
-
+	
 	/**
 	 * Return True if this Class is equal to the selected ClassId or a child of the selected ClassId.<BR>
 	 * <BR>
-	 *
 	 * @param cid The parent ClassId to check
 	 * @return true, if successful
 	 */
-	public final boolean equalsOrChildOf(ClassId cid)
+	public final boolean equalsOrChildOf(final ClassId cid)
 	{
 		return this == cid || childOf(cid);
 	}
-
+	
 	/**
 	 * Return the child level of this Class (0=root, 1=child leve 1...).<BR>
 	 * <BR>
-	 *
 	 * @return the int
 	 */
 	public final int level()
 	{
-		if(_parent == null)
+		if (_parent == null)
 			return 0;
-
+		
 		return 1 + _parent.level();
 	}
-
+	
 	/**
 	 * Return its parent ClassId<BR>
-	 * <BR>.
-	 *
+	 * <BR>
+	 * .
 	 * @return the parent
 	 */
 	public final ClassId getParent()
 	{
 		return _parent;
 	}
-
-	public static ClassId getClassIdByOrdinal(int id){
+	
+	public static ClassId getClassIdByOrdinal(final int id)
+	{
 		
-		for(ClassId current:values()){
+		for (final ClassId current : values())
+		{
 			
-			if(current._id == id){
+			if (current._id == id)
+			{
 				return current;
 			}
 			

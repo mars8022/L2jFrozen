@@ -53,7 +53,7 @@ public class MoveBackwardToLocation extends L2GameClientPacket
 		{
 			_moveMovement = readD(); // is 0 if cursor keys are used 1 if mouse is used
 		}
-		catch (BufferUnderflowException e)
+		catch (final BufferUnderflowException e)
 		{
 			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
@@ -61,7 +61,7 @@ public class MoveBackwardToLocation extends L2GameClientPacket
 			// Ignore for now
 			if (Config.L2WALKER_PROTEC)
 			{
-				L2PcInstance activeChar = getClient().getActiveChar();
+				final L2PcInstance activeChar = getClient().getActiveChar();
 				activeChar.sendPacket(SystemMessageId.HACKING_TOOL);
 				Util.handleIllegalPlayerAction(activeChar, "Player " + activeChar.getName() + " trying to use L2Walker!", IllegalPlayerAction.PUNISH_KICK);
 			}
@@ -71,7 +71,7 @@ public class MoveBackwardToLocation extends L2GameClientPacket
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance activeChar = getClient().getActiveChar();
+		final L2PcInstance activeChar = getClient().getActiveChar();
 		
 		if (activeChar == null)
 			return;
@@ -133,8 +133,8 @@ public class MoveBackwardToLocation extends L2GameClientPacket
 			activeChar.sendPacket(ActionFailed.STATIC_PACKET);
 		else
 		{
-			double dx = _targetX - _curX;
-			double dy = _targetY - _curY;
+			final double dx = _targetX - _curX;
+			final double dy = _targetY - _curY;
 			
 			// Can't move if character is confused, or trying to move a huge distance
 			if (activeChar.isOutOfControl() || dx * dx + dy * dy > 98010000) // 9900*9900
@@ -144,7 +144,7 @@ public class MoveBackwardToLocation extends L2GameClientPacket
 			}
 			
 			// This is to avoid exploit with Hit + Fast movement
-			if((activeChar.isMoving() && activeChar.isAttackingNow()))
+			if ((activeChar.isMoving() && activeChar.isAttackingNow()))
 			{
 				activeChar.sendPacket(ActionFailed.STATIC_PACKET);
 				return;

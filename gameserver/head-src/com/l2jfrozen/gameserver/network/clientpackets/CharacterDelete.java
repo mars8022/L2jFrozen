@@ -14,8 +14,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.GameServer;
@@ -28,29 +27,29 @@ import com.l2jfrozen.gameserver.network.serverpackets.CharSelectInfo;
  */
 public final class CharacterDelete extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(CharacterDelete.class.getName());
+	private static Logger LOGGER = Logger.getLogger(CharacterDelete.class);
 	private int _charSlot;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_charSlot = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
 		
 		if (!getClient().getFloodProtectors().getCharacterSelect().tryPerformAction("CharacterDelete"))
 			return;
-
+		
 		if (Config.DEBUG)
-			_log.fine("DEBUG "+getType()+": deleting slot:" + _charSlot);
-
+			LOGGER.debug("DEBUG " + getType() + ": deleting slot:" + _charSlot);
+		
 		try
 		{
-			byte answer = getClient().markToDeleteChar(_charSlot);
-			switch(answer)
+			final byte answer = getClient().markToDeleteChar(_charSlot);
+			switch (answer)
 			{
 				default:
 				case -1: // Error
@@ -66,14 +65,14 @@ public final class CharacterDelete extends L2GameClientPacket
 					break;
 			}
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
 			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
-
-			_log.log(Level.SEVERE, "ERROR "+getType()+":", e);
+			
+			LOGGER.error("ERROR " + getType() + ":", e);
 		}
-
+		
 		// Before the char selection, check shutdown status
 		if (GameServer.getSelectorThread().isShutdown())
 		{
@@ -81,11 +80,11 @@ public final class CharacterDelete extends L2GameClientPacket
 			return;
 		}
 		
-		CharSelectInfo cl = new CharSelectInfo(getClient().getAccountName(), getClient().getSessionId().playOkID1, 0);
+		final CharSelectInfo cl = new CharSelectInfo(getClient().getAccountName(), getClient().getSessionId().playOkID1, 0);
 		sendPacket(cl);
 		getClient().setCharSelection(cl.getCharInfo());
 	}
-
+	
 	@Override
 	public String getType()
 	{

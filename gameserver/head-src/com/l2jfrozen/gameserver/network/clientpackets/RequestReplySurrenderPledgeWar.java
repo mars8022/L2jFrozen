@@ -23,37 +23,38 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 public final class RequestReplySurrenderPledgeWar extends L2GameClientPacket
 {
 	private int _answer;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		@SuppressWarnings("unused")
-		String _reqName = readS();
+		final String _reqName = readS();
 		_answer = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance activeChar = getClient().getActiveChar();
-		if(activeChar == null)
+		final L2PcInstance activeChar = getClient().getActiveChar();
+		if (activeChar == null)
 			return;
-
-		L2PcInstance requestor = activeChar.getActiveRequester();
-		if(requestor == null)
+		
+		final L2PcInstance requestor = activeChar.getActiveRequester();
+		if (requestor == null)
 			return;
-
-		if(_answer == 1)
+		
+		if (_answer == 1)
 		{
 			requestor.deathPenalty(false);
 			ClanTable.getInstance().deleteclanswars(requestor.getClanId(), activeChar.getClanId());
 		}
 		else
-		{}
-
+		{
+		}
+		
 		activeChar.onTransactionRequest(null);
 	}
-
+	
 	@Override
 	public String getType()
 	{

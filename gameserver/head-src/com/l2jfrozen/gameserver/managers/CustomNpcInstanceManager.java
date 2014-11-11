@@ -17,31 +17,31 @@ package com.l2jfrozen.gameserver.managers;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
 
+import org.apache.log4j.Logger;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 import com.l2jfrozen.util.random.Rnd;
 
 /**
  * control for Custom Npcs that look like players.
- * 
  * @version 1.00
  * @author Darki699
  */
 public final class CustomNpcInstanceManager
 {
-	private final static Logger _log = Logger.getLogger(CustomNpcInstanceManager.class.getName());
+	private final static Logger LOGGER = Logger.getLogger(CustomNpcInstanceManager.class);
 	private static CustomNpcInstanceManager _instance;
 	private FastMap<Integer, customInfo> spawns; // <Object id , info>
 	private FastMap<Integer, customInfo> templates; // <Npc Template Id , info>
-
+	
 	/**
 	 * Small class to keep the npc poly data... Pretty code =)
-	 * 
 	 * @author Darki699
 	 */
 	public final class customInfo
@@ -50,7 +50,7 @@ public final class CustomNpcInstanceManager
 		public int integerData[] = new int[27];
 		public boolean booleanData[] = new boolean[8];
 	}
-
+	
 	/**
 	 * Constructor Calls to load the data
 	 */
@@ -58,67 +58,66 @@ public final class CustomNpcInstanceManager
 	{
 		load();
 	}
-
+	
 	/**
 	 * Initiates the manager (if not initiated yet) and/or returns <b>this</b> manager instance
-	 * 
 	 * @return CustomNpcInstanceManager _instance
 	 */
 	public final static CustomNpcInstanceManager getInstance()
 	{
-		if(_instance == null)
+		if (_instance == null)
 		{
 			_instance = new CustomNpcInstanceManager();
 		}
 		return _instance;
 	}
-
+	
 	/**
 	 * Flush the old data, and load new data
 	 */
 	public final void reload()
 	{
-		if(spawns != null)
+		if (spawns != null)
 		{
 			spawns.clear();
 		}
-		if(templates != null)
+		if (templates != null)
 		{
 			templates.clear();
 		}
 		spawns = null;
 		templates = null;
-
+		
 		load();
 	}
-
+	
 	/**
 	 * Just load the data for mysql...
 	 */
 	private final void load()
 	{
-		if(spawns == null || templates == null)
+		if (spawns == null || templates == null)
 		{
-			spawns = new FastMap<Integer, customInfo>();
-			templates = new FastMap<Integer, customInfo>();
+			spawns = new FastMap<>();
+			templates = new FastMap<>();
 		}
-
-		String[] SQL_ITEM_SELECTS =
+		
+		final String[] SQL_ITEM_SELECTS =
 		{
 			"SELECT" + " spawn,template,name,title,class_id,female,hair_style,hair_color,face,name_color,title_color," + " noble,hero,pvp,karma,wpn_enchant,right_hand,left_hand,gloves,chest,legs,feet,hair,hair2," + " pledge,cw_level,clan_id,ally_id,clan_crest,ally_crest,rnd_class,rnd_appearance,rnd_weapon,rnd_armor,max_rnd_enchant" + " FROM npc_to_pc_polymorph",
 		};
-
+		
 		Connection con = null;
 		try
 		{
 			int count = 0;
 			con = L2DatabaseFactory.getInstance().getConnection(false);
-			for(String selectQuery : SQL_ITEM_SELECTS)
+			for (final String selectQuery : SQL_ITEM_SELECTS)
 			{
 				PreparedStatement statement = con.prepareStatement(selectQuery);
 				ResultSet rset = statement.executeQuery();
-
-				while(rset.next())
+				
+				while (rset.next())
 				{
 					count++;
 					customInfo ci = new customInfo();
@@ -129,9 +128,9 @@ public final class CustomNpcInstanceManager
 						ci.stringData[0] = rset.getString("name");
 						ci.stringData[1] = rset.getString("title");
 						ci.integerData[7] = rset.getInt("class_id");
-
-						int PcSex = rset.getInt("female");
-						switch(PcSex)
+						
+						final int PcSex = rset.getInt("female");
+						switch (PcSex)
 						{
 							case 0:
 								ci.booleanData[3] = false;
@@ -143,7 +142,7 @@ public final class CustomNpcInstanceManager
 								ci.booleanData[3] = Rnd.get(100) > 50 ? true : false;
 								break;
 						}
-
+						
 						ci.integerData[19] = rset.getInt("hair_style");
 						ci.integerData[20] = rset.getInt("hair_color");
 						ci.integerData[21] = rset.getInt("face");
@@ -174,36 +173,36 @@ public final class CustomNpcInstanceManager
 						ci.booleanData[7] = rset.getInt("rnd_armor") > 0 ? true : false;
 						ci.integerData[24] = rset.getInt("max_rnd_enchant");
 						// Same object goes in twice:
-						if(ci.integerData[25] != 0 && !templates.containsKey(ci.integerData[25]))
+						if (ci.integerData[25] != 0 && !templates.containsKey(ci.integerData[25]))
 						{
 							templates.put(ci.integerData[25], ci);
 						}
-						if(ci.integerData[25] == 0 && !spawns.containsKey(ci.integerData[26]))
+						if (ci.integerData[25] == 0 && !spawns.containsKey(ci.integerData[26]))
 						{
 							spawns.put(ci.integerData[26], ci);
 						}
 					}
-					catch(Throwable t)
+					catch (final Throwable t)
 					{
-						if(Config.ENABLE_ALL_EXCEPTIONS)
+						if (Config.ENABLE_ALL_EXCEPTIONS)
 							t.printStackTrace();
 						
-						_log.warning("Failed to load Npc Morph data for Object Id: " + ci.integerData[26] + " template: " + ci.integerData[25]);
+						LOGGER.warn("Failed to load Npc Morph data for Object Id: " + ci.integerData[26] + " template: " + ci.integerData[25]);
 					}
 					ci = null;
 				}
-				statement.close();
+				DatabaseUtils.close(statement);
 				statement = null;
-				rset.close();
+				DatabaseUtils.close(rset);
 				rset = null;
 			}
-			_log.info("CustomNpcInstanceManager: loaded " + count + " NPC to PC polymorphs.");
+			LOGGER.info("CustomNpcInstanceManager: loaded " + count + " NPC to PC polymorphs.");
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
-			/** _log.warning( "CustomNpcInstanceManager: Passed "); **/
+			/** LOGGER.warn( "CustomNpcInstanceManager: Passed "); **/
 		}
 		finally
 		{
@@ -211,51 +210,49 @@ public final class CustomNpcInstanceManager
 			con = null;
 		}
 	}
-
+	
 	/**
 	 * Checks if the L2NpcInstance calling this function has polymorphing data
-	 * 
 	 * @param spwnId - L2NpcInstance's unique Object id
 	 * @param npcId - L2NpcInstance's npc template id
 	 * @return
 	 */
-	public final boolean isThisL2CustomNpcInstance(int spwnId, int npcId)
+	public final boolean isThisL2CustomNpcInstance(final int spwnId, final int npcId)
 	{
-		if(spwnId == 0 || npcId == 0)
+		if (spwnId == 0 || npcId == 0)
 			return false;
-		else if(spawns.containsKey(spwnId))
+		else if (spawns.containsKey(spwnId))
 			return true;
-		else if(templates.containsKey(npcId))
+		else if (templates.containsKey(npcId))
 			return true;
 		else
 			return false;
 	}
-
+	
 	/**
 	 * Return the polymorphing data for this L2NpcInstance if the data exists
-	 * 
 	 * @param spwnId - NpcInstance's unique Object Id
 	 * @param npcId - NpcInstance's npc template Id
 	 * @return customInfo type data pack, or null if no such data exists.
 	 */
-	public final customInfo getCustomData(int spwnId, int npcId)
+	public final customInfo getCustomData(final int spwnId, final int npcId)
 	{
-		if(spwnId == 0 || npcId == 0)
+		if (spwnId == 0 || npcId == 0)
 			return null;
-
-		//First check individual spawn objects - incase they have different values than their template
-		for(customInfo ci : spawns.values())
-			if(ci != null && ci.integerData[26] == spwnId)
+		
+		// First check individual spawn objects - incase they have different values than their template
+		for (final customInfo ci : spawns.values())
+			if (ci != null && ci.integerData[26] == spwnId)
 				return ci;
-
-		//Now check if templates contains the morph npc template
-		for(customInfo ci : templates.values())
-			if(ci != null && ci.integerData[25] == npcId)
+		
+		// Now check if templates contains the morph npc template
+		for (final customInfo ci : templates.values())
+			if (ci != null && ci.integerData[25] == npcId)
 				return ci;
-
+		
 		return null;
 	}
-
+	
 	/**
 	 * @return all template morphing queue
 	 */
@@ -263,7 +260,7 @@ public final class CustomNpcInstanceManager
 	{
 		return templates;
 	}
-
+	
 	/**
 	 * @return all spawns morphing queue
 	 */
@@ -271,49 +268,48 @@ public final class CustomNpcInstanceManager
 	{
 		return spawns;
 	}
-
+	
 	/**
 	 * Already removed customInfo - Change is saved in the DB <b>NOT IMPLEMENTED YET!</b>
-	 * 
 	 * @param ciToRemove
 	 */
-	public final void updateRemoveInDB(customInfo ciToRemove)
+	public final void updateRemoveInDB(final customInfo ciToRemove)
 	{
-	//
+		//
 	}
-
-	public final void AddInDB(customInfo ciToAdd)
+	
+	public final void AddInDB(final customInfo ciToAdd)
 	{
 		String Query = "REPLACE INTO npc_to_pc_polymorph VALUES" + " spawn,template,name,title,class_id,female,hair_style,hair_color,face,name_color,title_color," + " noble,hero,pvp,karma,wpn_enchant,right_hand,left_hand,gloves,chest,legs,feet,hair,hair2," + " pledge,cw_level,clan_id,ally_id,clan_crest,ally_crest,rnd_class,rnd_appearance,rnd_weapon,rnd_armor,max_rnd_enchant" + " FROM npc_to_pc_polymorph";
-
+		
 		Connection con = null;
-
+		
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement = con.prepareStatement(Query);
 			ResultSet rset = statement.executeQuery();
-
-			statement.close();
+			
+			DatabaseUtils.close(statement);
 			statement = null;
-
-			while(rset.next())
+			
+			while (rset.next())
 			{
-				customInfo ci = new customInfo();
+				final customInfo ci = new customInfo();
 				ci.integerData[26] = rset.getInt("spawn");
 				ci.integerData[25] = rset.getInt("template");
 			}
-
-			rset.close();
+			
+			DatabaseUtils.close(rset);
 			rset = null;
 			Query = null;
 		}
-		catch(Throwable t)
+		catch (final Throwable t)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				t.printStackTrace();
 			
-			_log.warning("Could not add Npc Morph info into the DB: ");
+			LOGGER.warn("Could not add Npc Morph info into the DB: ");
 		}
 		finally
 		{

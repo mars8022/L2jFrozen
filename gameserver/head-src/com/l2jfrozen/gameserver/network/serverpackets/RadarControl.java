@@ -21,21 +21,21 @@ package com.l2jfrozen.gameserver.network.serverpackets;
 public class RadarControl extends L2GameServerPacket
 {
 	private static final String _S__EB_RadarControl = "[S] EB RadarControl";
-	private int _showRadar;
-	private int _type;
-	private int _x;
-	private int _y;
-	private int _z;
-
+	private final int _showRadar;
+	private final int _type;
+	private final int _x;
+	private final int _y;
+	private final int _z;
+	
 	/**
 	 * 0xEB RadarControl ddddd
-	 * @param showRadar 
-	 * @param type 
-	 * @param x 
-	 * @param y 
-	 * @param z 
+	 * @param showRadar
+	 * @param type
+	 * @param x
+	 * @param y
+	 * @param z
 	 */
-	public RadarControl(int showRadar, int type, int x, int y, int z)
+	public RadarControl(final int showRadar, final int type, final int x, final int y, final int z)
 	{
 		_showRadar = showRadar; // showRader?? 0 = showradar; 1 = delete radar;
 		_type = type; // radar type??
@@ -43,19 +43,20 @@ public class RadarControl extends L2GameServerPacket
 		_y = y;
 		_z = z;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
 		writeC(0xEB);
 		writeD(_showRadar);
-		writeD(_type); //maybe type
-		writeD(_x); //x
-		writeD(_y); //y
-		writeD(_z); //z
+		writeD(_type); // maybe type
+		writeD(_x); // x
+		writeD(_y); // y
+		writeD(_z); // z
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType()
 	 */
 	@Override

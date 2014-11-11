@@ -15,7 +15,8 @@
 package com.l2jfrozen.gameserver.handler.admincommandhandlers;
 
 import java.util.StringTokenizer;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.handler.IAdminCommandHandler;
 import com.l2jfrozen.gameserver.managers.PacketsLoggerManager;
@@ -26,14 +27,14 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 public class AdminCharSupervision implements IAdminCommandHandler
 {
-	protected static final Logger _log = Logger.getLogger(AdminCharSupervision.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(AdminCharSupervision.class);
 	
 	private static String[] ADMIN_COMMANDS =
 	{
-			"admin_start_monitor_char",
-			"admin_stop_monitor_char",
-			"admin_block_char_packet",
-			"admin_restore_char_packet"
+		"admin_start_monitor_char",
+		"admin_stop_monitor_char",
+		"admin_block_char_packet",
+		"admin_restore_char_packet"
 	};
 	
 	private enum CommandEnum
@@ -44,118 +45,141 @@ public class AdminCharSupervision implements IAdminCommandHandler
 		admin_restore_char_packet
 		
 	}
-
+	
 	@Override
-	public boolean useAdminCommand(String command, L2PcInstance activeChar)
+	public boolean useAdminCommand(final String command, final L2PcInstance activeChar)
 	{
-		StringTokenizer st = new StringTokenizer(command);
+		final StringTokenizer st = new StringTokenizer(command);
 		
-		CommandEnum comm = CommandEnum.valueOf(st.nextToken());
+		final CommandEnum comm = CommandEnum.valueOf(st.nextToken());
 		
-		if(comm == null)
+		if (comm == null)
 			return false;
 		
-		switch(comm)
+		switch (comm)
 		{
-			case admin_block_char_packet:{
+			case admin_block_char_packet:
+			{
 				
 				String val = "";
 				
-				if(st.hasMoreTokens()){
+				if (st.hasMoreTokens())
+				{
 					
-					while(st.hasMoreTokens())
+					while (st.hasMoreTokens())
 					{
-						if(val.equals("")){
+						if (val.equals(""))
+						{
 							val = st.nextToken();
-						}else{
+						}
+						else
+						{
 							val += " " + st.nextToken();
 						}
 					}
 					
-				}else{
-					activeChar.sendMessage("Usage: //admin_block_char_packet <char_name> <packet_op_code1>,<packet_op_code2>");
-					return false;
 				}
-				
-				String[] charName_packet = val.split(" ");
-				
-				if(charName_packet.length<2){
-					activeChar.sendMessage("Usage: //admin_block_char_packet <char_name> <packet_op_code1>,<packet_op_code2>");
-					return false;
-				}
-				
-				L2PcInstance target = L2World.getInstance().getPlayer(charName_packet[0]);
-
-				if(target != null)
+				else
 				{
-					PacketsLoggerManager.getInstance().blockCharacterPacket(target.getName(),charName_packet[1]);
+					activeChar.sendMessage("Usage: //admin_block_char_packet <char_name> <packet_op_code1>,<packet_op_code2>");
+					return false;
+				}
+				
+				final String[] charName_packet = val.split(" ");
+				
+				if (charName_packet.length < 2)
+				{
+					activeChar.sendMessage("Usage: //admin_block_char_packet <char_name> <packet_op_code1>,<packet_op_code2>");
+					return false;
+				}
+				
+				final L2PcInstance target = L2World.getInstance().getPlayer(charName_packet[0]);
+				
+				if (target != null)
+				{
+					PacketsLoggerManager.getInstance().blockCharacterPacket(target.getName(), charName_packet[1]);
 					return true;
 				}
 				
 				activeChar.sendPacket(new SystemMessage(SystemMessageId.CHARACTER_DOES_NOT_EXIST));
 				return false;
 			}
-			case admin_restore_char_packet:{
+			case admin_restore_char_packet:
+			{
 				
 				String val = "";
 				
-				if(st.hasMoreTokens()){
+				if (st.hasMoreTokens())
+				{
 					
-					while(st.hasMoreTokens())
+					while (st.hasMoreTokens())
 					{
-						if(val.equals("")){
+						if (val.equals(""))
+						{
 							val = st.nextToken();
-						}else{
+						}
+						else
+						{
 							val += " " + st.nextToken();
 						}
 					}
 					
-				}else{
-					activeChar.sendMessage("Usage: //admin_restore_char_packet <char_name> <packet_op_code1>,<packet_op_code2>");
-					return false;
 				}
-				
-				String[] charName_packet = val.split(" ");
-				
-				if(charName_packet.length<2){
-					activeChar.sendMessage("Usage: //admin_restore_char_packet <char_name> <packet_op_code1>,<packet_op_code2>");
-					return false;
-				}
-				
-				L2PcInstance target = L2World.getInstance().getPlayer(charName_packet[0]);
-
-				if(target != null)
+				else
 				{
-					PacketsLoggerManager.getInstance().restoreCharacterPacket(target.getName(),charName_packet[1]);
+					activeChar.sendMessage("Usage: //admin_restore_char_packet <char_name> <packet_op_code1>,<packet_op_code2>");
+					return false;
+				}
+				
+				final String[] charName_packet = val.split(" ");
+				
+				if (charName_packet.length < 2)
+				{
+					activeChar.sendMessage("Usage: //admin_restore_char_packet <char_name> <packet_op_code1>,<packet_op_code2>");
+					return false;
+				}
+				
+				final L2PcInstance target = L2World.getInstance().getPlayer(charName_packet[0]);
+				
+				if (target != null)
+				{
+					PacketsLoggerManager.getInstance().restoreCharacterPacket(target.getName(), charName_packet[1]);
 					return true;
 				}
 				
 				activeChar.sendPacket(new SystemMessage(SystemMessageId.CHARACTER_DOES_NOT_EXIST));
 				return false;
 			}
-			case admin_start_monitor_char:{
+			case admin_start_monitor_char:
+			{
 				
 				String val = "";
 				
-				if(st.hasMoreTokens()){
+				if (st.hasMoreTokens())
+				{
 					
-					while(st.hasMoreTokens())
+					while (st.hasMoreTokens())
 					{
-						if(val.equals("")){
+						if (val.equals(""))
+						{
 							val = st.nextToken();
-						}else{
+						}
+						else
+						{
 							val += " " + st.nextToken();
 						}
 					}
 					
-				}else{
+				}
+				else
+				{
 					activeChar.sendMessage("Usage: //start_monitor_char <char_name>");
 					return false;
 				}
 				
-				L2PcInstance target = L2World.getInstance().getPlayer(val.trim());
-
-				if(target != null)
+				final L2PcInstance target = L2World.getInstance().getPlayer(val.trim());
+				
+				if (target != null)
 				{
 					PacketsLoggerManager.getInstance().startCharacterPacketsMonitoring(target.getName());
 					return true;
@@ -164,29 +188,36 @@ public class AdminCharSupervision implements IAdminCommandHandler
 				activeChar.sendPacket(new SystemMessage(SystemMessageId.CHARACTER_DOES_NOT_EXIST));
 				return false;
 			}
-			case admin_stop_monitor_char:{
+			case admin_stop_monitor_char:
+			{
 				
 				String val = "";
 				
-				if(st.hasMoreTokens()){
+				if (st.hasMoreTokens())
+				{
 					
-					while(st.hasMoreTokens())
+					while (st.hasMoreTokens())
 					{
-						if(val.equals("")){
+						if (val.equals(""))
+						{
 							val = st.nextToken();
-						}else{
+						}
+						else
+						{
 							val += " " + st.nextToken();
 						}
 					}
 					
-				}else{
+				}
+				else
+				{
 					activeChar.sendMessage("Usage: //stop_monitor_char <char_name>");
 					return false;
 				}
 				
-				L2PcInstance target = L2World.getInstance().getPlayer(val.trim());
-
-				if(target != null)
+				final L2PcInstance target = L2World.getInstance().getPlayer(val.trim());
+				
+				if (target != null)
 				{
 					PacketsLoggerManager.getInstance().stopCharacterPacketsMonitoring(target.getName());
 					return true;
@@ -198,10 +229,10 @@ public class AdminCharSupervision implements IAdminCommandHandler
 			}
 			
 		}
-
+		
 		return false;
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{

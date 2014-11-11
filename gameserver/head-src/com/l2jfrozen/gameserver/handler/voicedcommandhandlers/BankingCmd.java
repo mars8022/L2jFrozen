@@ -36,7 +36,7 @@ public class BankingCmd implements IVoicedCommandHandler
 	 * @see com.l2jfrozen.gameserver.handler.IVoicedCommandHandler#useVoicedCommand(java.lang.String, com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance, java.lang.String)
 	 */
 	@Override
-	public boolean useVoicedCommand(String command, L2PcInstance activeChar, String target)
+	public boolean useVoicedCommand(final String command, final L2PcInstance activeChar, final String target)
 	{
 		
 		if (!activeChar.getClient().getFloodProtectors().getTransaction().tryPerformAction("bank"))
@@ -67,8 +67,8 @@ public class BankingCmd implements IVoicedCommandHandler
 		else if (command.equalsIgnoreCase("withdraw"))
 		{
 			// If player hasn't enough space for adena
-			long a = activeChar.getInventory().getInventoryItemCount(57, 0);
-			long b = Config.BANKING_SYSTEM_ADENA;
+			final long a = activeChar.getInventory().getInventoryItemCount(57, 0);
+			final long b = Config.BANKING_SYSTEM_ADENA;
 			if (a + b > Integer.MAX_VALUE)
 			{
 				activeChar.sendMessage("You do not have enough space for all the adena in inventory!");

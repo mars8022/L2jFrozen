@@ -22,109 +22,117 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
 /**
  * This class ...
- * 
  * @version $Revision: 1.2.4.2 $ $Date: 2005/03/27 15:29:33 $
  */
+
 public final class L2EnchantSkillLearn
 {
 	// these two build the primary key
-	private final int _id;
-	private final int _level;
-
+	private final int id;
+	private final int level;
 	// not needed, just for easier debug
-	private final String _name;
-
-	private final int _spCost;
-	private final int _baseLvl;
-	private final int _minSkillLevel;
-	private final int _exp;
-	private final byte _rate76;
-	private final byte _rate77;
-	private final byte _rate78;
-
-	public L2EnchantSkillLearn(int id, int lvl, int minSkillLvl, int baseLvl, String name, int cost, int exp, byte rate76, byte rate77, byte rate78)
+	private final String name;
+	private final int spCost;
+	private final int baseLvl;
+	private final int minSkillLevel;
+	private final int exp;
+	private final byte rate76;
+	private final byte rate77;
+	private final byte rate78;
+	private final byte rate79;
+	private final byte rate80;
+	
+	public L2EnchantSkillLearn(final int id, final int level, final int minSkillLevel, final int baseLvl, final String name, final int spCost, final int exp, final byte rate76, final byte rate77, final byte rate78, final byte rate79, final byte rate80)
 	{
-		_id = id;
-		_level = lvl;
-		_baseLvl = baseLvl;
-		_minSkillLevel = minSkillLvl;
-		_name = name.intern();
-		_spCost = cost;
-		_exp = exp;
-		_rate76 = rate76;
-		_rate77 = rate77;
-		_rate78 = rate78;
+		this.id = id;
+		this.level = level;
+		this.baseLvl = baseLvl;
+		this.minSkillLevel = minSkillLevel;
+		this.name = name.intern();
+		this.spCost = spCost;
+		this.exp = exp;
+		this.rate76 = rate76;
+		this.rate77 = rate77;
+		this.rate78 = rate78;
+		this.rate79 = rate79;
+		this.rate80 = rate80;
 	}
-
+	
 	/**
 	 * @return Returns the id.
 	 */
 	public int getId()
 	{
-		return _id;
+		return id;
 	}
-
+	
 	/**
 	 * @return Returns the level.
 	 */
 	public int getLevel()
 	{
-		return _level;
+		return level;
 	}
-
+	
 	/**
 	 * @return Returns the minLevel.
 	 */
 	public int getBaseLevel()
 	{
-		return _baseLvl;
+		return baseLvl;
 	}
-
+	
 	/**
 	 * @return Returns the minSkillLevel.
 	 */
 	public int getMinSkillLevel()
 	{
-		return _minSkillLevel;
+		return minSkillLevel;
 	}
-
+	
 	/**
 	 * @return Returns the name.
 	 */
 	public String getName()
 	{
-		return _name;
+		return name;
 	}
-
+	
 	/**
 	 * @return Returns the spCost.
 	 */
 	public int getSpCost()
 	{
-		return _spCost;
+		return spCost;
 	}
-
+	
 	public int getExp()
 	{
-		return _exp;
+		return exp;
 	}
-
-	public byte getRate(L2PcInstance ply)
+	
+	public byte getRate(final L2PcInstance ply)
 	{
 		byte result;
-		switch(ply.getLevel())
+		switch (ply.getLevel())
 		{
 			case 76:
-				result = _rate76;
+				result = rate76;
 				break;
 			case 77:
-				result = _rate77;
+				result = rate77;
 				break;
 			case 78:
-				result = _rate78;
+				result = rate78;
+				break;
+			case 79:
+				result = rate79;
+				break;
+			case 80:
+				result = rate80;
 				break;
 			default:
-				result = _rate78;
+				result = rate80;
 				break;
 		}
 		return result;

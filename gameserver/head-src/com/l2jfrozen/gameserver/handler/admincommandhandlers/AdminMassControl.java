@@ -24,51 +24,39 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 /**
  * <b>This class handles Admin mass commands:</b><br>
  * <br>
- * 
  * @author Rayan
  */
 public class AdminMassControl implements IAdminCommandHandler
 {
-
+	
 	private static String[] ADMIN_COMMANDS =
 	{
-			"admin_masskill", "admin_massress"
+		"admin_masskill",
+		"admin_massress"
 	};
-
+	
 	@Override
-	public boolean useAdminCommand(String command, L2PcInstance activeChar)
+	public boolean useAdminCommand(final String command, final L2PcInstance activeChar)
 	{
 		/*
-		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
-			return false;
-		}
+		 * if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){ return false; } if(Config.GMAUDIT) { Logger _logAudit = Logger.getLogger("gmaudit"); LogRecord record = new LogRecord(Level.INFO, command); record.setParameters(new Object[] { "GM: " +
+		 * activeChar.getName(), " to target [" + activeChar.getTarget() + "] " }); _logAudit.LOGGER(record); }
+		 */
 		
-		if(Config.GMAUDIT)
-		{
-			Logger _logAudit = Logger.getLogger("gmaudit");
-			LogRecord record = new LogRecord(Level.INFO, command);
-			record.setParameters(new Object[]
-			{
-					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
-			});
-			_logAudit.log(record);
-		}
-		*/
-
-		if(command.startsWith("admin_mass"))
+		if (command.startsWith("admin_mass"))
 		{
 			try
 			{
 				StringTokenizer st = new StringTokenizer(command);
 				st.nextToken();
-
-				if(st.nextToken().equalsIgnoreCase("kill"))
+				
+				if (st.nextToken().equalsIgnoreCase("kill"))
 				{
 					int counter = 0;
-
-					for(L2PcInstance player : L2World.getInstance().getAllPlayers())
+					
+					for (final L2PcInstance player : L2World.getInstance().getAllPlayers())
 					{
-						if(!player.isGM())
+						if (!player.isGM())
 						{
 							counter++;
 							player.getStatus().setCurrentHp(0);
@@ -77,13 +65,13 @@ public class AdminMassControl implements IAdminCommandHandler
 						}
 					}
 				}
-				else if(st.nextToken().equalsIgnoreCase("ress"))
+				else if (st.nextToken().equalsIgnoreCase("ress"))
 				{
 					int counter = 0;
-
-					for(L2PcInstance player : L2World.getInstance().getAllPlayers())
+					
+					for (final L2PcInstance player : L2World.getInstance().getAllPlayers())
 					{
-						if(!player.isGM() && player.isDead())
+						if (!player.isGM() && player.isDead())
 						{
 							counter++;
 							player.doRevive();
@@ -91,19 +79,19 @@ public class AdminMassControl implements IAdminCommandHandler
 						}
 					}
 				}
-
+				
 				st = null;
 			}
-			catch(Exception ex)
+			catch (final Exception ex)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
+				if (Config.ENABLE_ALL_EXCEPTIONS)
 					ex.printStackTrace();
 			}
 		}
-
+		
 		return true;
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{

@@ -28,69 +28,57 @@ public class AdminChangeAccessLevel implements IAdminCommandHandler
 	{
 		"admin_changelvl"
 	};
-
+	
 	@Override
-	public boolean useAdminCommand(String command, L2PcInstance activeChar)
+	public boolean useAdminCommand(final String command, final L2PcInstance activeChar)
 	{
 		/*
-		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
-			return false;
-		}
+		 * if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){ return false; } if(Config.GMAUDIT) { Logger _logAudit = Logger.getLogger("gmaudit"); LogRecord record = new LogRecord(Level.INFO, command); record.setParameters(new Object[] { "GM: " +
+		 * activeChar.getName(), " to target [" + activeChar.getTarget() + "] " }); _logAudit.LOGGER(record); }
+		 */
 		
-		if(Config.GMAUDIT)
-		{
-			Logger _logAudit = Logger.getLogger("gmaudit");
-			LogRecord record = new LogRecord(Level.INFO, command);
-			record.setParameters(new Object[]
-			{
-					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
-			});
-			_logAudit.log(record);
-		}
-		*/
-
 		handleChangeLevel(command, activeChar);
-
+		
 		return true;
 	}
-
+	
 	/**
 	 * @param command
 	 * @param activeChar
 	 */
-	private void handleChangeLevel(String command, L2PcInstance activeChar)
+	private void handleChangeLevel(final String command, final L2PcInstance activeChar)
 	{
-		if(activeChar == null)
+		if (activeChar == null)
 			return;
-
+		
 		String[] parts = command.split(" ");
-
-		if(parts.length == 2)
+		
+		if (parts.length == 2)
 		{
-			int lvl = Integer.parseInt(parts[1]);
-
-			if(activeChar.getTarget() instanceof L2PcInstance)
+			final int lvl = Integer.parseInt(parts[1]);
+			
+			if (activeChar.getTarget() instanceof L2PcInstance)
 			{
 				((L2PcInstance) activeChar.getTarget()).setAccessLevel(lvl);
 				activeChar.sendMessage("You have changed the access level of player " + activeChar.getTarget().getName() + " to " + lvl + " .");
 			}
 		}
-		else if(parts.length == 3)
+		else if (parts.length == 3)
 		{
-			int lvl = Integer.parseInt(parts[2]);
-
-			L2PcInstance player = L2World.getInstance().getPlayer(parts[1]);
-
-			if(player != null)
+			final int lvl = Integer.parseInt(parts[2]);
+			
+			final L2PcInstance player = L2World.getInstance().getPlayer(parts[1]);
+			
+			if (player != null)
 			{
 				player.setAccessLevel(lvl);
 				activeChar.sendMessage("You have changed the access level of player " + activeChar.getTarget().getName() + " to " + lvl + " .");
 			}
 		}
-
+		
 		parts = null;
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{

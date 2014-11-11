@@ -23,6 +23,6 @@ package com.l2jfrozen.gameserver.skills.conditions;
  */
 public interface ConditionListener
 {
-
+	
 	public void notifyChanged();
 }

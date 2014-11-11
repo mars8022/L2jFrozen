@@ -21,15 +21,15 @@ package com.l2jfrozen.gameserver.network.serverpackets;
 public class SurrenderPledgeWar extends L2GameServerPacket
 {
 	private static final String _S__81_SURRENDERPLEDGEWAR = "[S] 69 SurrenderPledgeWar";
-	private String _pledgeName;
-	private String _playerName;
-
-	public SurrenderPledgeWar(String pledge, String charName)
+	private final String _pledgeName;
+	private final String _playerName;
+	
+	public SurrenderPledgeWar(final String pledge, final String charName)
 	{
 		_pledgeName = pledge;
 		_playerName = charName;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
@@ -37,7 +37,7 @@ public class SurrenderPledgeWar extends L2GameServerPacket
 		writeS(_pledgeName);
 		writeS(_playerName);
 	}
-
+	
 	@Override
 	public String getType()
 	{

@@ -24,30 +24,30 @@ public final class RequestSkillList extends L2GameClientPacket
 {
 	@SuppressWarnings("unused")
 	private int _unk1;
-
+	
 	@SuppressWarnings("unused")
 	private int _unk2;
-
+	
 	@SuppressWarnings("unused")
 	private int _unk3;
-
+	
 	@Override
 	protected void readImpl()
 	{
-	// this is just a trigger packet. it has no content
+		// this is just a trigger packet. it has no content
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance cha = getClient().getActiveChar();
-
-		if(cha == null)
+		final L2PcInstance cha = getClient().getActiveChar();
+		
+		if (cha == null)
 			return;
-
+		
 		cha.sendSkillList();
 	}
-
+	
 	@Override
 	public String getType()
 	{

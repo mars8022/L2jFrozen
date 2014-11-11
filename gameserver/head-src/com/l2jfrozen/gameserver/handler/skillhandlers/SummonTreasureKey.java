@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.handler.skillhandlers;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.handler.ISkillHandler;
@@ -34,22 +34,25 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class SummonTreasureKey implements ISkillHandler
 {
-	static Logger _log = Logger.getLogger(SummonTreasureKey.class.getName());
-	private static final SkillType[] SKILL_IDS = { SkillType.SUMMON_TREASURE_KEY };
-
-	@Override
-	public void useSkill(L2Character activeChar, L2Skill skill, L2Object[] targets)
+	static Logger LOGGER = Logger.getLogger(SummonTreasureKey.class);
+	private static final SkillType[] SKILL_IDS =
 	{
-		if(activeChar == null || !(activeChar instanceof L2PcInstance))
+		SkillType.SUMMON_TREASURE_KEY
+	};
+	
+	@Override
+	public void useSkill(final L2Character activeChar, final L2Skill skill, final L2Object[] targets)
+	{
+		if (activeChar == null || !(activeChar instanceof L2PcInstance))
 			return;
-
+		
 		L2PcInstance player = (L2PcInstance) activeChar;
-
+		
 		try
 		{
 			int item_id = 0;
-
-			switch(skill.getLevel())
+			
+			switch (skill.getLevel())
 			{
 				case 1:
 				{
@@ -73,22 +76,22 @@ public class SummonTreasureKey implements ISkillHandler
 				}
 			}
 			player.addItem("Skill", item_id, Rnd.get(2, 3), player, false);
-
+			
 			player = null;
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("Error using skill summon Treasure Key:" + e);
+			LOGGER.warn("Error using skill summon Treasure Key:" + e);
 		}
 	}
-
+	
 	@Override
 	public SkillType[] getSkillIds()
 	{
 		return SKILL_IDS;
 	}
-
+	
 }

@@ -24,32 +24,29 @@ import java.util.Map.Entry;
 import com.l2jfrozen.Config;
 import com.l2jfrozen.netcore.IAcceptFilter;
 
-
 /**
  * Formatted Forsaiken's IPv4 filter [DrHouse]
- * 
  * @author Forsaiken
- *
  */
 public class IPv4Filter implements IAcceptFilter, Runnable
 {
-	private HashMap<Integer, Flood> _ipFloodMap;
+	private final HashMap<Integer, Flood> _ipFloodMap;
 	private static final long SLEEP_TIME = 5000;
 	
 	public IPv4Filter()
 	{
-		_ipFloodMap = new HashMap<Integer, Flood>();
-		Thread t = new Thread(this);
+		_ipFloodMap = new HashMap<>();
+		final Thread t = new Thread(this);
 		t.setName(getClass().getSimpleName());
 		t.setDaemon(true);
 		t.start();
 	}
+	
 	/**
-	 * 
 	 * @param ip
 	 * @return
 	 */
-	private static final int hash(byte[] ip)
+	private static final int hash(final byte[] ip)
 	{
 		return ip[0] & 0xFF | ip[1] << 8 & 0xFF00 | ip[2] << 16 & 0xFF0000 | ip[3] << 24 & 0xFF000000;
 	}
@@ -67,12 +64,12 @@ public class IPv4Filter implements IAcceptFilter, Runnable
 	}
 	
 	@Override
-	public boolean accept(SocketChannel sc)
+	public boolean accept(final SocketChannel sc)
 	{
-		InetAddress addr = sc.socket().getInetAddress();
-		int h = hash(addr.getAddress());
+		final InetAddress addr = sc.socket().getInetAddress();
+		final int h = hash(addr.getAddress());
 		
-		long current = System.currentTimeMillis();
+		final long current = System.currentTimeMillis();
 		Flood f;
 		synchronized (_ipFloodMap)
 		{
@@ -119,13 +116,13 @@ public class IPv4Filter implements IAcceptFilter, Runnable
 	{
 		while (true)
 		{
-			long reference = System.currentTimeMillis() - (1000 * 300);
+			final long reference = System.currentTimeMillis() - (1000 * 300);
 			synchronized (_ipFloodMap)
 			{
-				Iterator<Entry<Integer, Flood>> it = _ipFloodMap.entrySet().iterator();
+				final Iterator<Entry<Integer, Flood>> it = _ipFloodMap.entrySet().iterator();
 				while (it.hasNext())
 				{
-					Flood f = it.next().getValue();
+					final Flood f = it.next().getValue();
 					if (f.lastAccess < reference)
 						it.remove();
 				}
@@ -135,9 +132,9 @@ public class IPv4Filter implements IAcceptFilter, Runnable
 			{
 				Thread.sleep(SLEEP_TIME);
 			}
-			catch (InterruptedException e)
+			catch (final InterruptedException e)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
+				if (Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 				
 				return;

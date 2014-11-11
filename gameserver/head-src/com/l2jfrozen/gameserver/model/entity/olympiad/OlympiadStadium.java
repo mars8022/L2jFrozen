@@ -24,8 +24,8 @@ import com.l2jfrozen.util.L2FastList;
 class OlympiadStadium
 {
 	private boolean _freeToUse = true;
-	private int[] _coords = new int[3];
-	private L2FastList<L2PcInstance> _spectators;
+	private final int[] _coords = new int[3];
+	private final L2FastList<L2PcInstance> _spectators;
 	
 	public boolean isFreeToUse()
 	{
@@ -40,7 +40,7 @@ class OlympiadStadium
 	public void setStadiaFree()
 	{
 		_freeToUse = true;
-        clearSpectators();
+		clearSpectators();
 	}
 	
 	public int[] getCoordinates()
@@ -48,33 +48,33 @@ class OlympiadStadium
 		return _coords;
 	}
 	
-	public OlympiadStadium(int x, int y, int z)
+	public OlympiadStadium(final int x, final int y, final int z)
 	{
 		_coords[0] = x;
 		_coords[1] = y;
 		_coords[2] = z;
-		_spectators = new L2FastList<L2PcInstance>();
+		_spectators = new L2FastList<>();
 	}
-
-	protected void addSpectator(int id, L2PcInstance spec, boolean storeCoords)
+	
+	protected void addSpectator(final int id, final L2PcInstance spec, final boolean storeCoords)
 	{
 		spec.enterOlympiadObserverMode(getCoordinates()[0], getCoordinates()[1], getCoordinates()[2], id, storeCoords);
 		_spectators.add(spec);
 	}
-
+	
 	protected L2FastList<L2PcInstance> getSpectators()
 	{
 		return _spectators;
 	}
 	
-	protected void removeSpectator(L2PcInstance spec)
+	protected void removeSpectator(final L2PcInstance spec)
 	{
 		if (_spectators != null && _spectators.contains(spec))
 			_spectators.remove(spec);
 	}
-
-    private void clearSpectators()
-    {
-        _spectators.clear();
-    }
+	
+	private void clearSpectators()
+	{
+		_spectators.clear();
+	}
 }

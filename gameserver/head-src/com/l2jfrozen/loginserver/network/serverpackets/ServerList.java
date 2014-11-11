@@ -30,18 +30,15 @@ import com.l2jfrozen.loginserver.L2LoginClient;
 import com.l2jfrozen.loginserver.network.gameserverpackets.ServerStatus;
 
 /**
- * ServerList Format: cc [cddcchhcdc] c: server list size (number of servers) c: ? [ (repeat for each servers) c: server
- * id (ignored by client?) d: server ip d: server port c: age limit (used by client?) c: pvp or not (used by client?) h:
- * current number of players h: max number of players c: 0 if server is down d: 2nd bit: clock 3rd bit: wont dsiplay
- * server name 4th bit: test server (used by client?) c: 0 if you dont want to display brackets in front of sever name ]
- * Server will be considered as Good when the number of online players is less than half the maximum. as Normal between
- * half and 4/5 and Full when there's more than 4/5 of the maximum number of players
+ * ServerList Format: cc [cddcchhcdc] c: server list size (number of servers) c: ? [ (repeat for each servers) c: server id (ignored by client?) d: server ip d: server port c: age limit (used by client?) c: pvp or not (used by client?) h: current number of players h: max number of players c: 0 if
+ * server is down d: 2nd bit: clock 3rd bit: wont dsiplay server name 4th bit: test server (used by client?) c: 0 if you dont want to display brackets in front of sever name ] Server will be considered as Good when the number of online players is less than half the maximum. as Normal between half
+ * and 4/5 and Full when there's more than 4/5 of the maximum number of players
  */
 public final class ServerList extends L2LoginServerPacket
 {
-	private List<ServerData> _servers;
-	private int _lastServer;
-
+	private final List<ServerData> _servers;
+	private final int _lastServer;
+	
 	class ServerData
 	{
 		protected String _ip;
@@ -54,8 +51,8 @@ public final class ServerList extends L2LoginServerPacket
 		protected boolean _clock;
 		protected int _status;
 		protected int _serverId;
-
-		ServerData(String pIp, int pPort, boolean pPvp, boolean pTestServer, int pCurrentPlayers, int pMaxPlayers, boolean pBrackets, boolean pClock, int pStatus, int pServer_id)
+		
+		ServerData(final String pIp, final int pPort, final boolean pPvp, final boolean pTestServer, final int pCurrentPlayers, final int pMaxPlayers, final boolean pBrackets, final boolean pClock, final int pStatus, final int pServer_id)
 		{
 			_ip = pIp;
 			_port = pPort;
@@ -69,20 +66,20 @@ public final class ServerList extends L2LoginServerPacket
 			_serverId = pServer_id;
 		}
 	}
-
-	public ServerList(L2LoginClient client)
+	
+	public ServerList(final L2LoginClient client)
 	{
-		_servers = new FastList<ServerData>();
+		_servers = new FastList<>();
 		_lastServer = client.getLastServer();
-
-		for(GameServerInfo gsi : GameServerTable.getInstance().getRegisteredGameServers().values())
+		
+		for (final GameServerInfo gsi : GameServerTable.getInstance().getRegisteredGameServers().values())
 		{
-			if(gsi.getStatus() == ServerStatus.STATUS_GM_ONLY && client.getAccessLevel() >= 100)
+			if (gsi.getStatus() == ServerStatus.STATUS_GM_ONLY && client.getAccessLevel() >= 100)
 			{
 				// Server is GM-Only but you've got GM Status
 				addServer(client.usesInternalIP() ? gsi.getInternalHost() : gsi.getExternalHost(), gsi.getPort(), gsi.isPvp(), gsi.isTestServer(), gsi.getCurrentPlayerCount(), gsi.getMaxPlayers(), gsi.isShowingBrackets(), gsi.isShowingClock(), gsi.getStatus(), gsi.getId());
 			}
-			else if(gsi.getStatus() != ServerStatus.STATUS_GM_ONLY)
+			else if (gsi.getStatus() != ServerStatus.STATUS_GM_ONLY)
 			{
 				// Server is not GM-Only
 				addServer(client.usesInternalIP() ? gsi.getInternalHost() : gsi.getExternalHost(), gsi.getPort(), gsi.isPvp(), gsi.isTestServer(), gsi.getCurrentPlayerCount(), gsi.getMaxPlayers(), gsi.isShowingBrackets(), gsi.isShowingClock(), gsi.getStatus(), gsi.getId());
@@ -94,36 +91,36 @@ public final class ServerList extends L2LoginServerPacket
 			}
 		}
 	}
-
-	public void addServer(String ip, int port, boolean pvp, boolean testServer, int currentPlayer, int maxPlayer, boolean brackets, boolean clock, int status, int server_id)
+	
+	public void addServer(final String ip, final int port, final boolean pvp, final boolean testServer, final int currentPlayer, final int maxPlayer, final boolean brackets, final boolean clock, final int status, final int server_id)
 	{
 		_servers.add(new ServerData(ip, port, pvp, testServer, currentPlayer, maxPlayer, brackets, clock, status, server_id));
 	}
-
+	
 	@Override
 	public void write()
 	{
 		writeC(0x04);
 		writeC(_servers.size());
 		writeC(_lastServer);
-
-		for(ServerData server : _servers)
+		
+		for (final ServerData server : _servers)
 		{
 			writeC(server._serverId); // server id
-
+			
 			try
 			{
-				InetAddress i4 = InetAddress.getByName(server._ip);
-
+				final InetAddress i4 = InetAddress.getByName(server._ip);
+				
 				byte[] raw = i4.getAddress();
-
+				
 				writeC(raw[0] & 0xff);
 				writeC(raw[1] & 0xff);
 				writeC(raw[2] & 0xff);
 				writeC(raw[3] & 0xff);
 				raw = null;
 			}
-			catch(UnknownHostException e)
+			catch (final UnknownHostException e)
 			{
 				e.printStackTrace();
 				writeC(127);
@@ -131,32 +128,33 @@ public final class ServerList extends L2LoginServerPacket
 				writeC(0);
 				writeC(1);
 			}
-
+			
 			writeD(server._port);
 			writeC(0x00); // age limit
 			writeC(server._pvp ? 0x01 : 0x00);
 			writeH(server._currentPlayers);
 			writeH(server._maxPlayers);
 			writeC(server._status == ServerStatus.STATUS_DOWN ? 0x00 : 0x01);
-
+			
 			int bits = 0;
-
-			if(server._testServer)
+			
+			if (server._testServer)
 			{
 				bits |= 0x04;
 			}
-
-			if(server._clock)
+			
+			if (server._clock)
 			{
 				bits |= 0x02;
 			}
-
+			
 			writeD(bits);
 			writeC(server._brackets ? 0x01 : 0x00);
 		}
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.loginserver.network.serverpackets.L2LoginServerPacket#getType()
 	 */
 	@Override

@@ -25,7 +25,7 @@ import com.l2jfrozen.gameserver.skills.Env;
 
 class EffectHealOverTime extends L2Effect
 {
-	public EffectHealOverTime(Env env, EffectTemplate template)
+	public EffectHealOverTime(final Env env, final EffectTemplate template)
 	{
 		super(env, template);
 	}
@@ -46,14 +46,14 @@ class EffectHealOverTime extends L2Effect
 			return false;
 		
 		double hp = getEffected().getCurrentHp();
-		double maxhp = getEffected().getMaxHp();
+		final double maxhp = getEffected().getMaxHp();
 		hp += calc();
 		if (hp > maxhp)
 		{
 			hp = maxhp;
 		}
 		getEffected().setCurrentHp(hp);
-		StatusUpdate suhp = new StatusUpdate(getEffected().getObjectId());
+		final StatusUpdate suhp = new StatusUpdate(getEffected().getObjectId());
 		suhp.addAttribute(StatusUpdate.CUR_HP, (int) hp);
 		getEffected().sendPacket(suhp);
 		return true;

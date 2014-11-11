@@ -35,7 +35,6 @@ import com.l2jfrozen.gameserver.util.Broadcast;
 
 /**
  * Beast SpiritShot Handler
- * 
  * @author programmos, l2jfrozen dev
  */
 public class BeastSpiritShot implements IItemHandler
@@ -43,85 +42,86 @@ public class BeastSpiritShot implements IItemHandler
 	// All the item IDs that this handler knows.
 	private static final int[] ITEM_IDS =
 	{
-			6646, 6647
+		6646,
+		6647
 	};
-
+	
 	@Override
-	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
+	public void useItem(final L2PlayableInstance playable, final L2ItemInstance item)
 	{
-		if(playable == null)
+		if (playable == null)
 			return;
-
+		
 		L2PcInstance activeOwner = null;
-
-		if(playable instanceof L2Summon)
+		
+		if (playable instanceof L2Summon)
 		{
 			activeOwner = ((L2Summon) playable).getOwner();
 			activeOwner.sendPacket(new SystemMessage(SystemMessageId.PET_CANNOT_USE_ITEM));
 			return;
 		}
-		else if(playable instanceof L2PcInstance)
+		else if (playable instanceof L2PcInstance)
 		{
 			activeOwner = (L2PcInstance) playable;
 		}
-
-		if(activeOwner == null)
+		
+		if (activeOwner == null)
 			return;
-
+		
 		L2Summon activePet = activeOwner.getPet();
-		if(activePet == null)
+		if (activePet == null)
 		{
 			activeOwner.sendPacket(new SystemMessage(SystemMessageId.PETS_ARE_NOT_AVAILABLE_AT_THIS_TIME));
 			return;
 		}
-
-		if(activePet.isDead())
+		
+		if (activePet.isDead())
 		{
 			activeOwner.sendPacket(new SystemMessage(SystemMessageId.SOULSHOTS_AND_SPIRITSHOTS_ARE_NOT_AVAILABLE_FOR_A_DEAD_PET));
 			return;
 		}
-
-		int itemId = item.getItemId();
-		boolean isBlessed = itemId == 6647;
+		
+		final int itemId = item.getItemId();
+		final boolean isBlessed = itemId == 6647;
 		int shotConsumption = 1;
-
+		
 		L2ItemInstance weaponInst = null;
 		L2Weapon weaponItem = null;
-
-		if(activePet instanceof L2PetInstance && !(activePet instanceof L2BabyPetInstance))
+		
+		if (activePet instanceof L2PetInstance && !(activePet instanceof L2BabyPetInstance))
 		{
 			weaponInst = ((L2PetInstance) activePet).getActiveWeaponInstance();
 			weaponItem = ((L2PetInstance) activePet).getActiveWeaponItem();
-
-			if(weaponInst == null)
+			
+			if (weaponInst == null)
 			{
 				activeOwner.sendPacket(new SystemMessage(SystemMessageId.CANNOT_USE_SPIRITSHOTS));
 				return;
 			}
-
-			if(weaponInst.getChargedSpiritshot() != L2ItemInstance.CHARGED_NONE)
+			
+			if (weaponInst.getChargedSpiritshot() != L2ItemInstance.CHARGED_NONE)
 				// SpiritShots are already active.
 				return;
-
-			int shotCount = item.getCount();
+			
+			final int shotCount = item.getCount();
 			shotConsumption = weaponItem.getSpiritShotCount();
-
+			
 			weaponItem = null;
-
-			if(shotConsumption == 0)
+			
+			if (shotConsumption == 0)
 			{
 				activeOwner.sendPacket(new SystemMessage(SystemMessageId.CANNOT_USE_SPIRITSHOTS));
 				return;
 			}
-
-			if(!(shotCount > shotConsumption))
+			
+			if (!(shotCount > shotConsumption))
 			{
 				// Not enough SpiritShots to use.
 				activeOwner.sendPacket(new SystemMessage(SystemMessageId.NOT_ENOUGH_SPIRITHOTS_FOR_PET));
 				return;
 			}
-
-			if(isBlessed)
+			
+			if (isBlessed)
 			{
 				weaponInst.setChargedSpiritshot(L2ItemInstance.CHARGED_BLESSED_SPIRITSHOT);
 			}
@@ -132,10 +132,10 @@ public class BeastSpiritShot implements IItemHandler
 		}
 		else
 		{
-			if(activePet.getChargedSpiritShot() != L2ItemInstance.CHARGED_NONE)
+			if (activePet.getChargedSpiritShot() != L2ItemInstance.CHARGED_NONE)
 				return;
-
-			if(isBlessed)
+			
+			if (isBlessed)
 			{
 				activePet.setChargedSpiritShot(L2ItemInstance.CHARGED_BLESSED_SPIRITSHOT);
 			}
@@ -144,13 +144,13 @@ public class BeastSpiritShot implements IItemHandler
 				activePet.setChargedSpiritShot(L2ItemInstance.CHARGED_SPIRITSHOT);
 			}
 		}
-
+		
 		// TODO: test ss
-		if(!Config.DONT_DESTROY_SS)
+		if (!Config.DONT_DESTROY_SS)
 		{
-			if(!activeOwner.destroyItemWithoutTrace("Consume", item.getObjectId(), shotConsumption, null, false))
+			if (!activeOwner.destroyItemWithoutTrace("Consume", item.getObjectId(), shotConsumption, null, false))
 			{
-				if(activeOwner.getAutoSoulShot().containsKey(itemId))
+				if (activeOwner.getAutoSoulShot().containsKey(itemId))
 				{
 					activeOwner.removeAutoSoulShot(itemId);
 					activeOwner.sendPacket(new ExAutoSoulShot(itemId, 0));
@@ -158,24 +158,24 @@ public class BeastSpiritShot implements IItemHandler
 					sm.addString(item.getItem().getName());
 					activeOwner.sendPacket(sm);
 					sm = null;
-
+					
 					return;
 				}
-
+				
 				activeOwner.sendPacket(new SystemMessage(SystemMessageId.NOT_ENOUGH_SPIRITSHOTS));
 				return;
 			}
 		}
-
+		
 		// Pet uses the power of spirit.
 		activeOwner.sendPacket(new SystemMessage(SystemMessageId.PET_USE_THE_POWER_OF_SPIRIT));
-		Broadcast.toSelfAndKnownPlayersInRadius(activeOwner, new MagicSkillUser(activePet, activePet, isBlessed ? 2009 : 2008, 1, 0, 0), 360000/*600*/);
-
+		Broadcast.toSelfAndKnownPlayersInRadius(activeOwner, new MagicSkillUser(activePet, activePet, isBlessed ? 2009 : 2008, 1, 0, 0), 360000/* 600 */);
+		
 		activeOwner = null;
 		activePet = null;
 		weaponInst = null;
 	}
-
+	
 	@Override
 	public int[] getItemIds()
 	{

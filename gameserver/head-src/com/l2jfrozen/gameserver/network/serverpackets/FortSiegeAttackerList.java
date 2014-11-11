@@ -15,7 +15,7 @@
 package com.l2jfrozen.gameserver.network.serverpackets;
 
 //import java.util.Calendar; //signed time related
-//import java.util.logging.Logger;
+//import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.datatables.sql.ClanTable;
 import com.l2jfrozen.gameserver.model.L2Clan;
@@ -45,51 +45,50 @@ import com.l2jfrozen.gameserver.model.entity.siege.Fort;
  * S = AllyName<BR>
  * S = AllyLeaderName<BR>
  * d = AllyCrestID<BR>
- * 
  * @author programmos, scoria dev
  */
 public final class FortSiegeAttackerList extends L2GameServerPacket
 {
 	private static final String _S__CA_SiegeAttackerList = "[S] ca SiegeAttackerList";
-	//private static Logger _log = Logger.getLogger(SiegeAttackerList.class.getName());
-	private Fort _fort;
-
-	public FortSiegeAttackerList(Fort fort)
+	// private static Logger LOGGER = Logger.getLogger(SiegeAttackerList.class);
+	private final Fort _fort;
+	
+	public FortSiegeAttackerList(final Fort fort)
 	{
 		_fort = fort;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
 		writeC(0xca);
 		writeD(_fort.getFortId());
-		writeD(0x00); //0
-		writeD(0x01); //1
-		writeD(0x00); //0
-		int size = _fort.getSiege().getAttackerClans().size();
-		if(size > 0)
+		writeD(0x00); // 0
+		writeD(0x01); // 1
+		writeD(0x00); // 0
+		final int size = _fort.getSiege().getAttackerClans().size();
+		if (size > 0)
 		{
 			L2Clan clan;
-
+			
 			writeD(size);
 			writeD(size);
-			for(L2SiegeClan siegeclan : _fort.getSiege().getAttackerClans())
+			for (final L2SiegeClan siegeclan : _fort.getSiege().getAttackerClans())
 			{
 				clan = ClanTable.getInstance().getClan(siegeclan.getClanId());
-				if(clan == null)
+				if (clan == null)
 				{
 					continue;
 				}
-
+				
 				writeD(clan.getClanId());
 				writeS(clan.getName());
 				writeS(clan.getLeaderName());
 				writeD(clan.getCrestId());
-				writeD(0x00); //signed time (seconds) (not storated by L2J)
+				writeD(0x00); // signed time (seconds) (not storated by L2J)
 				writeD(clan.getAllyId());
 				writeS(clan.getAllyName());
-				writeS(""); //AllyLeaderName
+				writeS(""); // AllyLeaderName
 				writeD(clan.getAllyCrestId());
 			}
 		}
@@ -99,8 +98,9 @@ public final class FortSiegeAttackerList extends L2GameServerPacket
 			writeD(0x00);
 		}
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType()
 	 */
 	@Override
@@ -108,5 +108,5 @@ public final class FortSiegeAttackerList extends L2GameServerPacket
 	{
 		return _S__CA_SiegeAttackerList;
 	}
-
+	
 }

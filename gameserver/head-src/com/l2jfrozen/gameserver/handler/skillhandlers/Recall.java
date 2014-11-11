@@ -36,14 +36,14 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 public class Recall implements ISkillHandler
 {
-	// private static Logger _log = Logger.getLogger(Recall.class.getName());
+	// private static Logger LOGGER = Logger.getLogger(Recall.class);
 	private static final SkillType[] SKILL_IDS =
 	{
 		SkillType.RECALL
 	};
 	
 	@Override
-	public void useSkill(L2Character activeChar, L2Skill skill, L2Object[] targets)
+	public void useSkill(final L2Character activeChar, final L2Skill skill, final L2Object[] targets)
 	{
 		try
 		{
@@ -74,19 +74,19 @@ public class Recall implements ISkillHandler
 				{
 					instance.sendPacket(new SystemMessage(SystemMessageId.YOU_MAY_NOT_SUMMON_FROM_YOUR_CURRENT_LOCATION));
 					return;
-				}			
+				}
 			}
 			
-			for (int index = 0; index < targets.length; index++)
+			for (final L2Object target1 : targets)
 			{
-				if (!(targets[index] instanceof L2Character))
+				if (!(target1 instanceof L2Character))
 					continue;
 				
-				L2Character target = (L2Character) targets[index];
+				L2Character target = (L2Character) target1;
 				
 				if (target instanceof L2PcInstance)
 				{
-					L2PcInstance targetChar = (L2PcInstance) target;
+					final L2PcInstance targetChar = (L2PcInstance) target;
 					
 					if (targetChar.isFestivalParticipant())
 					{
@@ -131,9 +131,7 @@ public class Recall implements ISkillHandler
 					}
 					
 					/*
-					 * Like L2OFF player can be recalled also if he is on combat/rooted 
-					 * 
-					 * if(targetChar.isRooted() || targetChar.isInCombat()) { SystemMessage sm = new SystemMessage(SystemMessageId.S1_IS_ENGAGED_IN_COMBAT_AND_CANNOT_BE_SUMMONED); sm.addString(targetChar.getName());
+					 * Like L2OFF player can be recalled also if he is on combat/rooted if(targetChar.isRooted() || targetChar.isInCombat()) { SystemMessage sm = new SystemMessage(SystemMessageId.S1_IS_ENGAGED_IN_COMBAT_AND_CANNOT_BE_SUMMONED); sm.addString(targetChar.getName());
 					 * activeChar.sendPacket(sm); sm = null; continue; }
 					 */
 					
@@ -159,8 +157,21 @@ public class Recall implements ISkillHandler
 				target.teleToLocation(MapRegionTable.TeleportWhereType.Town);
 				target = null;
 			}
+			
+			if (skill.isMagic() && skill.useSpiritShot())
+			{
+				if (activeChar.checkBss())
+					activeChar.removeBss();
+				if (activeChar.checkSps())
+					activeChar.removeSps();
+			}
+			else if (skill.useSoulShot())
+			{
+				if (activeChar.checkSs())
+					activeChar.removeSs();
+			}
 		}
-		catch (Throwable e)
+		catch (final Throwable e)
 		{
 			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();

@@ -39,136 +39,136 @@ public class L2CommandChannel
 	private final List<L2Party> _partys;
 	private L2PcInstance _commandLeader = null;
 	private int _channelLvl;
-
+	
 	/**
 	 * Creates a New Command Channel and Add the Leaders party to the CC
-	 * @param leader 
+	 * @param leader
 	 */
-	public L2CommandChannel(L2PcInstance leader)
+	public L2CommandChannel(final L2PcInstance leader)
 	{
 		_commandLeader = leader;
-		_partys = new FastList<L2Party>();
+		_partys = new FastList<>();
 		_partys.add(leader.getParty());
 		_channelLvl = leader.getParty().getLevel();
 		leader.getParty().setCommandChannel(this);
 		leader.getParty().broadcastToPartyMembers(new SystemMessage(SystemMessageId.COMMAND_CHANNEL_FORMED));
 		leader.getParty().broadcastToPartyMembers(new ExOpenMPCC());
 	}
-
+	
 	/**
 	 * Adds a Party to the Command Channel
-	 * @param party 
+	 * @param party
 	 */
-	public void addParty(L2Party party)
+	public void addParty(final L2Party party)
 	{
 		if (party == null)
 			return;
 		
 		_partys.add(party);
-
-		if(party.getLevel() > _channelLvl)
+		
+		if (party.getLevel() > _channelLvl)
 		{
 			_channelLvl = party.getLevel();
 		}
-
+		
 		party.setCommandChannel(this);
 		party.broadcastToPartyMembers(new SystemMessage(SystemMessageId.JOINED_COMMAND_CHANNEL));
 		party.broadcastToPartyMembers(new ExOpenMPCC());
 	}
-
+	
 	/**
 	 * Removes a Party from the Command Channel
-	 * @param party 
+	 * @param party
 	 */
-	public void removeParty(L2Party party)
+	public void removeParty(final L2Party party)
 	{
 		if (party == null)
 			return;
 		
 		_partys.remove(party);
 		_channelLvl = 0;
-
-		for(L2Party pty : _partys)
+		
+		for (final L2Party pty : _partys)
 		{
-			if(pty.getLevel() > _channelLvl)
+			if (pty.getLevel() > _channelLvl)
 			{
 				_channelLvl = pty.getLevel();
 			}
 		}
-
+		
 		party.setCommandChannel(null);
 		party.broadcastToPartyMembers(new ExCloseMPCC());
-
-		if(_partys.size() < 2)
+		
+		if (_partys.size() < 2)
 		{
-			broadcastToChannelMembers(new SystemMessage(SystemMessageId.COMMAND_CHANNEL_DISBANDED)); 
+			broadcastToChannelMembers(new SystemMessage(SystemMessageId.COMMAND_CHANNEL_DISBANDED));
 			disbandChannel();
 		}
 	}
-
+	
 	/**
 	 * disbands the whole Command Channel
 	 */
 	public void disbandChannel()
 	{
-		if (_partys != null) 
-		{ 
-			for (L2Party party : _partys) 
-		 	{ 
-				if (party != null) 
-					removeParty(party); 
-		 	} 
-			_partys.clear(); 
-		} 
+		if (_partys != null)
+		{
+			for (final L2Party party : _partys)
+			{
+				if (party != null)
+					removeParty(party);
+			}
+			_partys.clear();
+		}
 	}
-
+	
 	/**
 	 * @return overall member count of the Command Channel
 	 */
 	public int getMemberCount()
 	{
 		int count = 0;
-
-		for(L2Party party : _partys)
+		
+		for (final L2Party party : _partys)
 		{
-			if(party != null)
+			if (party != null)
 			{
 				count += party.getMemberCount();
 			}
 		}
 		return count;
 	}
-
+	
 	/**
 	 * Broadcast packet to every channel member
-	 * @param gsp 
+	 * @param gsp
 	 */
-	public void broadcastToChannelMembers(L2GameServerPacket gsp)
+	public void broadcastToChannelMembers(final L2GameServerPacket gsp)
 	{
 		if (_partys != null && !_partys.isEmpty())
 		{
-			for(L2Party party : _partys)
+			for (final L2Party party : _partys)
 			{
-				if(party != null)
+				if (party != null)
 				{
 					party.broadcastToPartyMembers(gsp);
 				}
 			}
 		}
 	}
-
-	  public void broadcastCSToChannelMembers(CreatureSay gsp, L2PcInstance broadcaster) 
-	  { 
-		  if (_partys != null && !_partys.isEmpty()) 
-		  { 
-			  for (L2Party party : _partys) 
-			  { 
-				  if (party != null) 
-					  party.broadcastCSToPartyMembers(gsp, broadcaster); 
-			  } 
-		  } 
-	  }
-	  
+	
+	public void broadcastCSToChannelMembers(final CreatureSay gsp, final L2PcInstance broadcaster)
+	{
+		if (_partys != null && !_partys.isEmpty())
+		{
+			for (final L2Party party : _partys)
+			{
+				if (party != null)
+					party.broadcastCSToPartyMembers(gsp, broadcaster);
+			}
+		}
+	}
+	
 	/**
 	 * @return list of Parties in Command Channel
 	 */
@@ -176,21 +176,21 @@ public class L2CommandChannel
 	{
 		return _partys;
 	}
-
+	
 	/**
 	 * @return list of all Members in Command Channel
 	 */
 	public List<L2PcInstance> getMembers()
 	{
-		List<L2PcInstance> members = new FastList<L2PcInstance>();
-		for(L2Party party : getPartys())
+		final List<L2PcInstance> members = new FastList<>();
+		for (final L2Party party : getPartys())
 		{
 			members.addAll(party.getPartyMembers());
 		}
-
+		
 		return members;
 	}
-
+	
 	/**
 	 * @return Level of CC
 	 */
@@ -198,15 +198,15 @@ public class L2CommandChannel
 	{
 		return _channelLvl;
 	}
-
+	
 	/**
 	 * @param leader the leader of the Command Channel
 	 */
-	public void setChannelLeader(L2PcInstance leader)
+	public void setChannelLeader(final L2PcInstance leader)
 	{
 		_commandLeader = leader;
 	}
-
+	
 	/**
 	 * @return the leader of the Command Channel
 	 */
@@ -214,25 +214,24 @@ public class L2CommandChannel
 	{
 		return _commandLeader;
 	}
-
+	
 	/**
 	 * Queen Ant, Core, Orfen, Zaken: MemberCount > 36<br>
 	 * Baium: MemberCount > 56<br>
 	 * Antharas: MemberCount > 225<br>
 	 * Valakas: MemberCount > 99<br>
 	 * normal RaidBoss: MemberCount > 18
-	 * 
 	 * @param obj
 	 * @return true if proper condition for RaidWar
 	 */
-	public boolean meetRaidWarCondition(L2Object obj)
+	public boolean meetRaidWarCondition(final L2Object obj)
 	{
-		if(!(obj instanceof L2RaidBossInstance) || !(obj instanceof L2GrandBossInstance))
+		if (!(obj instanceof L2RaidBossInstance) || !(obj instanceof L2GrandBossInstance))
 			return false;
-
-		int npcId = ((L2Attackable) obj).getNpcId();
-
-		switch(npcId)
+		
+		final int npcId = ((L2Attackable) obj).getNpcId();
+		
+		switch (npcId)
 		{
 			case 29001: // Queen Ant
 			case 29006: // Core

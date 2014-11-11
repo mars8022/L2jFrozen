@@ -23,30 +23,30 @@ import com.l2jfrozen.gameserver.network.serverpackets.StopRotation;
 public final class FinishRotating extends L2GameClientPacket
 {
 	private int _degree, _unknown;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_degree = readD();
 		_unknown = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance player = getClient().getActiveChar();
+		final L2PcInstance player = getClient().getActiveChar();
 		if (player == null)
 			return;
-
+		
 		if (!Config.ALLOW_USE_CURSOR_FOR_WALK)
 		{
 			getClient().getActiveChar().sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-
+		
 		player.broadcastPacket(new StopRotation(player, _degree, 0));
 	}
-
+	
 	@Override
 	public String getType()
 	{

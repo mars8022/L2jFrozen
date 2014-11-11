@@ -18,35 +18,33 @@
  */
 package com.l2jfrozen.loginserver.network.gameserverpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.loginserver.network.clientpackets.ClientBasePacket;
 
 /**
- * Format: cccddb c desired ID c accept alternative ID c reserve Host s ExternalHostName s InetranlHostName d max
- * players d hexid size b hexid
- * 
+ * Format: cccddb c desired ID c accept alternative ID c reserve Host s ExternalHostName s InetranlHostName d max players d hexid size b hexid
  * @author -Wooden-
  */
 public class GameServerAuth extends ClientBasePacket
 {
-	protected static Logger _log = Logger.getLogger(GameServerAuth.class.getName());
-	private byte[] _hexId;
-	private int _desiredId;
-	private boolean _hostReserved;
-	private boolean _acceptAlternativeId;
-	private int _maxPlayers;
-	private int _port;
-	private String _externalHost;
-	private String _internalHost;
-
+	protected static Logger LOGGER = Logger.getLogger(GameServerAuth.class);
+	private final byte[] _hexId;
+	private final int _desiredId;
+	private final boolean _hostReserved;
+	private final boolean _acceptAlternativeId;
+	private final int _maxPlayers;
+	private final int _port;
+	private final String _externalHost;
+	private final String _internalHost;
+	
 	/**
 	 * @param decrypt
 	 */
-	public GameServerAuth(byte[] decrypt)
+	public GameServerAuth(final byte[] decrypt)
 	{
 		super(decrypt);
-
+		
 		_desiredId = readC();
 		_acceptAlternativeId = readC() == 0 ? false : true;
 		_hostReserved = readC() == 0 ? false : true;
@@ -54,12 +52,12 @@ public class GameServerAuth extends ClientBasePacket
 		_internalHost = readS();
 		_port = readH();
 		_maxPlayers = readD();
-
-		int size = readD();
-
+		
+		final int size = readD();
+		
 		_hexId = readB(size);
 	}
-
+	
 	/**
 	 * @return
 	 */
@@ -67,22 +65,22 @@ public class GameServerAuth extends ClientBasePacket
 	{
 		return _hexId;
 	}
-
+	
 	public boolean getHostReserved()
 	{
 		return _hostReserved;
 	}
-
+	
 	public int getDesiredID()
 	{
 		return _desiredId;
 	}
-
+	
 	public boolean acceptAlternateID()
 	{
 		return _acceptAlternativeId;
 	}
-
+	
 	/**
 	 * @return Returns the max players.
 	 */
@@ -90,7 +88,7 @@ public class GameServerAuth extends ClientBasePacket
 	{
 		return _maxPlayers;
 	}
-
+	
 	/**
 	 * @return Returns the externalHost.
 	 */
@@ -98,7 +96,7 @@ public class GameServerAuth extends ClientBasePacket
 	{
 		return _externalHost;
 	}
-
+	
 	/**
 	 * @return Returns the internalHost.
 	 */
@@ -106,7 +104,7 @@ public class GameServerAuth extends ClientBasePacket
 	{
 		return _internalHost;
 	}
-
+	
 	/**
 	 * @return Returns the port.
 	 */

@@ -27,124 +27,120 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
 public class PcFreight extends ItemContainer
 {
-	//private static final Logger _log = Logger.getLogger(PcFreight.class.getName());
-
-	private L2PcInstance _owner; // This is the L2PcInstance that owns this Freight;
+	// private static final Logger LOGGER = Logger.getLogger(PcFreight.class);
+	
+	private final L2PcInstance _owner; // This is the L2PcInstance that owns this Freight;
 	private int _activeLocationId;
-
-	public PcFreight(L2PcInstance owner)
+	
+	public PcFreight(final L2PcInstance owner)
 	{
 		_owner = owner;
 	}
-
+	
 	@Override
 	public L2PcInstance getOwner()
 	{
 		return _owner;
 	}
-
+	
 	@Override
 	public ItemLocation getBaseLocation()
 	{
 		return ItemLocation.FREIGHT;
 	}
-
-	public void setActiveLocation(int locationId)
+	
+	public void setActiveLocation(final int locationId)
 	{
 		_activeLocationId = locationId;
 	}
-
+	
 	public int getactiveLocation()
 	{
 		return _activeLocationId;
 	}
-
+	
 	/**
 	 * Returns the quantity of items in the inventory
-	 * 
 	 * @return int
 	 */
 	@Override
 	public int getSize()
 	{
 		int size = 0;
-
-		for(L2ItemInstance item : _items)
+		
+		for (final L2ItemInstance item : _items)
 		{
-			if(item.getEquipSlot() == 0 || _activeLocationId == 0 || item.getEquipSlot() == _activeLocationId)
+			if (item.getEquipSlot() == 0 || _activeLocationId == 0 || item.getEquipSlot() == _activeLocationId)
 			{
 				size++;
 			}
 		}
 		return size;
 	}
-
+	
 	/**
 	 * Returns the list of items in inventory
-	 * 
 	 * @return L2ItemInstance : items in inventory
 	 */
 	@Override
 	public L2ItemInstance[] getItems()
 	{
-		List<L2ItemInstance> list = new FastList<L2ItemInstance>();
-
-		for(L2ItemInstance item : _items)
+		final List<L2ItemInstance> list = new FastList<>();
+		
+		for (final L2ItemInstance item : _items)
 		{
-			if(item.getEquipSlot() == 0 || item.getEquipSlot() == _activeLocationId)
+			if (item.getEquipSlot() == 0 || item.getEquipSlot() == _activeLocationId)
 			{
 				list.add(item);
 			}
 		}
-
+		
 		return list.toArray(new L2ItemInstance[list.size()]);
 	}
-
+	
 	/**
 	 * Returns the item from inventory by using its <B>itemId</B>
-	 * 
 	 * @param itemId : int designating the ID of the item
 	 * @return L2ItemInstance designating the item or null if not found in inventory
 	 */
 	@Override
-	public L2ItemInstance getItemByItemId(int itemId)
+	public L2ItemInstance getItemByItemId(final int itemId)
 	{
-		for(L2ItemInstance item : _items)
-			if(item.getItemId() == itemId && (item.getEquipSlot() == 0 || _activeLocationId == 0 || item.getEquipSlot() == _activeLocationId))
+		for (final L2ItemInstance item : _items)
+			if (item.getItemId() == itemId && (item.getEquipSlot() == 0 || _activeLocationId == 0 || item.getEquipSlot() == _activeLocationId))
 				return item;
-
+		
 		return null;
 	}
-
+	
 	/**
 	 * Adds item to PcFreight for further adjustments.
-	 * 
 	 * @param item : L2ItemInstance to be added from inventory
 	 */
 	@Override
-	protected void addItem(L2ItemInstance item)
+	protected void addItem(final L2ItemInstance item)
 	{
 		super.addItem(item);
-		if(_activeLocationId > 0)
+		if (_activeLocationId > 0)
 		{
 			item.setLocation(item.getLocation(), _activeLocationId);
 		}
 	}
-
+	
 	/**
 	 * Get back items in PcFreight from database
 	 */
 	@Override
 	public void restore()
 	{
-		int locationId = _activeLocationId;
+		final int locationId = _activeLocationId;
 		_activeLocationId = 0;
 		super.restore();
 		_activeLocationId = locationId;
 	}
-
+	
 	@Override
-	public boolean validateCapacity(int slots)
+	public boolean validateCapacity(final int slots)
 	{
 		return getSize() + slots <= _owner.GetFreightLimit();
 	}

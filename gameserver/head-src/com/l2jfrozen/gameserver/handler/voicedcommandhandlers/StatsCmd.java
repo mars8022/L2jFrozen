@@ -18,8 +18,6 @@
  */
 package com.l2jfrozen.gameserver.handler.voicedcommandhandlers;
 
-import java.util.Iterator;
-
 import javolution.text.TextBuilder;
 
 import com.l2jfrozen.Config;
@@ -31,55 +29,59 @@ public class StatsCmd implements IVoicedCommandHandler
 {
 	private static final String[] VOICED_COMMANDS =
 	{
-		"stat", "stats"
+		"stat",
+		"stats"
 	};
-
-	private enum CommandEnum{
-		stat, 
+	
+	private enum CommandEnum
+	{
+		stat,
 		stats
 	}
 	
 	@Override
-	public boolean useVoicedCommand(String command, L2PcInstance activeChar, String target)
+	public boolean useVoicedCommand(final String command, final L2PcInstance activeChar, final String target)
 	{
-		CommandEnum comm = CommandEnum.valueOf(command);
+		final CommandEnum comm = CommandEnum.valueOf(command);
 		
-		if(comm == null)
+		if (comm == null)
 			return false;
 		
-		switch(comm)
+		switch (comm)
 		{
-			case stat:{
+			case stat:
+			{
 				
-				if(!Config.ALLOW_DETAILED_STATS_VIEW){
+				if (!Config.ALLOW_DETAILED_STATS_VIEW)
+				{
 					return false;
 				}
 				
-				if(activeChar.getTarget() == null)
+				if (activeChar.getTarget() == null)
 				{
 					activeChar.sendMessage("You have no one targeted.");
 					return false;
 				}
-				if(activeChar.getTarget() == activeChar)
+				if (activeChar.getTarget() == activeChar)
 				{
 					activeChar.sendMessage("You cannot request your stats.");
 					return false;
 				}
-
-				if(!(activeChar.getTarget() instanceof L2PcInstance))
+				
+				if (!(activeChar.getTarget() instanceof L2PcInstance))
 				{
 					activeChar.sendMessage("You can only get the info of a player.");
 					return false;
 				}
-
+				
 				NpcHtmlMessage adminReply = new NpcHtmlMessage(5);
 				L2PcInstance targetp = (L2PcInstance) activeChar.getTarget();
-
+				
 				TextBuilder replyMSG = new TextBuilder("<html><body><center>");
 				replyMSG.append("<br><br><font color=\"00FF00\">=========>>" + targetp.getName() + "<<=========</font><br>");
 				replyMSG.append("<font color=\"FF0000\">Level: " + targetp.getLevel() + "</font><br>");
-
-				if(targetp.getClan() != null)
+				
+				if (targetp.getClan() != null)
 				{
 					replyMSG.append("<font color=\"FF0000\">Clan: " + targetp.getClan().getName() + "</font><br>");
 					replyMSG.append("<font color=\"FF0000\">Alliance: " + targetp.getClan().getAllyName() + "</font><br>");
@@ -89,10 +91,10 @@ public class StatsCmd implements IVoicedCommandHandler
 					replyMSG.append("<font color=\"FF0000\">Alliance: None</font><br>");
 					replyMSG.append("<font color=\"FF0000\">Clan: None</font><br>");
 				}
-
+				
 				replyMSG.append("<font color=\"FF0000\">Adena: " + targetp.getAdena() + "</font><br>");
-
-				if(targetp.getInventory().getItemByItemId(6393) == null)
+				
+				if (targetp.getInventory().getItemByItemId(6393) == null)
 				{
 					replyMSG.append("<font color=\"FF0000\">Medals : 0</font><br>");
 				}
@@ -100,8 +102,8 @@ public class StatsCmd implements IVoicedCommandHandler
 				{
 					replyMSG.append("<font color=\"FF0000\">Medals : " + targetp.getInventory().getItemByItemId(6393).getCount() + "</font><br>");
 				}
-
-				if(targetp.getInventory().getItemByItemId(3470) == null)
+				
+				if (targetp.getInventory().getItemByItemId(3470) == null)
 				{
 					replyMSG.append("<font color=\"FF0000\">Gold Bars : 0</font><br>");
 				}
@@ -109,7 +111,7 @@ public class StatsCmd implements IVoicedCommandHandler
 				{
 					replyMSG.append("<font color=\"FF0000\">Gold Bars : " + targetp.getInventory().getItemByItemId(3470).getCount() + "</font><br>");
 				}
-
+				
 				replyMSG.append("<font color=\"FF0000\">PvP Kills: " + targetp.getPvpKills() + "</font><br>");
 				replyMSG.append("<font color=\"FF0000\">PvP Flags: " + targetp.getPvpFlag() + "</font><br>");
 				replyMSG.append("<font color=\"FF0000\">PK Kills: " + targetp.getPkKills() + "</font><br>");
@@ -120,89 +122,91 @@ public class StatsCmd implements IVoicedCommandHandler
 					replyMSG.append("<font color=\"FF0000\">No Weapon!</font><br>");
 				}
 				else
-			    {			
-				    replyMSG.append("<font color=\"FF0000\">Wep Enchant: " + targetp.getActiveWeaponInstance().getEnchantLevel() + "</font><br>");
+				{
+					replyMSG.append("<font color=\"FF0000\">Wep Enchant: " + targetp.getActiveWeaponInstance().getEnchantLevel() + "</font><br>");
 				}
 				
 				replyMSG.append("<font color=\"00FF00\">=========>>" + targetp.getName() + "<<=========" + "</font><br>");
 				replyMSG.append("</center></body></html>");
-
+				
 				adminReply.setHtml(replyMSG.toString());
 				activeChar.sendPacket(adminReply);
-
+				
 				adminReply = null;
 				targetp = null;
 				replyMSG = null;
 				
 				return true;
 			}
-			case stats:{
+			case stats:
+			{
 				
-				if(!Config.ALLOW_SIMPLE_STATS_VIEW){
+				if (!Config.ALLOW_SIMPLE_STATS_VIEW)
+				{
 					return false;
 				}
 				
-				if(activeChar.getTarget() == null)
+				if (activeChar.getTarget() == null)
 				{
 					activeChar.sendMessage("You have no one targeted.");
 					return false;
 				}
-				if(activeChar.getTarget() == activeChar)
+				if (activeChar.getTarget() == activeChar)
 				{
 					activeChar.sendMessage("You cannot request your stats.");
 					return false;
 				}
-
-				if(!(activeChar.getTarget() instanceof L2PcInstance))
+				
+				if (!(activeChar.getTarget() instanceof L2PcInstance))
 				{
 					activeChar.sendMessage("You can only get the info of a player.");
 					return false;
 				}
 				
-				L2PcInstance targetp = (L2PcInstance) activeChar.getTarget();
-
-				//L2PcInstance pc = L2World.getInstance().getPlayer(target);
-
-				if(targetp != null)
+				final L2PcInstance targetp = (L2PcInstance) activeChar.getTarget();
+				
+				// L2PcInstance pc = L2World.getInstance().getPlayer(target);
+				
+				if (targetp != null)
 				{
 					NpcHtmlMessage adminReply = new NpcHtmlMessage(5);
-
+					
 					TextBuilder replyMSG = new TextBuilder("<html><body>");
-
+					
 					replyMSG.append("<center><font color=\"LEVEL\">[ L2J EVENT ENGINE ]</font></center><br>");
 					replyMSG.append("<br>Statistics for player <font color=\"LEVEL\">" + targetp.getName() + "</font><br>");
 					replyMSG.append("Total kills <font color=\"FF0000\">" + targetp.kills.size() + "</font><br>");
 					replyMSG.append("<br>Detailed list: <br>");
-
-					Iterator<String> it = targetp.kills.iterator();
-					while(it.hasNext())
+					
+					for (final String kill : targetp.kills)
 					{
-						replyMSG.append("<font color=\"FF0000\">" + it.next() + "</font><br>");
+						replyMSG.append("<font color=\"FF0000\">" + kill + "</font><br>");
 					}
-
+					
 					replyMSG.append("</body></html>");
-
+					
 					adminReply.setHtml(replyMSG.toString());
 					activeChar.sendPacket(adminReply);
-
+					
 					adminReply = null;
 					replyMSG = null;
 					
 					return true;
 				}
-				return false;	
+				return false;
 			}
-			default:{
+			default:
+			{
 				return false;
 			}
 		}
 		
 	}
-
+	
 	@Override
 	public String[] getVoicedCommandList()
 	{
 		return VOICED_COMMANDS;
 	}
-
+	
 }

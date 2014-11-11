@@ -18,15 +18,20 @@
  */
 package com.l2jfrozen.gameserver.managers;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.util.Collection;
 import java.util.concurrent.ScheduledFuture;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
+import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
+import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
  * <b>AutoSave</b> only
@@ -34,9 +39,10 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
  */
 public class AutoSaveManager
 {
-	protected static final Logger _log = Logger.getLogger(AutoSaveManager.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(AutoSaveManager.class);
 	private ScheduledFuture<?> _autoSaveInDB;
 	private ScheduledFuture<?> _autoCheckConnectionStatus;
+	private ScheduledFuture<?> _autoCleanDatabase;
 	
 	public static final AutoSaveManager getInstance()
 	{
@@ -45,11 +51,11 @@ public class AutoSaveManager
 	
 	public AutoSaveManager()
 	{
-		_log.info("Initializing AutoSaveManager");
+		LOGGER.info("Initializing AutoSaveManager");
 	}
 	
 	public void stopAutoSaveManager()
-	{		
+	{
 		if (_autoSaveInDB != null)
 		{
 			_autoSaveInDB.cancel(true);
@@ -60,7 +66,12 @@ public class AutoSaveManager
 		{
 			_autoCheckConnectionStatus.cancel(true);
 			_autoCheckConnectionStatus = null;
-		}	
+		}
+		if (_autoCleanDatabase != null)
+		{
+			_autoCleanDatabase.cancel(true);
+			_autoCleanDatabase = null;
+		}
 	}
 	
 	public void startAutoSaveManager()
@@ -68,7 +79,8 @@ public class AutoSaveManager
 		
 		stopAutoSaveManager();
 		_autoSaveInDB = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new AutoSaveTask(), Config.AUTOSAVE_INITIAL_TIME, Config.AUTOSAVE_DELAY_TIME);
-		_autoCheckConnectionStatus = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new PlayersSaveTask(), Config.CHECK_CONNECTION_INITIAL_TIME, Config.CHECK_CONNECTION_DELAY_TIME);
+		_autoCheckConnectionStatus = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new ConnectionCheckTask(), Config.CHECK_CONNECTION_INITIAL_TIME, Config.CHECK_CONNECTION_DELAY_TIME);
+		_autoCleanDatabase = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new AutoCleanDBTask(), Config.CLEANDB_INITIAL_TIME, Config.CLEANDB_DELAY_TIME);
 	}
 	
 	protected class AutoSaveTask implements Runnable
@@ -76,49 +88,46 @@ public class AutoSaveManager
 		@Override
 		public void run()
 		{
-			_log.info("AutoSaveManager: saving players data..");
+			int playerscount = 0;
 			
 			final Collection<L2PcInstance> players = L2World.getInstance().getAllPlayers();
 			
 			for (final L2PcInstance player : players)
 			{
-				
 				if (player != null)
 				{
 					try
 					{
+						playerscount++;
 						player.store();
 					}
-					catch (Exception e)
+					catch (final Exception e)
 					{
 						if (Config.ENABLE_ALL_EXCEPTIONS)
 							e.printStackTrace();
 						
-						_log.log(Level.SEVERE, "Error saving player character: " + player.getName(), e);
+						LOGGER.error("Error saving player character: " + player.getName(), e);
 					}
 				}
 			}
-			_log.info("AutoSaveManager: players data saved..");
+			LOGGER.info("[AutoSaveManager] AutoSaveTask, " + playerscount + " players data saved.");
 		}
 	}
 	
-	protected class PlayersSaveTask implements Runnable
+	protected class ConnectionCheckTask implements Runnable
 	{
 		@Override
 		public void run()
 		{
-			if (Config.DEBUG)
-				_log.info("AutoSaveManager: checking players connection..");
-			
 			final Collection<L2PcInstance> players = L2World.getInstance().getAllPlayers();
 			
 			for (final L2PcInstance player : players)
-			{			
+			{
 				if (player != null && !player.isOffline())
 				{
 					if (player.getClient() == null || player.isOnline() == 0)
 					{
-						_log.info("AutoSaveManager: player " + player.getName() + " status == 0 ---> Closing Connection..");
+						LOGGER.info("[AutoSaveManager] Player " + player.getName() + " status == 0 ---> Closing Connection..");
 						player.store();
 						player.deleteMe();
 					}
@@ -126,37 +135,65 @@ public class AutoSaveManager
 					{
 						try
 						{
-							_log.info("AutoSaveManager: player " + player.getName() + " connection is not alive ---> Closing Connection..");
+							LOGGER.info("[AutoSaveManager] Player " + player.getName() + " connection is not alive ---> Closing Connection..");
 							player.getClient().onDisconnection();
 						}
-						catch (Exception e)
+						catch (final Exception e)
 						{
-							if (Config.ENABLE_ALL_EXCEPTIONS)
-								e.printStackTrace();
-							
-							_log.log(Level.SEVERE, "Error saving player character: " + player.getName(), e);
+							LOGGER.error("[AutoSaveManager] Error saving player character: " + player.getName(), e);
 						}
 					}
 					else if (player.checkTeleportOverTime())
 					{
 						try
 						{
-							_log.info("AutoSaveManager: player " + player.getName() + " has a teleport overtime ---> Closing Connection..");
+							LOGGER.info("[AutoSaveManager] Player " + player.getName() + " has a teleport overtime ---> Closing Connection..");
 							player.getClient().onDisconnection();
 						}
-						catch (Exception e)
+						catch (final Exception e)
 						{
-							if (Config.ENABLE_ALL_EXCEPTIONS)
-								e.printStackTrace();
-							
-							_log.log(Level.SEVERE, "Error saving player character: " + player.getName(), e);
+							LOGGER.error("[AutoSaveManager] Error saving player character: " + player.getName(), e);
 						}
 					}
 				}
 			}
+			LOGGER.info("[AutoSaveManager] ConnectionCheckTask, players connections checked.");
+		}
+	}
+	
+	protected class AutoCleanDBTask implements Runnable
+	{
+		
+		@Override
+		public void run()
+		{
+			int erased = 0;
 			
-			if (Config.DEBUG)
-				_log.info("AutoSaveManager: players connections checked..");
+			/*
+			 * Perform the clean here instead of every time that the skills are saved in order to do it in once step because if skill have 0 reuse delay doesn't affect the game, just makes the table grows bigger
+			 */
+			Connection con = null;
+			try
+			{
+				con = L2DatabaseFactory.getInstance().getConnection(false);
+				PreparedStatement statement;
+				statement = con.prepareStatement("DELETE FROM character_skills_save WHERE reuse_delay=0");
+				erased = statement.executeUpdate();
+				DatabaseUtils.close(statement);
+				statement = null;
+			}
+			catch (final Exception e)
+			{
+				LOGGER.info("[AutoSaveManager] Error while cleaning skill with 0 reuse time from table.");
+				if (Config.ENABLE_ALL_EXCEPTIONS)
+					e.printStackTrace();
+			}
+			finally
+			{
+				CloseUtil.close(con);
+			}
+			
+			LOGGER.info("[AutoSaveManager] AutoCleanDBTask, " + erased + " entries cleaned from db.");
 		}
 	}
 	

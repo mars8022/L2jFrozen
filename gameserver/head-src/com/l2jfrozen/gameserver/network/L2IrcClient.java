@@ -20,8 +20,8 @@ package com.l2jfrozen.gameserver.network;
 
 import java.io.IOException;
 import java.security.cert.X509Certificate;
-import java.util.logging.Logger;
 
+import org.apache.log4j.Logger;
 import org.schwering.irc.lib.IRCConnection;
 import org.schwering.irc.lib.IRCEventListener;
 import org.schwering.irc.lib.IRCModeParser;
@@ -42,23 +42,29 @@ import com.l2jfrozen.util.random.Rnd;
  */
 public class L2IrcClient extends Thread
 {
-	protected static final Logger _log = Logger.getLogger(L2IrcClient.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(L2IrcClient.class);
 	protected static final Logger _logChat = Logger.getLogger("irc");
 	
 	protected IRCConnection conn;
 	protected String channel;
 	protected String nickname;
 	
-	public L2IrcClient(String host, int port, String pass, String nick, String user, String name, boolean ssl, String Chan)
+	public L2IrcClient(final String host, final int port, final String pass, final String nick, final String user, final String name, final boolean ssl, final String Chan)
 	{
-		if (!ssl) 
+		if (!ssl)
 		{
-			conn = new IRCConnection(host, new int[] { port }, pass, nick, user, name);
-		} 
-		else 
+			conn = new IRCConnection(host, new int[]
+			{
+				port
+			}, pass, nick, user, name);
+		}
+		else
 		{
-			conn = new SSLIRCConnection(host, new int[] { port }, pass, nick, user, name);
-			((SSLIRCConnection)conn).addTrustManager(new TrustManager());
+			conn = new SSLIRCConnection(host, new int[]
+			{
+				port
+			}, pass, nick, user, name);
+			((SSLIRCConnection) conn).addTrustManager(new TrustManager());
 		}
 		channel = Chan;
 		nickname = nick;
@@ -70,74 +76,79 @@ public class L2IrcClient extends Thread
 		start();
 	}
 	
-	public void connect() throws IOException 
+	public void connect() throws IOException
 	{
-		if(!conn.isConnected())
+		if (!conn.isConnected())
 		{
 			conn.connect();
 			conn.send("JOIN " + channel);
 			setDaemon(true);
 		}
 	}
-
+	
 	public void disconnect()
 	{
-		if(conn.isConnected())
+		if (conn.isConnected())
 		{
 			conn.close();
 			conn.setDaemon(false);
 		}
 	}
 	
-	public void send(String Text)
+	public void send(final String Text)
 	{
-		if(checkConnection())
+		if (checkConnection())
 			conn.send(Text);
 	}
 	
-	public void send(String target,String Text)
+	public void send(final String target, final String Text)
 	{
-		if(checkConnection())
+		if (checkConnection())
 			conn.doPrivmsg(target, Text);
 	}
-
-	public void sendChan(String Text)
+	
+	public void sendChan(final String Text)
 	{
-		if(checkConnection())
+		if (checkConnection())
 		{
 			conn.doPrivmsg(channel, Text);
-			if(Config.IRC_LOG_CHAT)
-				_logChat.info("IRC: "+channel +"> text");
+			if (Config.IRC_LOG_CHAT)
+				_logChat.info("IRC: " + channel + "> text");
 		}
 	}
-
+	
 	public boolean checkConnection()
 	{
-		if(!conn.isConnected())
+		if (!conn.isConnected())
 		{
-			try 
+			try
 			{
 				conn.close();
 				connect();
-			} 
-			catch (Exception exc) 
+			}
+			catch (final Exception exc)
 			{
-	          exc.printStackTrace();
-	        }
+				exc.printStackTrace();
+			}
 		}
 		return conn.isConnected();
 	}
 	
-	public class TrustManager implements SSLTrustManager {
+	public class TrustManager implements SSLTrustManager
+	{
 		private X509Certificate[] chain;
+		
 		@Override
-		public X509Certificate[] getAcceptedIssuers() {
+		public X509Certificate[] getAcceptedIssuers()
+		{
 			return chain != null ? chain : new X509Certificate[0];
 		}
+		
 		@Override
-		public boolean isTrusted(X509Certificate[] chain) {
-				this.chain = chain;
-				return true;
+		public boolean isTrusted(final X509Certificate[] chain)
+		{
+			this.chain = chain;
+			return true;
 		}
 		
 	}
@@ -145,182 +156,177 @@ public class L2IrcClient extends Thread
 	/**
 	 * Treats IRC events.
 	 */
-	public class Listener implements IRCEventListener {
-
+	public class Listener implements IRCEventListener
+	{
+		
 		private boolean isconnected;
 		
 		@Override
-		public void onRegistered() 
+		public void onRegistered()
 		{
-			_log.info("IRC: Connected");
-
-			if(Config.IRC_LOG_CHAT)
+			LOGGER.info("IRC: Connected");
+			
+			if (Config.IRC_LOG_CHAT)
 				_logChat.info("IRC: Connected");
 			
-			if(!Config.IRC_LOGIN_COMMAND.trim().equals(""))
+			if (!Config.IRC_LOGIN_COMMAND.trim().equals(""))
 				send(Config.IRC_LOGIN_COMMAND.trim());
 			
-			if(Config.IRC_NICKSERV)
-				send(Config.IRC_NICKSERV_NAME,Config.IRC_NICKSERV_COMMAND);
+			if (Config.IRC_NICKSERV)
+				send(Config.IRC_NICKSERV_NAME, Config.IRC_NICKSERV_COMMAND);
 			
 			isconnected = true;
 		}
 		
 		@Override
-		public void onDisconnected() 
+		public void onDisconnected()
 		{
-			_log.info("IRC: Disconnected");
-
-			if(Config.IRC_LOG_CHAT)
+			LOGGER.info("IRC: Disconnected");
+			
+			if (Config.IRC_LOG_CHAT)
 				_logChat.info("IRC: Disconnected");
 			
 			isconnected = false;
-			conn.close();			
+			conn.close();
 		}
 		
 		@Override
-		public void onError(String msg) 
+		public void onError(final String msg)
 		{
-			_log.info("IRC: Error: "+ msg);
-
-			if(Config.IRC_LOG_CHAT)
-				_logChat.info("IRC: Error: "+ msg);
-		}
-		
-		@Override
-		public void onError(int num, String msg) 
-		{
-			_log.info("IRC: Error #"+ num +": "+ msg);
+			LOGGER.info("IRC: Error: " + msg);
 			
-			if(Config.IRC_LOG_CHAT)
-				_logChat.info("IRC: Error #"+ num +": "+ msg);
+			if (Config.IRC_LOG_CHAT)
+				_logChat.info("IRC: Error: " + msg);
+		}
+		
+		@Override
+		public void onError(final int num, final String msg)
+		{
+			LOGGER.info("IRC: Error #" + num + ": " + msg);
+			
+			if (Config.IRC_LOG_CHAT)
+				_logChat.info("IRC: Error #" + num + ": " + msg);
 			
 			// nickname already in use
-			if(num==433)
+			if (num == 433)
 			{
-				Integer random = Rnd.get(999);
-				send("NICK "+nickname+random);
-				send("JOIN "+channel);
+				final Integer random = Rnd.get(999);
+				send("NICK " + nickname + random);
+				send("JOIN " + channel);
 			}
 		}
 		
 		@Override
-		public void onInvite(String chan, IRCUser u, String nickPass) 
+		public void onInvite(final String chan, final IRCUser u, final String nickPass)
 		{
-			if(Config.IRC_LOG_CHAT)
-				_logChat.info("IRC: "+ chan +"> "+ u.getNick() +" invites "+ nickPass);
+			if (Config.IRC_LOG_CHAT)
+				_logChat.info("IRC: " + chan + "> " + u.getNick() + " invites " + nickPass);
 		}
 		
 		@Override
-		public void onJoin(String chan, IRCUser u) 
+		public void onJoin(final String chan, final IRCUser u)
 		{
-			if(Config.IRC_LOG_CHAT)
-				_logChat.info("IRC: "+chan +"> "+ u.getNick() +" joins");			
+			if (Config.IRC_LOG_CHAT)
+				_logChat.info("IRC: " + chan + "> " + u.getNick() + " joins");
 		}
 		
 		@Override
-		public void onKick(String chan, IRCUser u, String nickPass, String msg) 
+		public void onKick(final String chan, final IRCUser u, final String nickPass, final String msg)
 		{
-			if(Config.IRC_LOG_CHAT)
-				_logChat.info("IRC: "+chan +"> "+ u.getNick() +" kicks "+ nickPass);
+			if (Config.IRC_LOG_CHAT)
+				_logChat.info("IRC: " + chan + "> " + u.getNick() + " kicks " + nickPass);
 		}
 		
 		@Override
-		public void onMode(IRCUser u, String nickPass, String mode) 
+		public void onMode(final IRCUser u, final String nickPass, final String mode)
 		{
-			if(Config.IRC_LOG_CHAT)
-				_logChat.info("IRC Mode: "+ u.getNick() +" sets modes "+ mode +" "+ nickPass);
+			if (Config.IRC_LOG_CHAT)
+				_logChat.info("IRC Mode: " + u.getNick() + " sets modes " + mode + " " + nickPass);
 		}
 		
 		@Override
-		public void onMode(String chan, IRCUser u, IRCModeParser mp) 
+		public void onMode(final String chan, final IRCUser u, final IRCModeParser mp)
 		{
-			if(Config.IRC_LOG_CHAT)
-				_logChat.info("IRC: "+chan +"> "+ u.getNick() +" sets mode: "+ mp.getLine());
+			if (Config.IRC_LOG_CHAT)
+				_logChat.info("IRC: " + chan + "> " + u.getNick() + " sets mode: " + mp.getLine());
 		}
 		
 		@Override
-		public void onNick(IRCUser u, String nickNew) 
+		public void onNick(final IRCUser u, final String nickNew)
 		{
-			if(Config.IRC_LOG_CHAT)
-				_logChat.info("IRC Nick: "+ u.getNick() +" is now known as "+ nickNew);
+			if (Config.IRC_LOG_CHAT)
+				_logChat.info("IRC Nick: " + u.getNick() + " is now known as " + nickNew);
 		}
 		
 		@Override
-		public void onNotice(String target, IRCUser u, String msg) 
+		public void onNotice(final String target, final IRCUser u, final String msg)
 		{
-			if(Config.IRC_LOG_CHAT)
-				_logChat.info("Irc "+target +"> "+ u.getNick() +" (notice): "+ msg);
+			if (Config.IRC_LOG_CHAT)
+				_logChat.info("Irc " + target + "> " + u.getNick() + " (notice): " + msg);
 		}
 		
 		@Override
-		public void onPart(String chan, IRCUser u, String msg) 
+		public void onPart(final String chan, final IRCUser u, final String msg)
 		{
-			if(Config.IRC_LOG_CHAT)
-				_logChat.info("IRC: "+chan +"> "+ u.getNick() +" parts");
+			if (Config.IRC_LOG_CHAT)
+				_logChat.info("IRC: " + chan + "> " + u.getNick() + " parts");
 		}
 		
 		@Override
-		public void onPrivmsg(String chan, IRCUser u, String msg) 
+		public void onPrivmsg(final String chan, final IRCUser u, final String msg)
 		{
 			
-			if(Config.IRC_LOG_CHAT)
-				_logChat.info("IRC: "+chan +"> "+ u.getNick() +": "+ msg);
-
-			if(chan.equalsIgnoreCase(channel))
+			if (Config.IRC_LOG_CHAT)
+				_logChat.info("IRC: " + chan + "> " + u.getNick() + ": " + msg);
+			
+			if (chan.equalsIgnoreCase(channel))
 			{
-				if(Config.IRC_TO_GAME_TYPE.equals("global") || Config.IRC_TO_GAME_TYPE.equals("special"))
+				if (Config.IRC_TO_GAME_TYPE.equals("global") || Config.IRC_TO_GAME_TYPE.equals("special"))
 				{
-					if(Config.IRC_TO_GAME_TYPE.equals("global") || 
-							(Config.IRC_TO_GAME_TYPE.equals("special") && 
-									msg.substring(0,1).equals(Config.IRC_TO_GAME_SPECIAL_CHAR) && 
-									msg.length()>=2)
-							)
-						{
+					if (Config.IRC_TO_GAME_TYPE.equals("global") || (Config.IRC_TO_GAME_TYPE.equals("special") && msg.substring(0, 1).equals(Config.IRC_TO_GAME_SPECIAL_CHAR) && msg.length() >= 2))
+					{
 						
 						String sendmsg;
-						if(Config.IRC_TO_GAME_TYPE.equals("special"))
-							sendmsg = msg.substring(1,msg.length());
+						if (Config.IRC_TO_GAME_TYPE.equals("special"))
+							sendmsg = msg.substring(1, msg.length());
 						else
 							sendmsg = msg;
-
+						
 						Integer ChatType = 1;
 						
-						if(Config.IRC_TO_GAME_DISPLAY.equals("trade"))
+						if (Config.IRC_TO_GAME_DISPLAY.equals("trade"))
 							ChatType = 8;
-						if(Config.IRC_TO_GAME_DISPLAY.equals("hero"))
+						if (Config.IRC_TO_GAME_DISPLAY.equals("hero"))
 							ChatType = 17;
 						
-						CreatureSay cs = new CreatureSay(0, ChatType, "[IRC] "+u.getNick(), sendmsg);
-
-		            	for (L2PcInstance player : L2World.getInstance().getAllPlayers())
-		            	{
-		                    player.sendPacket(cs);
-		            	}
+						final CreatureSay cs = new CreatureSay(0, ChatType, "[IRC] " + u.getNick(), sendmsg);
+						
+						for (final L2PcInstance player : L2World.getInstance().getAllPlayers())
+						{
+							player.sendPacket(cs);
+						}
 					}
 				}
 			}
 			
-			if(msg.equals("!online"))
+			if (msg.equals("!online"))
 			{
 				sendChan("Online Players: " + L2World.getAllPlayersCount() + " / " + LoginServerThread.getInstance().getMaxPlayer());
 			}
-
-			if(msg.equals("!gmlist"))
+			
+			if (msg.equals("!gmlist"))
 			{
-				if(GmListTable.getInstance().getAllGms(false).size() == 0)
+				if (GmListTable.getInstance().getAllGms(false).size() == 0)
 					sendChan(Config.IRC_NO_GM_MSG);
 				else
-					for (L2PcInstance gm : GmListTable.getInstance().getAllGms(false))
+					for (final L2PcInstance gm : GmListTable.getInstance().getAllGms(false))
 						sendChan(gm.getName());
 			}
 			if (msg.equals("!rates"))
 			{
-				sendChan("XP Rate: " + Config.RATE_XP + " | " + "SP Rate: " + Config.RATE_SP + " | " + "Spoil Rate: " + Config.RATE_DROP_SPOIL + " | "
-						+ "Adena Rate: " + Config.RATE_DROP_ADENA + " | " + "Drop Rate: " + Config.RATE_DROP_ITEMS + " | " + "Party XP Rate: "
-						+ Config.RATE_PARTY_XP + " | " + "Party SP Rate: " + Config.RATE_PARTY_SP);
+				sendChan("XP Rate: " + Config.RATE_XP + " | " + "SP Rate: " + Config.RATE_SP + " | " + "Spoil Rate: " + Config.RATE_DROP_SPOIL + " | " + "Adena Rate: " + Config.RATE_DROP_ADENA + " | " + "Drop Rate: " + Config.RATE_DROP_ITEMS + " | " + "Party XP Rate: " + Config.RATE_PARTY_XP + " | " + "Party SP Rate: " + Config.RATE_PARTY_SP);
 			}
-
+			
 			if (msg.equals("!showon"))
 			{
 				if (L2World.getInstance().getAllPlayers().size() == 0)
@@ -329,7 +335,7 @@ public class L2IrcClient extends Thread
 				{
 					String _onlineNames = Config.IRC_PLAYER_ONLINE + "";
 					boolean _isFirst = true;
-					for (L2PcInstance player : L2World.getInstance().getAllPlayers())
+					for (final L2PcInstance player : L2World.getInstance().getAllPlayers())
 					{
 						_onlineNames = _onlineNames + (_isFirst ? " " : ", ") + player.getName();
 						_isFirst = false;
@@ -341,30 +347,30 @@ public class L2IrcClient extends Thread
 		}
 		
 		@Override
-		public void onQuit(IRCUser u, String msg) 
+		public void onQuit(final IRCUser u, final String msg)
 		{
-			if(Config.IRC_LOG_CHAT)
-				_logChat.info("IRC Quit: "+ u.getNick());
+			if (Config.IRC_LOG_CHAT)
+				_logChat.info("IRC Quit: " + u.getNick());
 		}
 		
 		@Override
-		public void onReply(int num, String value, String msg) 
+		public void onReply(final int num, final String value, final String msg)
 		{
-			if(Config.IRC_LOG_CHAT)
-				_logChat.info("IRC REPLY #"+ num +": "+ value +" "+ msg);
+			if (Config.IRC_LOG_CHAT)
+				_logChat.info("IRC REPLY #" + num + ": " + value + " " + msg);
 		}
 		
 		@Override
-		public void onTopic(String chan, IRCUser u, String topic) 
+		public void onTopic(final String chan, final IRCUser u, final String topic)
 		{
-			if(Config.IRC_LOG_CHAT)
-				_logChat.info("IRC: "+chan +"> "+ u.getNick() +" changes topic into: "+ topic);
+			if (Config.IRC_LOG_CHAT)
+				_logChat.info("IRC: " + chan + "> " + u.getNick() + " changes topic into: " + topic);
 		}
 		
 		@Override
-		public void onPing(String p) 
+		public void onPing(final String p)
 		{
-			if(Config.IRC_LOG_CHAT)
+			if (Config.IRC_LOG_CHAT)
 				_logChat.info("IRC: Ping Pong");
 			
 			// keep connection alive
@@ -372,9 +378,9 @@ public class L2IrcClient extends Thread
 		}
 		
 		@Override
-		public void unknown(String a, String b, String c, String d) 
+		public void unknown(final String a, final String b, final String c, final String d)
 		{
-			_log.warning("IRC UNKNOWN: "+ a +" b "+ c +" "+ d);
+			LOGGER.warn("IRC UNKNOWN: " + a + " b " + c + " " + d);
 		}
 		
 		public boolean isConnected()

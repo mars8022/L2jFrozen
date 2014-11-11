@@ -18,7 +18,7 @@
 
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
@@ -28,37 +28,37 @@ import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
  */
 public final class RequestLinkHtml extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(RequestLinkHtml.class.getName());
+	private static Logger LOGGER = Logger.getLogger(RequestLinkHtml.class);
 	private String _link;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_link = readS();
 	}
-
+	
 	@Override
 	public void runImpl()
 	{
-		L2PcInstance actor = getClient().getActiveChar();
-		if(actor == null)
+		final L2PcInstance actor = getClient().getActiveChar();
+		if (actor == null)
 			return;
-
-		if(_link.contains("..") || !_link.contains(".htm"))
+		
+		if (_link.contains("..") || !_link.contains(".htm"))
 		{
-			_log.warning("[RequestLinkHtml] hack? link contains prohibited characters: '" + _link + "', skipped");
+			LOGGER.warn("[RequestLinkHtml] hack? link contains prohibited characters: '" + _link + "', skipped");
 			return;
 		}
-
-		if(!actor.validateLink(_link))
+		
+		if (!actor.validateLink(_link))
 			return;
-
-		NpcHtmlMessage msg = new NpcHtmlMessage(0);
+		
+		final NpcHtmlMessage msg = new NpcHtmlMessage(0);
 		msg.setFile(_link);
-
+		
 		sendPacket(msg);
 	}
-
+	
 	@Override
 	public String getType()
 	{

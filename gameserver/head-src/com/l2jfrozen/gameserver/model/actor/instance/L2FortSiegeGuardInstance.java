@@ -31,31 +31,31 @@ import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 
 public class L2FortSiegeGuardInstance extends L2Attackable
 {
-	public L2FortSiegeGuardInstance(int objectId, L2NpcTemplate template)
+	public L2FortSiegeGuardInstance(final int objectId, final L2NpcTemplate template)
 	{
 		super(objectId, template);
-		getKnownList(); //inits the knownlist
+		getKnownList(); // inits the knownlist
 	}
-
+	
 	@Override
 	public FortSiegeGuardKnownList getKnownList()
 	{
-		if(!(super.getKnownList() instanceof FortSiegeGuardKnownList))
+		if (!(super.getKnownList() instanceof FortSiegeGuardKnownList))
 		{
 			setKnownList(new FortSiegeGuardKnownList(this));
 		}
 		return (FortSiegeGuardKnownList) super.getKnownList();
 	}
-
+	
 	@Override
 	public L2CharacterAI getAI()
 	{
-		L2CharacterAI ai = _ai; // copy handle
-		if(ai == null)
+		final L2CharacterAI ai = _ai; // copy handle
+		if (ai == null)
 		{
 			synchronized (this)
 			{
-				if(_ai == null)
+				if (_ai == null)
 				{
 					_ai = new L2FortSiegeGuardAI(new AIAccessor());
 				}
@@ -64,140 +64,141 @@ public class L2FortSiegeGuardInstance extends L2Attackable
 		}
 		return ai;
 	}
-
+	
 	/**
 	 * Return True if a siege is in progress and the L2Character attacker isn't a Defender.<BR>
 	 * <BR>
-	 * 
 	 * @param attacker The L2Character that the L2SiegeGuardInstance try to attack
 	 */
 	@Override
-	public boolean isAutoAttackable(L2Character attacker)
+	public boolean isAutoAttackable(final L2Character attacker)
 	{
-		if(!(attacker instanceof L2PlayableInstance))
+		if (!(attacker instanceof L2PlayableInstance))
 			return false;
-
+		
 		boolean isFort = false;
-		if(attacker instanceof L2PcInstance){
-			isFort = ( getFort() != null && getFort().getFortId() > 0 && getFort().getSiege().getIsInProgress() && !getFort().getSiege().checkIsDefender(((L2PcInstance) attacker).getClan()));
-		}else{
-			isFort = ( getFort() != null && getFort().getFortId() > 0 && getFort().getSiege().getIsInProgress() && !getFort().getSiege().checkIsDefender(((L2Summon) attacker).getOwner().getClan()));
+		if (attacker instanceof L2PcInstance)
+		{
+			isFort = (getFort() != null && getFort().getFortId() > 0 && getFort().getSiege().getIsInProgress() && !getFort().getSiege().checkIsDefender(((L2PcInstance) attacker).getClan()));
+		}
+		else
+		{
+			isFort = (getFort() != null && getFort().getFortId() > 0 && getFort().getSiege().getIsInProgress() && !getFort().getSiege().checkIsDefender(((L2Summon) attacker).getOwner().getClan()));
 		}
 		
 		// Attackable during siege by all except defenders
 		return isFort;
 	}
-
+	
 	@Override
 	public boolean hasRandomAnimation()
 	{
 		return false;
 	}
-
+	
 	/**
 	 * This method forces guard to return to home location previously set
 	 */
 	public void returnHome()
 	{
-		if(getWalkSpeed() <= 0)
+		if (getWalkSpeed() <= 0)
 			return;
-		if(!isInsideRadius(getSpawn().getLocx(), getSpawn().getLocy(), 40, false))
+		if (!isInsideRadius(getSpawn().getLocx(), getSpawn().getLocy(), 40, false))
 		{
-			if(Config.DEBUG)
+			if (Config.DEBUG)
 			{
-				_log.info(getObjectId() + ": moving home");
+				LOGGER.info(getObjectId() + ": moving home");
 			}
 			setisReturningToSpawnPoint(true);
 			clearAggroList();
-
-			if(hasAI())
+			
+			if (hasAI())
 			{
 				getAI().setIntention(CtrlIntention.AI_INTENTION_MOVE_TO, new L2CharPosition(getSpawn().getLocx(), getSpawn().getLocy(), getSpawn().getLocz(), 0));
 			}
 		}
 	}
-
+	
 	/**
-	 * Custom onAction behaviour. Note that super() is not called because guards need extra check to see if a player
-	 * should interact or ATTACK them when clicked.
+	 * Custom onAction behaviour. Note that super() is not called because guards need extra check to see if a player should interact or ATTACK them when clicked.
 	 */
 	@Override
-	public void onAction(L2PcInstance player)
+	public void onAction(final L2PcInstance player)
 	{
-		if(!canTarget(player))
+		if (!canTarget(player))
 		{
 			player.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-
+		
 		// Check if the L2PcInstance already target the L2NpcInstance
-		if(this != player.getTarget())
+		if (this != player.getTarget())
 		{
-			if(Config.DEBUG)
+			if (Config.DEBUG)
 			{
-				_log.info("new target selected:" + getObjectId());
+				LOGGER.info("new target selected:" + getObjectId());
 			}
-
+			
 			// Set the target of the L2PcInstance player
 			player.setTarget(this);
-
+			
 			// Send a Server->Client packet MyTargetSelected to the L2PcInstance player
 			MyTargetSelected my = new MyTargetSelected(getObjectId(), player.getLevel() - getLevel());
 			player.sendPacket(my);
 			my = null;
-
+			
 			// Send a Server->Client packet StatusUpdate of the L2NpcInstance to the L2PcInstance to update its HP bar
 			StatusUpdate su = new StatusUpdate(getObjectId());
 			su.addAttribute(StatusUpdate.CUR_HP, (int) getStatus().getCurrentHp());
 			su.addAttribute(StatusUpdate.MAX_HP, getMaxHp());
 			player.sendPacket(su);
 			su = null;
-
+			
 			// Send a Server->Client packet ValidateLocation to correct the L2NpcInstance position and heading on the client
 			player.sendPacket(new ValidateLocation(this));
 		}
 		else
 		{
-			if(isAutoAttackable(player) && !isAlikeDead())
+			if (isAutoAttackable(player) && !isAlikeDead())
 			{
-				if(Math.abs(player.getZ() - getZ()) < 600) // this max heigth difference might need some tweaking
+				if (Math.abs(player.getZ() - getZ()) < 600) // this max heigth difference might need some tweaking
 				{
 					player.getAI().setIntention(CtrlIntention.AI_INTENTION_ATTACK, this);
 				}
 			}
-			if(!isAutoAttackable(player))
+			if (!isAutoAttackable(player))
 			{
-				if(!canInteract(player))
+				if (!canInteract(player))
 				{
 					// Notify the L2PcInstance AI with AI_INTENTION_INTERACT
 					player.getAI().setIntention(CtrlIntention.AI_INTENTION_INTERACT, this);
 				}
 			}
 		}
-		//Send a Server->Client ActionFailed to the L2PcInstance in order to avoid that the client wait another packet
+		// Send a Server->Client ActionFailed to the L2PcInstance in order to avoid that the client wait another packet
 		player.sendPacket(ActionFailed.STATIC_PACKET);
 	}
-
+	
 	@Override
-	public void addDamageHate(L2Character attacker, int damage, int aggro)
+	public void addDamageHate(final L2Character attacker, final int damage, final int aggro)
 	{
-		if(attacker == null)
+		if (attacker == null)
 			return;
-
-		if(!(attacker instanceof L2FortSiegeGuardInstance))
+		
+		if (!(attacker instanceof L2FortSiegeGuardInstance))
 		{
-			if(attacker instanceof L2PlayableInstance)
+			if (attacker instanceof L2PlayableInstance)
 			{
 				L2PcInstance player = null;
-				if(attacker instanceof L2PcInstance)
+				if (attacker instanceof L2PcInstance)
 				{
 					player = (L2PcInstance) attacker;
 				}
-				else if(attacker instanceof L2Summon)
+				else if (attacker instanceof L2Summon)
 				{
 					player = ((L2Summon) attacker).getOwner();
 				}
-				if(player != null && player.getClan() != null && player.getClan().getHasFort() == getFort().getFortId())
+				if (player != null && player.getClan() != null && player.getClan().getHasFort() == getFort().getFortId())
 					return;
 			}
 			super.addDamageHate(attacker, damage, aggro);

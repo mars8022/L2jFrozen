@@ -30,33 +30,32 @@ public class MercTicket implements IItemHandler
 {
 	private static final String[] MESSAGES =
 	{
-			"To arms!.", "I am ready to serve you my lord when the time comes.", "You summon me."
+		"To arms!.",
+		"I am ready to serve you my lord when the time comes.",
+		"You summon me."
 	};
-
+	
 	/**
-	 * handler for using mercenary tickets. Things to do: 1) Check constraints: 1.a) Tickets may only be used in a
-	 * castle 1.b) Only specific tickets may be used in each castle (different tickets for each castle) 1.c) only the
-	 * owner of that castle may use them 1.d) tickets cannot be used during siege 1.e) Check if max number of tickets
-	 * has been reached 1.f) Check if max number of tickets from this ticket's TYPE has been reached 2) If allowed, call
-	 * the MercTicketManager to add the item and spawn in the world 3) Remove the item from the person's inventory
+	 * handler for using mercenary tickets. Things to do: 1) Check constraints: 1.a) Tickets may only be used in a castle 1.b) Only specific tickets may be used in each castle (different tickets for each castle) 1.c) only the owner of that castle may use them 1.d) tickets cannot be used during siege
+	 * 1.e) Check if max number of tickets has been reached 1.f) Check if max number of tickets from this ticket's TYPE has been reached 2) If allowed, call the MercTicketManager to add the item and spawn in the world 3) Remove the item from the person's inventory
 	 */
 	@Override
-	public void useItem(L2PlayableInstance playable, L2ItemInstance item)
+	public void useItem(final L2PlayableInstance playable, final L2ItemInstance item)
 	{
-		int itemId = item.getItemId();
-		L2PcInstance activeChar = (L2PcInstance) playable;
-		Castle castle = CastleManager.getInstance().getCastle(activeChar);
+		final int itemId = item.getItemId();
+		final L2PcInstance activeChar = (L2PcInstance) playable;
+		final Castle castle = CastleManager.getInstance().getCastle(activeChar);
 		int castleId = -1;
-
-		if(castle != null)
+		
+		if (castle != null)
 		{
 			castleId = castle.getCastleId();
 		}
-
-		//add check that certain tickets can only be placed in certain castles
-		if(MercTicketManager.getInstance().getTicketCastleId(itemId) != castleId)
+		
+		// add check that certain tickets can only be placed in certain castles
+		if (MercTicketManager.getInstance().getTicketCastleId(itemId) != castleId)
 		{
-			switch(castleId)
+			switch (castleId)
 			{
 				case 1:
 					activeChar.sendMessage("This Mercenary Ticket can only be used in Gludio.");
@@ -91,36 +90,36 @@ public class MercTicket implements IItemHandler
 					return;
 			}
 		}
-
-		if(!activeChar.isCastleLord(castleId))
+		
+		if (!activeChar.isCastleLord(castleId))
 		{
 			activeChar.sendMessage("You are not the lord of this castle!");
 			return;
 		}
-
-		if((castle == null) || castle.getSiege().getIsInProgress())
+		
+		if ((castle == null) || castle.getSiege().getIsInProgress())
 		{
 			activeChar.sendMessage("You cannot hire mercenary while siege is in progress!");
 			return;
 		}
-
-		if(MercTicketManager.getInstance().isAtCasleLimit(item.getItemId()))
+		
+		if (MercTicketManager.getInstance().isAtCasleLimit(item.getItemId()))
 		{
 			activeChar.sendMessage("You cannot hire any more mercenaries");
 			return;
 		}
-
-		if(MercTicketManager.getInstance().isAtTypeLimit(item.getItemId()))
+		
+		if (MercTicketManager.getInstance().isAtTypeLimit(item.getItemId()))
 		{
 			activeChar.sendMessage("You cannot hire any more mercenaries of this type.  You may still hire other types of mercenaries");
 			return;
 		}
-
-		int npcId = MercTicketManager.getInstance().addTicket(item.getItemId(), activeChar, MESSAGES);
+		
+		final int npcId = MercTicketManager.getInstance().addTicket(item.getItemId(), activeChar, MESSAGES);
 		activeChar.destroyItem("Consume", item.getObjectId(), 1, null, false); // Remove item from char's inventory
 		activeChar.sendMessage("Hired mercenary (" + itemId + "," + npcId + ") at coords:" + activeChar.getX() + "," + activeChar.getY() + "," + activeChar.getZ() + " heading:" + activeChar.getHeading());
 	}
-
+	
 	// left in here for backward compatibility
 	@Override
 	public int[] getItemIds()

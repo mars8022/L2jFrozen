@@ -24,30 +24,29 @@ import com.l2jfrozen.gameserver.geo.pathfinding.Node;
 import com.l2jfrozen.gameserver.geo.util.L2FastSet;
 import com.l2jfrozen.gameserver.geo.util.ObjectPool;
 
-
 public final class BinaryNodeHeap
 {
 	protected final Node[] _list = new Node[800 + 1];
-	protected final L2FastSet<Node> _set = new L2FastSet<Node>();
+	protected final L2FastSet<Node> _set = new L2FastSet<>();
 	protected int _size = 0;
-
+	
 	protected BinaryNodeHeap()
 	{
 		
 	}
-
-	public void add(Node n)
+	
+	public void add(final Node n)
 	{
 		_size++;
 		int pos = _size;
 		_list[pos] = n;
 		_set.add(n);
-		while(pos != 1)
+		while (pos != 1)
 		{
-			int p2 = pos / 2;
-			if(_list[pos].getCost() <= _list[p2].getCost())
+			final int p2 = pos / 2;
+			if (_list[pos].getCost() <= _list[p2].getCost())
 			{
-				Node temp = _list[p2];
+				final Node temp = _list[p2];
 				_list[p2] = _list[pos];
 				_list[pos] = temp;
 				pos = p2;
@@ -56,10 +55,10 @@ public final class BinaryNodeHeap
 				break;
 		}
 	}
-
+	
 	public Node removeFirst()
 	{
-		Node first = _list[1];
+		final Node first = _list[1];
 		_list[1] = _list[_size];
 		_list[_size] = null;
 		_size--;
@@ -67,24 +66,24 @@ public final class BinaryNodeHeap
 		int cpos;
 		int dblcpos;
 		Node temp;
-		while(true)
+		while (true)
 		{
 			cpos = pos;
 			dblcpos = cpos * 2;
-			if((dblcpos + 1) <= _size)
+			if ((dblcpos + 1) <= _size)
 			{
-				if(_list[cpos].getCost() >= _list[dblcpos].getCost())
+				if (_list[cpos].getCost() >= _list[dblcpos].getCost())
 					pos = dblcpos;
-				if(_list[pos].getCost() >= _list[dblcpos + 1].getCost())
+				if (_list[pos].getCost() >= _list[dblcpos + 1].getCost())
 					pos = dblcpos + 1;
 			}
-			else if(dblcpos <= _size)
+			else if (dblcpos <= _size)
 			{
-				if(_list[cpos].getCost() >= _list[dblcpos].getCost())
+				if (_list[cpos].getCost() >= _list[dblcpos].getCost())
 					pos = dblcpos;
 			}
-
-			if(cpos != pos)
+			
+			if (cpos != pos)
 			{
 				temp = _list[cpos];
 				_list[cpos] = _list[pos];
@@ -96,40 +95,40 @@ public final class BinaryNodeHeap
 		_set.remove(first);
 		return first;
 	}
-
-	public boolean contains(Node n)
+	
+	public boolean contains(final Node n)
 	{
-		if(_size == 0)
+		if (_size == 0)
 			return false;
 		
 		return _set.contains(n);
 	}
-
+	
 	public boolean isEmpty()
 	{
 		return _size == 0;
 	}
-
+	
 	public static BinaryNodeHeap newInstance()
 	{
 		return POOL.get();
 	}
-
-	public static void recycle(BinaryNodeHeap heap)
+	
+	public static void recycle(final BinaryNodeHeap heap)
 	{
 		POOL.store(heap);
 	}
-
+	
 	private static final ObjectPool<BinaryNodeHeap> POOL = new ObjectPool<BinaryNodeHeap>()
 	{
 		@Override
-		protected void reset(BinaryNodeHeap heap)
+		protected void reset(final BinaryNodeHeap heap)
 		{
 			Arrays.fill(heap._list, null);
 			heap._set.clear();
 			heap._size = 0;
 		}
-
+		
 		@Override
 		protected BinaryNodeHeap create()
 		{

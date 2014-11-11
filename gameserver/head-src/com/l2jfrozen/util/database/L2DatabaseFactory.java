@@ -20,20 +20,21 @@ package com.l2jfrozen.util.database;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 
 public abstract class L2DatabaseFactory
 {
-	private static final Logger _log = Logger.getLogger(L2DatabaseFactory.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(L2DatabaseFactory.class);
 	
 	protected enum ProviderType
 	{
 		MySql,
 		MsSql
 	}
-
+	
 	// =========================================================
 	// Data Field
 	protected static L2DatabaseFactory _instance;
@@ -41,22 +42,26 @@ public abstract class L2DatabaseFactory
 	
 	// =========================================================
 	// Property - Public
+	// SQLException is thrown in order to avoid aplicattion continue on sql error
+	@SuppressWarnings("unused")
 	public static L2DatabaseFactory getInstance() throws SQLException
 	{
-		if(_instance == null)
+		if (_instance == null)
 		{
-			if(Config.DATABASE_POOL_TYPE.equals("BoneCP")){
+			if (Config.DATABASE_POOL_TYPE.equals("BoneCP"))
+			{
 				_instance = new L2DatabaseFactory_BoneCP();
-			}else{
+			}
+			else
+			{
 				_instance = new L2DatabaseFactory_c3p0();
 			}
 			
 		}
 		return _instance;
 	}
-
 	
-	public final String prepQuerySelect(String[] fields, String tableName, String whereClause, boolean returnOnlyTopRecord)
+	public final String prepQuerySelect(final String[] fields, final String tableName, final String whereClause, final boolean returnOnlyTopRecord)
 	{
 		String msSqlTop1 = "";
 		String mySqlTop1 = "";
@@ -67,11 +72,11 @@ public abstract class L2DatabaseFactory
 			if (getProviderType() == ProviderType.MySql)
 				mySqlTop1 = " Limit 1 ";
 		}
-		String query = "SELECT " + msSqlTop1 + safetyString(fields) + " FROM " + tableName + " WHERE " + whereClause + mySqlTop1;
+		final String query = "SELECT " + msSqlTop1 + safetyString(fields) + " FROM " + tableName + " WHERE " + whereClause + mySqlTop1;
 		return query;
 	}
 	
-	public final String safetyString(String... whatToCheck)
+	public final String safetyString(final String... whatToCheck)
 	{
 		// NOTE: Use brace as a safty precaution just incase name is a reserved word
 		final char braceLeft;
@@ -90,14 +95,14 @@ public abstract class L2DatabaseFactory
 		
 		int length = 0;
 		
-		for (String word : whatToCheck)
+		for (final String word : whatToCheck)
 		{
 			length += word.length() + 4;
 		}
 		
 		final StringBuilder sbResult = new StringBuilder(length);
 		
-		for (String word : whatToCheck)
+		for (final String word : whatToCheck)
 		{
 			if (sbResult.length() > 0)
 			{
@@ -112,8 +117,8 @@ public abstract class L2DatabaseFactory
 		return sbResult.toString();
 	}
 	
-	public Connection getConnection() throws SQLException 
-	{ 
+	public Connection getConnection() throws SQLException
+	{
 		return getConnection(true);
 	}
 	
@@ -122,7 +127,7 @@ public abstract class L2DatabaseFactory
 		return _providerType;
 	}
 	
-	public static void close(Connection con)
+	public static void close(final Connection con)
 	{
 		if (con == null)
 			return;
@@ -131,14 +136,13 @@ public abstract class L2DatabaseFactory
 		{
 			con.close();
 		}
-		catch (SQLException e)
+		catch (final SQLException e)
 		{
-			_log.severe("Failed to close database connection! "+ e);
+			LOGGER.error("Failed to close database connection!", e);
 		}
 	}
 	
 	public abstract void shutdown();
-	
 	
 	public abstract Connection getConnection(boolean checkclose) throws SQLException;
 	

@@ -49,7 +49,7 @@ public class DropProtection implements Runnable
 		return _owner;
 	}
 	
-	public synchronized boolean tryPickUp(L2PcInstance actor)
+	public synchronized boolean tryPickUp(final L2PcInstance actor)
 	{
 		if (!_isProtected)
 			return true;
@@ -66,7 +66,7 @@ public class DropProtection implements Runnable
 		return false;
 	}
 	
-	public boolean tryPickUp(L2PetInstance pet)
+	public boolean tryPickUp(final L2PetInstance pet)
 	{
 		return tryPickUp(pet.getOwner());
 	}
@@ -81,7 +81,7 @@ public class DropProtection implements Runnable
 		_task = null;
 	}
 	
-	public synchronized void protect(L2PcInstance player)
+	public synchronized void protect(final L2PcInstance player)
 	{
 		unprotect();
 		

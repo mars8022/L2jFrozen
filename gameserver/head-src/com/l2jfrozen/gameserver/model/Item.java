@@ -23,7 +23,6 @@ import com.l2jfrozen.gameserver.templates.StatsSet;
 
 /**
  * This class ...
- * 
  * @author luisantonioa
  * @version $Revision: 1.2 $ $Date: 2004/06/27 08:12:59 $
  */

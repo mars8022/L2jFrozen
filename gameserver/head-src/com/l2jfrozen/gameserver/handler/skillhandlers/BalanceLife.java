@@ -20,6 +20,7 @@ package com.l2jfrozen.gameserver.handler.skillhandlers;
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.handler.ISkillHandler;
 import com.l2jfrozen.gameserver.handler.SkillHandler;
+import com.l2jfrozen.gameserver.managers.GrandBossManager;
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.L2Skill;
@@ -31,97 +32,105 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 /**
  * This class ...
- * 
  * @author earendil
  * @version $Revision: 1.1.2.2.2.4 $ $Date: 2005/04/06 16:13:48 $
  */
 
 public class BalanceLife implements ISkillHandler
 {
-	private static final SkillType[] SKILL_IDS = { SkillType.BALANCE_LIFE };
-
+	private static final SkillType[] SKILL_IDS =
+	{
+		SkillType.BALANCE_LIFE
+	};
+	
 	@Override
-	public void useSkill(L2Character activeChar, L2Skill skill, L2Object[] targets)
+	public void useSkill(final L2Character activeChar, final L2Skill skill, final L2Object[] targets)
 	{
 		// L2Character activeChar = activeChar;
 		// check for other effects
 		try
 		{
-			ISkillHandler handler = SkillHandler.getInstance().getSkillHandler(SkillType.BUFF);
-
-			if(handler != null)
+			final ISkillHandler handler = SkillHandler.getInstance().getSkillHandler(SkillType.BUFF);
+			
+			if (handler != null)
 				handler.useSkill(activeChar, skill, targets);
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 		}
-
+		
 		L2Character target = null;
-
+		
 		L2PcInstance player = null;
-		if(activeChar instanceof L2PcInstance)
+		if (activeChar instanceof L2PcInstance)
 			player = (L2PcInstance) activeChar;
-
+		
 		double fullHP = 0;
 		double currentHPs = 0;
-
-		for(L2Object target2 : targets)
+		
+		for (final L2Object target2 : targets)
 		{
 			target = (L2Character) target2;
-
+			
 			// We should not heal if char is dead
-			if(target == null || target.isDead())
+			if (target == null || target.isDead())
 				continue;
-
-			// Player holding a cursed weapon can't be healed and can't heal
-			if(target != activeChar)
+			
+			// Avoid players heal inside Baium lair from outside
+			if ((activeChar.isInsideZone(12007) || target.isInsideZone(12007)) && ((GrandBossManager.getInstance().getZone(player) == null && GrandBossManager.getInstance().getZone(target) != null) || (GrandBossManager.getInstance().getZone(target) == null && GrandBossManager.getInstance().getZone(activeChar) != null)))
 			{
-				if(target instanceof L2PcInstance && ((L2PcInstance) target).isCursedWeaponEquiped())
+				continue;
+			}
+			
+			// Player holding a cursed weapon can't be healed and can't heal
+			if (target != activeChar)
+			{
+				if (target instanceof L2PcInstance && ((L2PcInstance) target).isCursedWeaponEquiped())
 					continue;
-				else if(player != null && player.isCursedWeaponEquiped())
+				else if (player != null && player.isCursedWeaponEquiped())
 					continue;
 			}
-
+			
 			player = null;
-
+			
 			fullHP += target.getMaxHp();
 			currentHPs += target.getCurrentHp();
 		}
 		target = null;
-
-		double percentHP = currentHPs / fullHP;
-
-		for(L2Object target2 : targets)
+		
+		final double percentHP = currentHPs / fullHP;
+		
+		for (final L2Object target2 : targets)
 		{
 			target = (L2Character) target2;
-
-			if(target == null || target.isDead())
+			
+			if (target == null || target.isDead())
 				continue;
-
-			double newHP = target.getMaxHp() * percentHP;
-			double totalHeal = newHP - target.getCurrentHp();
-
+			
+			final double newHP = target.getMaxHp() * percentHP;
+			final double totalHeal = newHP - target.getCurrentHp();
+			
 			target.setCurrentHp(newHP);
-
-			if(totalHeal > 0)
+			
+			if (totalHeal > 0)
 				target.setLastHealAmount((int) totalHeal);
-
+			
 			StatusUpdate su = new StatusUpdate(target.getObjectId());
 			su.addAttribute(StatusUpdate.CUR_HP, (int) target.getCurrentHp());
 			target.sendPacket(su);
 			su = null;
-
+			
 			SystemMessage sm = new SystemMessage(SystemMessageId.S1_S2);
 			sm.addString("HP of the party has been balanced.");
 			target.sendPacket(sm);
 			sm = null;
-
+			
 		}
 		target = null;
 	}
-
+	
 	@Override
 	public SkillType[] getSkillIds()
 	{

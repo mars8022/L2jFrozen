@@ -23,27 +23,25 @@ import com.l2jfrozen.gameserver.managers.CastleManorManager.SeedProduction;
 import com.l2jfrozen.gameserver.model.L2Manor;
 
 /**
- * format(packet 0xFE) ch ddd [dddddcdcd] c - id h - sub id d - manor id d d - size [ d - seed id d - left to buy d -
- * started amount d - sell price d - seed level c d - reward 1 id c d - reward 2 id ]
- * 
+ * format(packet 0xFE) ch ddd [dddddcdcd] c - id h - sub id d - manor id d d - size [ d - seed id d - left to buy d - started amount d - sell price d - seed level c d - reward 1 id c d - reward 2 id ]
  * @author l3x
  */
 public class ExShowSeedInfo extends L2GameServerPacket
 {
 	private static final String _S__FE_1C_EXSHOWSEEDINFO = "[S] FE:1C ExShowSeedInfo";
 	private FastList<SeedProduction> _seeds;
-	private int _manorId;
-
-	public ExShowSeedInfo(int manorId, FastList<SeedProduction> seeds)
+	private final int _manorId;
+	
+	public ExShowSeedInfo(final int manorId, final FastList<SeedProduction> seeds)
 	{
 		_manorId = manorId;
 		_seeds = seeds;
-		if(_seeds == null)
+		if (_seeds == null)
 		{
-			_seeds = new FastList<SeedProduction>();
+			_seeds = new FastList<>();
 		}
 	}
-
+	
 	@Override
 	protected void writeImpl()
 	{
@@ -53,7 +51,7 @@ public class ExShowSeedInfo extends L2GameServerPacket
 		writeD(_manorId); // Manor ID
 		writeD(0);
 		writeD(_seeds.size());
-		for(SeedProduction seed : _seeds)
+		for (final SeedProduction seed : _seeds)
 		{
 			writeD(seed.getId()); // Seed id
 			writeD(seed.getCanProduce()); // Left to buy
@@ -66,7 +64,7 @@ public class ExShowSeedInfo extends L2GameServerPacket
 			writeD(L2Manor.getInstance().getRewardItemBySeed(seed.getId(), 2)); // Reward 2 Type Item Id
 		}
 	}
-
+	
 	@Override
 	public String getType()
 	{

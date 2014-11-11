@@ -31,7 +31,7 @@ import com.l2jfrozen.gameserver.skills.Env;
 
 class EffectDamOverTime extends L2Effect
 {
-	public EffectDamOverTime(Env env, EffectTemplate template)
+	public EffectDamOverTime(final Env env, final EffectTemplate template)
 	{
 		super(env, template);
 	}
@@ -55,7 +55,7 @@ class EffectDamOverTime extends L2Effect
 		{
 			if (getSkill().isToggle())
 			{
-				SystemMessage sm = new SystemMessage(SystemMessageId.SKILL_REMOVED_DUE_LACK_HP);
+				final SystemMessage sm = new SystemMessage(SystemMessageId.SKILL_REMOVED_DUE_LACK_HP);
 				getEffected().sendPacket(sm);
 				getEffected().removeEffect(this);
 				this.exit(false);
@@ -71,10 +71,10 @@ class EffectDamOverTime extends L2Effect
 			}
 		}
 		
-		boolean awake = !(getEffected() instanceof L2Attackable) && !(getSkill().getTargetType() == SkillTargetType.TARGET_SELF && getSkill().isToggle());
+		final boolean awake = !(getEffected() instanceof L2Attackable) && !(getSkill().getTargetType() == SkillTargetType.TARGET_SELF && getSkill().isToggle());
 		
-		//getEffected().reduceCurrentHp(damage, getEffector(), awake);
-		getEffected().reduceCurrentHpByDamOverTime(damage, getEffector(), awake,this.getPeriod());
+		// getEffected().reduceCurrentHp(damage, getEffector(), awake);
+		getEffected().reduceCurrentHpByDamOverTime(damage, getEffector(), awake, this.getPeriod());
 		
 		return true;
 	}

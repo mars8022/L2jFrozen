@@ -22,56 +22,59 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Date;
 
+import org.apache.log4j.Logger;
+
 /**
  * @author Luis Arias
  */
 public class DateRange
 {
-
-	private Date _startDate, _endDate;
-
-	public DateRange(Date from, Date to)
+	private static Logger LOGGER = Logger.getLogger(DateRange.class);
+	
+	private final Date _startDate, _endDate;
+	
+	public DateRange(final Date from, final Date to)
 	{
 		_startDate = from;
 		_endDate = to;
 	}
-
-	public static DateRange parse(String dateRange, DateFormat format)
+	
+	public static DateRange parse(final String dateRange, final DateFormat format)
 	{
-		String[] date = dateRange.split("-");
-		if(date.length == 2)
+		final String[] date = dateRange.split("-");
+		if (date.length == 2)
 		{
 			try
 			{
-				Date start = format.parse(date[0]);
-				Date end = format.parse(date[1]);
-
+				final Date start = format.parse(date[0]);
+				final Date end = format.parse(date[1]);
+				
 				return new DateRange(start, end);
 			}
-			catch(ParseException e)
+			catch (final ParseException e)
 			{
-				System.err.println("Invalid Date Format.");
+				LOGGER.error("Invalid Date Format.");
 				e.printStackTrace();
 			}
 		}
 		return new DateRange(null, null);
 	}
-
+	
 	public boolean isValid()
 	{
 		return _startDate == null || _endDate == null;
 	}
-
-	public boolean isWithinRange(Date date)
+	
+	public boolean isWithinRange(final Date date)
 	{
 		return date.after(_startDate) && date.before(_endDate);
 	}
-
+	
 	public Date getEndDate()
 	{
 		return _endDate;
 	}
-
+	
 	public Date getStartDate()
 	{
 		return _startDate;

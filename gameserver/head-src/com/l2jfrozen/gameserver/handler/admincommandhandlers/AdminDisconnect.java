@@ -28,7 +28,6 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 /**
  * This class handles following admin commands: - character_disconnect = disconnects target player
- * 
  * @version $Revision: 1.2.4.4 $ $Date: 2005/04/11 10:06:00 $
  */
 public class AdminDisconnect implements IAdminCommandHandler
@@ -37,55 +36,43 @@ public class AdminDisconnect implements IAdminCommandHandler
 	{
 		"admin_character_disconnect"
 	};
-
+	
 	@Override
-	public boolean useAdminCommand(String command, L2PcInstance activeChar)
+	public boolean useAdminCommand(final String command, final L2PcInstance activeChar)
 	{
 		/*
-		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
-			return false;
-		}
+		 * if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){ return false; } if(Config.GMAUDIT) { Logger _logAudit = Logger.getLogger("gmaudit"); LogRecord record = new LogRecord(Level.INFO, command); record.setParameters(new Object[] { "GM: " +
+		 * activeChar.getName(), " to target [" + activeChar.getTarget() + "] " }); _logAudit.LOGGER(record); }
+		 */
 		
-		if(Config.GMAUDIT)
-		{
-			Logger _logAudit = Logger.getLogger("gmaudit");
-			LogRecord record = new LogRecord(Level.INFO, command);
-			record.setParameters(new Object[]
-			{
-					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
-			});
-			_logAudit.log(record);
-		}
-		*/
-
-		if(command.equals("admin_character_disconnect"))
+		if (command.equals("admin_character_disconnect"))
 		{
 			disconnectCharacter(activeChar);
 		}
 		return true;
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;
 	}
-
-	private void disconnectCharacter(L2PcInstance activeChar)
+	
+	private void disconnectCharacter(final L2PcInstance activeChar)
 	{
 		L2Object target = activeChar.getTarget();
 		L2PcInstance player = null;
-
-		if(target instanceof L2PcInstance)
+		
+		if (target instanceof L2PcInstance)
 		{
 			player = (L2PcInstance) target;
 		}
 		else
 			return;
-
+		
 		target = null;
-
-		if(player.getObjectId() == activeChar.getObjectId())
+		
+		if (player.getObjectId() == activeChar.getObjectId())
 		{
 			SystemMessage sm = new SystemMessage(SystemMessageId.S1_S2);
 			sm.addString("You cannot logout your character.");
@@ -94,20 +81,20 @@ public class AdminDisconnect implements IAdminCommandHandler
 		}
 		else
 		{
-			SystemMessage sm = new SystemMessage(SystemMessageId.S1_S2);
+			final SystemMessage sm = new SystemMessage(SystemMessageId.S1_S2);
 			sm.addString("Character " + player.getName() + " disconnected from server.");
 			activeChar.sendPacket(sm);
-
-			//Logout Character
+			
+			// Logout Character
 			LeaveWorld ql = new LeaveWorld();
 			player.sendPacket(ql);
 			ql = null;
-
+			
 			RegionBBSManager.getInstance().changeCommunityBoard();
-
+			
 			player.closeNetConnection();
 		}
-
+		
 		player = null;
 	}
 }

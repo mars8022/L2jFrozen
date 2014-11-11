@@ -18,18 +18,17 @@ import com.l2jfrozen.gameserver.model.L2CommandChannel;
 import com.l2jfrozen.gameserver.model.L2Party;
 
 /**
- * @author chris_00
- * ch sdd d[sdd]
+ * @author chris_00 ch sdd d[sdd]
  */
 public class ExMultiPartyCommandChannelInfo extends L2GameServerPacket
 {
-	private L2CommandChannel _channel;
+	private final L2CommandChannel _channel;
 	
-	public ExMultiPartyCommandChannelInfo(L2CommandChannel channel)
+	public ExMultiPartyCommandChannelInfo(final L2CommandChannel channel)
 	{
 		_channel = channel;
 	}
-
+	
 	@Override
 	protected void writeImpl()
 	{
@@ -44,7 +43,7 @@ public class ExMultiPartyCommandChannelInfo extends L2GameServerPacket
 		writeD(_channel.getMemberCount());
 		
 		writeD(_channel.getPartys().size());
-		for (L2Party p : _channel.getPartys())
+		for (final L2Party p : _channel.getPartys())
 		{
 			writeS(p.getLeader().getName());
 			writeD(p.getPartyLeaderOID());

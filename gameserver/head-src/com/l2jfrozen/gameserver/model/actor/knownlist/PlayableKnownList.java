@@ -23,20 +23,20 @@ public class PlayableKnownList extends CharKnownList
 {
 	// =========================================================
 	// Data Field
-
+	
 	// =========================================================
 	// Constructor
-	public PlayableKnownList(L2PlayableInstance activeChar)
+	public PlayableKnownList(final L2PlayableInstance activeChar)
 	{
 		super(activeChar);
 	}
-
+	
 	// =========================================================
 	// Method - Public
-
+	
 	// =========================================================
 	// Method - Private
-
+	
 	// =========================================================
 	// Property - Public
 	@Override

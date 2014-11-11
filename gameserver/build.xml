@@ -43,7 +43,7 @@
 
 	<path id="classpath">
 		<fileset dir="${src-lib}">
-			<include name="*.jar" />
+			<include name="**/*.jar" />
 		</fileset>
 	</path>
 
@@ -62,7 +62,7 @@
 
 	<target name="compile" depends="version" description="Compile the source.">
 
-		<javac destdir="${build.classes}" includeantruntime="false" optimize="on" debug="on" source="1.6" target="1.6" encoding="utf-8" nowarn="off">
+		<javac destdir="${build.classes}" includeantruntime="false" optimize="on" debug="on" source="1.7" target="1.7" encoding="utf-8" nowarn="off">
 			<src path="${src}" />
 			<classpath refid="classpath" />
 		</javac>
@@ -105,7 +105,7 @@
 
 		<copy todir="${build.dist.game.lib}">
 			<fileset dir="${src-lib}">
-				<include name="*.jar" />
+				<include name="**/*.jar" />
 				<include name="*.txt" />
 			</fileset>
 		</copy>
@@ -130,6 +130,7 @@
 				<include name="GameServer_loop.sh" />
 				<include name="startGameServer.*" />
 				<include name="startBackup.*" />
+				<include name="restartGameServer.*" />
 			</fileset>
 		</copy>
 		<copy todir="${build.dist}">
@@ -198,12 +199,6 @@
 
 		<copy todir="${build.dist.game}/config/powerpak">
 			<fileset dir="config/powerpak">
-				<include name="*.*" />
-			</fileset>
-		</copy>
-
-		<copy todir="${build.dist.game}/config/powerpak/webservices">
-			<fileset dir="config/powerpak/webservices">
 				<include name="*.*" />
 			</fileset>
 		</copy>
@@ -311,7 +306,7 @@
 		<delete file="${build}/l2jfrozen-core.jar" />
 		<mkdir dir="${build}" />
 		<mkdir dir="${build.classes}" />
-		<javac destdir="${build.classes}" includeantruntime="false" optimize="on" debug="on" source="1.6" target="1.6" encoding="UTF-8" nowarn="off">
+		<javac destdir="${build.classes}" includeantruntime="false" optimize="on" debug="on" source="1.7" target="1.7" encoding="UTF-8" nowarn="off">
 
 			<src path="${src}" />
 			<classpath refid="classpath" />

@@ -31,70 +31,88 @@ import com.l2jfrozen.gameserver.skills.Stats;
 
 /**
  * This class ...
- * 
  * @version $Revision: 1.1.2.2.2.1 $ $Date: 2005/03/02 15:38:36 $
  */
 
 public class ManaHeal implements ISkillHandler
 {
-	//private static Logger _log = Logger.getLogger(ManaHeal.class.getName());
-
-	/* (non-Javadoc)
+	// private static Logger LOGGER = Logger.getLogger(ManaHeal.class);
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.handler.IItemHandler#useItem(com.l2jfrozen.gameserver.model.L2PcInstance, com.l2jfrozen.gameserver.model.L2ItemInstance)
 	 */
-	private static final SkillType[] SKILL_IDS = {
-			SkillType.MANAHEAL,
-			SkillType.MANARECHARGE,
-			SkillType.MANAHEAL_PERCENT };
-
-	/* (non-Javadoc)
+	private static final SkillType[] SKILL_IDS =
+	{
+		SkillType.MANAHEAL,
+		SkillType.MANARECHARGE,
+		SkillType.MANAHEAL_PERCENT
+	};
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.handler.IItemHandler#useItem(com.l2jfrozen.gameserver.model.L2PcInstance, com.l2jfrozen.gameserver.model.L2ItemInstance)
 	 */
 	@Override
-	public void useSkill(L2Character actChar, L2Skill skill, L2Object[] targets)
+	public void useSkill(final L2Character actChar, final L2Skill skill, final L2Object[] targets)
 	{
-		for(L2Character target : (L2Character[]) targets)
+		for (final L2Character target : (L2Character[]) targets)
 		{
+			if (target == null || target.isDead() || target.isInvul())
+				continue;
+			
 			double mp = skill.getPower();
-			if(skill.getSkillType() == SkillType.MANAHEAL_PERCENT)
+			if (skill.getSkillType() == SkillType.MANAHEAL_PERCENT)
 			{
-				//double mp = skill.getPower();
+				// double mp = skill.getPower();
 				mp = target.getMaxMp() * mp / 100.0;
 			}
 			else
 			{
 				mp = (skill.getSkillType() == SkillType.MANARECHARGE) ? target.calcStat(Stats.RECHARGE_MP_RATE, mp, null, null) : mp;
 			}
-
-			//if ((target.getCurrentMp() + mp) >= target.getMaxMp())
-			//{
-			//	mp = target.getMaxMp() - target.getCurrentMp();
-			//}
+			
+			// if ((target.getCurrentMp() + mp) >= target.getMaxMp())
+			// {
+			// mp = target.getMaxMp() - target.getCurrentMp();
+			// }
 			target.setLastHealAmount((int) mp);
 			target.setCurrentMp(mp + target.getCurrentMp());
-			StatusUpdate sump = new StatusUpdate(target.getObjectId());
+			final StatusUpdate sump = new StatusUpdate(target.getObjectId());
 			sump.addAttribute(StatusUpdate.CUR_MP, (int) target.getCurrentMp());
 			target.sendPacket(sump);
-
-			if(actChar instanceof L2PcInstance && actChar != target)
+			
+			if (actChar instanceof L2PcInstance && actChar != target)
 			{
-				SystemMessage sm = new SystemMessage(SystemMessageId.S2_MP_RESTORED_BY_S1);
+				final SystemMessage sm = new SystemMessage(SystemMessageId.S2_MP_RESTORED_BY_S1);
 				sm.addString(actChar.getName());
 				sm.addNumber((int) mp);
 				target.sendPacket(sm);
 			}
 			else
 			{
-				SystemMessage sm = new SystemMessage(SystemMessageId.S1_MP_RESTORED);
+				final SystemMessage sm = new SystemMessage(SystemMessageId.S1_MP_RESTORED);
 				sm.addNumber((int) mp);
 				target.sendPacket(sm);
 			}
 			
-			
+		}
+		
+		if (skill.isMagic() && skill.useSpiritShot())
+		{
+			if (actChar.checkBss())
+				actChar.removeBss();
+			if (actChar.checkSps())
+				actChar.removeSps();
+		}
+		else if (skill.useSoulShot())
+		{
+			if (actChar.checkSs())
+				actChar.removeSs();
 		}
 		
 	}
-
+	
 	@Override
 	public SkillType[] getSkillIds()
 	{

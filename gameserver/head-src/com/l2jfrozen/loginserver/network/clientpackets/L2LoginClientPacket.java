@@ -17,7 +17,7 @@
  */
 package com.l2jfrozen.loginserver.network.clientpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.loginserver.L2LoginClient;
 import com.l2jfrozen.netcore.ReceivablePacket;
@@ -28,7 +28,7 @@ import com.l2jfrozen.netcore.ReceivablePacket;
 
 public abstract class L2LoginClientPacket extends ReceivablePacket<L2LoginClient>
 {
-	private static Logger _log = Logger.getLogger(L2LoginClientPacket.class.getName());
+	private static Logger LOGGER = Logger.getLogger(L2LoginClientPacket.class);
 	
 	@Override
 	protected final boolean read()
@@ -37,13 +37,12 @@ public abstract class L2LoginClientPacket extends ReceivablePacket<L2LoginClient
 		{
 			return readImpl();
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
-			_log.severe("ERROR READING: " + this.getClass().getSimpleName());
-			e.printStackTrace();
+			LOGGER.error("ERROR READING: " + this.getClass().getSimpleName(), e);
 			return false;
 		}
 	}
-
+	
 	protected abstract boolean readImpl();
 }

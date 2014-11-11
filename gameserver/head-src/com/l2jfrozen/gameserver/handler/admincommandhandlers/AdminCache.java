@@ -35,15 +35,15 @@ public class AdminCache implements IAdminCommandHandler
 {
 	private static final String[] ADMIN_COMMANDS =
 	{
-			"admin_cache_htm_rebuild",
-			"admin_cache_htm_reload",
-			"admin_cache_reload_path",
-			"admin_cache_reload_file",
-			"admin_cache_crest_rebuild",
-			"admin_cache_crest_reload",
-			"admin_cache_crest_fix"
+		"admin_cache_htm_rebuild",
+		"admin_cache_htm_reload",
+		"admin_cache_reload_path",
+		"admin_cache_reload_file",
+		"admin_cache_crest_rebuild",
+		"admin_cache_crest_reload",
+		"admin_cache_crest_fix"
 	};
-
+	
 	private enum CommandEnum
 	{
 		admin_cache_htm_rebuild,
@@ -54,46 +54,34 @@ public class AdminCache implements IAdminCommandHandler
 		admin_cache_crest_reload,
 		admin_cache_crest_fix
 	}
-
+	
 	@Override
-	public boolean useAdminCommand(String command, L2PcInstance activeChar)
+	public boolean useAdminCommand(final String command, final L2PcInstance activeChar)
 	{
 		/*
-		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
-			return false;
-		}
+		 * if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){ return false; } if(Config.GMAUDIT) { Logger _logAudit = Logger.getLogger("gmaudit"); LogRecord record = new LogRecord(Level.INFO, command); record.setParameters(new Object[] { "GM: " +
+		 * activeChar.getName(), " to target [" + activeChar.getTarget() + "] " }); _logAudit.LOGGER(record); }
+		 */
 		
-		if(Config.GMAUDIT)
-		{
-			Logger _logAudit = Logger.getLogger("gmaudit");
-			LogRecord record = new LogRecord(Level.INFO, command);
-			record.setParameters(new Object[]
-			{
-					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
-			});
-			_logAudit.log(record);
-		}
-		*/
+		final StringTokenizer st = new StringTokenizer(command, " ");
 		
-
-		StringTokenizer st = new StringTokenizer(command," ");
-
-		CommandEnum comm = CommandEnum.valueOf(st.nextToken());
+		final CommandEnum comm = CommandEnum.valueOf(st.nextToken());
 		
-		if(comm == null)
+		if (comm == null)
 			return false;
 		
-		switch(comm)
+		switch (comm)
 		{
 			case admin_cache_htm_reload:
 			case admin_cache_htm_rebuild:
 				HtmCache.getInstance().reload(Config.DATAPACK_ROOT);
 				activeChar.sendMessage("Cache[HTML]: " + HtmCache.getInstance().getMemoryUsage() + " MB on " + HtmCache.getInstance().getLoadedFiles() + " file(s) loaded.");
 				return true;
-
+				
 			case admin_cache_reload_path:
-				if(st.hasMoreTokens()){
-					String path = st.nextToken();
+				if (st.hasMoreTokens())
+				{
+					final String path = st.nextToken();
 					HtmCache.getInstance().reloadPath(new File(Config.DATAPACK_ROOT, path));
 					activeChar.sendMessage("Cache[HTML]: " + HtmCache.getInstance().getMemoryUsage() + " MB in " + HtmCache.getInstance().getLoadedFiles() + " file(s) loaded.");
 					return true;
@@ -102,10 +90,11 @@ public class AdminCache implements IAdminCommandHandler
 				return false;
 			case admin_cache_reload_file:
 				
-				if(st.hasMoreTokens()){
+				if (st.hasMoreTokens())
+				{
 					
 					String path = st.nextToken();
-					if(HtmCache.getInstance().loadFile(new File(Config.DATAPACK_ROOT, path)) != null)
+					if (HtmCache.getInstance().loadFile(new File(Config.DATAPACK_ROOT, path)) != null)
 					{
 						activeChar.sendMessage("Cache[HTML]: file was loaded");
 						path = null;
@@ -125,18 +114,19 @@ public class AdminCache implements IAdminCommandHandler
 				CrestCache.getInstance().reload();
 				activeChar.sendMessage("Cache[Crest]: " + String.format("%.3f", CrestCache.getInstance().getMemoryUsage()) + " megabytes on " + CrestCache.getInstance().getLoadedFiles() + " files loaded");
 				return true;
-
+				
 			case admin_cache_crest_fix:
 				CrestCache.getInstance().convertOldPedgeFiles();
 				activeChar.sendMessage("Cache[Crest]: crests fixed");
 				return true;
-			default:{
+			default:
+			{
 				return false;
 			}
 		}
-
+		
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{

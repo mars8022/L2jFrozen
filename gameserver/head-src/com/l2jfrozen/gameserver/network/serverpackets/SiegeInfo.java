@@ -19,7 +19,8 @@
 package com.l2jfrozen.gameserver.network.serverpackets;
 
 import java.util.Calendar;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.datatables.sql.ClanTable;
 import com.l2jfrozen.gameserver.model.L2Clan;
@@ -43,35 +44,34 @@ import com.l2jfrozen.gameserver.model.entity.siege.Castle;
  * d = current time (seconds)<BR>
  * d = Siege time (seconds) (0 for selectable)<BR>
  * d = (UNKNOW) Siege Time Select Related?
- * 
  * @author KenM
  */
 public class SiegeInfo extends L2GameServerPacket
 {
 	private static final String _S__C9_SIEGEINFO = "[S] c9 SiegeInfo";
-	private static Logger _log = Logger.getLogger(SiegeInfo.class.getName());
-	private Castle _castle;
-
-	public SiegeInfo(Castle castle)
+	private static Logger LOGGER = Logger.getLogger(SiegeInfo.class);
+	private final Castle _castle;
+	
+	public SiegeInfo(final Castle castle)
 	{
 		_castle = castle;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
-		L2PcInstance activeChar = getClient().getActiveChar();
-		if(activeChar == null)
+		final L2PcInstance activeChar = getClient().getActiveChar();
+		if (activeChar == null)
 			return;
-
+		
 		writeC(0xc9);
 		writeD(_castle.getCastleId());
 		writeD(_castle.getOwnerId() == activeChar.getClanId() && activeChar.isClanLeader() ? 0x01 : 0x00);
 		writeD(_castle.getOwnerId());
-		if(_castle.getOwnerId() > 0)
+		if (_castle.getOwnerId() > 0)
 		{
-			L2Clan owner = ClanTable.getInstance().getClan(_castle.getOwnerId());
-			if(owner != null)
+			final L2Clan owner = ClanTable.getInstance().getClan(_castle.getOwnerId());
+			if (owner != null)
 			{
 				writeS(owner.getName()); // Clan Name
 				writeS(owner.getLeaderName()); // Clan Leader Name
@@ -80,7 +80,7 @@ public class SiegeInfo extends L2GameServerPacket
 			}
 			else
 			{
-				_log.warning("Null owner for castle: " + _castle.getName());
+				LOGGER.warn("Null owner for castle: " + _castle.getName());
 			}
 		}
 		else
@@ -90,13 +90,14 @@ public class SiegeInfo extends L2GameServerPacket
 			writeD(0); // Ally ID
 			writeS(""); // Ally Name
 		}
-
+		
 		writeD((int) (Calendar.getInstance().getTimeInMillis() / 1000));
 		writeD((int) (_castle.getSiege().getSiegeDate().getTimeInMillis() / 1000));
-		writeD(0x00); //number of choices?
+		writeD(0x00); // number of choices?
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType()
 	 */
 	@Override
@@ -104,5 +105,5 @@ public class SiegeInfo extends L2GameServerPacket
 	{
 		return _S__C9_SIEGEINFO;
 	}
-
+	
 }

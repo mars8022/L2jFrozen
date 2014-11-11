@@ -30,21 +30,21 @@ public class PrivateStoreListSell extends L2GameServerPacket
 {
 	// private static final String _S__B4_PRIVATEBUYLISTSELL = "[S] 9b PrivateBuyListSell";
 	private static final String _S__B4_PRIVATESTORELISTSELL = "[S] 9b PrivateStoreListSell";
-	private L2PcInstance _storePlayer;
-	private L2PcInstance _activeChar;
+	private final L2PcInstance _storePlayer;
+	private final L2PcInstance _activeChar;
 	private int _playerAdena;
-	private boolean _packageSale;
-	private TradeList.TradeItem[] _items;
+	private final boolean _packageSale;
+	private final TradeList.TradeItem[] _items;
 	
 	// player's private shop
-	public PrivateStoreListSell(L2PcInstance player, L2PcInstance storePlayer)
+	public PrivateStoreListSell(final L2PcInstance player, final L2PcInstance storePlayer)
 	{
 		_activeChar = player;
 		_storePlayer = storePlayer;
 		
 		if (Config.SELL_BY_ITEM)
 		{
-			CreatureSay cs11 = new CreatureSay(0, 15, "", "ATTENTION: Store System is not based on Adena, be careful!"); // 8D
+			final CreatureSay cs11 = new CreatureSay(0, 15, "", "ATTENTION: Store System is not based on Adena, be careful!"); // 8D
 			_activeChar.sendPacket(cs11);
 			_playerAdena = _activeChar.getItemCount(Config.SELL_ITEM, -1);
 		}
@@ -65,7 +65,7 @@ public class PrivateStoreListSell extends L2GameServerPacket
 		writeD(_playerAdena);
 		
 		writeD(_items.length);
-		for (TradeList.TradeItem item : _items)
+		for (final TradeList.TradeItem item : _items)
 		{
 			writeD(item.getItem().getType2());
 			writeD(item.getObjectId());

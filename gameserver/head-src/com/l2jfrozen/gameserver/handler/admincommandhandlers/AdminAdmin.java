@@ -19,7 +19,8 @@
 package com.l2jfrozen.gameserver.handler.admincommandhandlers;
 
 import java.util.StringTokenizer;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.GmListTable;
@@ -30,40 +31,34 @@ import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 /**
- * This class handles following admin commands: - admin|admin1/admin2/admin3/admin4/admin5 = slots for the 5 starting
- * admin menus - gmliston/gmlistoff = includes/excludes active character from /gmlist results - silence = toggles
- * private messages acceptance mode - diet = toggles weight penalty mode - tradeoff = toggles trade acceptance mode -
- * reload = reloads specified component from multisell|skill|npc|htm|item|instancemanager - set/set_menu/set_mod =
- * alters specified server setting - saveolymp = saves olympiad state manually - manualhero = cycles olympiad and
- * calculate new heroes.
- * 
+ * This class handles following admin commands: - admin|admin1/admin2/admin3/admin4/admin5 = slots for the 5 starting admin menus - gmliston/gmlistoff = includes/excludes active character from /gmlist results - silence = toggles private messages acceptance mode - diet = toggles weight penalty mode -
+ * tradeoff = toggles trade acceptance mode - reload = reloads specified component from multisell|skill|npc|htm|item|instancemanager - set/set_menu/set_mod = alters specified server setting - saveolymp = saves olympiad state manually - manualhero = cycles olympiad and calculate new heroes.
  * @version $Revision: 1.4 $
  * @author ProGramMoS
  */
 public class AdminAdmin implements IAdminCommandHandler
 {
-	private static Logger _log = Logger.getLogger(AdminAdmin.class.getName());
-	
+	private static Logger LOGGER = Logger.getLogger(AdminAdmin.class);
 	
 	private static final String[] ADMIN_COMMANDS =
 	{
-			"admin_admin",
-			"admin_admin1",
-			"admin_admin2",
-			"admin_admin3",
-			"admin_admin4",
-			"admin_admin5",
-			"admin_gmliston",
-			"admin_gmlistoff",
-			"admin_silence",
-			"admin_diet",
-			"admin_set",
-			"admin_set_menu",
-			"admin_set_mod",
-			"admin_saveolymp",
-			"admin_manualhero"
+		"admin_admin",
+		"admin_admin1",
+		"admin_admin2",
+		"admin_admin3",
+		"admin_admin4",
+		"admin_admin5",
+		"admin_gmliston",
+		"admin_gmlistoff",
+		"admin_silence",
+		"admin_diet",
+		"admin_set",
+		"admin_set_menu",
+		"admin_set_mod",
+		"admin_saveolymp",
+		"admin_manualhero"
 	};
-
+	
 	private enum CommandEnum
 	{
 		admin_admin,
@@ -82,35 +77,23 @@ public class AdminAdmin implements IAdminCommandHandler
 		admin_saveolymp,
 		admin_manualhero
 	}
-
+	
 	@Override
-	public boolean useAdminCommand(String command, L2PcInstance activeChar)
+	public boolean useAdminCommand(final String command, final L2PcInstance activeChar)
 	{
 		/*
-		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
-			return false;
-		}
+		 * if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){ return false; } if(Config.GMAUDIT) { Logger _logAudit = Logger.getLogger("gmaudit"); LogRecord record = new LogRecord(Level.INFO, command); record.setParameters(new Object[] { "GM: " +
+		 * activeChar.getName(), " to target [" + activeChar.getTarget() + "] " }); _logAudit.LOGGER(record); }
+		 */
 		
-		if(Config.GMAUDIT)
-		{
-			Logger _logAudit = Logger.getLogger("gmaudit");
-			LogRecord record = new LogRecord(Level.INFO, command);
-			record.setParameters(new Object[]
-			{
-					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
-			});
-			_logAudit.log(record);
-		}
-		*/
-
 		StringTokenizer st = new StringTokenizer(command);
 		
-		CommandEnum comm = CommandEnum.valueOf(st.nextToken());
+		final CommandEnum comm = CommandEnum.valueOf(st.nextToken());
 		
-		if(comm == null)
+		if (comm == null)
 			return false;
 		
-		switch(comm)
+		switch (comm)
 		{
 			case admin_admin:
 			case admin_admin1:
@@ -120,19 +103,19 @@ public class AdminAdmin implements IAdminCommandHandler
 			case admin_admin5:
 				showMainPage(activeChar, command);
 				return true;
-
+				
 			case admin_gmliston:
 				GmListTable.getInstance().showGm(activeChar);
 				activeChar.sendMessage("Registerd into gm list");
 				return true;
-
+				
 			case admin_gmlistoff:
 				GmListTable.getInstance().hideGm(activeChar);
 				activeChar.sendMessage("Removed from gm list");
 				return true;
-
+				
 			case admin_silence:
-				if(activeChar.getMessageRefusal()) // already in message refusal mode
+				if (activeChar.getMessageRefusal()) // already in message refusal mode
 				{
 					activeChar.setMessageRefusal(false);
 					activeChar.sendPacket(new SystemMessage(SystemMessageId.MESSAGE_ACCEPTANCE_MODE));
@@ -149,46 +132,51 @@ public class AdminAdmin implements IAdminCommandHandler
 				activeChar.sendMessage("Olympiad stuff saved!");
 				
 				return true;
-
+				
 			case admin_manualhero:
 				try
 				{
 					Olympiad.getInstance().manualSelectHeroes();
 				}
-				catch (Exception e)
+				catch (final Exception e)
 				{
 					e.printStackTrace();
 				}
 				
 				activeChar.sendMessage("Heroes formed!");
 				return true;
-
-			case admin_diet:{
+				
+			case admin_diet:
+			{
 				
 				boolean no_token = false;
 				
-				if(st.hasMoreTokens()){
+				if (st.hasMoreTokens())
+				{
 					
-					if(st.nextToken().equalsIgnoreCase("on"))
+					if (st.nextToken().equalsIgnoreCase("on"))
 					{
 						activeChar.setDietMode(true);
 						activeChar.sendMessage("Diet mode on");
 					}
-					else if(st.nextToken().equalsIgnoreCase("off"))
+					else if (st.nextToken().equalsIgnoreCase("off"))
 					{
 						activeChar.setDietMode(false);
 						activeChar.sendMessage("Diet mode off");
 					}
 					
-				}else{
+				}
+				else
+				{
 					
 					no_token = true;
 					
 				}
 				
-				if(no_token){
+				if (no_token)
+				{
 					
-					if(activeChar.getDietMode())
+					if (activeChar.getDietMode())
 					{
 						activeChar.setDietMode(false);
 						activeChar.sendMessage("Diet mode off");
@@ -200,11 +188,11 @@ public class AdminAdmin implements IAdminCommandHandler
 					}
 					
 				}
-					
+				
 				st = null;
 				activeChar.refreshOverloaded();
 				return true;
-
+				
 			}
 			case admin_set:
 				
@@ -212,18 +200,21 @@ public class AdminAdmin implements IAdminCommandHandler
 				
 				String[] cmd = st.nextToken().split("_");
 				
-				if(cmd!=null && cmd.length>1){
+				if (cmd != null && cmd.length > 1)
+				{
 					
-					if(st.hasMoreTokens()){
+					if (st.hasMoreTokens())
+					{
 						
 						String[] parameter = st.nextToken().split("=");
 						
-						if(parameter.length>1){
+						if (parameter.length > 1)
+						{
 							
 							String pName = parameter[0].trim();
 							String pValue = parameter[1].trim();
-
-							if(Config.setParameterValue(pName, pValue))
+							
+							if (Config.setParameterValue(pName, pValue))
 							{
 								activeChar.sendMessage("parameter " + pName + " succesfully set to " + pValue);
 							}
@@ -232,11 +223,13 @@ public class AdminAdmin implements IAdminCommandHandler
 								activeChar.sendMessage("Invalid parameter!");
 								no_token = true;
 							}
-
+							
 							pName = null;
 							pValue = null;
 							
-						}else{
+						}
+						else
+						{
 							no_token = true;
 						}
 						
@@ -244,37 +237,41 @@ public class AdminAdmin implements IAdminCommandHandler
 						
 					}
 					
-					if(cmd.length == 3)
+					if (cmd.length == 3)
 					{
-						if(cmd[2].equalsIgnoreCase("menu"))
+						if (cmd[2].equalsIgnoreCase("menu"))
 						{
 							AdminHelpPage.showHelpPage(activeChar, "settings.htm");
 						}
-						else if(cmd[2].equalsIgnoreCase("mod"))
+						else if (cmd[2].equalsIgnoreCase("mod"))
 						{
 							AdminHelpPage.showHelpPage(activeChar, "mods_menu.htm");
 						}
 					}
 					
-				}else{
+				}
+				else
+				{
 					no_token = true;
 				}
 				
 				cmd = null;
 				
-				if(no_token){
+				if (no_token)
+				{
 					
 					activeChar.sendMessage("Usage: //set parameter=vaue");
 					return false;
-
+					
 				}
 				
 				st = null;
-
+				
 				return true;
-
-			default:{
-				return false;	
+				
+			default:
+			{
+				return false;
 			}
 		}
 		
@@ -285,33 +282,34 @@ public class AdminAdmin implements IAdminCommandHandler
 	{
 		return ADMIN_COMMANDS;
 	}
-
-	private void showMainPage(L2PcInstance activeChar, String command)
+	
+	private void showMainPage(final L2PcInstance activeChar, final String command)
 	{
 		int mode = 0;
 		String filename = null;
-
-		if(command!=null && command.length()>11){
+		
+		if (command != null && command.length() > 11)
+		{
 			
-			String mode_s = command.substring(11);
+			final String mode_s = command.substring(11);
 			
 			try
 			{
 				mode = Integer.parseInt(mode_s);
 				
 			}
-			catch(NumberFormatException e)
+			catch (final NumberFormatException e)
 			{
-				if(Config.DEBUG){
-					_log.warning("Impossible to parse to integer the string "+mode_s+", exception "+e.getMessage());
+				if (Config.DEBUG)
+				{
+					LOGGER.warn("Impossible to parse to integer the string " + mode_s + ", exception " + e.getMessage());
 				}
 				
 			}
 			
 		}
 		
-
-		switch(mode)
+		switch (mode)
 		{
 			case 1:
 				filename = "main";
@@ -329,7 +327,7 @@ public class AdminAdmin implements IAdminCommandHandler
 				filename = "mods";
 				break;
 			default:
-				if(Config.GM_ADMIN_MENU_STYLE.equals("modern"))
+				if (Config.GM_ADMIN_MENU_STYLE.equals("modern"))
 				{
 					filename = "main";
 				}
@@ -339,9 +337,9 @@ public class AdminAdmin implements IAdminCommandHandler
 				}
 				break;
 		}
-
+		
 		AdminHelpPage.showHelpPage(activeChar, filename + "_menu.htm");
-
+		
 		filename = null;
 	}
 }

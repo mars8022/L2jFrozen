@@ -20,32 +20,36 @@ package com.l2jfrozen.gameserver.ai.special.manager;
 
 /**
  * TODO: test class AI extends...
- * 
  * @author programmos
  */
 public class test extends AIExtend
 {
 	private static final int[] ID_MOB =
 	{
-			1, 2, 3, 4, 5
+		1,
+		2,
+		3,
+		4,
+		5
 	};
-
+	
 	public test()
 	{
-		for(int Mob : ID_MOB)
+		for (final int Mob : ID_MOB)
 		{
 			super.addAI(Mob);
 		}
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.ai.special.manager.AIExtend#run()
 	 */
 	@Override
 	public void run()
 	{
-	// TODO Auto-generated method stub
-
+		// TODO Auto-generated method stub
+		
 	}
-
+	
 }

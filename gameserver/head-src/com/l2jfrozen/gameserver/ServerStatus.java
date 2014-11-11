@@ -21,7 +21,8 @@ package com.l2jfrozen.gameserver;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.ScheduledFuture;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
@@ -35,7 +36,7 @@ import com.l2jfrozen.util.Util;
  */
 public class ServerStatus
 {
-	protected static final Logger _log = Logger.getLogger("Loader");
+	protected static final Logger LOGGER = Logger.getLogger("Loader");
 	protected ScheduledFuture<?> _scheduledTask;
 	
 	protected ServerStatus()
@@ -51,11 +52,11 @@ public class ServerStatus
 		public void run()
 		{
 			Util.printSection("Server Status");
-			_log.info("Server Time: " + fmt.format(new Date(System.currentTimeMillis())));
-			_log.info("Players Online: " + L2World.getInstance().getAllPlayers().size());
-			_log.info("Threads: " + Thread.activeCount());
-			_log.info("Free Memory: " + Memory.getFreeMemory() + " MB");
-			_log.info("Used memory: " + Memory.getUsedMemory() + " MB");
+			LOGGER.info("Server Time: " + fmt.format(new Date(System.currentTimeMillis())));
+			LOGGER.info("Players Online: " + L2World.getInstance().getAllPlayers().size());
+			LOGGER.info("Threads: " + Thread.activeCount());
+			LOGGER.info("Free Memory: " + Memory.getFreeMemory() + " MB");
+			LOGGER.info("Used memory: " + Memory.getUsedMemory() + " MB");
 			Util.printSection("Server Status");
 		}
 	}

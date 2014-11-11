@@ -39,44 +39,33 @@ public class AdminQuest implements IAdminCommandHandler
 	{
 		"admin_quest_reload"
 	};
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.handler.IAdminCommandHandler#useAdminCommand(java.lang.String, com.l2jfrozen.gameserver.model.L2PcInstance)
 	 */
 	@Override
-	public boolean useAdminCommand(String command, L2PcInstance activeChar)
+	public boolean useAdminCommand(final String command, final L2PcInstance activeChar)
 	{
 		/*
-		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
-			return false;
-		}
+		 * if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){ return false; } if(Config.GMAUDIT) { Logger _logAudit = Logger.getLogger("gmaudit"); LogRecord record = new LogRecord(Level.INFO, command); record.setParameters(new Object[] { "GM: " +
+		 * activeChar.getName(), " to target [" + activeChar.getTarget() + "] " }); _logAudit.LOGGER(record); }
+		 */
 		
-		if(Config.GMAUDIT)
-		{
-			Logger _logAudit = Logger.getLogger("gmaudit");
-			LogRecord record = new LogRecord(Level.INFO, command);
-			record.setParameters(new Object[]
-			{
-					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
-			});
-			_logAudit.log(record);
-		}
-		*/
-
 		// syntax will either be:
-		//quest_reload <id>
-		//quest_reload <questName>
-		// The questName MUST start with a non-numeric character for this to work, 
+		// quest_reload <id>
+		// quest_reload <questName>
+		// The questName MUST start with a non-numeric character for this to work,
 		// regardless which of the two formats is used.
-		// Example:  //quest_reload orc_occupation_change_1
-		// Example:  //quest_reload chests
-		// Example:  //quest_reload SagasSuperclass
-		// Example:  //quest_reload 12
-		if(command.startsWith("admin_quest_reload"))
+		// Example: //quest_reload orc_occupation_change_1
+		// Example: //quest_reload chests
+		// Example: //quest_reload SagasSuperclass
+		// Example: //quest_reload 12
+		if (command.startsWith("admin_quest_reload"))
 		{
 			String[] parts = command.split(" ");
-
-			if(parts.length < 2)
+			
+			if (parts.length < 2)
 			{
 				activeChar.sendMessage("Syntax: //quest_reload <questFolder>.<questSubFolders...>.questName> or //quest_reload <id>");
 			}
@@ -85,9 +74,9 @@ public class AdminQuest implements IAdminCommandHandler
 				// try the first param as id
 				try
 				{
-					int questId = Integer.parseInt(parts[1]);
-
-					if(QuestManager.getInstance().reload(questId))
+					final int questId = Integer.parseInt(parts[1]);
+					
+					if (QuestManager.getInstance().reload(questId))
 					{
 						activeChar.sendMessage("Quest Reloaded Successfully.");
 					}
@@ -96,12 +85,12 @@ public class AdminQuest implements IAdminCommandHandler
 						activeChar.sendMessage("Quest Reloaded Failed");
 					}
 				}
-				catch(NumberFormatException e)
+				catch (final NumberFormatException e)
 				{
-					if(Config.ENABLE_ALL_EXCEPTIONS)
+					if (Config.ENABLE_ALL_EXCEPTIONS)
 						e.printStackTrace();
 					
-					if(QuestManager.getInstance().reload(parts[1]))
+					if (QuestManager.getInstance().reload(parts[1]))
 					{
 						activeChar.sendMessage("Quest Reloaded Successfully.");
 					}
@@ -111,14 +100,15 @@ public class AdminQuest implements IAdminCommandHandler
 					}
 				}
 			}
-
+			
 			parts = null;
 		}
-
+		
 		return true;
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.handler.IAdminCommandHandler#getAdminCommandList()
 	 */
 	@Override
@@ -126,5 +116,5 @@ public class AdminQuest implements IAdminCommandHandler
 	{
 		return ADMIN_COMMANDS;
 	}
-
+	
 }

@@ -29,21 +29,22 @@ import com.l2jfrozen.gameserver.skills.Env;
 public class ConditionTargetRaceId extends Condition
 {
 	private final FastList<Integer> _raceIds;
-
-	public ConditionTargetRaceId(FastList<Integer> raceId)
+	
+	public ConditionTargetRaceId(final FastList<Integer> raceId)
 	{
 		_raceIds = raceId;
 	}
-
+	
 	@Override
-	public boolean testImpl(Env env)
+	public boolean testImpl(final Env env)
 	{
-		if(_raceIds==null || env.target==null || !(env.target instanceof L2NpcInstance))
+		if (_raceIds == null || env.target == null || !(env.target instanceof L2NpcInstance))
 			return false;
-
-		L2NpcInstance target = (L2NpcInstance) env.target;
-		if(target.getTemplate()!=null && target.getTemplate().race!=null ){
-			return _raceIds.contains(((L2NpcInstance) env.target).getTemplate().race.ordinal()+1);
+		
+		final L2NpcInstance target = (L2NpcInstance) env.target;
+		if (target.getTemplate() != null && target.getTemplate().race != null)
+		{
+			return _raceIds.contains(((L2NpcInstance) env.target).getTemplate().race.ordinal() + 1);
 		}
 		return false;
 	}

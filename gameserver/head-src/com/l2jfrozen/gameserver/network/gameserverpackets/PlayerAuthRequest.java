@@ -25,7 +25,7 @@ import com.l2jfrozen.gameserver.thread.LoginServerThread.SessionKey;
  */
 public class PlayerAuthRequest extends GameServerBasePacket
 {
-	public PlayerAuthRequest(String account, SessionKey key)
+	public PlayerAuthRequest(final String account, final SessionKey key)
 	{
 		writeC(0x05);
 		writeS(account);
@@ -34,8 +34,9 @@ public class PlayerAuthRequest extends GameServerBasePacket
 		writeD(key.loginOkID1);
 		writeD(key.loginOkID2);
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.gameserverpackets.GameServerBasePacket#getContent()
 	 */
 	@Override
@@ -43,5 +44,5 @@ public class PlayerAuthRequest extends GameServerBasePacket
 	{
 		return getBytes();
 	}
-
+	
 }

@@ -31,42 +31,47 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.skills.Formulas;
 
 /**
- * @author _drunk_ TODO To change the template for this generated type comment go to Window - Preferences - Java - Code
- *         Style - Code Templates
+ * @author _drunk_ TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code Templates
  */
 public class Spoil implements ISkillHandler
 {
-	//private static Logger _log = Logger.getLogger(Spoil.class.getName());
-	private static final SkillType[] SKILL_IDS = { SkillType.SPOIL };
-
-	@Override
-	public void useSkill(L2Character activeChar, L2Skill skill, L2Object[] targets)
+	// private static Logger LOGGER = Logger.getLogger(Spoil.class);
+	private static final SkillType[] SKILL_IDS =
 	{
-		if(!(activeChar instanceof L2PcInstance))
+		SkillType.SPOIL
+	};
+	
+	@Override
+	public void useSkill(final L2Character activeChar, final L2Skill skill, final L2Object[] targets)
+	{
+		if (!(activeChar instanceof L2PcInstance))
 			return;
-
-		if(targets == null){ return; }
-
-		for(int index = 0; index < targets.length; index++)
+		
+		if (targets == null)
 		{
-			if(!(targets[index] instanceof L2MonsterInstance))
+			return;
+		}
+		
+		for (final L2Object target1 : targets)
+		{
+			if (!(target1 instanceof L2MonsterInstance))
 				continue;
-
-			L2MonsterInstance target = (L2MonsterInstance) targets[index];
-
-			if(target.isSpoil())
+			
+			L2MonsterInstance target = (L2MonsterInstance) target1;
+			
+			if (target.isSpoil())
 			{
 				activeChar.sendPacket(new SystemMessage(SystemMessageId.ALREDAY_SPOILED));
 				continue;
 			}
-
+			
 			// SPOIL SYSTEM by Lbaldi
 			boolean spoil = false;
-			if(!target.isDead())
+			if (!target.isDead())
 			{
-				spoil = Formulas.calcMagicSuccess(activeChar, (L2Character) targets[index], skill);
-
-				if(spoil)
+				spoil = Formulas.calcMagicSuccess(activeChar, (L2Character) target1, skill);
+				
+				if (spoil)
 				{
 					target.setSpoil(true);
 					target.setIsSpoiledBy(activeChar.getObjectId());
@@ -82,11 +87,11 @@ public class Spoil implements ISkillHandler
 				}
 				target.getAI().notifyEvent(CtrlEvent.EVT_ATTACKED, activeChar);
 			}
-
+			
 			target = null;
 		}
 	}
-
+	
 	@Override
 	public SkillType[] getSkillIds()
 	{

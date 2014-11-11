@@ -29,57 +29,49 @@ import com.l2jfrozen.gameserver.thread.LoginServerThread;
 
 /**
  * This class handles the admin commands that acts on the login
- * 
  * @version $Revision: 1.2.2.1.2.4 $ $Date: 2007/07/31 10:05:56 $
  */
 public class AdminLogin implements IAdminCommandHandler
 {
-	//private static Logger _log = Logger.getLogger(AdminDelete.class.getName());
-
+	// private static Logger LOGGER = Logger.getLogger(AdminDelete.class);
+	
 	private static final String[] ADMIN_COMMANDS =
 	{
-			"admin_server_gm_only", "admin_server_all", "admin_server_max_player", "admin_server_list_clock", "admin_server_login"
+		"admin_server_gm_only",
+		"admin_server_all",
+		"admin_server_max_player",
+		"admin_server_list_clock",
+		"admin_server_login"
 	};
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.handler.IAdminCommandHandler#useAdminCommand(java.lang.String, com.l2jfrozen.gameserver.model.L2PcInstance)
 	 */
 	@Override
-	public boolean useAdminCommand(String command, L2PcInstance activeChar)
+	public boolean useAdminCommand(final String command, final L2PcInstance activeChar)
 	{
 		/*
-		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
-			return false;
-		}
+		 * if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){ return false; } if(Config.GMAUDIT) { Logger _logAudit = Logger.getLogger("gmaudit"); LogRecord record = new LogRecord(Level.INFO, command); record.setParameters(new Object[] { "GM: " +
+		 * activeChar.getName(), " to target [" + activeChar.getTarget() + "] " }); _logAudit.LOGGER(record); }
+		 */
 		
-		if(Config.GMAUDIT)
-		{
-			Logger _logAudit = Logger.getLogger("gmaudit");
-			LogRecord record = new LogRecord(Level.INFO, command);
-			record.setParameters(new Object[]
-			{
-					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
-			});
-			_logAudit.log(record);
-		}
-		*/
-
-		if(command.equals("admin_server_gm_only"))
+		if (command.equals("admin_server_gm_only"))
 		{
 			gmOnly();
 			activeChar.sendMessage("Server is now GM only");
 			showMainPage(activeChar);
 		}
-		else if(command.equals("admin_server_all"))
+		else if (command.equals("admin_server_all"))
 		{
 			allowToAll();
 			activeChar.sendMessage("Server is not GM only anymore");
 			showMainPage(activeChar);
 		}
-		else if(command.startsWith("admin_server_max_player"))
+		else if (command.startsWith("admin_server_max_player"))
 		{
 			StringTokenizer st = new StringTokenizer(command);
-			if(st.countTokens() > 1)
+			if (st.countTokens() > 1)
 			{
 				st.nextToken();
 				String number = st.nextToken();
@@ -89,71 +81,71 @@ public class AdminLogin implements IAdminCommandHandler
 					activeChar.sendMessage("maxPlayer set to " + Integer.parseInt(number));
 					showMainPage(activeChar);
 				}
-				catch(NumberFormatException e)
+				catch (final NumberFormatException e)
 				{
-					if(Config.ENABLE_ALL_EXCEPTIONS)
+					if (Config.ENABLE_ALL_EXCEPTIONS)
 						e.printStackTrace();
 					
 					activeChar.sendMessage("Max players must be a number.");
 				}
-
+				
 				number = null;
 			}
 			else
 			{
 				activeChar.sendMessage("Format is server_max_player <max>");
 			}
-
+			
 			st = null;
 		}
-		else if(command.startsWith("admin_server_list_clock"))
+		else if (command.startsWith("admin_server_list_clock"))
 		{
 			StringTokenizer st = new StringTokenizer(command);
-
-			if(st.countTokens() > 1)
+			
+			if (st.countTokens() > 1)
 			{
 				st.nextToken();
 				String mode = st.nextToken();
-
-				if(mode.equals("on"))
+				
+				switch (mode)
 				{
-					LoginServerThread.getInstance().sendServerStatus(ServerStatus.SERVER_LIST_CLOCK, ServerStatus.ON);
-					activeChar.sendMessage("A clock will now be displayed next to the server name");
-					Config.SERVER_LIST_CLOCK = true;
-					showMainPage(activeChar);
+					case "on":
+						LoginServerThread.getInstance().sendServerStatus(ServerStatus.SERVER_LIST_CLOCK, ServerStatus.ON);
+						activeChar.sendMessage("A clock will now be displayed next to the server name");
+						Config.SERVER_LIST_CLOCK = true;
+						showMainPage(activeChar);
+						break;
+					case "off":
+						LoginServerThread.getInstance().sendServerStatus(ServerStatus.SERVER_LIST_CLOCK, ServerStatus.OFF);
+						Config.SERVER_LIST_CLOCK = false;
+						activeChar.sendMessage("The clock will not be displayed");
+						showMainPage(activeChar);
+						break;
+					default:
+						activeChar.sendMessage("Format is server_list_clock <on/off>");
+						break;
 				}
-				else if(mode.equals("off"))
-				{
-					LoginServerThread.getInstance().sendServerStatus(ServerStatus.SERVER_LIST_CLOCK, ServerStatus.OFF);
-					Config.SERVER_LIST_CLOCK = false;
-					activeChar.sendMessage("The clock will not be displayed");
-					showMainPage(activeChar);
-				}
-				else
-				{
-					activeChar.sendMessage("Format is server_list_clock <on/off>");
-				}
-
+				
 				mode = null;
 			}
 			else
 			{
 				activeChar.sendMessage("Format is server_list_clock <on/off>");
 			}
-
+			
 			st = null;
 		}
-		else if(command.equals("admin_server_login"))
+		else if (command.equals("admin_server_login"))
 		{
 			showMainPage(activeChar);
 		}
 		return true;
 	}
-
+	
 	/**
-	 * @param activeChar 
+	 * @param activeChar
 	 */
-	private void showMainPage(L2PcInstance activeChar)
+	private void showMainPage(final L2PcInstance activeChar)
 	{
 		NpcHtmlMessage html = new NpcHtmlMessage(1);
 		html.setFile("data/html/admin/login.htm");
@@ -163,23 +155,24 @@ public class AdminLogin implements IAdminCommandHandler
 		html.replace("%brackets%", String.valueOf(Config.SERVER_LIST_BRACKET));
 		html.replace("%max_players%", String.valueOf(LoginServerThread.getInstance().getMaxPlayer()));
 		activeChar.sendPacket(html);
-
+		
 		html = null;
 	}
-
+	
 	private void allowToAll()
 	{
 		LoginServerThread.getInstance().setServerStatus(ServerStatus.STATUS_AUTO);
 		Config.SERVER_GMONLY = false;
 	}
-
+	
 	private void gmOnly()
 	{
 		LoginServerThread.getInstance().setServerStatus(ServerStatus.STATUS_GM_ONLY);
 		Config.SERVER_GMONLY = true;
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.handler.IAdminCommandHandler#getAdminCommandList()
 	 */
 	@Override
@@ -187,5 +180,5 @@ public class AdminLogin implements IAdminCommandHandler
 	{
 		return ADMIN_COMMANDS;
 	}
-
+	
 }

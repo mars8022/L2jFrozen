@@ -33,30 +33,35 @@ public class RequestTutorialLinkHtml extends L2GameClientPacket
 	{
 		_bypass = readS();
 		
-		if(_bypass!=null){
+		if (_bypass != null)
+		{
 			
 			try
 			{
 				answer_id = Integer.parseInt(_bypass);
 				protector_packet = true;
-			}catch(NumberFormatException e){
-				//not bot protection packet
+			}
+			catch (final NumberFormatException e)
+			{
+				// not bot protection packet
 			}
 			
 		}
 		
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance player = getClient().getActiveChar();
-		if(player == null)
+		final L2PcInstance player = getClient().getActiveChar();
+		if (player == null)
 			return;
-
-		if(protector_packet){
+		
+		if (protector_packet)
+		{
 			
-			if(Config.BOT_PROTECTOR && answer_id >= 100001 && answer_id <= 100005){
+			if (Config.BOT_PROTECTOR && answer_id >= 100001 && answer_id <= 100005)
+			{
 				
 				player.checkAnswer(answer_id);
 				player.sendPacket(new TutorialCloseHtml());
@@ -64,10 +69,12 @@ public class RequestTutorialLinkHtml extends L2GameClientPacket
 				
 			}
 			
-		}else{
+		}
+		else
+		{
 			
-			QuestState qs = player.getQuestState("255_Tutorial");
-			if(qs != null)
+			final QuestState qs = player.getQuestState("255_Tutorial");
+			if (qs != null)
 			{
 				qs.getQuest().notifyEvent(_bypass, null, player);
 			}
@@ -75,7 +82,7 @@ public class RequestTutorialLinkHtml extends L2GameClientPacket
 		}
 		
 	}
-
+	
 	@Override
 	public String getType()
 	{

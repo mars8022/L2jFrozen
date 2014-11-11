@@ -25,9 +25,9 @@ import com.l2jfrozen.loginserver.SessionKey;
  */
 public final class LoginOk extends L2LoginServerPacket
 {
-	private int _loginOk1, _loginOk2;
-
-	public LoginOk(SessionKey sessionKey)
+	private final int _loginOk1, _loginOk2;
+	
+	public LoginOk(final SessionKey sessionKey)
 	{
 		_loginOk1 = sessionKey.loginOkID1;
 		_loginOk2 = sessionKey.loginOkID2;
@@ -47,8 +47,9 @@ public final class LoginOk extends L2LoginServerPacket
 		writeD(0x00);
 		writeB(new byte[16]);
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.loginserver.network.serverpackets.L2LoginServerPacket#getType()
 	 */
 	@Override
@@ -56,6 +57,5 @@ public final class LoginOk extends L2LoginServerPacket
 	{
 		return "LoginOk";
 	}
-	
 	
 }

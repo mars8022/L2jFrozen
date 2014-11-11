@@ -29,25 +29,25 @@ import com.l2jfrozen.loginserver.network.clientpackets.ClientBasePacket;
  */
 public class PlayerInGame extends ClientBasePacket
 {
-	private List<String> _accounts;
-
+	private final List<String> _accounts;
+	
 	/**
 	 * @param decrypt
 	 */
-	public PlayerInGame(byte[] decrypt)
+	public PlayerInGame(final byte[] decrypt)
 	{
 		super(decrypt);
-
-		_accounts = new FastList<String>();
-
-		int size = readH();
-
-		for(int i = 0; i < size; i++)
+		
+		_accounts = new FastList<>();
+		
+		final int size = readH();
+		
+		for (int i = 0; i < size; i++)
 		{
 			_accounts.add(readS());
 		}
 	}
-
+	
 	/**
 	 * @return Returns the accounts.
 	 */
@@ -55,5 +55,5 @@ public class PlayerInGame extends ClientBasePacket
 	{
 		return _accounts;
 	}
-
+	
 }

@@ -42,27 +42,27 @@ public final class RequestConfirmCancelItem extends L2GameClientPacket
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance activeChar = getClient().getActiveChar();
-		L2ItemInstance item = (L2ItemInstance) L2World.getInstance().findObject(_itemId);
-
-		if(activeChar == null || item == null)
+		final L2PcInstance activeChar = getClient().getActiveChar();
+		final L2ItemInstance item = (L2ItemInstance) L2World.getInstance().findObject(_itemId);
+		
+		if (activeChar == null || item == null)
 			return;
-
-		if(!item.isAugmented())
+		
+		if (!item.isAugmented())
 		{
 			activeChar.sendPacket(new SystemMessage(SystemMessageId.AUGMENTATION_REMOVAL_CAN_ONLY_BE_DONE_ON_AN_AUGMENTED_ITEM));
 			return;
 		}
-
+		
 		int price = 0;
-		switch(item.getItem().getItemGrade())
+		switch (item.getItem().getItemGrade())
 		{
 			case L2Item.CRYSTAL_C:
-				if(item.getCrystalCount() < 1720)
+				if (item.getCrystalCount() < 1720)
 				{
 					price = 95000;
 				}
-				else if(item.getCrystalCount() < 2452)
+				else if (item.getCrystalCount() < 2452)
 				{
 					price = 150000;
 				}
@@ -72,7 +72,7 @@ public final class RequestConfirmCancelItem extends L2GameClientPacket
 				}
 				break;
 			case L2Item.CRYSTAL_B:
-				if(item.getCrystalCount() < 1746)
+				if (item.getCrystalCount() < 1746)
 				{
 					price = 240000;
 				}
@@ -82,11 +82,11 @@ public final class RequestConfirmCancelItem extends L2GameClientPacket
 				}
 				break;
 			case L2Item.CRYSTAL_A:
-				if(item.getCrystalCount() < 2160)
+				if (item.getCrystalCount() < 2160)
 				{
 					price = 330000;
 				}
-				else if(item.getCrystalCount() < 2824)
+				else if (item.getCrystalCount() < 2824)
 				{
 					price = 390000;
 				}
@@ -102,10 +102,10 @@ public final class RequestConfirmCancelItem extends L2GameClientPacket
 			default:
 				return;
 		}
-
+		
 		activeChar.sendPacket(new ExConfirmCancelItem(_itemId, price));
 	}
-
+	
 	@Override
 	public String getType()
 	{

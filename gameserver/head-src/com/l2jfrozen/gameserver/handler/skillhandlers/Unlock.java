@@ -34,25 +34,25 @@ import com.l2jfrozen.util.random.Rnd;
 
 public class Unlock implements ISkillHandler
 {
-	// private static Logger _log = Logger.getLogger(Unlock.class.getName());
+	// private static Logger LOGGER = Logger.getLogger(Unlock.class);
 	private static final SkillType[] SKILL_IDS =
 	{
 		SkillType.UNLOCK
 	};
 	
 	@Override
-	public void useSkill(L2Character activeChar, L2Skill skill, L2Object[] targets)
+	public void useSkill(final L2Character activeChar, final L2Skill skill, final L2Object[] targets)
 	{
 		L2Object[] targetList = skill.getTargetList(activeChar);
 		
 		if (targetList == null)
 			return;
 		
-		for (L2Object element : targetList)
+		for (final L2Object element : targetList)
 		{
 			L2Object target = element;
 			
-			boolean success = Formulas.getInstance().calculateUnlockChance(skill);
+			final boolean success = Formulas.getInstance().calculateUnlockChance(skill);
 			if (target instanceof L2DoorInstance)
 			{
 				L2DoorInstance door = (L2DoorInstance) target;

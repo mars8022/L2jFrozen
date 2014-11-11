@@ -25,22 +25,22 @@ import com.l2jfrozen.gameserver.skills.Env;
  */
 public class ConditionLogicNot extends Condition
 {
-
-	private Condition _condition;
-
-	public ConditionLogicNot(Condition condition)
+	
+	private final Condition _condition;
+	
+	public ConditionLogicNot(final Condition condition)
 	{
 		_condition = condition;
-		if(getListener() != null)
+		if (getListener() != null)
 		{
 			_condition.setListener(this);
 		}
 	}
-
+	
 	@Override
-	void setListener(ConditionListener listener)
+	void setListener(final ConditionListener listener)
 	{
-		if(listener != null)
+		if (listener != null)
 		{
 			_condition.setListener(this);
 		}
@@ -50,9 +50,9 @@ public class ConditionLogicNot extends Condition
 		}
 		super.setListener(listener);
 	}
-
+	
 	@Override
-	public boolean testImpl(Env env)
+	public boolean testImpl(final Env env)
 	{
 		return !_condition.test(env);
 	}

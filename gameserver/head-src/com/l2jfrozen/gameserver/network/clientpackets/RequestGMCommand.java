@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
@@ -31,30 +31,30 @@ import com.l2jfrozen.gameserver.network.serverpackets.GMViewWarehouseWithdrawLis
 
 public final class RequestGMCommand extends L2GameClientPacket
 {
-	static Logger _log = Logger.getLogger(RequestGMCommand.class.getName());
-
+	static Logger LOGGER = Logger.getLogger(RequestGMCommand.class);
+	
 	private String _targetName;
 	private int _command;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_targetName = readS();
 		_command = readD();
-		//_unknown  = readD();
+		// _unknown = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-
-		L2PcInstance player = L2World.getInstance().getPlayer(_targetName);
-
+		
+		final L2PcInstance player = L2World.getInstance().getPlayer(_targetName);
+		
 		// prevent non gm or low level GMs from vieweing player stuff
-		if(player == null || !getClient().getActiveChar().getAccessLevel().allowAltG())
+		if (player == null || !getClient().getActiveChar().getAccessLevel().allowAltG())
 			return;
-
-		switch(_command)
+		
+		switch (_command)
 		{
 			case 1: // player status
 			{
@@ -63,7 +63,7 @@ public final class RequestGMCommand extends L2GameClientPacket
 			}
 			case 2: // player clan
 			{
-				if(player.getClan() != null)
+				if (player.getClan() != null)
 				{
 					sendPacket(new GMViewPledgeInfo(player.getClan(), player));
 				}
@@ -90,10 +90,10 @@ public final class RequestGMCommand extends L2GameClientPacket
 				sendPacket(new GMViewWarehouseWithdrawList(player));
 				break;
 			}
-
+			
 		}
 	}
-
+	
 	@Override
 	public String getType()
 	{

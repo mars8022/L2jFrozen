@@ -34,59 +34,55 @@ import org.xml.sax.SAXException;
 public class ScriptDocument
 {
 	private Document _document;
-	private String _name;
-
-	public ScriptDocument(String name, InputStream input)
+	private final String _name;
+	
+	public ScriptDocument(final String name, final InputStream input)
 	{
 		_name = name;
-
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		
+		final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		try
 		{
-			DocumentBuilder builder = factory.newDocumentBuilder();
+			final DocumentBuilder builder = factory.newDocumentBuilder();
 			_document = builder.parse(input);
-
+			
 		}
-		catch(SAXException sxe)
+		catch (final SAXException sxe)
 		{
 			// Error generated during parsing)
 			Exception x = sxe;
-			if(sxe.getException() != null)
+			if (sxe.getException() != null)
 			{
 				x = sxe.getException();
 			}
 			x.printStackTrace();
-
+			
 		}
-		catch(ParserConfigurationException pce)
+		catch (ParserConfigurationException | IOException pce)
 		{
 			// Parser with specified options can't be built
 			pce.printStackTrace();
 		}
-		catch(IOException ioe)
+		finally
 		{
-			// I/O error
-			ioe.printStackTrace();
 			
-		}finally{
-			
-			if(input!= null)
+			if (input != null)
 				try
 				{
 					input.close();
 				}
-				catch(IOException e)
+				catch (final IOException e)
 				{
 					e.printStackTrace();
 				}
 		}
 	}
-
+	
 	public Document getDocument()
 	{
 		return _document;
 	}
-
+	
 	/**
 	 * @return Returns the _name.
 	 */
@@ -94,11 +90,11 @@ public class ScriptDocument
 	{
 		return _name;
 	}
-
+	
 	@Override
 	public String toString()
 	{
 		return _name;
 	}
-
+	
 }

@@ -29,22 +29,22 @@ public final class RequestPledgeMemberList extends L2GameClientPacket
 	{
 		// trigger
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance activeChar = getClient().getActiveChar();
-		if(activeChar == null)
+		final L2PcInstance activeChar = getClient().getActiveChar();
+		if (activeChar == null)
 			return;
-
-		L2Clan clan = activeChar.getClan();
-		if(clan != null)
+		
+		final L2Clan clan = activeChar.getClan();
+		if (clan != null)
 		{
-			PledgeShowMemberListAll pm = new PledgeShowMemberListAll(clan, activeChar);
+			final PledgeShowMemberListAll pm = new PledgeShowMemberListAll(clan, activeChar);
 			activeChar.sendPacket(pm);
 		}
 	}
-
+	
 	@Override
 	public String getType()
 	{

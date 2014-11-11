@@ -29,48 +29,48 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 public final class RequestExAcceptJoinMPCC extends L2GameClientPacket
 {
 	private int _response;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_response = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance player = getClient().getActiveChar();
+		final L2PcInstance player = getClient().getActiveChar();
 		if (player == null)
 			return;
 		
-		L2PcInstance requestor = player.getActiveRequester();
-	 	if (requestor == null) 
-	 	    return; 
-		 	
-	 	if (_response == 1) 
+		final L2PcInstance requestor = player.getActiveRequester();
+		if (requestor == null)
+			return;
+		
+		if (_response == 1)
 		{
-	 		boolean newCc = false; 
-	 	 	if (!requestor.getParty().isInCommandChannel()) 
-	 	 	{ 
-	 	 	new L2CommandChannel(requestor); // Create new CC 
-	 	 	newCc = true; 
-	 	 	} 
-                  
-	 	 	requestor.getParty().getCommandChannel().addParty(player.getParty()); 
-	 	 	if (!newCc) 
-	 	 	player.sendPacket(new SystemMessage(SystemMessageId.JOINED_COMMAND_CHANNEL)); 
-	 	 	} 
-	 	 	else 
-	 	 	requestor.sendPacket(new SystemMessage(SystemMessageId.S1_DECLINED_CHANNEL_INVITATION).addString(player.getName()));
-	 	
-	 	player.setActiveRequester(null); 
-	 	requestor.onTransactionResponse();
+			boolean newCc = false;
+			if (!requestor.getParty().isInCommandChannel())
+			{
+				new L2CommandChannel(requestor); // Create new CC
+				newCc = true;
+			}
+			
+			requestor.getParty().getCommandChannel().addParty(player.getParty());
+			if (!newCc)
+				player.sendPacket(new SystemMessage(SystemMessageId.JOINED_COMMAND_CHANNEL));
+		}
+		else
+			requestor.sendPacket(new SystemMessage(SystemMessageId.S1_DECLINED_CHANNEL_INVITATION).addString(player.getName()));
+		
+		player.setActiveRequester(null);
+		requestor.onTransactionResponse();
 	}
-
+	
 	@Override
 	public String getType()
 	{
 		return "[C] D0:0E RequestExAcceptJoinMPCC";
 	}
-
+	
 }

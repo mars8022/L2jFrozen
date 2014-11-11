@@ -25,6 +25,7 @@ import com.l2jfrozen.gameserver.handler.IAdminCommandHandler;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
@@ -37,46 +38,34 @@ public class AdminWalker implements IAdminCommandHandler
 	private static String _text = "";
 	private static int _mode = 1;
 	private static int _routeid = 0;
-
+	
 	private static final String[] ADMIN_COMMANDS =
 	{
-			"admin_walker_setmessage",
-			"admin_walker_menu",
-			"admin_walker_setnpc",
-			"admin_walker_setpoint",
-			"admin_walker_setmode",
-			"admin_walker_addpoint"
+		"admin_walker_setmessage",
+		"admin_walker_menu",
+		"admin_walker_setnpc",
+		"admin_walker_setpoint",
+		"admin_walker_setmode",
+		"admin_walker_addpoint"
 	};
-
+	
 	@Override
-	public boolean useAdminCommand(String command, L2PcInstance activeChar)
+	public boolean useAdminCommand(final String command, final L2PcInstance activeChar)
 	{
 		/*
-		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
-			return false;
-		}
-		
-		if(Config.GMAUDIT)
-		{
-			Logger _logAudit = Logger.getLogger("gmaudit");
-			LogRecord record = new LogRecord(Level.INFO, command);
-			record.setParameters(new Object[]
-			{
-					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
-			});
-			_logAudit.log(record);
-		}
-		*/
+		 * if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){ return false; } if(Config.GMAUDIT) { Logger _logAudit = Logger.getLogger("gmaudit"); LogRecord record = new LogRecord(Level.INFO, command); record.setParameters(new Object[] { "GM: " +
+		 * activeChar.getName(), " to target [" + activeChar.getTarget() + "] " }); _logAudit.LOGGER(record); }
+		 */
 		
 		try
 		{
 			String[] parts = command.split(" ");
-
-			if(command.startsWith("admin_walker_menu"))
+			
+			if (command.startsWith("admin_walker_menu"))
 			{
 				mainMenu(activeChar);
 			}
-			else if(command.startsWith("admin_walker_setnpc "))
+			else if (command.startsWith("admin_walker_setnpc "))
 			{
 				try
 				{
@@ -88,9 +77,9 @@ public class AdminWalker implements IAdminCommandHandler
 					{
 						con = L2DatabaseFactory.getInstance().getConnection(false);
 						PreparedStatement statement = con.prepareStatement("SELECT `route_id` FROM `walker_routes` WHERE `npc_id` = " + _npcid + ";");
-						ResultSet rset = statement.executeQuery();
-
-						if(rset.next())
+						final ResultSet rset = statement.executeQuery();
+						
+						if (rset.next())
 						{
 							activeChar.sendMessage("Such NPC already was, we add routes");
 							_routeid = rset.getInt("route_id");
@@ -99,48 +88,49 @@ public class AdminWalker implements IAdminCommandHandler
 						{
 							statement = con.prepareStatement("SELECT MAX(`route_id`) AS max FROM `walker_routes`;");
 							ResultSet rset1 = statement.executeQuery();
-
-							if(rset1.next())
+							
+							if (rset1.next())
 							{
 								_routeid = rset1.getInt("max") + 1;
 							}
-
+							
 							rset1.close();
 							rset1 = null;
 						}
-
-						statement.close();
+						
+						DatabaseUtils.close(statement);
 						statement = null;
 					}
-					catch(Exception e)
+					catch (final Exception e)
 					{
-						if(Config.ENABLE_ALL_EXCEPTIONS)
+						if (Config.ENABLE_ALL_EXCEPTIONS)
 							e.printStackTrace();
 					}
-					finally {
+					finally
+					{
 						CloseUtil.close(con);
 						
 					}
-
+					
 					_point = 1;
 				}
-				catch(NumberFormatException e)
+				catch (final NumberFormatException e)
 				{
-					if(Config.ENABLE_ALL_EXCEPTIONS)
+					if (Config.ENABLE_ALL_EXCEPTIONS)
 						e.printStackTrace();
 					
 					activeChar.sendMessage("The incorrect identifier");
 				}
-
+				
 				mainMenu(activeChar);
 			}
-			else if(command.startsWith("admin_walker_addpoint"))
+			else if (command.startsWith("admin_walker_addpoint"))
 			{
 				addMenu(activeChar);
 			}
-			else if(command.startsWith("admin_walker_setmode"))
+			else if (command.startsWith("admin_walker_setmode"))
 			{
-				if(_mode == 1)
+				if (_mode == 1)
 				{
 					_mode = 0;
 				}
@@ -148,45 +138,45 @@ public class AdminWalker implements IAdminCommandHandler
 				{
 					_mode = 1;
 				}
-
+				
 				addMenu(activeChar);
 			}
-			else if(command.startsWith("admin_walker_setmessage"))
+			else if (command.startsWith("admin_walker_setmessage"))
 			{
 				_text = command.substring(24);
 				addMenu(activeChar);
 			}
-			else if(command.startsWith("admin_walker_setpoint"))
+			else if (command.startsWith("admin_walker_setpoint"))
 			{
 				setPoint(activeChar.getX(), activeChar.getY(), activeChar.getZ());
 				_point++;
 				addMenu(activeChar);
 			}
-
+			
 			parts = null;
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
 			e.printStackTrace();
 		}
 		return true;
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;
 	}
-
-	private void setPoint(int x, int y, int z)
+	
+	private void setPoint(final int x, final int y, final int z)
 	{
 		Connection con = null;
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection(false);
 			PreparedStatement statement;
-
-			if(_text.isEmpty())
+			
+			if (_text.isEmpty())
 			{
 				statement = con.prepareStatement("INSERT INTO `lineage`.`walker_routes` (`route_id` ,`npc_id` ,`move_point` ,`chatText` ,`move_x` ,`move_y` ,`move_z` ,`delay` ,`running` )" + "VALUES (?, ?, ?, NULL, ?, ?, ?, ?, ?);");
 				statement.setInt(1, _routeid);
@@ -212,11 +202,11 @@ public class AdminWalker implements IAdminCommandHandler
 				statement.setInt(9, _mode);
 			}
 			statement.execute();
-			statement.close();
+			DatabaseUtils.close(statement);
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 		}
 		finally
@@ -224,14 +214,14 @@ public class AdminWalker implements IAdminCommandHandler
 			CloseUtil.close(con);
 		}
 	}
-
+	
 	/**
 	 * @param activeChar
 	 */
-	private void mainMenu(L2PcInstance activeChar)
+	private void mainMenu(final L2PcInstance activeChar)
 	{
-		NpcHtmlMessage html = new NpcHtmlMessage(activeChar.getObjectId());
-		TextBuilder sb = new TextBuilder();
+		final NpcHtmlMessage html = new NpcHtmlMessage(activeChar.getObjectId());
+		final TextBuilder sb = new TextBuilder();
 		sb.append("<html><body><font color=\"009900\">Editing Walkers</font><br>");
 		sb.append("<br>");
 		sb.append("Is chosen NPCID: " + _npcid + "<br>");
@@ -243,21 +233,21 @@ public class AdminWalker implements IAdminCommandHandler
 		html.setHtml(sb.toString());
 		activeChar.sendPacket(html);
 	}
-
+	
 	/**
 	 * @param activeChar
 	 */
-	private void addMenu(L2PcInstance activeChar)
+	private void addMenu(final L2PcInstance activeChar)
 	{
-		NpcHtmlMessage html = new NpcHtmlMessage(activeChar.getObjectId());
-		TextBuilder sb = new TextBuilder();
+		final NpcHtmlMessage html = new NpcHtmlMessage(activeChar.getObjectId());
+		final TextBuilder sb = new TextBuilder();
 		sb.append("<html><body><font color=\"009900\">Editing Walkers</font><br>");
 		sb.append("<br>");
 		sb.append("Is chosen NPCID: " + _npcid + "<br>");
 		sb.append("Number of the current point: " + _point + "<br>");
 		sb.append("Number of the current route: " + _routeid + "<br>");
-
-		if(_mode == 1)
+		
+		if (_mode == 1)
 		{
 			sb.append("Mode: Run<br>");
 		}
@@ -265,8 +255,8 @@ public class AdminWalker implements IAdminCommandHandler
 		{
 			sb.append("Mode: Step<br>");
 		}
-
-		if(_text.isEmpty())
+		
+		if (_text.isEmpty())
 		{
 			sb.append("The phrase is not established<br>");
 		}
@@ -274,7 +264,7 @@ public class AdminWalker implements IAdminCommandHandler
 		{
 			sb.append("The phrase: " + _text + "<br>");
 		}
-
+		
 		sb.append("<edit var=\"id\" width=80 height=15><br>");
 		sb.append("<button value=\"To establish a phrase\" action=\"bypass -h admin_walker_setmessage $id width=80 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"><br>");
 		sb.append("<button value=\"To add a point\" action=\"bypass -h admin_walker_setpoint width=80 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"><br>");

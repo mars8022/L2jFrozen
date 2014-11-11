@@ -22,16 +22,16 @@ import com.l2jfrozen.gameserver.skills.Env;
 
 public class ConditionPlayerMp extends Condition
 {
-
+	
 	private final int _mp;
-
-	public ConditionPlayerMp(int mp)
+	
+	public ConditionPlayerMp(final int mp)
 	{
 		_mp = mp;
 	}
-
+	
 	@Override
-	public boolean testImpl(Env env)
+	public boolean testImpl(final Env env)
 	{
 		return env.player.getCurrentMp() * 100 / env.player.getMaxMp() <= _mp;
 	}

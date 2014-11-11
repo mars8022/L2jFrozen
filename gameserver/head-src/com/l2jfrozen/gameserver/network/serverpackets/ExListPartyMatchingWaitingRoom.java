@@ -28,20 +28,20 @@ public class ExListPartyMatchingWaitingRoom extends L2GameServerPacket
 {
 	private final L2PcInstance _activeChar;
 	@SuppressWarnings("unused")
-	private int _page;
-	private int _minlvl;
-	private int _maxlvl;
-	private int _mode;
-	private FastList<L2PcInstance> _members;
+	private final int _page;
+	private final int _minlvl;
+	private final int _maxlvl;
+	private final int _mode;
+	private final FastList<L2PcInstance> _members;
 	
-	public ExListPartyMatchingWaitingRoom(L2PcInstance player, int page, int minlvl, int maxlvl, int mode)
+	public ExListPartyMatchingWaitingRoom(final L2PcInstance player, final int page, final int minlvl, final int maxlvl, final int mode)
 	{
 		_activeChar = player;
 		_page = page;
 		_minlvl = minlvl;
 		_maxlvl = maxlvl;
 		_mode = mode;
-		_members = new FastList<L2PcInstance>();
+		_members = new FastList<>();
 	}
 	
 	@Override
@@ -54,8 +54,8 @@ public class ExListPartyMatchingWaitingRoom extends L2GameServerPacket
 		if (_mode == 0)
 		{
 			// Retrieve the activeChar PartyMatchRoom
-			PartyMatchRoom _room = PartyMatchRoomList.getInstance().getRoom(_activeChar.getPartyRoom());
-			if (_room!=null && _room.getOwner()!=null && !_room.getOwner().equals(_activeChar))
+			final PartyMatchRoom _room = PartyMatchRoomList.getInstance().getRoom(_activeChar.getPartyRoom());
+			if (_room != null && _room.getOwner() != null && !_room.getOwner().equals(_activeChar))
 			{
 				writeD(0);
 				writeD(0);
@@ -63,7 +63,7 @@ public class ExListPartyMatchingWaitingRoom extends L2GameServerPacket
 			}
 		}
 		
-		for (L2PcInstance cha : PartyMatchWaitingList.getInstance().getPlayers())
+		for (final L2PcInstance cha : PartyMatchWaitingList.getInstance().getPlayers())
 		{
 			// Don't add yourself in the list
 			if (cha == null || cha == _activeChar)
@@ -82,11 +82,11 @@ public class ExListPartyMatchingWaitingRoom extends L2GameServerPacket
 		}
 		
 		int _count = 0;
-		int _size = _members.size();
+		final int _size = _members.size();
 		
 		writeD(1);
 		writeD(_size);
-		while(_size > _count)
+		while (_size > _count)
 		{
 			writeS(_members.get(_count).getName());
 			writeD(_members.get(_count).getActiveClass());

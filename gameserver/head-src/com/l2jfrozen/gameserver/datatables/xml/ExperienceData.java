@@ -17,10 +17,10 @@ package com.l2jfrozen.gameserver.datatables.xml;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -33,12 +33,12 @@ import com.l2jfrozen.Config;
  */
 public class ExperienceData
 {
-	private static Logger _log = Logger.getLogger(ExperienceData.class.getName());
+	private static Logger LOGGER = Logger.getLogger(ExperienceData.class);
 	
 	private byte MAX_LEVEL;
 	private byte MAX_PET_LEVEL;
 	
-	private final Map<Integer, Long> _expTable = new HashMap<Integer, Long>();
+	private final Map<Integer, Long> _expTable = new HashMap<>();
 	
 	private ExperienceData()
 	{
@@ -50,7 +50,7 @@ public class ExperienceData
 		final File xml = new File(Config.DATAPACK_ROOT, "data/stats/experience.xml");
 		if (!xml.exists())
 		{
-			_log.warning(getClass().getSimpleName() + ": experience.xml not found!");
+			LOGGER.warn(getClass().getSimpleName() + ": experience.xml not found!");
 			return;
 		}
 		
@@ -62,9 +62,9 @@ public class ExperienceData
 		{
 			doc = factory.newDocumentBuilder().parse(xml);
 		}
-		catch (Exception e)
+		catch (final Exception e)
 		{
-			_log.warning("Could not parse experience.xml: " + e.getMessage());
+			LOGGER.warn("Could not parse experience.xml: " + e.getMessage());
 			return;
 		}
 		
@@ -90,12 +90,12 @@ public class ExperienceData
 			}
 		}
 		
-		_log.info(getClass().getSimpleName() + ": Loaded " + _expTable.size() + " levels");
-		_log.info(getClass().getSimpleName() + ": Max Player Level is: " + (MAX_LEVEL - 1));
-		_log.info(getClass().getSimpleName() + ": Max Pet Level is: " + (MAX_PET_LEVEL - 1));
+		LOGGER.info(getClass().getSimpleName() + ": Loaded " + _expTable.size() + " levels");
+		LOGGER.info(getClass().getSimpleName() + ": Max Player Level is: " + (MAX_LEVEL - 1));
+		LOGGER.info(getClass().getSimpleName() + ": Max Pet Level is: " + (MAX_PET_LEVEL - 1));
 	}
 	
-	public long getExpForLevel(int level)
+	public long getExpForLevel(final int level)
 	{
 		return _expTable.get(level);
 	}

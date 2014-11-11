@@ -29,27 +29,27 @@ import com.l2jfrozen.gameserver.network.serverpackets.SSQStatus;
 public final class RequestSSQStatus extends L2GameClientPacket
 {
 	private int _page;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_page = readC();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance activeChar = getClient().getActiveChar();
-		if(activeChar == null)
+		final L2PcInstance activeChar = getClient().getActiveChar();
+		if (activeChar == null)
 			return;
-
-		if((SevenSigns.getInstance().isSealValidationPeriod() || SevenSigns.getInstance().isCompResultsPeriod()) && _page == 4)
+		
+		if ((SevenSigns.getInstance().isSealValidationPeriod() || SevenSigns.getInstance().isCompResultsPeriod()) && _page == 4)
 			return;
-
-		SSQStatus ssqs = new SSQStatus(activeChar, _page);
+		
+		final SSQStatus ssqs = new SSQStatus(activeChar, _page);
 		activeChar.sendPacket(ssqs);
 	}
-
+	
 	@Override
 	public String getType()
 	{

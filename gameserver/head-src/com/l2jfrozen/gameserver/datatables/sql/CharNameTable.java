@@ -22,37 +22,38 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
  * This class ...
- * 
  * @version $Revision: 1.3.2.2.2.1 $ $Date: 2005/03/27 15:29:18 $
  */
 public class CharNameTable
 {
-	private final static Logger _log = Logger.getLogger(CharNameTable.class.getName());
-
+	private final static Logger LOGGER = Logger.getLogger(CharNameTable.class);
+	
 	private static CharNameTable _instance;
-
+	
 	public static CharNameTable getInstance()
 	{
-		if(_instance == null)
+		if (_instance == null)
 		{
 			_instance = new CharNameTable();
 		}
 		return _instance;
 	}
-
-	public synchronized boolean doesCharNameExist(String name)
+	
+	public synchronized boolean doesCharNameExist(final String name)
 	{
 		boolean result = true;
 		Connection con = null;
-
+		
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection(false);
@@ -60,13 +61,13 @@ public class CharNameTable
 			statement.setString(1, name);
 			final ResultSet rset = statement.executeQuery();
 			result = rset.next();
-
-			statement.close();
-			rset.close();
+			
+			DatabaseUtils.close(statement);
+			DatabaseUtils.close(rset);
 		}
-		catch(SQLException e)
+		catch (final SQLException e)
 		{
-			_log.severe("could not check existing charname"+" "+ e);
+			LOGGER.error("Could not check existing charname", e);
 		}
 		finally
 		{
@@ -74,70 +75,70 @@ public class CharNameTable
 		}
 		return result;
 	}
-
-	public int accountCharNumber(String account)
+	
+	public int accountCharNumber(final String account)
 	{
 		Connection con = null;
 		int number = 0;
-
+		
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection(false);
 			final PreparedStatement statement = con.prepareStatement("SELECT COUNT(char_name) FROM characters WHERE account_name=?");
 			statement.setString(1, account);
 			final ResultSet rset = statement.executeQuery();
-
-			while(rset.next())
+			
+			while (rset.next())
 			{
 				number = rset.getInt(1);
 			}
-
-			statement.close();
-			rset.close();
+			
+			DatabaseUtils.close(statement);
+			DatabaseUtils.close(rset);
 		}
-		catch(SQLException e)
+		catch (final SQLException e)
 		{
-			_log.severe("could not check existing char number");
+			LOGGER.error("Could not check existing char number", e);
 			e.printStackTrace();
 		}
 		finally
 		{
 			CloseUtil.close(con);
 		}
-
+		
 		return number;
 	}
 	
-	public int ipCharNumber(String ip)
+	public int ipCharNumber(final String ip)
 	{
 		Connection con = null;
 		int number = 0;
-
+		
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection(false);
-			final PreparedStatement statement = con.prepareStatement("SELECT count(char_name) FROM "+Config.LOGINSERVER_DB+".accounts a, "+Config.GAMESERVER_DB+".characters c where a.login = c.account_name and a.lastIP=?");
+			final PreparedStatement statement = con.prepareStatement("SELECT count(char_name) FROM " + Config.LOGINSERVER_DB + ".accounts a, " + Config.GAMESERVER_DB + ".characters c where a.login = c.account_name and a.lastIP=?");
 			statement.setString(1, ip);
 			final ResultSet rset = statement.executeQuery();
-
-			while(rset.next())
+			
+			while (rset.next())
 			{
 				number = rset.getInt(1);
 			}
-
-			statement.close();
-			rset.close();
+			
+			DatabaseUtils.close(statement);
+			DatabaseUtils.close(rset);
 		}
-		catch(SQLException e)
+		catch (final SQLException e)
 		{
-			_log.severe("could not check existing char number");
+			LOGGER.error("Could not check existing char number", e);
 			e.printStackTrace();
 		}
 		finally
 		{
 			CloseUtil.close(con);
 		}
-
+		
 		return number;
 	}
 }

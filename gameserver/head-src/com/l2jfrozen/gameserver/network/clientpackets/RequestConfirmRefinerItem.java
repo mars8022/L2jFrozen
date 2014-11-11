@@ -47,15 +47,15 @@ public class RequestConfirmRefinerItem extends L2GameClientPacket
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance activeChar = getClient().getActiveChar();
-		L2ItemInstance targetItem = (L2ItemInstance) L2World.getInstance().findObject(_targetItemObjId);
-		L2ItemInstance refinerItem = (L2ItemInstance) L2World.getInstance().findObject(_refinerItemObjId);
+		final L2PcInstance activeChar = getClient().getActiveChar();
+		final L2ItemInstance targetItem = (L2ItemInstance) L2World.getInstance().findObject(_targetItemObjId);
+		final L2ItemInstance refinerItem = (L2ItemInstance) L2World.getInstance().findObject(_refinerItemObjId);
 		
 		if (targetItem == null || refinerItem == null)
 			return;
 		
-		int itemGrade = targetItem.getItem().getItemGrade();
-		int refinerItemId = refinerItem.getItem().getItemId();
+		final int itemGrade = targetItem.getItem().getItemGrade();
+		final int refinerItemId = refinerItem.getItem().getItemId();
 		
 		// is the item a life stone?
 		if (refinerItemId < 8723 || refinerItemId > 8762)
@@ -67,8 +67,8 @@ public class RequestConfirmRefinerItem extends L2GameClientPacket
 		int gemstoneCount = 0;
 		int gemstoneItemId = 0;
 		@SuppressWarnings("unused")
-		int lifeStoneLevel = getLifeStoneLevel(refinerItemId);
-		SystemMessage sm = new SystemMessage(SystemMessageId.REQUIRES_S1_S2);
+		final int lifeStoneLevel = getLifeStoneLevel(refinerItemId);
+		final SystemMessage sm = new SystemMessage(SystemMessageId.REQUIRES_S1_S2);
 		
 		switch (itemGrade)
 		{

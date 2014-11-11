@@ -22,17 +22,16 @@ import com.l2jfrozen.gameserver.model.L2Character;
 
 /**
  * Format (ch)dddcc
- * 
  * @author -Wooden-
  */
 public class ExFishingStartCombat extends L2GameServerPacket
 {
 	private static final String _S__FE_15_EXFISHINGSTARTCOMBAT = "[S] FE:15 ExFishingStartCombat";
-	private L2Character _activeChar;
-	private int _time, _hp;
-	private int _lureType, _deceptiveMode, _mode;
-
-	public ExFishingStartCombat(L2Character character, int time, int hp, int mode, int lureType, int deceptiveMode)
+	private final L2Character _activeChar;
+	private final int _time, _hp;
+	private final int _lureType, _deceptiveMode, _mode;
+	
+	public ExFishingStartCombat(final L2Character character, final int time, final int hp, final int mode, final int lureType, final int deceptiveMode)
 	{
 		_activeChar = character;
 		_time = time;
@@ -41,8 +40,9 @@ public class ExFishingStartCombat extends L2GameServerPacket
 		_lureType = lureType;
 		_deceptiveMode = deceptiveMode;
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#writeImpl()
 	 */
 	@Override
@@ -50,7 +50,7 @@ public class ExFishingStartCombat extends L2GameServerPacket
 	{
 		writeC(0xfe);
 		writeH(0x15);
-
+		
 		writeD(_activeChar.getObjectId());
 		writeD(_time);
 		writeD(_hp);
@@ -58,8 +58,9 @@ public class ExFishingStartCombat extends L2GameServerPacket
 		writeC(_lureType); // 0 = newbie lure, 1 = normal lure, 2 = night lure
 		writeC(_deceptiveMode); // Fish Deceptive Mode: 0 = no, 1 = yes
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
 	 */
 	@Override
@@ -67,5 +68,5 @@ public class ExFishingStartCombat extends L2GameServerPacket
 	{
 		return _S__FE_15_EXFISHINGSTARTCOMBAT;
 	}
-
+	
 }

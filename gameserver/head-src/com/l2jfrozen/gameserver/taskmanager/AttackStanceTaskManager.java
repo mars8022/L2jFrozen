@@ -20,10 +20,10 @@
 package com.l2jfrozen.gameserver.taskmanager;
 
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Summon;
@@ -32,16 +32,14 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.AutoAttackStop;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
-
 /**
  * This class ...
- * 
  * @version $Revision: $ $Date: $
  * @author Luca Baldi
  */
 public class AttackStanceTaskManager
 {
-	protected static final Logger _log = Logger.getLogger(AttackStanceTaskManager.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(AttackStanceTaskManager.class);
 	
 	protected Map<L2Character, Long> _attackStanceTasks = new FastMap<L2Character, Long>().shared();
 	
@@ -59,13 +57,13 @@ public class AttackStanceTaskManager
 	{
 		if (actor instanceof L2Summon)
 		{
-			L2Summon summon = (L2Summon) actor;
+			final L2Summon summon = (L2Summon) actor;
 			actor = summon.getOwner();
 		}
 		if (actor instanceof L2PcInstance)
 		{
-			L2PcInstance player = (L2PcInstance) actor;
-			for (L2CubicInstance cubic : player.getCubics().values())
+			final L2PcInstance player = (L2PcInstance) actor;
+			for (final L2CubicInstance cubic : player.getCubics().values())
 				if (cubic.getId() != L2CubicInstance.LIFE_CUBIC)
 					cubic.doAction();
 		}
@@ -76,7 +74,7 @@ public class AttackStanceTaskManager
 	{
 		if (actor instanceof L2Summon)
 		{
-			L2Summon summon = (L2Summon) actor;
+			final L2Summon summon = (L2Summon) actor;
 			actor = summon.getOwner();
 		}
 		_attackStanceTasks.remove(actor);
@@ -86,7 +84,7 @@ public class AttackStanceTaskManager
 	{
 		if (actor instanceof L2Summon)
 		{
-			L2Summon summon = (L2Summon) actor;
+			final L2Summon summon = (L2Summon) actor;
 			actor = summon.getOwner();
 		}
 		return _attackStanceTasks.containsKey(actor);
@@ -102,13 +100,13 @@ public class AttackStanceTaskManager
 		@Override
 		public void run()
 		{
-			Long current = System.currentTimeMillis();
+			final Long current = System.currentTimeMillis();
 			try
 			{
 				if (_attackStanceTasks != null)
 					synchronized (this)
 					{
-						for (L2Character actor : _attackStanceTasks.keySet())
+						for (final L2Character actor : _attackStanceTasks.keySet())
 						{
 							if ((current - _attackStanceTasks.get(actor)) > 15000)
 							{
@@ -121,11 +119,11 @@ public class AttackStanceTaskManager
 						}
 					}
 			}
-			catch (Exception e)
+			catch (final Exception e)
 			{
 				// TODO: Find out the reason for exception. Unless caught here,
 				// players remain in attack positions.
-				_log.log(Level.WARNING, "Error in FightModeScheduler: " + e.getMessage(), e);
+				LOGGER.warn("Error in FightModeScheduler: " + e.getMessage(), e);
 			}
 		}
 	}

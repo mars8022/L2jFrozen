@@ -26,7 +26,7 @@ import com.l2jfrozen.gameserver.model.zone.L2ZoneType;
  * @author StarCOM
  */
 public class L2NoStoreZone extends L2ZoneType
-{	
+{
 	public L2NoStoreZone(final int id)
 	{
 		super(id);

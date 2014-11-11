@@ -25,20 +25,20 @@ import com.l2jfrozen.gameserver.skills.Env;
  */
 public class ConditionLogicAnd extends Condition
 {
-
+	
 	private static Condition[] _emptyConditions = new Condition[0];
 	public Condition[] conditions = _emptyConditions;
-
+	
 	public ConditionLogicAnd()
 	{
 		super();
 	}
-
-	public void add(Condition condition)
+	
+	public void add(final Condition condition)
 	{
-		if(condition == null)
+		if (condition == null)
 			return;
-		if(getListener() != null)
+		if (getListener() != null)
 		{
 			condition.setListener(this);
 		}
@@ -48,33 +48,33 @@ public class ConditionLogicAnd extends Condition
 		tmp[len] = condition;
 		conditions = tmp;
 	}
-
+	
 	@Override
-	void setListener(ConditionListener listener)
+	void setListener(final ConditionListener listener)
 	{
-		if(listener != null)
+		if (listener != null)
 		{
-			for(Condition c : conditions)
+			for (final Condition c : conditions)
 			{
 				c.setListener(this);
 			}
 		}
 		else
 		{
-			for(Condition c : conditions)
+			for (final Condition c : conditions)
 			{
 				c.setListener(null);
 			}
 		}
 		super.setListener(listener);
 	}
-
+	
 	@Override
-	public boolean testImpl(Env env)
+	public boolean testImpl(final Env env)
 	{
-		for(Condition c : conditions)
+		for (final Condition c : conditions)
 		{
-			if(!c.test(env))
+			if (!c.test(env))
 				return false;
 		}
 		return true;

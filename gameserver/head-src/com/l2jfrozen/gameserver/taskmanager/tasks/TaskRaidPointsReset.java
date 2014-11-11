@@ -19,7 +19,8 @@ package com.l2jfrozen.gameserver.taskmanager.tasks;
 
 import java.util.Calendar;
 import java.util.Map;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.ClanTable;
@@ -35,7 +36,7 @@ import com.l2jfrozen.gameserver.taskmanager.TaskTypes;
 
 public class TaskRaidPointsReset extends Task
 {
-	private static final Logger _log = Logger.getLogger(TaskRaidPointsReset.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(TaskRaidPointsReset.class);
 	public static final String NAME = "raid_points_reset";
 	
 	@Override
@@ -45,20 +46,20 @@ public class TaskRaidPointsReset extends Task
 	}
 	
 	@Override
-	public void onTimeElapsed(ExecutedTask task)
+	public void onTimeElapsed(final ExecutedTask task)
 	{
 		String playerName = "";
-		Calendar cal = Calendar.getInstance();
+		final Calendar cal = Calendar.getInstance();
 		
 		if (cal.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY)
 		{
 			// reward clan reputation points
-			Map<Integer, Integer> rankList = RaidBossPointsManager.getRankList();
-			for (L2Clan c : ClanTable.getInstance().getClans())
+			final Map<Integer, Integer> rankList = RaidBossPointsManager.getRankList();
+			for (final L2Clan c : ClanTable.getInstance().getClans())
 			{
-				for (Map.Entry<Integer, Integer> entry : rankList.entrySet())
+				for (final Map.Entry<Integer, Integer> entry : rankList.entrySet())
 				{
-					L2Object obj = L2World.getInstance().findObject(entry.getKey());
+					final L2Object obj = L2World.getInstance().findObject(entry.getKey());
 					if (obj instanceof L2PcInstance)
 						playerName = ((L2PcInstance) obj).getName();
 					if (entry.getValue() <= 100 && c.isMember(playerName))
@@ -109,7 +110,7 @@ public class TaskRaidPointsReset extends Task
 			}
 			
 			RaidBossPointsManager.cleanUp();
-			_log.info("Raid Points Reset Global Task: launched.");
+			LOGGER.info("[GlobalTask] Raid Points Reset launched.");
 		}
 	}
 	

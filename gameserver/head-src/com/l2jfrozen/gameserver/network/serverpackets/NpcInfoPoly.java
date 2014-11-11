@@ -26,13 +26,12 @@ import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 
 /**
  * This class ...
- * 
  * @version $Revision: 1.7.2.4.2.9 $ $Date: 2005/04/11 10:05:54 $
  */
 public class NpcInfoPoly extends L2GameServerPacket
 {
-	//   ddddddddddddddddddffffdddcccccSSddd dddddc
-
+	// ddddddddddddddddddffffdddcccccSSddd dddddc
+	
 	/** The Constant _S__22_NPCINFO. */
 	private static final String _S__22_NPCINFO = "[S] 16 NpcInfo";
 	
@@ -40,16 +39,24 @@ public class NpcInfoPoly extends L2GameServerPacket
 	private L2Character _activeChar;
 	
 	/** The _obj. */
-	private L2Object _obj;
+	private final L2Object _obj;
 	
 	/** The _heading. */
 	private int _x, _y, _z, _heading;
 	
 	/** The _npc id. */
-	private int _npcId;
+	private final int _npcId;
 	
 	/** The _is alike dead. */
-	private boolean _isAttackable, _isSummoned, _isRunning, _isInCombat, _isAlikeDead;
+	private boolean _isAttackable;
+	
+	private final boolean _isSummoned;
+	
+	private boolean _isRunning;
+	
+	private boolean _isInCombat;
+	
+	private boolean _isAlikeDead;
 	
 	/** The _p atk spd. */
 	private int _mAtkSpd, _pAtkSpd;
@@ -70,18 +77,17 @@ public class NpcInfoPoly extends L2GameServerPacket
 	L2NpcTemplate _template;
 	
 	/** The _collision radius. */
-	private int _collisionRadius;
+	private final int _collisionRadius;
 	
 	/** The _collision height. */
-	private int _collisionHeight;
-
+	private final int _collisionHeight;
+	
 	/**
 	 * Instantiates a new npc info poly.
-	 *
 	 * @param obj the obj
 	 * @param attacker the attacker
 	 */
-	public NpcInfoPoly(L2Object obj, L2Character attacker)
+	public NpcInfoPoly(final L2Object obj, final L2Character attacker)
 	{
 		_obj = obj;
 		_npcId = obj.getPoly().getPolyId();
@@ -92,22 +98,22 @@ public class NpcInfoPoly extends L2GameServerPacket
 		_isSummoned = false;
 		_collisionRadius = _template.collisionRadius;
 		_collisionHeight = _template.collisionHeight;
-		if(_obj instanceof L2Character)
+		if (_obj instanceof L2Character)
 		{
 			_activeChar = (L2Character) obj;
 			_isAttackable = obj.isAutoAttackable(attacker);
 			_rhand = _template.rhand;
 			_lhand = _template.lhand;
-
+			
 		}
-
-		if(_obj instanceof L2ItemInstance)
+		
+		if (_obj instanceof L2ItemInstance)
 		{
 			_x = _obj.getX();
 			_y = _obj.getY();
 			_z = _obj.getZ();
 			_heading = 0;
-			_mAtkSpd = 100; //yes, an item can be dread as death
+			_mAtkSpd = 100; // yes, an item can be dread as death
 			_pAtkSpd = 100;
 			_runSpd = 120;
 			_walkSpd = 80;
@@ -136,11 +142,12 @@ public class NpcInfoPoly extends L2GameServerPacket
 			_name = _activeChar.getName();
 			_title = _activeChar.getTitle();
 			_abnormalEffect = _activeChar.getAbnormalEffect();
-
+			
 		}
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.network.serverpackets.L2GameServerPacket#writeImpl()
 	 */
 	@Override
@@ -159,14 +166,14 @@ public class NpcInfoPoly extends L2GameServerPacket
 		writeD(_pAtkSpd);
 		writeD(_runSpd);
 		writeD(_walkSpd);
-		writeD(_swimRunSpd/*0x32*/); // swimspeed
-		writeD(_swimWalkSpd/*0x32*/); // swimspeed
+		writeD(_swimRunSpd/* 0x32 */); // swimspeed
+		writeD(_swimWalkSpd/* 0x32 */); // swimspeed
 		writeD(_flRunSpd);
 		writeD(_flWalkSpd);
 		writeD(_flyRunSpd);
 		writeD(_flyWalkSpd);
-		writeF(1/*_activeChar.getProperMultiplier()*/);
-		writeF(1/*_activeChar.getAttackSpeedMultiplier()*/);
+		writeF(1/* _activeChar.getProperMultiplier() */);
+		writeF(1/* _activeChar.getAttackSpeedMultiplier() */);
 		writeF(_collisionRadius);
 		writeF(_collisionHeight);
 		writeD(_rhand); // right hand weapon
@@ -176,13 +183,13 @@ public class NpcInfoPoly extends L2GameServerPacket
 		writeC(_isRunning ? 1 : 0);
 		writeC(_isInCombat ? 1 : 0);
 		writeC(_isAlikeDead ? 1 : 0);
-		writeC(_isSummoned ? 2 : 0); // invisible ?? 0=false  1=true   2=summoned (only works if model has a summon animation)
+		writeC(_isSummoned ? 2 : 0); // invisible ?? 0=false 1=true 2=summoned (only works if model has a summon animation)
 		writeS(_name);
 		writeS(_title);
 		writeD(0);
 		writeD(0);
 		writeD(0000); // hmm karma ??
-
+		
 		writeH(_abnormalEffect); // C2
 		writeH(0x00); // C2
 		writeD(0000); // C2
@@ -191,8 +198,9 @@ public class NpcInfoPoly extends L2GameServerPacket
 		writeD(0000); // C2
 		writeC(0000); // C2
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType()
 	 */
 	@Override

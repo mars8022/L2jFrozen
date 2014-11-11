@@ -21,15 +21,14 @@ package com.l2jfrozen.gameserver.geo.geoeditorcon;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 
-
 public class GeoEditorListener extends Thread
 {
-	protected static final Logger _log = Logger.getLogger(GeoEditorListener.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(GeoEditorListener.class);
 	
 	private static final int PORT = Config.GEOEDITOR_PORT;
 	
@@ -52,65 +51,66 @@ public class GeoEditorListener extends Thread
 		{
 			_serverSocket = new ServerSocket(PORT);
 		}
-		catch(IOException e)
+		catch (final IOException e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.SEVERE, "Error creating geoeditor listener! ", e);
+			LOGGER.error("Error creating geoeditor listener! ", e);
 			System.exit(1);
 		}
 		start();
-		_log.info("GeoEditorListener Initialized.");
+		LOGGER.info("GeoEditorListener Initialized.");
 	}
-
+	
 	public GeoEditorThread getThread()
 	{
 		return _geoEditor;
 	}
-
+	
 	public String getStatus()
 	{
-		if(_geoEditor != null && _geoEditor.isWorking())
+		if (_geoEditor != null && _geoEditor.isWorking())
 		{
 			return "Geoeditor connected.";
 		}
 		return "Geoeditor not connected.";
 	}
-
+	
 	@Override
 	public void run()
 	{
 		Socket connection = null;
 		try
 		{
-			while(true)
+			while (true)
 			{
 				connection = _serverSocket.accept();
-				if(_geoEditor != null && _geoEditor.isWorking())
+				if (_geoEditor != null && _geoEditor.isWorking())
 				{
-					_log.log(Level.WARNING, "Geoeditor already connected!");
+					LOGGER.warn("Geoeditor already connected!");
 					connection.close();
 					continue;
 				}
-				_log.info("Received geoeditor connection from: " + connection.getInetAddress().getHostAddress());
+				LOGGER.info("Received geoeditor connection from: " + connection.getInetAddress().getHostAddress());
 				_geoEditor = new GeoEditorThread(connection);
 				_geoEditor.start();
 			}
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.log(Level.WARNING, "GeoEditorListener: ", e);
+			LOGGER.warn("GeoEditorListener: ", e);
 			try
 			{
-				if(connection != null) connection.close();
+				if (connection != null)
+					connection.close();
 			}
-			catch(Exception e2)
+			catch (final Exception e2)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
+				if (Config.ENABLE_ALL_EXCEPTIONS)
 					e2.printStackTrace();
 				
 			}
@@ -121,14 +121,14 @@ public class GeoEditorListener extends Thread
 			{
 				_serverSocket.close();
 			}
-			catch(IOException io)
+			catch (final IOException io)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
+				if (Config.ENABLE_ALL_EXCEPTIONS)
 					io.printStackTrace();
 				
-				_log.log(Level.WARNING, "", io);
+				LOGGER.warn("", io);
 			}
-			_log.log(Level.WARNING, "GeoEditorListener Closed!");
+			LOGGER.warn("GeoEditorListener Closed!");
 		}
 	}
 }

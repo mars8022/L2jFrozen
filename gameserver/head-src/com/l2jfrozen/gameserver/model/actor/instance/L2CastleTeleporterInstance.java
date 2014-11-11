@@ -1,4 +1,5 @@
 package com.l2jfrozen.gameserver.model.actor.instance;
+
 /*
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -15,8 +16,8 @@ package com.l2jfrozen.gameserver.model.actor.instance;
  */
 
 import java.util.StringTokenizer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
@@ -24,37 +25,36 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
 /**
  * The Class L2CastleTeleporterInstance.
- *
  * @author Kerberos
  */
 public final class L2CastleTeleporterInstance extends L2NpcInstance
 {
 	
-	/** The Constant _log. */
-	public static final Logger _log = Logger.getLogger(L2CastleTeleporterInstance.class.getName());
+	/** The Constant LOGGER. */
+	public static final Logger LOGGER = Logger.getLogger(L2CastleTeleporterInstance.class);
 	
 	/** The _current task. */
 	private boolean _currentTask = false;
 	
 	/**
 	 * Instantiates a new l2 castle teleporter instance.
-	 *
 	 * @param objectId the object id
 	 * @param template the template
 	 */
-	public L2CastleTeleporterInstance(int objectId, L2NpcTemplate template)
+	public L2CastleTeleporterInstance(final int objectId, final L2NpcTemplate template)
 	{
 		super(objectId, template);
 	}
 	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance#onBypassFeedback(com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance, java.lang.String)
 	 */
 	@Override
-	public void onBypassFeedback(L2PcInstance player, String command)
+	public void onBypassFeedback(final L2PcInstance player, final String command)
 	{
-		StringTokenizer st = new StringTokenizer(command, " ");
-		String actualCommand = st.nextToken(); // Get actual command
+		final StringTokenizer st = new StringTokenizer(command, " ");
+		final String actualCommand = st.nextToken(); // Get actual command
 		
 		if (actualCommand.equalsIgnoreCase("tele"))
 		{
@@ -67,11 +67,11 @@ public final class L2CastleTeleporterInstance extends L2NpcInstance
 					delay = 30000;
 				
 				setTask(true);
-				ThreadPoolManager.getInstance().scheduleGeneral(new oustAllPlayers(), delay );
+				ThreadPoolManager.getInstance().scheduleGeneral(new oustAllPlayers(), delay);
 			}
 			
-			String filename = "data/html/castleteleporter/MassGK-1.htm";
-			NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
+			final String filename = "data/html/castleteleporter/MassGK-1.htm";
+			final NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
 			html.setFile(filename);
 			player.sendPacket(html);
 			return;
@@ -79,11 +79,12 @@ public final class L2CastleTeleporterInstance extends L2NpcInstance
 		super.onBypassFeedback(player, command);
 	}
 	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance#showChatWindow(com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance)
 	 */
 	@Override
-	public void showChatWindow(L2PcInstance player)
+	public void showChatWindow(final L2PcInstance player)
 	{
 		String filename;
 		if (!getTask())
@@ -96,7 +97,7 @@ public final class L2CastleTeleporterInstance extends L2NpcInstance
 		else
 			filename = "data/html/castleteleporter/MassGK-1.htm";
 		
-		NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
+		final NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
 		html.setFile(filename);
 		html.replace("%objectId%", String.valueOf(getObjectId()));
 		player.sendPacket(html);
@@ -116,7 +117,8 @@ public final class L2CastleTeleporterInstance extends L2NpcInstance
 	class oustAllPlayers implements Runnable
 	{
 		
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
 		 * @see java.lang.Runnable#run()
 		 */
 		@Override
@@ -125,31 +127,21 @@ public final class L2CastleTeleporterInstance extends L2NpcInstance
 			try
 			{
 				/*
-				CreatureSay cs = new CreatureSay(getObjectId(), 1, getName(), 1000443); // The defenders of $s1 castle will be teleported to the inner castle.
-				cs.addStringParameter(getCastle().getName());
-				int region = MapRegionTable.getInstance().getMapRegion(getX(), getY());
-				Collection<L2PcInstance> pls = L2World.getInstance().getAllPlayers();
-				//synchronized (L2World.getInstance().getAllPlayers())
-				{
-					for (L2PcInstance player : pls)
-					{
-						if (region == MapRegionTable.getInstance().getMapRegion(player.getX(),player.getY()))
-							player.sendPacket(cs);
-					}
-				}*/
+				 * CreatureSay cs = new CreatureSay(getObjectId(), 1, getName(), 1000443); // The defenders of $s1 castle will be teleported to the inner castle. cs.addStringParameter(getCastle().getName()); int region = MapRegionTable.getInstance().getMapRegion(getX(), getY());
+				 * Collection<L2PcInstance> pls = L2World.getInstance().getAllPlayers(); //synchronized (L2World.getInstance().getAllPlayers()) { for (L2PcInstance player : pls) { if (region == MapRegionTable.getInstance().getMapRegion(player.getX(),player.getY())) player.sendPacket(cs); } }
+				 */
 				oustAllPlayers();
 				setTask(false);
 			}
-			catch (NullPointerException e)
+			catch (final NullPointerException e)
 			{
-				_log.log(Level.WARNING, "" + e.getMessage(), e);
+				LOGGER.warn("" + e.getMessage(), e);
 			}
 		}
 	}
 	
 	/**
 	 * Gets the task.
-	 *
 	 * @return the task
 	 */
 	public boolean getTask()
@@ -159,12 +151,11 @@ public final class L2CastleTeleporterInstance extends L2NpcInstance
 	
 	/**
 	 * Sets the task.
-	 *
 	 * @param state the new task
 	 */
-	public void setTask(boolean state)
+	public void setTask(final boolean state)
 	{
 		_currentTask = state;
 	}
-
+	
 }

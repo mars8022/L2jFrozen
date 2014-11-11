@@ -23,10 +23,7 @@ import com.l2jfrozen.gameserver.managers.CastleManorManager.CropProcure;
 import com.l2jfrozen.gameserver.model.L2Manor;
 
 /**
- * Format: ch cddd[ddddcdcdcd] c - id (0xFE) h - sub id (0x1D) c d - manor id d d - size [ d - crop id d - residual buy
- * d - start buy d - buy price c - reward type d - seed level c - reward 1 items d - reward 1 item id c - reward 2 items
- * d - reward 2 item id ]
- * 
+ * Format: ch cddd[ddddcdcdcd] c - id (0xFE) h - sub id (0x1D) c d - manor id d d - size [ d - crop id d - residual buy d - start buy d - buy price c - reward type d - seed level c - reward 1 items d - reward 1 item id c - reward 2 items d - reward 2 item id ]
  * @author l3x
  */
 
@@ -34,18 +31,18 @@ public class ExShowCropInfo extends L2GameServerPacket
 {
 	private static final String _S__FE_1C_EXSHOWSEEDINFO = "[S] FE:1D ExShowCropInfo";
 	private FastList<CropProcure> _crops;
-	private int _manorId;
-
-	public ExShowCropInfo(int manorId, FastList<CropProcure> crops)
+	private final int _manorId;
+	
+	public ExShowCropInfo(final int manorId, final FastList<CropProcure> crops)
 	{
 		_manorId = manorId;
 		_crops = crops;
-		if(_crops == null)
+		if (_crops == null)
 		{
-			_crops = new FastList<CropProcure>();
+			_crops = new FastList<>();
 		}
 	}
-
+	
 	@Override
 	protected void writeImpl()
 	{
@@ -55,7 +52,7 @@ public class ExShowCropInfo extends L2GameServerPacket
 		writeD(_manorId); // Manor ID
 		writeD(0);
 		writeD(_crops.size());
-		for(CropProcure crop : _crops)
+		for (final CropProcure crop : _crops)
 		{
 			writeD(crop.getId()); // Crop id
 			writeD(crop.getAmount()); // Buy residual
@@ -69,11 +66,11 @@ public class ExShowCropInfo extends L2GameServerPacket
 			writeD(L2Manor.getInstance().getRewardItem(crop.getId(), 2)); // Rewrad 2 Type Item Id
 		}
 	}
-
+	
 	@Override
 	public String getType()
 	{
 		return _S__FE_1C_EXSHOWSEEDINFO;
 	}
-
+	
 }

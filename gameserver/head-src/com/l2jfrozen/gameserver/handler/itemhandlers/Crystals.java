@@ -16,10 +16,10 @@
  *
  * http://www.gnu.org/copyleft/gpl.html
  */
- 
+
 package com.l2jfrozen.gameserver.handler.itemhandlers;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.handler.IItemHandler;
@@ -34,46 +34,57 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 public class Crystals implements IItemHandler
 {
-	protected static final Logger _log = Logger.getLogger(Crystals.class.getName());
-
+	protected static final Logger LOGGER = Logger.getLogger(Crystals.class);
+	
 	private static final int[] ITEM_IDS =
 	{
-		7906, 7907, 7908, 7909, 7910, 7911, 7912, 7913, 7914, 7915, 7916, 7917
+		7906,
+		7907,
+		7908,
+		7909,
+		7910,
+		7911,
+		7912,
+		7913,
+		7914,
+		7915,
+		7916,
+		7917
 	};
-
+	
 	@Override
-	public synchronized void useItem(L2PlayableInstance playable, L2ItemInstance item)
+	public synchronized void useItem(final L2PlayableInstance playable, final L2ItemInstance item)
 	{
 		L2PcInstance activeChar;
-//		boolean res = false;
-
-		if(playable instanceof L2PcInstance)
+		// boolean res = false;
+		
+		if (playable instanceof L2PcInstance)
 		{
 			activeChar = (L2PcInstance) playable;
 		}
-		else if(playable instanceof L2PetInstance)
+		else if (playable instanceof L2PetInstance)
 		{
 			activeChar = ((L2PetInstance) playable).getOwner();
 		}
 		else
 			return;
-
-		if(activeChar.isInOlympiadMode())
+		
+		if (activeChar.isInOlympiadMode())
 		{
 			activeChar.sendPacket(new SystemMessage(SystemMessageId.THIS_ITEM_IS_NOT_AVAILABLE_FOR_THE_OLYMPIAD_EVENT));
 			return;
 		}
-
-		if(activeChar.isAllSkillsDisabled())
+		
+		if (activeChar.isAllSkillsDisabled())
 		{
 			activeChar.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-
-		int itemId = item.getItemId();
+		
+		final int itemId = item.getItemId();
 		L2Skill skill = null;
-
-		switch(itemId)
+		
+		switch (itemId)
 		{
 			case 7906:
 				skill = SkillTable.getInstance().getInfo(2248, 1);
@@ -113,15 +124,15 @@ public class Crystals implements IItemHandler
 				break;
 			default:
 		}
-
-		if(skill != null)
+		
+		if (skill != null)
 		{
 			activeChar.doCast(skill);
 			// We have the consume on XML skills
 			// playable.destroyItem("Consume", item.getObjectId(), 1, null, false);
 		}
 	}
-
+	
 	@Override
 	public int[] getItemIds()
 	{

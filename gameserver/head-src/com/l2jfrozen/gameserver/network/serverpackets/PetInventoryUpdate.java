@@ -19,9 +19,10 @@
 package com.l2jfrozen.gameserver.network.serverpackets;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.ItemInfo;
@@ -29,76 +30,75 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 
 /**
  * This class ...
- * 
  * @author Yme
  * @version $Revision: 1.3.2.1.2.5 $ $Date: 2005/03/27 15:29:57 $ Rebuild 23.2.2006 by Advi
  */
 public class PetInventoryUpdate extends L2GameServerPacket
 {
-	private static Logger _log = Logger.getLogger(InventoryUpdate.class.getName());
+	private static Logger LOGGER = Logger.getLogger(InventoryUpdate.class);
 	private static final String _S__37_INVENTORYUPDATE = "[S] b3 InventoryUpdate";
-	private List<ItemInfo> _items;
-
+	private final List<ItemInfo> _items;
+	
 	/**
 	 * @param items
 	 */
-	public PetInventoryUpdate(List<ItemInfo> items)
+	public PetInventoryUpdate(final List<ItemInfo> items)
 	{
 		_items = items;
-		if(Config.DEBUG)
+		if (Config.DEBUG)
 		{
 			showDebug();
 		}
 	}
-
+	
 	public PetInventoryUpdate()
 	{
 		this(new FastList<ItemInfo>());
 	}
-
-	public void addItem(L2ItemInstance item)
+	
+	public void addItem(final L2ItemInstance item)
 	{
 		_items.add(new ItemInfo(item));
 	}
-
-	public void addNewItem(L2ItemInstance item)
+	
+	public void addNewItem(final L2ItemInstance item)
 	{
 		_items.add(new ItemInfo(item, 1));
 	}
-
-	public void addModifiedItem(L2ItemInstance item)
+	
+	public void addModifiedItem(final L2ItemInstance item)
 	{
 		_items.add(new ItemInfo(item, 2));
 	}
-
-	public void addRemovedItem(L2ItemInstance item)
+	
+	public void addRemovedItem(final L2ItemInstance item)
 	{
 		_items.add(new ItemInfo(item, 3));
 	}
-
-	public void addItems(List<L2ItemInstance> items)
+	
+	public void addItems(final List<L2ItemInstance> items)
 	{
-		for(L2ItemInstance item : items)
+		for (final L2ItemInstance item : items)
 		{
 			_items.add(new ItemInfo(item));
 		}
 	}
-
+	
 	private void showDebug()
 	{
-		for(ItemInfo item : _items)
+		for (final ItemInfo item : _items)
 		{
-			_log.fine("oid:" + Integer.toHexString(item.getObjectId()) + " item:" + item.getItem().getName() + " last change:" + item.getChange());
+			LOGGER.debug("oid:" + Integer.toHexString(item.getObjectId()) + " item:" + item.getItem().getName() + " last change:" + item.getChange());
 		}
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
 		writeC(0xb3);
-		int count = _items.size();
+		final int count = _items.size();
 		writeH(count);
-		for(ItemInfo item : _items)
+		for (final ItemInfo item : _items)
 		{
 			writeH(item.getChange());
 			writeH(item.getItem().getType1()); // item type1
@@ -108,14 +108,15 @@ public class PetInventoryUpdate extends L2GameServerPacket
 			writeH(item.getItem().getType2()); // item type2
 			writeH(0x00); // ?
 			writeH(item.getEquipped());
-			//			writeH(temp.getItem().getBodyPart());	// rev 377   slot    0006-lr.ear  0008-neck  0030-lr.finger  0040-head  0080-??  0100-l.hand  0200-gloves  0400-chest  0800-pants  1000-feet  2000-??  4000-r.hand  8000-r.hand
-			writeD(item.getItem().getBodyPart()); // rev 415   slot    0006-lr.ear  0008-neck  0030-lr.finger  0040-head  0080-??  0100-l.hand  0200-gloves  0400-chest  0800-pants  1000-feet  2000-??  4000-r.hand  8000-r.hand
+			// writeH(temp.getItem().getBodyPart()); // rev 377 slot 0006-lr.ear 0008-neck 0030-lr.finger 0040-head 0080-?? 0100-l.hand 0200-gloves 0400-chest 0800-pants 1000-feet 2000-?? 4000-r.hand 8000-r.hand
+			writeD(item.getItem().getBodyPart()); // rev 415 slot 0006-lr.ear 0008-neck 0030-lr.finger 0040-head 0080-?? 0100-l.hand 0200-gloves 0400-chest 0800-pants 1000-feet 2000-?? 4000-r.hand 8000-r.hand
 			writeH(item.getEnchant()); // enchant level
 			writeH(0x00); // ?
 		}
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType()
 	 */
 	@Override

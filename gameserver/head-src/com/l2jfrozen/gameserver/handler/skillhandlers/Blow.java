@@ -28,6 +28,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2SummonInstance;
 import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
+import com.l2jfrozen.gameserver.network.serverpackets.PlaySound;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.skills.BaseStats;
 import com.l2jfrozen.gameserver.skills.Formulas;
@@ -46,18 +47,18 @@ public class Blow implements ISkillHandler
 	};
 	
 	@Override
-	public void useSkill(L2Character activeChar, L2Skill skill, L2Object[] targets)
+	public void useSkill(final L2Character activeChar, final L2Skill skill, final L2Object[] targets)
 	{
 		if (activeChar.isAlikeDead())
 			return;
 		
-		boolean bss = activeChar.checkBss();
-		boolean sps = activeChar.checkSps();
-		boolean ss = activeChar.checkSs();
+		final boolean bss = activeChar.checkBss();
+		final boolean sps = activeChar.checkSps();
+		final boolean ss = activeChar.checkSs();
 		
 		Formulas.getInstance();
 		
-		for (L2Character target : (L2Character[]) targets)
+		for (final L2Character target : (L2Character[]) targets)
 		{
 			if (target.isAlikeDead())
 				continue;
@@ -89,18 +90,8 @@ public class Blow implements ISkillHandler
 			// If skill requires Crit or skill requires behind,
 			// calculate chance based on DEX, Position and on self BUFF
 			/*
-			if ((skill.getCondition() & L2Skill.COND_BEHIND) != 0)
-			{
-				if (skill.getName().equals("Backstab"))
-				{
-					_successChance = (byte) Config.BACKSTAB_ATTACK_BEHIND;
-				}
-				else
-				{
-					_successChance = (byte) Config.BLOW_ATTACK_BEHIND;
-				}
-			}
-			*/
+			 * if ((skill.getCondition() & L2Skill.COND_BEHIND) != 0) { if (skill.getName().equals("Backstab")) { _successChance = (byte) Config.BACKSTAB_ATTACK_BEHIND; } else { _successChance = (byte) Config.BLOW_ATTACK_BEHIND; } }
+			 */
 			
 			boolean success = true;
 			
@@ -127,13 +118,13 @@ public class Blow implements ISkillHandler
 					{
 						// skill.getEffects(activeChar, target, new Env(shld, false, false, false));
 						skill.getEffects(activeChar, target, ss, sps, bss);
-						SystemMessage sm = new SystemMessage(SystemMessageId.YOU_FEEL_S1_EFFECT);
+						final SystemMessage sm = new SystemMessage(SystemMessageId.YOU_FEEL_S1_EFFECT);
 						sm.addSkillName(skill);
 						target.sendPacket(sm);
 					}
 					else
 					{
-						SystemMessage sm = new SystemMessage(SystemMessageId.ATTACK_FAILED);
+						final SystemMessage sm = new SystemMessage(SystemMessageId.ATTACK_FAILED);
 						sm.addSkillName(skill);
 						activeChar.sendPacket(sm);
 						return;
@@ -141,7 +132,7 @@ public class Blow implements ISkillHandler
 					// }
 				}
 				
-				L2ItemInstance weapon = activeChar.getActiveWeaponInstance();
+				final L2ItemInstance weapon = activeChar.getActiveWeaponInstance();
 				boolean soul = false;
 				if (weapon != null)
 				{
@@ -149,7 +140,7 @@ public class Blow implements ISkillHandler
 				}
 				
 				// byte shld = Formulas.getInstance().calcShldUse(activeChar, target, skill);
-				boolean shld = Formulas.calcShldUse(activeChar, target);
+				final boolean shld = Formulas.calcShldUse(activeChar, target);
 				
 				// Critical hit
 				boolean crit = false;
@@ -180,14 +171,14 @@ public class Blow implements ISkillHandler
 					/*
 					 * This loop iterates over previous array but, if skill damage is not reflected it stops on first iteration (target) and misses activeChar
 					 */
-					for (L2Character targ : ts)
+					for (final L2Character targ : ts)
 					{
-						L2PcInstance player = (L2PcInstance) targ;
+						final L2PcInstance player = (L2PcInstance) targ;
 						// L2PcInstance player = (L2PcInstance)target;
 						if (!player.isInvul())
 						{
 							// Check and calculate transfered damage
-							L2Summon summon = player.getPet();
+							final L2Summon summon = player.getPet();
 							if (summon instanceof L2SummonInstance && Util.checkIfInRange(900, player, summon, true))
 							{
 								int tDmg = (int) damage * (int) player.getStat().calcStat(Stats.TRANSFER_DAMAGE_PERCENT, 0, null, null) / 100;
@@ -226,7 +217,7 @@ public class Blow implements ISkillHandler
 							else
 								player.setCurrentHp(player.getCurrentHp() - damage);
 						}
-						SystemMessage smsg = new SystemMessage(SystemMessageId.S1_GAVE_YOU_S2_DMG);
+						final SystemMessage smsg = new SystemMessage(SystemMessageId.S1_GAVE_YOU_S2_DMG);
 						smsg.addString(activeChar.getName());
 						smsg.addNumber((int) damage);
 						player.sendPacket(smsg);
@@ -253,7 +244,7 @@ public class Blow implements ISkillHandler
 				}
 				if (activeChar instanceof L2PcInstance)
 				{
-					L2PcInstance activePlayer = (L2PcInstance) activeChar;
+					final L2PcInstance activePlayer = (L2PcInstance) activeChar;
 					
 					activePlayer.sendDamageMessage(target, (int) damage, false, true, false);
 					if (activePlayer.isInOlympiadMode() && target instanceof L2PcInstance && ((L2PcInstance) target).isInOlympiadMode() && ((L2PcInstance) target).getOlympiadGameId() == activePlayer.getOlympiadGameId())
@@ -264,6 +255,8 @@ public class Blow implements ISkillHandler
 				
 				// Possibility of a lethal strike
 				Formulas.calcLethalHit(activeChar, target, skill);
+				final PlaySound PlaySound = new PlaySound("skillsound.critical_hit_02");
+				activeChar.sendPacket(PlaySound);
 				
 			}
 			else
@@ -271,12 +264,12 @@ public class Blow implements ISkillHandler
 				if (skillIsEvaded)
 					if (target instanceof L2PcInstance)
 					{
-						SystemMessage sm = new SystemMessage(SystemMessageId.AVOIDED_S1S_ATTACK);
+						final SystemMessage sm = new SystemMessage(SystemMessageId.AVOIDED_S1S_ATTACK);
 						sm.addString(activeChar.getName());
 						((L2PcInstance) target).sendPacket(sm);
 					}
 				
-				SystemMessage sm = new SystemMessage(SystemMessageId.ATTACK_FAILED);
+				final SystemMessage sm = new SystemMessage(SystemMessageId.ATTACK_FAILED);
 				sm.addSkillName(skill);
 				activeChar.sendPacket(sm);
 				return;

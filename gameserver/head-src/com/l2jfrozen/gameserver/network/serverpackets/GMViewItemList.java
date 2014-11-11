@@ -26,19 +26,19 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
  */
 public class GMViewItemList extends L2GameServerPacket
 {
-	//private static Logger _log = Logger.getLogger(GMViewItemList.class.getName());
+	// private static Logger LOGGER = Logger.getLogger(GMViewItemList.class);
 	private static final String _S__AD_GMVIEWITEMLIST = "[S] 94 GMViewItemList";
-	private L2ItemInstance[] _items;
-	private L2PcInstance _cha;
-	private String _playerName;
-
-	public GMViewItemList(L2PcInstance cha)
+	private final L2ItemInstance[] _items;
+	private final L2PcInstance _cha;
+	private final String _playerName;
+	
+	public GMViewItemList(final L2PcInstance cha)
 	{
 		_items = cha.getInventory().getItems();
 		_playerName = cha.getName();
 		_cha = cha;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
@@ -47,16 +47,16 @@ public class GMViewItemList extends L2GameServerPacket
 		writeD(_cha.getInventoryLimit()); // inventory limit
 		writeH(0x01); // show window ??
 		writeH(_items.length);
-
-		for(L2ItemInstance temp : _items)
+		
+		for (final L2ItemInstance temp : _items)
 		{
-			if(temp == null || temp.getItem() == null)
+			if (temp == null || temp.getItem() == null)
 			{
 				continue;
 			}
-
+			
 			writeH(temp.getItem().getType1());
-
+			
 			writeD(temp.getObjectId());
 			writeD(temp.getItemId());
 			writeD(temp.getCount());
@@ -66,7 +66,7 @@ public class GMViewItemList extends L2GameServerPacket
 			writeD(temp.getItem().getBodyPart());
 			writeH(temp.getEnchantLevel());
 			writeH(temp.getCustomType2());
-			if(temp.isAugmented())
+			if (temp.isAugmented())
 			{
 				writeD(temp.getAugmentation().getAugmentationId());
 			}
@@ -77,8 +77,9 @@ public class GMViewItemList extends L2GameServerPacket
 			writeD(-1); // C6
 		}
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType()
 	 */
 	@Override

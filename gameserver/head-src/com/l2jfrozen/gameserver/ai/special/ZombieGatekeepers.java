@@ -27,25 +27,25 @@ import com.l2jfrozen.gameserver.model.quest.Quest;
 
 public class ZombieGatekeepers extends Quest implements Runnable
 {
-	public ZombieGatekeepers(int questId, String name, String descr)
+	public ZombieGatekeepers(final int questId, final String name, final String descr)
 	{
 		super(questId, name, descr);
 		super.addAttackId(22136);
 		super.addAggroRangeEnterId(22136);
 	}
 	
-	private FastMap<Integer, FastList<L2Character>> _attackersList = new FastMap<Integer, FastList<L2Character>>();
+	private final FastMap<Integer, FastList<L2Character>> _attackersList = new FastMap<>();
 	
 	@Override
-	public String onAttack(L2NpcInstance npc, L2PcInstance attacker, int damage, boolean isPet)
+	public String onAttack(final L2NpcInstance npc, final L2PcInstance attacker, final int damage, final boolean isPet)
 	{
-		int npcObjId = npc.getObjectId();
+		final int npcObjId = npc.getObjectId();
 		
-		L2Character target = isPet ? attacker.getPet() : attacker;
+		final L2Character target = isPet ? attacker.getPet() : attacker;
 		
 		if (_attackersList.get(npcObjId) == null)
 		{
-			FastList<L2Character> player = new FastList<L2Character>();
+			final FastList<L2Character> player = new FastList<>();
 			player.add(target);
 			_attackersList.put(npcObjId, player);
 		}
@@ -58,19 +58,19 @@ public class ZombieGatekeepers extends Quest implements Runnable
 	}
 	
 	@Override
-	public String onAggroRangeEnter(L2NpcInstance npc, L2PcInstance player, boolean isPet)
+	public String onAggroRangeEnter(final L2NpcInstance npc, final L2PcInstance player, final boolean isPet)
 	{
-		int npcObjId = npc.getObjectId();
+		final int npcObjId = npc.getObjectId();
 		
-		L2Character target = isPet ? player.getPet() : player;
+		final L2Character target = isPet ? player.getPet() : player;
 		
-		L2ItemInstance VisitorsMark = player.getInventory().getItemByItemId(8064);
-		L2ItemInstance FadedVisitorsMark = player.getInventory().getItemByItemId(8065);
-		L2ItemInstance PagansMark = player.getInventory().getItemByItemId(8067);
+		final L2ItemInstance VisitorsMark = player.getInventory().getItemByItemId(8064);
+		final L2ItemInstance FadedVisitorsMark = player.getInventory().getItemByItemId(8065);
+		final L2ItemInstance PagansMark = player.getInventory().getItemByItemId(8067);
 		
-		long mark1 = VisitorsMark == null ? 0 : VisitorsMark.getCount();
-		long mark2 = FadedVisitorsMark == null ? 0 : FadedVisitorsMark.getCount();
-		long mark3 = PagansMark == null ? 0 : PagansMark.getCount();
+		final long mark1 = VisitorsMark == null ? 0 : VisitorsMark.getCount();
+		final long mark2 = FadedVisitorsMark == null ? 0 : FadedVisitorsMark.getCount();
+		final long mark3 = PagansMark == null ? 0 : PagansMark.getCount();
 		
 		if (mark1 == 0 && mark2 == 0 && mark3 == 0)
 		{
@@ -94,9 +94,9 @@ public class ZombieGatekeepers extends Quest implements Runnable
 	}
 	
 	@Override
-	public String onKill(L2NpcInstance npc, L2PcInstance killer, boolean isPet)
+	public String onKill(final L2NpcInstance npc, final L2PcInstance killer, final boolean isPet)
 	{
-		int npcObjId = npc.getObjectId();
+		final int npcObjId = npc.getObjectId();
 		if (_attackersList.get(npcObjId) != null)
 		{
 			_attackersList.get(npcObjId).clear();

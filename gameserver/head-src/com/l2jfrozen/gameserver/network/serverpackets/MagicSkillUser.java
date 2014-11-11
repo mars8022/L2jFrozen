@@ -28,13 +28,13 @@ public class MagicSkillUser extends L2GameServerPacket
 {
 	private static final String _S__5A_MAGICSKILLUSER = "[S] 5A MagicSkillUser";
 	private int _targetId;
-	private int _skillId;
-	private int _skillLevel;
-	private int _hitTime;
-	private int _reuseDelay;
-	private int _charObjId, _x, _y, _z;
+	private final int _skillId;
+	private final int _skillLevel;
+	private final int _hitTime;
+	private final int _reuseDelay;
+	private final int _charObjId, _x, _y, _z;
 	
-	public MagicSkillUser(L2Character cha, L2Character target, int skillId, int skillLevel, int hitTime, int reuseDelay)
+	public MagicSkillUser(final L2Character cha, final L2Character target, final int skillId, final int skillLevel, final int hitTime, final int reuseDelay)
 	{
 		_charObjId = cha.getObjectId();
 		if (target != null)
@@ -54,7 +54,7 @@ public class MagicSkillUser extends L2GameServerPacket
 		_z = cha.getZ();
 	}
 	
-	public MagicSkillUser(L2Character cha, int skillId, int skillLevel, int hitTime, int reuseDelay)
+	public MagicSkillUser(final L2Character cha, final int skillId, final int skillLevel, final int hitTime, final int reuseDelay)
 	{
 		_charObjId = cha.getObjectId();
 		_targetId = cha.getTargetId();

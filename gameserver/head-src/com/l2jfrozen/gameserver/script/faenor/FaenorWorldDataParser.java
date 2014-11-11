@@ -19,12 +19,12 @@
 package com.l2jfrozen.gameserver.script.faenor;
 
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javax.script.ScriptContext;
 
 import javolution.util.FastMap;
 
+import org.apache.log4j.Logger;
 import org.w3c.dom.Node;
 
 import com.l2jfrozen.Config;
@@ -38,103 +38,103 @@ import com.l2jfrozen.gameserver.script.ScriptEngine;
  */
 public class FaenorWorldDataParser extends FaenorParser
 {
-	static Logger _log = Logger.getLogger(FaenorWorldDataParser.class.getName());
-	//Script Types
+	static Logger LOGGER = Logger.getLogger(FaenorWorldDataParser.class);
+	// Script Types
 	private final static String PET_DATA = "PetData";
-
+	
 	@Override
-	public void parseScript(Node eventNode, ScriptContext context)
+	public void parseScript(final Node eventNode, final ScriptContext context)
 	{
-		if(Config.DEBUG)
+		if (Config.DEBUG)
 		{
-			_log.info("Parsing WorldData");
+			LOGGER.info("Parsing WorldData");
 		}
-
-		for(Node node = eventNode.getFirstChild(); node != null; node = node.getNextSibling())
+		
+		for (Node node = eventNode.getFirstChild(); node != null; node = node.getNextSibling())
 		{
-
-			if(isNodeName(node, PET_DATA))
+			
+			if (isNodeName(node, PET_DATA))
 			{
 				parsePetData(node, context);
 			}
 		}
 	}
-
+	
 	public class PetData
 	{
 		public int petId;
 		public int levelStart;
 		public int levelEnd;
 		Map<String, String> statValues;
-
+		
 		public PetData()
 		{
-			statValues = new FastMap<String, String>();
+			statValues = new FastMap<>();
 		}
 	}
-
-	private void parsePetData(Node petNode, ScriptContext context)
+	
+	private void parsePetData(final Node petNode, final ScriptContext context)
 	{
-		//if (Config.DEBUG) _log.info("Parsing PetData.");
-
-		PetData petData = new PetData();
-
+		// if (Config.DEBUG) LOGGER.info("Parsing PetData.");
+		
+		final PetData petData = new PetData();
+		
 		try
 		{
 			petData.petId = getInt(attribute(petNode, "ID"));
-			int[] levelRange = IntList.parse(attribute(petNode, "Levels"));
+			final int[] levelRange = IntList.parse(attribute(petNode, "Levels"));
 			petData.levelStart = levelRange[0];
 			petData.levelEnd = levelRange[1];
-
-			for(Node node = petNode.getFirstChild(); node != null; node = node.getNextSibling())
+			
+			for (Node node = petNode.getFirstChild(); node != null; node = node.getNextSibling())
 			{
-				if(isNodeName(node, "Stat"))
+				if (isNodeName(node, "Stat"))
 				{
 					parseStat(node, petData);
 				}
 			}
 			_bridge.addPetData(context, petData.petId, petData.levelStart, petData.levelEnd, petData.statValues);
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
 			petData.petId = -1;
-			_log.warning("Error in pet Data parser.");
+			LOGGER.warn("Error in pet Data parser.");
 			e.printStackTrace();
 		}
 	}
-
-	private void parseStat(Node stat, PetData petData)
+	
+	private void parseStat(final Node stat, final PetData petData)
 	{
-		//if (Config.DEBUG) _log.info("Parsing Pet Statistic.");
-
+		// if (Config.DEBUG) LOGGER.info("Parsing Pet Statistic.");
+		
 		try
 		{
-			String statName = attribute(stat, "Name");
-
-			for(Node node = stat.getFirstChild(); node != null; node = node.getNextSibling())
+			final String statName = attribute(stat, "Name");
+			
+			for (Node node = stat.getFirstChild(); node != null; node = node.getNextSibling())
 			{
-				if(isNodeName(node, "Formula"))
+				if (isNodeName(node, "Formula"))
 				{
-					String formula = parseForumla(node);
+					final String formula = parseForumla(node);
 					petData.statValues.put(statName, formula);
 				}
 			}
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
 			petData.petId = -1;
-			_log.warning("ERROR(parseStat):" + e.getMessage());
+			LOGGER.warn("ERROR(parseStat):" + e.getMessage());
 		}
 	}
-
-	private String parseForumla(Node formulaNode)
+	
+	private String parseForumla(final Node formulaNode)
 	{
 		return formulaNode.getTextContent().trim();
 	}
-
+	
 	static class FaenorWorldDataParserFactory extends ParserFactory
 	{
 		@Override
@@ -143,7 +143,7 @@ public class FaenorWorldDataParser extends FaenorParser
 			return new FaenorWorldDataParser();
 		}
 	}
-
+	
 	static
 	{
 		ScriptEngine.parserFactories.put(getParserName("WorldData"), new FaenorWorldDataParserFactory());

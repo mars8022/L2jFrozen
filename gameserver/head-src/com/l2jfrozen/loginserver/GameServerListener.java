@@ -20,9 +20,10 @@ package com.l2jfrozen.loginserver;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 
@@ -31,32 +32,32 @@ import com.l2jfrozen.Config;
  */
 public class GameServerListener extends FloodProtectedListener
 {
-	private static Logger _log = Logger.getLogger(GameServerListener.class.getName());
-	private static List<GameServerThread> _gameServers = new FastList<GameServerThread>();
-
+	private static Logger LOGGER = Logger.getLogger(GameServerListener.class);
+	private static List<GameServerThread> _gameServers = new FastList<>();
+	
 	public GameServerListener() throws IOException
 	{
 		super(Config.GAME_SERVER_LOGIN_HOST, Config.GAME_SERVER_LOGIN_PORT);
 	}
-
+	
 	/**
 	 * @see com.l2jfrozen.loginserver.FloodProtectedListener#addClient(java.net.Socket)
 	 */
 	@Override
-	public void addClient(Socket s)
+	public void addClient(final Socket s)
 	{
-		if(Config.DEBUG)
+		if (Config.DEBUG)
 		{
-			_log.info("Received gameserver connection from: " + s.getInetAddress().getHostAddress());
+			LOGGER.info("Received gameserver connection from: " + s.getInetAddress().getHostAddress());
 		}
-
-		GameServerThread gst = new GameServerThread(s);
+		
+		final GameServerThread gst = new GameServerThread(s);
 		gst.start();
 		_gameServers.add(gst);
 		
 	}
-
-	public void removeGameServer(GameServerThread gst)
+	
+	public void removeGameServer(final GameServerThread gst)
 	{
 		_gameServers.remove(gst);
 	}

@@ -28,21 +28,21 @@ import com.l2jfrozen.gameserver.skills.Env;
  */
 public class ConditionTargetAggro extends Condition
 {
-
+	
 	private final boolean _isAggro;
-
-	public ConditionTargetAggro(boolean isAggro)
+	
+	public ConditionTargetAggro(final boolean isAggro)
 	{
 		_isAggro = isAggro;
 	}
-
+	
 	@Override
-	public boolean testImpl(Env env)
+	public boolean testImpl(final Env env)
 	{
-		L2Character target = env.target;
-		if(target instanceof L2MonsterInstance)
+		final L2Character target = env.target;
+		if (target instanceof L2MonsterInstance)
 			return ((L2MonsterInstance) target).isAggressive() == _isAggro;
-		if(target instanceof L2PcInstance)
+		if (target instanceof L2PcInstance)
 			return ((L2PcInstance) target).getKarma() > 0;
 		return false;
 	}

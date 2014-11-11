@@ -21,14 +21,13 @@ package com.l2jfrozen.gameserver.geo.pathfinding.cellnodes;
 import com.l2jfrozen.gameserver.geo.pathfinding.Node;
 import com.l2jfrozen.gameserver.model.L2World;
 
-
 public final class CellNode extends Node
 {
 	private final int _x;
 	private final int _y;
 	private short _z;
 	
-	public CellNode(int x, int y, short z, int neighborsIdx)
+	public CellNode(final int x, final int y, final short z, final int neighborsIdx)
 	{
 		super(neighborsIdx);
 		_x = x;
@@ -55,7 +54,7 @@ public final class CellNode extends Node
 	}
 	
 	@Override
-	public void setZ(short z)
+	public void setZ(final short z)
 	{
 		_z = z;
 	}

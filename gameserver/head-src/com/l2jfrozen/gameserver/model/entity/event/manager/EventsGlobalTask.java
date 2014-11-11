@@ -22,8 +22,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
@@ -33,25 +33,27 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
  */
 public class EventsGlobalTask implements Runnable
 {
-	protected static final Logger _log = Logger.getLogger(EventsGlobalTask.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(EventsGlobalTask.class);
 	
 	private static EventsGlobalTask instance;
 	
 	private boolean destroy = false;
 	
-	private Hashtable<String, ArrayList<EventTask>> time_to_tasks = new Hashtable<String,ArrayList<EventTask>>();  //time is in hh:mm 
-	private Hashtable<String, ArrayList<EventTask>> eventid_to_tasks = new Hashtable<String,ArrayList<EventTask>>();
+	private final Hashtable<String, ArrayList<EventTask>> time_to_tasks = new Hashtable<>(); // time is in hh:mm
+	private final Hashtable<String, ArrayList<EventTask>> eventid_to_tasks = new Hashtable<>();
 	
-	
-	private EventsGlobalTask(){
+	private EventsGlobalTask()
+	{
 		
 		ThreadPoolManager.getInstance().scheduleGeneral(this, 5000);
-	
+		
 	}
 	
-	public static EventsGlobalTask getInstance(){
+	public static EventsGlobalTask getInstance()
+	{
 		
-		if(instance==null){
+		if (instance == null)
+		{
 			instance = new EventsGlobalTask();
 		}
 		
@@ -59,12 +61,13 @@ public class EventsGlobalTask implements Runnable
 		
 	}
 	
-	public void registerNewEventTask(EventTask event){
+	public void registerNewEventTask(final EventTask event)
+	{
 		
-		if(event==null || event.getEventIdentifier() == null || event.getEventIdentifier().equals("") || 
-				event.getEventStartTime()==null || event.getEventStartTime().equals("")){
+		if (event == null || event.getEventIdentifier() == null || event.getEventIdentifier().equals("") || event.getEventStartTime() == null || event.getEventStartTime().equals(""))
+		{
 			
-			_log.log(Level.SEVERE, "registerNewEventTask: eventTask must be not null as its identifier and startTime ");
+			LOGGER.error("registerNewEventTask: eventTask must be not null as its identifier and startTime ");
 			return;
 			
 		}
@@ -72,175 +75,205 @@ public class EventsGlobalTask implements Runnable
 		ArrayList<EventTask> savedTasksForTime = time_to_tasks.get(event.getEventStartTime());
 		ArrayList<EventTask> savedTasksForId = eventid_to_tasks.get(event.getEventIdentifier());
 		
-		if(savedTasksForTime!=null){
+		if (savedTasksForTime != null)
+		{
 			
-			if(!savedTasksForTime.contains(event)){
+			if (!savedTasksForTime.contains(event))
+			{
 				savedTasksForTime.add(event);
 			}
 			
-		}else{
-		
-			savedTasksForTime = new ArrayList<EventTask>();
+		}
+		else
+		{
+			
+			savedTasksForTime = new ArrayList<>();
 			savedTasksForTime.add(event);
 			
 		}
 		
 		time_to_tasks.put(event.getEventStartTime(), savedTasksForTime);
 		
-		if(savedTasksForId!=null){
+		if (savedTasksForId != null)
+		{
 			
-			if(!savedTasksForId.contains(event)){
+			if (!savedTasksForId.contains(event))
+			{
 				savedTasksForId.add(event);
 			}
 			
-		}else{
-		
-			savedTasksForId = new ArrayList<EventTask>();
+		}
+		else
+		{
+			
+			savedTasksForId = new ArrayList<>();
 			savedTasksForId.add(event);
 			
 		}
 		
 		eventid_to_tasks.put(event.getEventIdentifier(), savedTasksForId);
 		
-		if(Config.DEBUG){
-			System.out.println("Added Event: "+event.getEventIdentifier());
+		if (Config.DEBUG)
+		{
+			LOGGER.info("Added Event: " + event.getEventIdentifier());
 			
-			//check Info
-			for(String time:time_to_tasks.keySet()){
+			// check Info
+			for (final String time : time_to_tasks.keySet())
+			{
 				
-				//System.out.println("--Time: "+time);
-				ArrayList<EventTask> tasks = time_to_tasks.get(time);
+				// LOGGER.info("--Time: "+time);
+				final ArrayList<EventTask> tasks = time_to_tasks.get(time);
 				
-				Iterator<EventTask> taskIt = tasks.iterator();
+				final Iterator<EventTask> taskIt = tasks.iterator();
 				
-				while(taskIt.hasNext()){
-					EventTask actual_event = taskIt.next();
-					System.out.println("	--Registered Event: "+actual_event.getEventIdentifier());
+				while (taskIt.hasNext())
+				{
+					final EventTask actual_event = taskIt.next();
+					LOGGER.info("	--Registered Event: " + actual_event.getEventIdentifier());
 				}
 				
 			}
 			
-			for(String event_id:eventid_to_tasks.keySet()){
+			for (final String event_id : eventid_to_tasks.keySet())
+			{
 				
-				System.out.println("--Event: "+event_id);
-				ArrayList<EventTask> times = eventid_to_tasks.get(event_id);
+				LOGGER.info("--Event: " + event_id);
+				final ArrayList<EventTask> times = eventid_to_tasks.get(event_id);
 				
-				Iterator<EventTask> timesIt = times.iterator();
+				final Iterator<EventTask> timesIt = times.iterator();
 				
-				while(timesIt.hasNext()){
-					EventTask actual_time = timesIt.next();
-					System.out.println("	--Registered Time: "+actual_time.getEventStartTime());
+				while (timesIt.hasNext())
+				{
+					final EventTask actual_time = timesIt.next();
+					LOGGER.info("	--Registered Time: " + actual_time.getEventStartTime());
 				}
 				
 			}
 		}
-		
 		
 	}
 	
-	public void clearEventTasksByEventName(String eventId){
+	public void clearEventTasksByEventName(final String eventId)
+	{
 		
-		if(eventId==null){
-			_log.log(Level.SEVERE, "registerNewEventTask: eventTask must be not null as its identifier and startTime ");
+		if (eventId == null)
+		{
+			LOGGER.error("registerNewEventTask: eventTask must be not null as its identifier and startTime ");
 			return;
 		}
 		
-		if(eventId.equalsIgnoreCase("all")){
+		if (eventId.equalsIgnoreCase("all"))
+		{
 			
 			time_to_tasks.clear();
 			eventid_to_tasks.clear();
 			
-		}else{
+		}
+		else
+		{
 			
-			ArrayList<EventTask> oldTasksForId = eventid_to_tasks.get(eventId);
+			final ArrayList<EventTask> oldTasksForId = eventid_to_tasks.get(eventId);
 			
-			if(oldTasksForId!=null){
+			if (oldTasksForId != null)
+			{
 				
-				for(EventTask actual:oldTasksForId){
+				for (final EventTask actual : oldTasksForId)
+				{
 					
-					ArrayList<EventTask> oldTasksForTime = time_to_tasks.get(actual.getEventStartTime());
+					final ArrayList<EventTask> oldTasksForTime = time_to_tasks.get(actual.getEventStartTime());
 					
-					if(oldTasksForTime!=null){
+					if (oldTasksForTime != null)
+					{
 						
 						oldTasksForTime.remove(actual);
 						
-						time_to_tasks.put(actual.getEventStartTime(),oldTasksForTime);
+						time_to_tasks.put(actual.getEventStartTime(), oldTasksForTime);
 						
 					}
-					
 					
 				}
 				
 				eventid_to_tasks.remove(eventId);
 				
 			}
-		
+			
 		}
 		
 	}
 	
-	public void deleteEventTask(EventTask event){
+	public void deleteEventTask(final EventTask event)
+	{
 		
-		if(event==null || event.getEventIdentifier() == null || event.getEventIdentifier().equals("") || 
-				event.getEventStartTime() == null || event.getEventStartTime().equals("")){
+		if (event == null || event.getEventIdentifier() == null || event.getEventIdentifier().equals("") || event.getEventStartTime() == null || event.getEventStartTime().equals(""))
+		{
 			
-			_log.log(Level.SEVERE, "registerNewEventTask: eventTask must be not null as its identifier and startTime ");
+			LOGGER.error("registerNewEventTask: eventTask must be not null as its identifier and startTime ");
 			return;
 			
 		}
 		
-		if(this.time_to_tasks.size()<0){
+		if (this.time_to_tasks.size() < 0)
+		{
 			return;
 		}
 		
-		ArrayList<EventTask> oldTasksForId = eventid_to_tasks.get(event.getEventIdentifier());
-		ArrayList<EventTask> oldTasksForTime = time_to_tasks.get(event.getEventStartTime());
+		final ArrayList<EventTask> oldTasksForId = eventid_to_tasks.get(event.getEventIdentifier());
+		final ArrayList<EventTask> oldTasksForTime = time_to_tasks.get(event.getEventStartTime());
 		
-		if(oldTasksForId!=null){
+		if (oldTasksForId != null)
+		{
 			oldTasksForId.remove(event);
 			eventid_to_tasks.put(event.getEventIdentifier(), oldTasksForId);
 		}
 		
-		if(oldTasksForTime!=null){
+		if (oldTasksForTime != null)
+		{
 			oldTasksForTime.remove(event);
 			time_to_tasks.put(event.getEventStartTime(), oldTasksForTime);
 		}
 		
-		
 	}
 	
-	private void checkRegisteredEvents(){
+	private void checkRegisteredEvents()
+	{
 		
-		if(this.time_to_tasks.size()<0){
+		if (this.time_to_tasks.size() < 0)
+		{
 			return;
 		}
 		
-		Calendar calendar = Calendar.getInstance();
+		final Calendar calendar = Calendar.getInstance();
 		calendar.setTimeInMillis(System.currentTimeMillis());
 		
-		int hour = calendar.get(Calendar.HOUR_OF_DAY);
-		int min = calendar.get(Calendar.MINUTE);
+		final int hour = calendar.get(Calendar.HOUR_OF_DAY);
+		final int min = calendar.get(Calendar.MINUTE);
 		
 		String hourStr = "";
 		String minStr = "";
 		
-		if(hour<10){
-			hourStr = "0"+hour;
-		}else
-			hourStr = ""+hour;
+		if (hour < 10)
+		{
+			hourStr = "0" + hour;
+		}
+		else
+			hourStr = "" + hour;
 		
-		if(min<10){
-			minStr = "0"+min;
-		}else
-			minStr = ""+min;
+		if (min < 10)
+		{
+			minStr = "0" + min;
+		}
+		else
+			minStr = "" + min;
 		
-		String currentTime = hourStr+":"+minStr;
+		final String currentTime = hourStr + ":" + minStr;
 		
-		//System.out.println("Current Time: "+currentTime);
-		ArrayList<EventTask> registeredEventsAtCurrentTime = time_to_tasks.get(currentTime);
+		// LOGGER.info("Current Time: "+currentTime);
+		final ArrayList<EventTask> registeredEventsAtCurrentTime = time_to_tasks.get(currentTime);
 		
-		if(registeredEventsAtCurrentTime!=null){
-			for(EventTask actualEvent: registeredEventsAtCurrentTime){
+		if (registeredEventsAtCurrentTime != null)
+		{
+			for (final EventTask actualEvent : registeredEventsAtCurrentTime)
+			{
 				
 				ThreadPoolManager.getInstance().scheduleGeneral(actualEvent, 5000);
 				
@@ -248,26 +281,28 @@ public class EventsGlobalTask implements Runnable
 		}
 	}
 	
-	public void destroyLocalInstance(){
+	public void destroyLocalInstance()
+	{
 		destroy = true;
 		instance = null;
 	}
-
+	
 	@Override
 	public void run()
 	{
 		
-		while(!destroy){//start time checker
-			
+		while (!destroy)
+		{// start time checker
+		
 			checkRegisteredEvents();
 			
 			try
 			{
-				Thread.sleep(60000); //1 minute
+				Thread.sleep(60000); // 1 minute
 			}
-			catch(InterruptedException e)
+			catch (final InterruptedException e)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
+				if (Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 			}
 			

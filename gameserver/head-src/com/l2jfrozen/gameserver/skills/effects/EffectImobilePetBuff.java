@@ -29,41 +29,41 @@ import com.l2jfrozen.gameserver.skills.Env;
 final class EffectImobilePetBuff extends L2Effect
 {
 	private L2Summon _pet;
-
-	public EffectImobilePetBuff(Env env, EffectTemplate template)
+	
+	public EffectImobilePetBuff(final Env env, final EffectTemplate template)
 	{
 		super(env, template);
 	}
-
+	
 	@Override
 	public EffectType getEffectType()
 	{
 		return EffectType.BUFF;
 	}
-
+	
 	/** Notify started */
 	@Override
 	public void onStart()
 	{
 		_pet = null;
-
-		if(getEffected() instanceof L2Summon && getEffector() instanceof L2PcInstance && ((L2Summon) getEffected()).getOwner() == getEffector())
+		
+		if (getEffected() instanceof L2Summon && getEffector() instanceof L2PcInstance && ((L2Summon) getEffected()).getOwner() == getEffector())
 		{
 			_pet = (L2Summon) getEffected();
 			_pet.setIsImobilised(true);
 		}
 	}
-
+	
 	/** Notify exited */
 	@Override
 	public void onExit()
 	{
-		if(_pet != null)
+		if (_pet != null)
 		{
 			_pet.setIsImobilised(false);
 		}
 	}
-
+	
 	@Override
 	public boolean onActionTime()
 	{

@@ -29,17 +29,17 @@ public final class SuperCmdServerStatus extends L2GameClientPacket
 	{
 		// trigger packet
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-
+		
 	}
-
+	
 	@Override
 	public String getType()
 	{
 		return "[C] 39:02 SuperCmdServerStatus";
 	}
-
+	
 }

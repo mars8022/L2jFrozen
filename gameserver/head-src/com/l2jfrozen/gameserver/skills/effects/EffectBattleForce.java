@@ -24,11 +24,11 @@ import com.l2jfrozen.gameserver.skills.Env;
  */
 public final class EffectBattleForce extends EffectForce
 {
-	public EffectBattleForce(Env env, EffectTemplate template)
+	public EffectBattleForce(final Env env, final EffectTemplate template)
 	{
 		super(env, template);
 	}
-
+	
 	@Override
 	public EffectType getEffectType()
 	{

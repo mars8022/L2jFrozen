@@ -20,7 +20,6 @@ package com.l2jfrozen.loginserver.network.serverpackets;
 
 /**
  * This class ...
- * 
  * @version $Revision: 1.2.4.1 $ $Date: 2005/03/27 15:30:11 $
  */
 public final class PlayFail extends L2LoginServerPacket
@@ -32,23 +31,23 @@ public final class PlayFail extends L2LoginServerPacket
 		REASON3(0x03),
 		REASON4(0x04),
 		REASON_TOO_MANY_PLAYERS(0x0f);
-
+		
 		private final int _code;
-
-		PlayFailReason(int code)
+		
+		PlayFailReason(final int code)
 		{
 			_code = code;
 		}
-
+		
 		public final int getCode()
 		{
 			return _code;
 		}
 	}
-
+	
 	private final PlayFailReason _reason;
-
-	public PlayFail(PlayFailReason reason)
+	
+	public PlayFail(final PlayFailReason reason)
 	{
 		_reason = reason;
 	}
@@ -59,8 +58,9 @@ public final class PlayFail extends L2LoginServerPacket
 		writeC(0x06);
 		writeC(_reason.getCode());
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.loginserver.network.serverpackets.L2LoginServerPacket#getType()
 	 */
 	@Override

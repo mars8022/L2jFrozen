@@ -41,76 +41,66 @@ import com.l2jfrozen.gameserver.model.entity.siege.Castle;
  * <br>
  * - open = open selected door<br>
  * - close = close selected door<br>
- * 
  * @version $Revision: 1.3 $
  * @author ProGramMoS
  */
 public class AdminDoorControl implements IAdminCommandHandler
 {
-	//private static Logger      _log            = Logger.getLogger(AdminDoorControl.class.getName());
+	// private static Logger LOGGER = Logger.getLogger(AdminDoorControl.class);
 	private static DoorTable _doorTable;
 	private static final String[] ADMIN_COMMANDS =
 	{
-			"admin_open", "admin_close", "admin_openall", "admin_closeall"
+		"admin_open",
+		"admin_close",
+		"admin_openall",
+		"admin_closeall"
 	};
-
-	//private static final Map<String, Integer>   doorMap = new FastMap<String, Integer>(); //FIXME: should we jute remove this?
-
+	
+	// private static final Map<String, Integer> doorMap = new FastMap<String, Integer>(); //FIXME: should we jute remove this?
+	
 	@Override
-	public boolean useAdminCommand(String command, L2PcInstance activeChar)
+	public boolean useAdminCommand(final String command, final L2PcInstance activeChar)
 	{
 		/*
-		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
-			return false;
-		}
+		 * if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){ return false; } if(Config.GMAUDIT) { Logger _logAudit = Logger.getLogger("gmaudit"); LogRecord record = new LogRecord(Level.INFO, command); record.setParameters(new Object[] { "GM: " +
+		 * activeChar.getName(), " to target [" + activeChar.getTarget() + "] " }); _logAudit.LOGGER(record); }
+		 */
 		
-		if(Config.GMAUDIT)
-		{
-			Logger _logAudit = Logger.getLogger("gmaudit");
-			LogRecord record = new LogRecord(Level.INFO, command);
-			record.setParameters(new Object[]
-			{
-					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
-			});
-			_logAudit.log(record);
-		}
-		*/
-
 		_doorTable = DoorTable.getInstance();
-
+		
 		L2Object target2 = null;
-
-		if(command.startsWith("admin_close ")) //id
+		
+		if (command.startsWith("admin_close ")) // id
 		{
 			try
 			{
-				int doorId = Integer.parseInt(command.substring(12));
-
-				if(_doorTable.getDoor(doorId) != null)
+				final int doorId = Integer.parseInt(command.substring(12));
+				
+				if (_doorTable.getDoor(doorId) != null)
 				{
 					_doorTable.getDoor(doorId).closeMe();
 				}
 				else
 				{
-					for(Castle castle : CastleManager.getInstance().getCastles())
-						if(castle.getDoor(doorId) != null)
+					for (final Castle castle : CastleManager.getInstance().getCastles())
+						if (castle.getDoor(doorId) != null)
 						{
 							castle.getDoor(doorId).closeMe();
 						}
 				}
 			}
-			catch(Exception e)
+			catch (final Exception e)
 			{
 				activeChar.sendMessage("Wrong ID door.");
 				e.printStackTrace();
 				return false;
 			}
 		}
-		else if(command.equals("admin_close")) //target
+		else if (command.equals("admin_close")) // target
 		{
 			target2 = activeChar.getTarget();
-
-			if(target2 instanceof L2DoorInstance)
+			
+			if (target2 instanceof L2DoorInstance)
 			{
 				((L2DoorInstance) target2).closeMe();
 			}
@@ -118,40 +108,40 @@ public class AdminDoorControl implements IAdminCommandHandler
 			{
 				activeChar.sendMessage("Incorrect target.");
 			}
-
+			
 			target2 = null;
 		}
-		else if(command.startsWith("admin_open ")) //id
+		else if (command.startsWith("admin_open ")) // id
 		{
 			try
 			{
-				int doorId = Integer.parseInt(command.substring(11));
-
-				if(_doorTable.getDoor(doorId) != null)
+				final int doorId = Integer.parseInt(command.substring(11));
+				
+				if (_doorTable.getDoor(doorId) != null)
 				{
 					_doorTable.getDoor(doorId).openMe();
 				}
 				else
 				{
-					for(Castle castle : CastleManager.getInstance().getCastles())
-						if(castle.getDoor(doorId) != null)
+					for (final Castle castle : CastleManager.getInstance().getCastles())
+						if (castle.getDoor(doorId) != null)
 						{
 							castle.getDoor(doorId).openMe();
 						}
 				}
 			}
-			catch(Exception e)
+			catch (final Exception e)
 			{
 				activeChar.sendMessage("Wrong ID door.");
 				e.printStackTrace();
 				return false;
 			}
 		}
-		else if(command.equals("admin_open")) //target
+		else if (command.equals("admin_open")) // target
 		{
 			target2 = activeChar.getTarget();
-
-			if(target2 instanceof L2DoorInstance)
+			
+			if (target2 instanceof L2DoorInstance)
 			{
 				((L2DoorInstance) target2).openMe();
 			}
@@ -159,64 +149,64 @@ public class AdminDoorControl implements IAdminCommandHandler
 			{
 				activeChar.sendMessage("Incorrect target.");
 			}
-
+			
 			target2 = null;
 		}
-
+		
 		// need optimize cycle
 		// set limits on the ID doors that do not cycle to close doors
-		else if(command.equals("admin_closeall"))
+		else if (command.equals("admin_closeall"))
 		{
 			try
 			{
-				for(L2DoorInstance door : _doorTable.getDoors())
+				for (final L2DoorInstance door : _doorTable.getDoors())
 				{
 					door.closeMe();
 				}
-
-				for(Castle castle : CastleManager.getInstance().getCastles())
+				
+				for (final Castle castle : CastleManager.getInstance().getCastles())
 				{
-					for(L2DoorInstance door : castle.getDoors())
+					for (final L2DoorInstance door : castle.getDoors())
 					{
 						door.closeMe();
 					}
 				}
 			}
-			catch(Exception e)
+			catch (final Exception e)
 			{
 				e.printStackTrace();
 				return false;
 			}
 		}
-		else if(command.equals("admin_openall"))
+		else if (command.equals("admin_openall"))
 		{
 			// need optimize cycle
 			// set limits on the PH door to do a cycle of opening doors.
 			try
 			{
-				for(L2DoorInstance door : _doorTable.getDoors())
+				for (final L2DoorInstance door : _doorTable.getDoors())
 				{
 					door.openMe();
 				}
-
-				for(Castle castle : CastleManager.getInstance().getCastles())
+				
+				for (final Castle castle : CastleManager.getInstance().getCastles())
 				{
-					for(L2DoorInstance door : castle.getDoors())
+					for (final L2DoorInstance door : castle.getDoors())
 					{
 						door.openMe();
 					}
 				}
 			}
-			catch(Exception e)
+			catch (final Exception e)
 			{
 				e.printStackTrace();
 				return false;
 			}
 		}
-
+		
 		return true;
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{

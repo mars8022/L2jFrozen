@@ -10,8 +10,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Logger;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.javascript.JavaScriptEngine;
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
@@ -21,8 +27,8 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
 public class AutoVoteRewardHandler
 {
-	protected static final Logger _log = Logger.getLogger(AutoVoteRewardHandler.class.getName());
-
+	protected static final Logger LOGGER = Logger.getLogger(AutoVoteRewardHandler.class);
+	
 	private int hopzoneVotesCount = 0;
 	private int topzoneVotesCount = 0;
 	protected List<String> already_rewarded;
@@ -30,24 +36,35 @@ public class AutoVoteRewardHandler
 	protected static boolean topzone = false;
 	protected static boolean hopzone = false;
 	
+	private WebClient webClient;
+	
 	private AutoVoteRewardHandler()
 	{
-		_log.info("Vote Reward System Initiated.");
+		LOGGER.info("Vote Reward System Initiated.");
 		
-		if(hopzone){
+		if (hopzone)
+		{
+			webClient = new WebClient(BrowserVersion.CHROME);
+			webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
+			webClient.getOptions().setThrowExceptionOnScriptError(false);
+			webClient.getOptions().setPrintContentOnFailingStatusCode(false);
+			
 			int hopzone_votes = getHopZoneVotes();
 			
-			if(hopzone_votes == -1){
+			if (hopzone_votes == -1)
+			{
 				hopzone_votes = 0;
 			}
 			
 			setHopZoneVoteCount(hopzone_votes);
 		}
 		
-		if(topzone){
+		if (topzone)
+		{
 			int topzone_votes = getTopZoneVotes();
 			
-			if(topzone_votes == -1){
+			if (topzone_votes == -1)
+			{
 				topzone_votes = 0;
 			}
 			
@@ -56,44 +73,47 @@ public class AutoVoteRewardHandler
 		
 		ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new AutoReward(), PowerPakConfig.VOTES_SYSYEM_INITIAL_DELAY, PowerPakConfig.VOTES_SYSYEM_STEP_DELAY);
 	}
-
+	
 	protected class AutoReward implements Runnable
 	{
 		@Override
 		public void run()
 		{
-			int minutes = (PowerPakConfig.VOTES_SYSYEM_STEP_DELAY/1000)/60;
+			final int minutes = (PowerPakConfig.VOTES_SYSYEM_STEP_DELAY / 1000) / 60;
 			
-			if(hopzone){
-				int hopzone_votes = getHopZoneVotes();
+			if (hopzone)
+			{
+				final int hopzone_votes = getHopZoneVotes();
 				
-				if(hopzone_votes != -1){
-					_log.info("[AutoVoteReward] Server HOPZONE Votes: " + hopzone_votes);
+				if (hopzone_votes != -1)
+				{
+					LOGGER.info("[AutoVoteReward] Server HOPZONE Votes: " + hopzone_votes);
 					Announcements.getInstance().gameAnnounceToAll("[AutoVoteReward] Actual HOPZONE Votes are " + hopzone_votes + "...");
 					
 					if (hopzone_votes != 0 && hopzone_votes >= getHopZoneVoteCount() + PowerPakConfig.VOTES_FOR_REWARD)
 					{
-						already_rewarded = new ArrayList<String>();
+						already_rewarded = new ArrayList<>();
 						
-						Collection<L2PcInstance> pls = L2World.getInstance().getAllPlayers();
-
+						final Collection<L2PcInstance> pls = L2World.getInstance().getAllPlayers();
+						
 						Announcements.getInstance().gameAnnounceToAll("[AutoVoteReward] Great Work! Check your inventory for Reward!!");
 						
-						//L2ItemInstance item;
-						for (L2PcInstance player : pls)
+						// L2ItemInstance item;
+						for (final L2PcInstance player : pls)
 						{
-							if (player != null && !player.isOffline() && player.isOnline()==1)
+							if (player != null && !player.isOffline() && player.isOnline() == 1)
 							{
-								if(player._active_boxes<=1 || (player._active_boxes>1 && checkSingleBox(player))){
+								if (player._active_boxes <= 1 || (player._active_boxes > 1 && checkSingleBox(player)))
+								{
 									
-									Set<Integer> items = PowerPakConfig.VOTES_REWARDS_LIST.keySet();
-									for (Integer i : items)
+									final Set<Integer> items = PowerPakConfig.VOTES_REWARDS_LIST.keySet();
+									for (final Integer i : items)
 									{
-										//item = player.getInventory().getItemByItemId(i);
-
-										//TODO: check on maxstack for item
+										// item = player.getInventory().getItemByItemId(i);
+										
+										// TODO: check on maxstack for item
 										player.addItem("reward", i, PowerPakConfig.VOTES_REWARDS_LIST.get(i), player, true);
-
+										
 									}
 									
 								}
@@ -101,56 +121,59 @@ public class AutoVoteRewardHandler
 						}
 						setHopZoneVoteCount(hopzone_votes);
 					}
-					Announcements.getInstance().gameAnnounceToAll("[AutoVoteReward] Next HOPZONE Reward in "+minutes+" minutes at " + (getHopZoneVoteCount() + PowerPakConfig.VOTES_FOR_REWARD) + " Votes!!");
-					//site web
-					Announcements.getInstance().gameAnnounceToAll("[SiteWeb] "+PowerPakConfig.SERVER_WEB_SITE);
+					Announcements.getInstance().gameAnnounceToAll("[AutoVoteReward] Next HOPZONE Reward in " + minutes + " minutes at " + (getHopZoneVoteCount() + PowerPakConfig.VOTES_FOR_REWARD) + " Votes!!");
+					// site web
+					Announcements.getInstance().gameAnnounceToAll("[SiteWeb] " + PowerPakConfig.SERVER_WEB_SITE);
 					
 				}
 				
 			}
-				
-			if(topzone && hopzone && PowerPakConfig.VOTES_SYSYEM_STEP_DELAY>0)
+			
+			if (topzone && hopzone && PowerPakConfig.VOTES_SYSYEM_STEP_DELAY > 0)
 				try
 				{
-					Thread.sleep(PowerPakConfig.VOTES_SYSYEM_STEP_DELAY/2);
+					Thread.sleep(PowerPakConfig.VOTES_SYSYEM_STEP_DELAY / 2);
 				}
-				catch(InterruptedException e)
+				catch (final InterruptedException e)
 				{
-					if(Config.ENABLE_ALL_EXCEPTIONS)
+					if (Config.ENABLE_ALL_EXCEPTIONS)
 						e.printStackTrace();
 				}
+			
+			if (topzone)
+			{
+				final int topzone_votes = getTopZoneVotes();
 				
-			if(topzone){
-				int topzone_votes = getTopZoneVotes();
-				
-				if(topzone_votes != -1){
+				if (topzone_votes != -1)
+				{
 					
-					_log.info("[AutoVoteReward] Server TOPZONE Votes: " + topzone_votes);
+					LOGGER.info("[AutoVoteReward] Server TOPZONE Votes: " + topzone_votes);
 					Announcements.getInstance().gameAnnounceToAll("[AutoVoteReward] Actual TOPZONE Votes are " + topzone_votes + "...");
 					
 					if (topzone_votes != 0 && topzone_votes >= getTopZoneVoteCount() + PowerPakConfig.VOTES_FOR_REWARD)
 					{
-						already_rewarded = new ArrayList<String>();
+						already_rewarded = new ArrayList<>();
 						
-						Collection<L2PcInstance> pls = L2World.getInstance().getAllPlayers();
-
+						final Collection<L2PcInstance> pls = L2World.getInstance().getAllPlayers();
+						
 						Announcements.getInstance().gameAnnounceToAll("[AutoVoteReward] Great Work! Check your inventory for Reward!!");
 						
-						//L2ItemInstance item;
-						for (L2PcInstance player : pls)
+						// L2ItemInstance item;
+						for (final L2PcInstance player : pls)
 						{
-							if (player != null && !player.isOffline() && player.isOnline()==1)
+							if (player != null && !player.isOffline() && player.isOnline() == 1)
 							{
-								if(player._active_boxes<=1 || (player._active_boxes>1 && checkSingleBox(player))){
+								if (player._active_boxes <= 1 || (player._active_boxes > 1 && checkSingleBox(player)))
+								{
 									
-									Set<Integer> items = PowerPakConfig.VOTES_REWARDS_LIST.keySet();
-									for (Integer i : items)
+									final Set<Integer> items = PowerPakConfig.VOTES_REWARDS_LIST.keySet();
+									for (final Integer i : items)
 									{
-										//item = player.getInventory().getItemByItemId(i);
-
-										//TODO: check on maxstack for item
+										// item = player.getInventory().getItemByItemId(i);
+										
+										// TODO: check on maxstack for item
 										player.addItem("reward", i, PowerPakConfig.VOTES_REWARDS_LIST.get(i), player, true);
-
+										
 									}
 									
 								}
@@ -159,100 +182,62 @@ public class AutoVoteRewardHandler
 						setTopZoneVoteCount(topzone_votes);
 					}
 					
-					Announcements.getInstance().gameAnnounceToAll("[AutoVoteReward] Next TOPZONE Reward in "+minutes+" minutes at " + (getTopZoneVoteCount() + PowerPakConfig.VOTES_FOR_REWARD) + " Votes!!");
-					//site web
-					Announcements.getInstance().gameAnnounceToAll("[SiteWeb] "+PowerPakConfig.SERVER_WEB_SITE);
+					Announcements.getInstance().gameAnnounceToAll("[AutoVoteReward] Next TOPZONE Reward in " + minutes + " minutes at " + (getTopZoneVoteCount() + PowerPakConfig.VOTES_FOR_REWARD) + " Votes!!");
+					// site web
+					Announcements.getInstance().gameAnnounceToAll("[SiteWeb] " + PowerPakConfig.SERVER_WEB_SITE);
 					
 				}
-					
 				
 			}
 			
 		}
 	}
-
-	protected boolean checkSingleBox(L2PcInstance player){
+	
+	protected boolean checkSingleBox(final L2PcInstance player)
+	{
 		
-		if(player.getClient()!=null && player.getClient().getConnection()!=null && !player.getClient().getConnection().isClosed() && !player.isOffline()){
+		if (player.getClient() != null && player.getClient().getConnection() != null && !player.getClient().getConnection().isClosed() && !player.isOffline())
+		{
 			
-			String playerip = player.getClient().getConnection().getInetAddress().getHostAddress();
+			final String playerip = player.getClient().getConnection().getInetAddress().getHostAddress();
 			
-			if(already_rewarded.contains(playerip))
+			if (already_rewarded.contains(playerip))
 				return false;
 			already_rewarded.add(playerip);
 			return true;
 		}
 		
-		//if no connection (maybe offline shop) dnt reward
+		// if no connection (maybe offline shop) dnt reward
 		return false;
 	}
 	
 	protected int getHopZoneVotes()
 	{
 		int votes = -1;
-		URL url = null;
-		URLConnection con = null;
-		InputStream is = null;
-		InputStreamReader isr = null;
-		BufferedReader in = null;
 		try
 		{
-			url = new URL(PowerPakConfig.VOTES_SITE_HOPZONE_URL);
-			con = url.openConnection();    
-			con.addRequestProperty("User-Agent", "Mozilla/4.76");
-			is = con.getInputStream();
-			isr = new InputStreamReader(is);		    
-			in = new BufferedReader(isr);
-			String inputLine;
-			while ((inputLine = in.readLine()) != null)
-			{
-				if (inputLine.contains("rank anonymous tooltip"))
-				{
-					votes = Integer.valueOf(inputLine.split(">")[2].replace("</span", ""));
-					break;
-				}
-			}
+			final HtmlPage page = webClient.getPage(PowerPakConfig.VOTES_SITE_HOPZONE_URL);
+			
+			String fullPage = page.asXml();
+			int constrainA = fullPage.indexOf("rank anonymous tooltip") + 24;
+			String voteSection = fullPage.substring(constrainA);
+			int constrainB = voteSection.indexOf("span") - 2;
+			voteSection = voteSection.substring(0, constrainB).trim();
+			votes = Integer.parseInt(voteSection);
+			
 		}
-		catch (Exception e)
+		catch (final Exception e)
 		{
-			_log.info("[AutoVoteReward] Server HOPZONE is offline or something is wrong in link");
+			LOGGER.warn("[AutoVoteReward] Server HOPZONE is offline or something is wrong in link", e);
 			Announcements.getInstance().gameAnnounceToAll("[AutoVoteReward] HOPZONE is offline. We will check reward as it will be online again");
-			//e.printStackTrace();
 		}
 		finally
 		{
-			if(in!=null)
-				try
-				{
-					in.close();
-				}
-				catch(IOException e1)
-				{
-					e1.printStackTrace();
-				}
-			if(isr!=null)
-				try
-				{
-					isr.close();
-				}
-				catch(IOException e1)
-				{
-					e1.printStackTrace();
-				}
-			if(is!=null)
-				try
-				{
-					is.close();
-				}
-				catch(IOException e1)
-				{
-					e1.printStackTrace();
-				}
-			
+			webClient.closeAllWindows();
 		}
 		return votes;
 	}
-
+	
 	protected int getTopZoneVotes()
 	{
 		int votes = -1;
@@ -264,55 +249,53 @@ public class AutoVoteRewardHandler
 		try
 		{
 			url = new URL(PowerPakConfig.VOTES_SITE_TOPZONE_URL);
-			con = url.openConnection();    
-			con.addRequestProperty("User-Agent", "Mozilla/4.76");
+			con = url.openConnection();
+			con.addRequestProperty("User-Agent", "L2TopZone");
 			is = con.getInputStream();
-			isr = new InputStreamReader(is);		    
+			isr = new InputStreamReader(is);
 			in = new BufferedReader(isr);
 			String inputLine;
 			while ((inputLine = in.readLine()) != null)
 			{
 				if (inputLine.contains("Votes"))
 				{
-					String votesLine = in.readLine() ;
-					
-					votes = Integer.valueOf(votesLine.split(">")[5].replace("</font", ""));
+					votes = Integer.valueOf(inputLine.split(">")[3].replace("</div", ""));
 					break;
 				}
 			}
 		}
-		catch (Exception e)
+		catch (final Exception e)
 		{
-			_log.info("[AutoVoteReward] Server TOPZONE is offline or something is wrong in link");
+			LOGGER.warn("[AutoVoteReward] Server TOPZONE is offline or something is wrong in link");
 			Announcements.getInstance().gameAnnounceToAll("[AutoVoteReward] TOPZONE is offline. We will check reward as it will be online again");
-			//e.printStackTrace();
+			// e.printStackTrace();
 		}
 		finally
 		{
-			if(in!=null)
+			if (in != null)
 				try
 				{
 					in.close();
 				}
-				catch(IOException e1)
+				catch (final IOException e1)
 				{
 					e1.printStackTrace();
 				}
-			if(isr!=null)
+			if (isr != null)
 				try
 				{
 					isr.close();
 				}
-				catch(IOException e1)
+				catch (final IOException e1)
 				{
 					e1.printStackTrace();
 				}
-			if(is!=null)
+			if (is != null)
 				try
 				{
 					is.close();
 				}
-				catch(IOException e1)
+				catch (final IOException e1)
 				{
 					e1.printStackTrace();
 				}
@@ -320,21 +303,21 @@ public class AutoVoteRewardHandler
 		return votes;
 	}
 	
-	protected void setHopZoneVoteCount(int voteCount)
+	protected void setHopZoneVoteCount(final int voteCount)
 	{
 		hopzoneVotesCount = voteCount;
 	}
-
+	
 	protected int getHopZoneVoteCount()
 	{
 		return hopzoneVotesCount;
 	}
-
-	protected void setTopZoneVoteCount(int voteCount)
+	
+	protected void setTopZoneVoteCount(final int voteCount)
 	{
 		topzoneVotesCount = voteCount;
 	}
-
+	
 	protected int getTopZoneVoteCount()
 	{
 		return topzoneVotesCount;
@@ -342,22 +325,25 @@ public class AutoVoteRewardHandler
 	
 	public static AutoVoteRewardHandler getInstance()
 	{
-		if(PowerPakConfig.VOTES_SITE_HOPZONE_URL != null && !PowerPakConfig.VOTES_SITE_HOPZONE_URL.equals("")){
+		Logger.getLogger("com.gargoylesoftware").setLevel(Level.OFF);
+		if (PowerPakConfig.VOTES_SITE_HOPZONE_URL != null && !PowerPakConfig.VOTES_SITE_HOPZONE_URL.equals(""))
+		{
 			hopzone = true;
 		}
 		
-		if(PowerPakConfig.VOTES_SITE_TOPZONE_URL != null && !PowerPakConfig.VOTES_SITE_TOPZONE_URL.equals("")){
+		if (PowerPakConfig.VOTES_SITE_TOPZONE_URL != null && !PowerPakConfig.VOTES_SITE_TOPZONE_URL.equals(""))
+		{
 			topzone = true;
 		}
 		
-		if(topzone || hopzone)
+		if (topzone || hopzone)
 			return SingletonHolder._instance;
 		return null;
 	}
-
+	
 	@SuppressWarnings("synthetic-access")
 	private static class SingletonHolder
 	{
-		protected static final AutoVoteRewardHandler    _instance       = new AutoVoteRewardHandler();
+		protected static final AutoVoteRewardHandler _instance = new AutoVoteRewardHandler();
 	}
 }

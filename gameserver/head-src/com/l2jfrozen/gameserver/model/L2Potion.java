@@ -19,22 +19,22 @@
 package com.l2jfrozen.gameserver.model;
 
 import java.util.concurrent.Future;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
 /**
  * This class ...
- * 
  * @version $Revision: 1.2.2.1.2.5 $ $Date: 2005/03/27 15:29:30 $
  */
 public class L2Potion extends L2Object
 {
-	protected static final Logger _log = Logger.getLogger(L2Character.class.getName());
-
-//	private L2Character _target;
-
+	protected static final Logger LOGGER = Logger.getLogger(L2Character.class);
+	
+	// private L2Character _target;
+	
 	private Future<?> _potionhpRegTask;
 	private Future<?> _potionmpRegTask;
 	protected int _milliseconds;
@@ -43,16 +43,16 @@ public class L2Potion extends L2Object
 	private int _potion;
 	protected Object _mpLock = new Object();
 	protected Object _hpLock = new Object();
-
+	
 	class PotionHpHealing implements Runnable
 	{
 		L2Character _instance;
-
-		public PotionHpHealing(L2Character instance)
+		
+		public PotionHpHealing(final L2Character instance)
 		{
 			_instance = instance;
 		}
-
+		
 		@Override
 		public void run()
 		{
@@ -61,12 +61,12 @@ public class L2Potion extends L2Object
 				synchronized (_hpLock)
 				{
 					double nowHp = _instance.getCurrentHp();
-
-					if(_duration == 0)
+					
+					if (_duration == 0)
 					{
 						stopPotionHpRegeneration();
 					}
-					if(_duration != 0)
+					if (_duration != 0)
 					{
 						nowHp += _effect;
 						_instance.setCurrentHp(nowHp);
@@ -75,71 +75,71 @@ public class L2Potion extends L2Object
 					}
 				}
 			}
-			catch(Exception e)
+			catch (final Exception e)
 			{
-				_log.warning("Error in hp potion task:" + e);
+				LOGGER.warn("Error in hp potion task:" + e);
 			}
 		}
 	}
-
-	public L2Potion(int objectId)
+	
+	public L2Potion(final int objectId)
 	{
 		super(objectId);
 	}
-
+	
 	public void stopPotionHpRegeneration()
 	{
-		if(_potionhpRegTask != null)
+		if (_potionhpRegTask != null)
 		{
 			_potionhpRegTask.cancel(false);
 		}
-
+		
 		_potionhpRegTask = null;
-
-		if(Config.DEBUG)
+		
+		if (Config.DEBUG)
 		{
-			_log.fine("Potion HP regen stop");
+			LOGGER.debug("Potion HP regen stop");
 		}
 	}
-
+	
 	public void setCurrentHpPotion2()
 	{
-		if(_duration == 0)
+		if (_duration == 0)
 		{
 			stopPotionHpRegeneration();
 		}
-
+		
 	}
-
-	public void setCurrentHpPotion1(L2Character activeChar, int item)
+	
+	public void setCurrentHpPotion1(final L2Character activeChar, final int item)
 	{
 		_potion = item;
-//		_target = activeChar;
-
-		switch(_potion)
+		// _target = activeChar;
+		
+		switch (_potion)
 		{
 			case 1540:
 				double nowHp = activeChar.getCurrentHp();
-
+				
 				nowHp += 435;
-
-				if(nowHp >= activeChar.getMaxHp())
+				
+				if (nowHp >= activeChar.getMaxHp())
 				{
 					nowHp = activeChar.getMaxHp();
 				}
-
+				
 				activeChar.setCurrentHp(nowHp);
 				break;
 			case 728:
 				double nowMp = activeChar.getMaxMp();
-
+				
 				nowMp += 435;
-
-				if(nowMp >= activeChar.getMaxMp())
+				
+				if (nowMp >= activeChar.getMaxMp())
 				{
 					nowMp = activeChar.getMaxMp();
 				}
-
+				
 				activeChar.setCurrentMp(nowMp);
 				break;
 			case 726:
@@ -150,16 +150,16 @@ public class L2Potion extends L2Object
 				break;
 		}
 	}
-
+	
 	class PotionMpHealing implements Runnable
 	{
 		L2Character _instance;
-
-		public PotionMpHealing(L2Character instance)
+		
+		public PotionMpHealing(final L2Character instance)
 		{
 			_instance = instance;
 		}
-
+		
 		@Override
 		public void run()
 		{
@@ -168,76 +168,76 @@ public class L2Potion extends L2Object
 				synchronized (_mpLock)
 				{
 					double nowMp = _instance.getCurrentMp();
-
-					if(_duration == 0)
+					
+					if (_duration == 0)
 					{
 						stopPotionMpRegeneration();
 					}
-
-					if(_duration != 0)
+					
+					if (_duration != 0)
 					{
 						nowMp += _effect;
 						_instance.setCurrentMp(nowMp);
 						_duration = _duration - _milliseconds / 1000;
 						setCurrentMpPotion2();
-
+						
 					}
 				}
 			}
-			catch(Exception e)
+			catch (final Exception e)
 			{
-				_log.warning("error in mp potion task:" + e);
+				LOGGER.warn("error in mp potion task:" + e);
 			}
 		}
 	}
-
-	private void startPotionMpRegeneration(L2Character activeChar)
+	
+	private void startPotionMpRegeneration(final L2Character activeChar)
 	{
 		_potionmpRegTask = ThreadPoolManager.getInstance().scheduleEffectAtFixedRate(new PotionMpHealing(activeChar), 1000, _milliseconds);
-
-		if(Config.DEBUG)
+		
+		if (Config.DEBUG)
 		{
-			_log.fine("Potion MP regen Started");
+			LOGGER.debug("Potion MP regen Started");
 		}
 	}
-
+	
 	public void stopPotionMpRegeneration()
 	{
-		if(_potionmpRegTask != null)
+		if (_potionmpRegTask != null)
 		{
 			_potionmpRegTask.cancel(false);
 		}
-
+		
 		_potionmpRegTask = null;
-
-		if(Config.DEBUG)
+		
+		if (Config.DEBUG)
 		{
-			_log.fine("Potion MP regen stop");
+			LOGGER.debug("Potion MP regen stop");
 		}
 	}
-
+	
 	public void setCurrentMpPotion2()
 	{
-		if(_duration == 0)
+		if (_duration == 0)
 		{
 			stopPotionMpRegeneration();
 		}
-
+		
 	}
-
-	public void setCurrentMpPotion1(L2Character activeChar, int item)
+	
+	public void setCurrentMpPotion1(final L2Character activeChar, final int item)
 	{
 		_potion = item;
-		//_target = activeChar;
+		// _target = activeChar;
 		//
-		//switch(_potion)
-		//{
-		//null
-		//}
+		// switch(_potion)
+		// {
+		// null
+		// }
 	}
 	
 	@Override
-	public boolean isAutoAttackable(L2Character attacker)
+	public boolean isAutoAttackable(final L2Character attacker)
 	{
 		return false;
 	}

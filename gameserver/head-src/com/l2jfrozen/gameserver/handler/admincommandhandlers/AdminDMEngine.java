@@ -29,213 +29,218 @@ public class AdminDMEngine implements IAdminCommandHandler
 {
 	private static final String[] ADMIN_COMMANDS =
 	{
-		"admin_dmevent", "admin_dmevent_name", "admin_dmevent_desc", "admin_dmevent_join_loc",
-		"admin_dmevent_minlvl", "admin_dmevent_maxlvl", "admin_dmevent_npc", "admin_dmevent_npc_pos",
-		"admin_dmevent_reward", "admin_dmevent_reward_amount", "admin_dmevent_spawnpos", "admin_dmevent_color",
-		"admin_dmevent_join", "admin_dmevent_teleport", "admin_dmevent_start", "admin_dmevent_startevent", "admin_dmevent_abort", "admin_dmevent_finish",
-		"admin_dmevent_sit", "admin_dmevent_dump", "admin_dmevent_save", "admin_dmevent_load"
+		"admin_dmevent",
+		"admin_dmevent_name",
+		"admin_dmevent_desc",
+		"admin_dmevent_join_loc",
+		"admin_dmevent_minlvl",
+		"admin_dmevent_maxlvl",
+		"admin_dmevent_npc",
+		"admin_dmevent_npc_pos",
+		"admin_dmevent_reward",
+		"admin_dmevent_reward_amount",
+		"admin_dmevent_spawnpos",
+		"admin_dmevent_color",
+		"admin_dmevent_join",
+		"admin_dmevent_teleport",
+		"admin_dmevent_start",
+		"admin_dmevent_startevent",
+		"admin_dmevent_abort",
+		"admin_dmevent_finish",
+		"admin_dmevent_sit",
+		"admin_dmevent_dump",
+		"admin_dmevent_save",
+		"admin_dmevent_load"
 	};
 	
 	@Override
-	public boolean useAdminCommand(String command, L2PcInstance activeChar)
+	public boolean useAdminCommand(final String command, final L2PcInstance activeChar)
 	{
 		/*
-		if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){
-			return false;
-		}
+		 * if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){ return false; } if(Config.GMAUDIT) { Logger _logAudit = Logger.getLogger("gmaudit"); LogRecord record = new LogRecord(Level.INFO, command); record.setParameters(new Object[] { "GM: " +
+		 * activeChar.getName(), " to target [" + activeChar.getTarget() + "] " }); _logAudit.LOGGER(record); }
+		 */
 		
-		if(Config.GMAUDIT)
-		{
-			Logger _logAudit = Logger.getLogger("gmaudit");
-			LogRecord record = new LogRecord(Level.INFO, command);
-			record.setParameters(new Object[]
-			{
-					"GM: " + activeChar.getName(), " to target [" + activeChar.getTarget() + "] "
-			});
-			_logAudit.log(record);
-		}
-		*/
-		
-		if(command.equals("admin_dmevent"))
+		if (command.equals("admin_dmevent"))
 			showMainPage(activeChar);
-
-		else if(command.startsWith("admin_dmevent_name "))
+		
+		else if (command.startsWith("admin_dmevent_name "))
 		{
-			if(DM.set_eventName(command.substring(19)))
+			if (DM.set_eventName(command.substring(19)))
 				showMainPage(activeChar);
 			else
 				activeChar.sendMessage("Cannot perform requested operation, event in progress");
 			
 		}
-
-		else if(command.startsWith("admin_dmevent_desc "))
+		
+		else if (command.startsWith("admin_dmevent_desc "))
 		{
-			if(DM.set_eventDesc(command.substring(19)))
+			if (DM.set_eventDesc(command.substring(19)))
 				showMainPage(activeChar);
 			else
 				activeChar.sendMessage("Cannot perform requested operation, event in progress");
 			
 		}
-
-		else if(command.startsWith("admin_dmevent_minlvl "))
+		
+		else if (command.startsWith("admin_dmevent_minlvl "))
 		{
-			if(!DM.checkMinLevel(Integer.valueOf(command.substring(21))))
+			if (!DM.checkMinLevel(Integer.valueOf(command.substring(21))))
 				return false;
 			
-			if(DM.set_minlvl(Integer.valueOf(command.substring(21))))
+			if (DM.set_minlvl(Integer.valueOf(command.substring(21))))
 				showMainPage(activeChar);
 			else
 				activeChar.sendMessage("Cannot perform requested operation, event in progress");
 			
 		}
-
-		else if(command.startsWith("admin_dmevent_maxlvl "))
+		
+		else if (command.startsWith("admin_dmevent_maxlvl "))
 		{
-			if(!DM.checkMaxLevel(Integer.valueOf(command.substring(21))))
+			if (!DM.checkMaxLevel(Integer.valueOf(command.substring(21))))
 				return false;
 			
-			if(DM.set_maxlvl(Integer.valueOf(command.substring(21))))
+			if (DM.set_maxlvl(Integer.valueOf(command.substring(21))))
 				showMainPage(activeChar);
 			else
 				activeChar.sendMessage("Cannot perform requested operation, event in progress");
 			
 		}
-
-		else if(command.startsWith("admin_dmevent_join_loc "))
+		
+		else if (command.startsWith("admin_dmevent_join_loc "))
 		{
-			if(DM.set_joiningLocationName(command.substring(23)))
+			if (DM.set_joiningLocationName(command.substring(23)))
 				showMainPage(activeChar);
 			else
 				activeChar.sendMessage("Cannot perform requested operation, event in progress");
 			
 		}
-
-		else if(command.startsWith("admin_dmevent_npc "))
+		
+		else if (command.startsWith("admin_dmevent_npc "))
 		{
-			if(DM.set_npcId(Integer.valueOf(command.substring(18))))
+			if (DM.set_npcId(Integer.valueOf(command.substring(18))))
 				showMainPage(activeChar);
 			else
 				activeChar.sendMessage("Cannot perform requested operation, event in progress");
 			
 		}
-
-		else if(command.equals("admin_dmevent_npc_pos"))
+		
+		else if (command.equals("admin_dmevent_npc_pos"))
 		{
 			DM.setNpcPos(activeChar);
 			showMainPage(activeChar);
 		}
-
-		else if(command.startsWith("admin_dmevent_reward "))
+		
+		else if (command.startsWith("admin_dmevent_reward "))
 		{
-			if(DM.set_rewardId(Integer.valueOf(command.substring(21))))
+			if (DM.set_rewardId(Integer.valueOf(command.substring(21))))
 				showMainPage(activeChar);
 			else
 				activeChar.sendMessage("Cannot perform requested operation, event in progress");
 			
 		}
-
-		else if(command.startsWith("admin_dmevent_reward_amount "))
+		
+		else if (command.startsWith("admin_dmevent_reward_amount "))
 		{
-			if(DM.set_rewardAmount(Integer.valueOf(command.substring(28))))
+			if (DM.set_rewardAmount(Integer.valueOf(command.substring(28))))
 				showMainPage(activeChar);
 			else
 				activeChar.sendMessage("Cannot perform requested operation, event in progress");
 			
 		}
-
-		else if(command.equals("admin_dmevent_spawnpos"))
+		
+		else if (command.equals("admin_dmevent_spawnpos"))
 		{
 			DM.setPlayersPos(activeChar);
 			showMainPage(activeChar);
 		}
-
-		else if(command.startsWith("admin_dmevent_color "))
+		
+		else if (command.startsWith("admin_dmevent_color "))
 		{
-			if(DM.set_playerColors(Integer.decode("0x" + command.substring(20))))
+			if (DM.set_playerColors(Integer.decode("0x" + command.substring(20))))
 				showMainPage(activeChar);
 			else
 				activeChar.sendMessage("Cannot perform requested operation, event in progress");
 			
 		}
-
-		else if(command.equals("admin_dmevent_join"))
+		
+		else if (command.equals("admin_dmevent_join"))
 		{
-			if(DM.startJoin())
+			if (DM.startJoin())
 				showMainPage(activeChar);
 			else
-				activeChar.sendMessage("Cannot startJoin, check log for info..");
+				activeChar.sendMessage("Cannot startJoin, check LOGGER for info..");
 		}
-
-		else if(command.equals("admin_dmevent_teleport"))
+		
+		else if (command.equals("admin_dmevent_teleport"))
 		{
 			DM.startTeleport();
 			showMainPage(activeChar);
 		}
-
-		else if(command.equals("admin_dmevent_start"))
+		
+		else if (command.equals("admin_dmevent_start"))
 		{
-			if(DM.startEvent())
+			if (DM.startEvent())
 				showMainPage(activeChar);
 			else
-				activeChar.sendMessage("Cannot startEvent, check log for info..");
+				activeChar.sendMessage("Cannot startEvent, check LOGGER for info..");
 			
 		}
 		
-		else if(command.equals("admin_dmevent_startevent"))
+		else if (command.equals("admin_dmevent_startevent"))
 		{
 			DM.startEvent();
 			showMainPage(activeChar);
 			
 		}
-
-		else if(command.equals("admin_dmevent_abort"))
+		
+		else if (command.equals("admin_dmevent_abort"))
 		{
 			activeChar.sendMessage("Aborting event");
 			DM.abortEvent();
 			showMainPage(activeChar);
 		}
-
-		else if(command.equals("admin_dmevent_finish"))
+		
+		else if (command.equals("admin_dmevent_finish"))
 		{
 			DM.finishEvent();
 			showMainPage(activeChar);
 		}
-
-		else if(command.equals("admin_dmevent_sit"))
+		
+		else if (command.equals("admin_dmevent_sit"))
 		{
 			DM.sit();
 			showMainPage(activeChar);
 		}
-
-		else if(command.equals("admin_dmevent_load"))
+		
+		else if (command.equals("admin_dmevent_load"))
 		{
 			DM.loadData();
 			showMainPage(activeChar);
 		}
-
-		else if(command.equals("admin_dmevent_save"))
+		
+		else if (command.equals("admin_dmevent_save"))
 		{
 			DM.saveData();
 			showMainPage(activeChar);
 		}
-
-		else if(command.equals("admin_dmevent_dump"))
+		
+		else if (command.equals("admin_dmevent_dump"))
 			DM.dumpData();
-
+		
 		return true;
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;
 	}
-
-	public void showMainPage(L2PcInstance activeChar)
+	
+	public void showMainPage(final L2PcInstance activeChar)
 	{
-		NpcHtmlMessage adminReply = new NpcHtmlMessage(5);
-		TextBuilder replyMSG = new TextBuilder("<html><body>");
-
+		final NpcHtmlMessage adminReply = new NpcHtmlMessage(5);
+		final TextBuilder replyMSG = new TextBuilder("<html><body>");
+		
 		replyMSG.append("<center><font color=\"LEVEL\">[DeathMatch Engine]</font></center><br><br><br>");
 		replyMSG.append("<table><tr><td><edit var=\"input1\" width=\"125\"></td><td><edit var=\"input2\" width=\"125\"></td></tr></table>");
 		replyMSG.append("<table border=\"0\"><tr>");
@@ -277,36 +282,36 @@ public class AdminDMEngine implements IAdminCommandHandler
 		replyMSG.append("Description:&nbsp;<font color=\"00FF00\">" + DM.get_eventDesc() + "</font><br1>");
 		replyMSG.append("Joining location name:&nbsp;<font color=\"00FF00\">" + DM.get_joiningLocationName() + "</font><br1>");
 		
-		Location npc_loc = DM.get_npcLocation();
+		final Location npc_loc = DM.get_npcLocation();
 		
-		replyMSG.append("Joining NPC ID:&nbsp;<font color=\"00FF00\">" + DM.get_npcId() + " on pos " + npc_loc._x + "," + npc_loc._y  + "," + npc_loc._z  + "</font><br1>");
+		replyMSG.append("Joining NPC ID:&nbsp;<font color=\"00FF00\">" + DM.get_npcId() + " on pos " + npc_loc._x + "," + npc_loc._y + "," + npc_loc._z + "</font><br1>");
 		replyMSG.append("Reward ID:&nbsp;<font color=\"00FF00\">" + DM.get_rewardId() + "</font><br1>");
 		replyMSG.append("Reward Amount:&nbsp;<font color=\"00FF00\">" + DM.get_rewardAmount() + "</font><br><br>");
 		replyMSG.append("Min lvl:&nbsp;<font color=\"00FF00\">" + DM.get_minlvl() + "</font><br>");
 		replyMSG.append("Max lvl:&nbsp;<font color=\"00FF00\">" + DM.get_maxlvl() + "</font><br><br>");
 		replyMSG.append("Death Match Color:&nbsp;<font color=\"00FF00\">" + DM.get_playerColors() + "</font><br>");
 		
-		Location player_loc = DM.get_playersSpawnLocation();
+		final Location player_loc = DM.get_playersSpawnLocation();
 		
-		replyMSG.append("Death Match Spawn Pos:&nbsp;<font color=\"00FF00\">" + player_loc._x + "," +  player_loc._y + "," +  player_loc._z + "</font><br><br>");
+		replyMSG.append("Death Match Spawn Pos:&nbsp;<font color=\"00FF00\">" + player_loc._x + "," + player_loc._y + "," + player_loc._z + "</font><br><br>");
 		replyMSG.append("Current players:<br1>");
-
-		if(!DM.is_started())
+		
+		if (!DM.is_started())
 		{
 			replyMSG.append("<br1>");
 			replyMSG.append(DM._players.size() + " players participating.");
 			replyMSG.append("<br><br>");
 		}
-
-		else if(DM.is_started())
+		
+		else if (DM.is_started())
 		{
 			replyMSG.append("<br1>");
 			replyMSG.append(DM._players.size() + " players in fighting event.");
 			replyMSG.append("<br><br>");
 		}
-
+		
 		replyMSG.append("</body></html>");
 		adminReply.setHtml(replyMSG.toString());
-		activeChar.sendPacket(adminReply); 
+		activeChar.sendPacket(adminReply);
 	}
 }

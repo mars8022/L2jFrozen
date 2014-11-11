@@ -25,16 +25,16 @@ import javolution.util.FastList;
 public class ExEnchantSkillList extends L2GameServerPacket
 {
 	private static final String _S__FE_17_EXENCHANTSKILLLIST = "[S] FE:17 ExEnchantSkillList";
-	private List<Skill> _skills;
-
+	private final List<Skill> _skills;
+	
 	class Skill
 	{
 		public int id;
 		public int nextLevel;
 		public int sp;
 		public int exp;
-
-		Skill(int pId, int pNextLevel, int pSp, int pExp)
+		
+		Skill(final int pId, final int pNextLevel, final int pSp, final int pExp)
 		{
 			id = pId;
 			nextLevel = pNextLevel;
@@ -42,18 +42,19 @@ public class ExEnchantSkillList extends L2GameServerPacket
 			exp = pExp;
 		}
 	}
-
-	public void addSkill(int id, int level, int sp, int exp)
+	
+	public void addSkill(final int id, final int level, final int sp, final int exp)
 	{
 		_skills.add(new Skill(id, level, sp, exp));
 	}
-
+	
 	public ExEnchantSkillList()
 	{
-		_skills = new FastList<Skill>();
+		_skills = new FastList<>();
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#writeImpl()
 	 */
 	@Override
@@ -61,19 +62,20 @@ public class ExEnchantSkillList extends L2GameServerPacket
 	{
 		writeC(0xfe);
 		writeH(0x17);
-
+		
 		writeD(_skills.size());
-		for(Skill sk : _skills)
+		for (final Skill sk : _skills)
 		{
 			writeD(sk.id);
 			writeD(sk.nextLevel);
 			writeD(sk.sp);
 			writeQ(sk.exp);
 		}
-
+		
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.BasePacket#getType()
 	 */
 	@Override
@@ -81,5 +83,5 @@ public class ExEnchantSkillList extends L2GameServerPacket
 	{
 		return _S__FE_17_EXENCHANTSKILLLIST;
 	}
-
+	
 }

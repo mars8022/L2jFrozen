@@ -21,15 +21,15 @@ package com.l2jfrozen.gameserver.network.serverpackets;
 public class StopPledgeWar extends L2GameServerPacket
 {
 	private static final String _S__7f_STOPPLEDGEWAR = "[S] 67 StopPledgeWar";
-	private String _pledgeName;
-	private String _playerName;
-
-	public StopPledgeWar(String pledge, String charName)
+	private final String _pledgeName;
+	private final String _playerName;
+	
+	public StopPledgeWar(final String pledge, final String charName)
 	{
 		_pledgeName = pledge;
 		_playerName = charName;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
@@ -37,7 +37,7 @@ public class StopPledgeWar extends L2GameServerPacket
 		writeS(_pledgeName);
 		writeS(_playerName);
 	}
-
+	
 	@Override
 	public String getType()
 	{

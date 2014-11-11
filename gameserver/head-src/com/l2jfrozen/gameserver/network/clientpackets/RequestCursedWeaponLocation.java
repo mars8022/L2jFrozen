@@ -30,38 +30,38 @@ public final class RequestCursedWeaponLocation extends L2GameClientPacket
 	@Override
 	protected void readImpl()
 	{
-		//ignore read packet
+		// ignore read packet
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-		L2Character activeChar = getClient().getActiveChar();
-		if(activeChar == null)
+		final L2Character activeChar = getClient().getActiveChar();
+		if (activeChar == null)
 			return;
-
-		List<CursedWeaponInfo> list = new FastList<CursedWeaponInfo>();
-		for(CursedWeapon cw : CursedWeaponsManager.getInstance().getCursedWeapons())
+		
+		final List<CursedWeaponInfo> list = new FastList<>();
+		for (final CursedWeapon cw : CursedWeaponsManager.getInstance().getCursedWeapons())
 		{
-			if(!cw.isActive())
+			if (!cw.isActive())
 			{
 				continue;
 			}
-
-			Point3D pos = cw.getWorldPosition();
-
-			if(pos != null)
+			
+			final Point3D pos = cw.getWorldPosition();
+			
+			if (pos != null)
 			{
 				list.add(new CursedWeaponInfo(pos, cw.getItemId(), cw.isActivated() ? 1 : 0));
 			}
 		}
-
-		if(!list.isEmpty())
+		
+		if (!list.isEmpty())
 		{
 			activeChar.sendPacket(new ExCursedWeaponLocation(list));
 		}
 	}
-
+	
 	@Override
 	public String getType()
 	{

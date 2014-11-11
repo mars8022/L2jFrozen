@@ -19,9 +19,10 @@
 package com.l2jfrozen.gameserver.handler;
 
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.GameServer;
@@ -44,11 +45,11 @@ import com.l2jfrozen.gameserver.handler.voicedcommandhandlers.Wedding;
  */
 public class VoicedCommandHandler
 {
-	private static Logger _log = Logger.getLogger(GameServer.class.getName());
+	private static Logger LOGGER = Logger.getLogger(GameServer.class);
 	
 	private static VoicedCommandHandler _instance;
 	
-	private Map<String, IVoicedCommandHandler> _datatable;
+	private final Map<String, IVoicedCommandHandler> _datatable;
 	
 	public static VoicedCommandHandler getInstance()
 	{
@@ -62,7 +63,7 @@ public class VoicedCommandHandler
 	
 	private VoicedCommandHandler()
 	{
-		_datatable = new FastMap<String, IVoicedCommandHandler>();
+		_datatable = new FastMap<>();
 		
 		registerVoicedCommandHandler(new Voting());
 		
@@ -118,19 +119,19 @@ public class VoicedCommandHandler
 			registerVoicedCommandHandler(new OfflineShop());
 		}
 		
-		_log.config("VoicedCommandHandler: Loaded " + _datatable.size() + " handlers.");
+		LOGGER.info("VoicedCommandHandler: Loaded " + _datatable.size() + " handlers.");
 		
 	}
 	
-	public void registerVoicedCommandHandler(IVoicedCommandHandler handler)
+	public void registerVoicedCommandHandler(final IVoicedCommandHandler handler)
 	{
 		String[] ids = handler.getVoicedCommandList();
 		
-		for (String id : ids)
+		for (final String id : ids)
 		{
 			if (Config.DEBUG)
 			{
-				_log.fine("Adding handler for command " + id);
+				LOGGER.debug("Adding handler for command " + id);
 			}
 			
 			_datatable.put(id, handler);
@@ -139,7 +140,7 @@ public class VoicedCommandHandler
 		ids = null;
 	}
 	
-	public IVoicedCommandHandler getVoicedCommandHandler(String voicedCommand)
+	public IVoicedCommandHandler getVoicedCommandHandler(final String voicedCommand)
 	{
 		String command = voicedCommand;
 		
@@ -150,7 +151,7 @@ public class VoicedCommandHandler
 		
 		if (Config.DEBUG)
 		{
-			_log.fine("getting handler for command: " + command + " -> " + (_datatable.get(command) != null));
+			LOGGER.debug("getting handler for command: " + command + " -> " + (_datatable.get(command) != null));
 		}
 		
 		return _datatable.get(command);

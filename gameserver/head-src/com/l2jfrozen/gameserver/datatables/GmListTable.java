@@ -14,11 +14,10 @@
  */
 package com.l2jfrozen.gameserver.datatables;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import javolution.util.FastList;
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
@@ -28,172 +27,171 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 /**
  * This class stores references to all online game masters. (access level > 100)
- * 
  * @version $Revision: 1.2.2.1.2.7 $ $Date: 2005/04/05 19:41:24 $
  */
 public class GmListTable
 {
-	protected static final Logger _log = Logger.getLogger(GmListTable.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(GmListTable.class);
 	private static GmListTable _instance;
-
+	
 	/** Set(L2PcInstance>) containing all the GM in game */
-	private FastMap<L2PcInstance, Boolean> _gmList;
-
+	private final FastMap<L2PcInstance, Boolean> _gmList;
+	
 	public static GmListTable getInstance()
 	{
-		if(_instance == null)
+		if (_instance == null)
 		{
 			_instance = new GmListTable();
 		}
-
+		
 		return _instance;
 	}
-
-	public static void reload(){
+	
+	public static void reload()
+	{
 		_instance = null;
 		getInstance();
 	}
 	
-	public FastList<L2PcInstance> getAllGms(boolean includeHidden)
+	public FastList<L2PcInstance> getAllGms(final boolean includeHidden)
 	{
-		FastList<L2PcInstance> tmpGmList = new FastList<L2PcInstance>();
-
-		for(FastMap.Entry<L2PcInstance, Boolean> n = _gmList.head(), end = _gmList.tail(); (n = n.getNext()) != end;)
+		final FastList<L2PcInstance> tmpGmList = new FastList<>();
+		
+		for (FastMap.Entry<L2PcInstance, Boolean> n = _gmList.head(), end = _gmList.tail(); (n = n.getNext()) != end;)
 		{
-			if(includeHidden || !n.getValue())
+			if (includeHidden || !n.getValue())
 			{
 				tmpGmList.add(n.getKey());
 			}
 		}
 		return tmpGmList;
 	}
-
-	public FastList<String> getAllGmNames(boolean includeHidden)
+	
+	public FastList<String> getAllGmNames(final boolean includeHidden)
 	{
-		FastList<String> tmpGmList = new FastList<String>();
-
-		for(FastMap.Entry<L2PcInstance, Boolean> n = _gmList.head(), end = _gmList.tail(); (n = n.getNext()) != end;)
+		final FastList<String> tmpGmList = new FastList<>();
+		
+		for (FastMap.Entry<L2PcInstance, Boolean> n = _gmList.head(), end = _gmList.tail(); (n = n.getNext()) != end;)
 		{
-			if(!n.getValue())
+			if (!n.getValue())
 			{
 				tmpGmList.add(n.getKey().getName());
 			}
-			else if(includeHidden)
+			else if (includeHidden)
 			{
 				tmpGmList.add(n.getKey().getName() + " (invis)");
 			}
 		}
 		return tmpGmList;
 	}
-
+	
 	private GmListTable()
 	{
-		_log.info("GmListTable: initalized.");
+		LOGGER.info("GmListTable: initalized.");
 		_gmList = new FastMap<L2PcInstance, Boolean>().shared();
 	}
-
+	
 	/**
 	 * Add a L2PcInstance player to the Set _gmList
-	 * @param player 
-	 * @param hidden 
+	 * @param player
+	 * @param hidden
 	 */
-	public void addGm(L2PcInstance player, boolean hidden)
+	public void addGm(final L2PcInstance player, final boolean hidden)
 	{
-		if( Config.DEBUG)
+		if (Config.DEBUG)
 		{
-			_log.log(Level.FINE, "added gm: " + player.getName());
+			LOGGER.debug("added gm: " + player.getName());
 		}
-
+		
 		_gmList.put(player, hidden);
 	}
-
-	public void deleteGm(L2PcInstance player)
+	
+	public void deleteGm(final L2PcInstance player)
 	{
-		if(Config.DEBUG)
+		if (Config.DEBUG)
 		{
-			_log.log(Level.FINE, "deleted gm: " + player.getName());
+			LOGGER.debug("deleted gm: " + player.getName());
 		}
 		
 		_gmList.remove(player);
 	}
-
+	
 	/**
 	 * GM will be displayed on clients gmlist
-	 * 
 	 * @param player
 	 */
-	public void showGm(L2PcInstance player)
+	public void showGm(final L2PcInstance player)
 	{
-		FastMap.Entry<L2PcInstance, Boolean> gm = _gmList.getEntry(player);
-
-		if(gm != null)
+		final FastMap.Entry<L2PcInstance, Boolean> gm = _gmList.getEntry(player);
+		
+		if (gm != null)
 		{
 			gm.setValue(false);
 		}
 	}
-
+	
 	/**
 	 * GM will no longer be displayed on clients gmlist
-	 * 
 	 * @param player
 	 */
-	public void hideGm(L2PcInstance player)
+	public void hideGm(final L2PcInstance player)
 	{
-		FastMap.Entry<L2PcInstance, Boolean> gm = _gmList.getEntry(player);
-
-		if(gm != null)
+		final FastMap.Entry<L2PcInstance, Boolean> gm = _gmList.getEntry(player);
+		
+		if (gm != null)
 		{
 			gm.setValue(true);
 		}
 	}
-
-	public boolean isGmOnline(boolean includeHidden)
+	
+	public boolean isGmOnline(final boolean includeHidden)
 	{
-		for(boolean b : _gmList.values())
+		for (final boolean b : _gmList.values())
 		{
-			if(includeHidden || !b)
+			if (includeHidden || !b)
 				return true;
 		}
-
+		
 		return false;
 	}
-
-	public void sendListToPlayer(L2PcInstance player)
-	{				
+	
+	public void sendListToPlayer(final L2PcInstance player)
+	{
 		if (isGmOnline(player.isGM()))
 		{
 			SystemMessage sm = new SystemMessage(SystemMessageId.GM_LIST);
 			player.sendPacket(sm);
 			sm = null;
 			
-			for (String name : getAllGmNames(player.isGM()))
+			for (final String name : getAllGmNames(player.isGM()))
 			{
-				SystemMessage sm1 = new SystemMessage(SystemMessageId.GM_S1);
+				final SystemMessage sm1 = new SystemMessage(SystemMessageId.GM_S1);
 				sm1.addString(name);
 				player.sendPacket(sm1);
 			}
 		}
-		else{
+		else
+		{
 			SystemMessage sm2 = new SystemMessage(SystemMessageId.NO_GM_PROVIDING_SERVICE_NOW);
-		    player.sendPacket(sm2);
-		    sm2 = null;
-		    }				
+			player.sendPacket(sm2);
+			sm2 = null;
+		}
 	}
-
-	public static void broadcastToGMs(L2GameServerPacket packet)
+	
+	public static void broadcastToGMs(final L2GameServerPacket packet)
 	{
-		for(L2PcInstance gm : getInstance().getAllGms(true))
+		for (final L2PcInstance gm : getInstance().getAllGms(true))
 		{
 			gm.sendPacket(packet);
 		}
 	}
-
-	public static void broadcastMessageToGMs(String message)
+	
+	public static void broadcastMessageToGMs(final String message)
 	{
-		for(L2PcInstance gm : getInstance().getAllGms(true))
+		for (final L2PcInstance gm : getInstance().getAllGms(true))
 		{
-			//prevents a NPE.
-			if(gm != null)
+			// prevents a NPE.
+			if (gm != null)
 			{
 				gm.sendPacket(SystemMessage.sendString(message));
 			}

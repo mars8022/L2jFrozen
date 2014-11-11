@@ -35,7 +35,7 @@ public final class ChanceCondition
 	public static final int EVT_HIT_BY_SKILL = 1024;
 	public static final int EVT_HIT_BY_OFFENSIVE_SKILL = 2048;
 	public static final int EVT_HIT_BY_GOOD_MAGIC = 4096;
-
+	
 	public static enum TriggerType
 	{
 		// You hit an enemy
@@ -64,51 +64,51 @@ public final class ChanceCondition
 		ON_HIT_BY_OFFENSIVE_SKILL(2048),
 		// A good skill was casted on you
 		ON_HIT_BY_GOOD_MAGIC(4096);
-
+		
 		private int _mask;
-
-		private TriggerType(int mask)
+		
+		private TriggerType(final int mask)
 		{
 			_mask = mask;
 		}
-
-		public boolean check(int event)
+		
+		public boolean check(final int event)
 		{
 			return (_mask & event) != 0; // Trigger (sub-)type contains event (sub-)type
 		}
 	}
-
-	private TriggerType _triggerType;
-
-	private int _chance;
-
-	private ChanceCondition(TriggerType trigger, int chance)
+	
+	private final TriggerType _triggerType;
+	
+	private final int _chance;
+	
+	private ChanceCondition(final TriggerType trigger, final int chance)
 	{
 		_triggerType = trigger;
 		_chance = chance;
 	}
-
-	public static ChanceCondition parse(StatsSet set)
+	
+	public static ChanceCondition parse(final StatsSet set)
 	{
 		try
 		{
-			TriggerType trigger = set.getEnum("chanceType", TriggerType.class);
-			int chance = set.getInteger("activationChance", 0);
-			if(trigger != null && chance > 0)
+			final TriggerType trigger = set.getEnum("chanceType", TriggerType.class);
+			final int chance = set.getInteger("activationChance", 0);
+			if (trigger != null && chance > 0)
 				return new ChanceCondition(trigger, chance);
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
 			e.printStackTrace();
 		}
 		return null;
 	}
-
-	public boolean trigger(int event)
+	
+	public boolean trigger(final int event)
 	{
 		return _triggerType.check(event) && Rnd.get(100) < _chance;
 	}
-
+	
 	@Override
 	public String toString()
 	{

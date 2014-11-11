@@ -32,30 +32,30 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 public class SellListProcure extends L2GameServerPacket
 {
 	private static final String _S__E9_SELLLISTPROCURE = "[S] E9 SellListProcure";
-	//private static Logger _log = Logger.getLogger(SellListProcure.class.getName());
-
+	// private static Logger LOGGER = Logger.getLogger(SellListProcure.class);
+	
 	private final L2PcInstance _activeChar;
-	private int _money;
-	private Map<L2ItemInstance, Integer> _sellList = new FastMap<L2ItemInstance, Integer>();
-	private List<CropProcure> _procureList = new FastList<CropProcure>();
-	private int _castle;
-
-	public SellListProcure(L2PcInstance player, int castleId)
+	private final int _money;
+	private final Map<L2ItemInstance, Integer> _sellList = new FastMap<>();
+	private List<CropProcure> _procureList = new FastList<>();
+	private final int _castle;
+	
+	public SellListProcure(final L2PcInstance player, final int castleId)
 	{
 		_money = player.getAdena();
 		_activeChar = player;
 		_castle = castleId;
 		_procureList = CastleManager.getInstance().getCastleById(_castle).getCropProcure(0);
-		for(CropProcure c : _procureList)
+		for (final CropProcure c : _procureList)
 		{
-			L2ItemInstance item = _activeChar.getInventory().getItemByItemId(c.getId());
-			if(item != null && c.getAmount() > 0)
+			final L2ItemInstance item = _activeChar.getInventory().getItemByItemId(c.getId());
+			if (item != null && c.getAmount() > 0)
 			{
 				_sellList.put(item, c.getAmount());
 			}
 		}
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
@@ -63,8 +63,8 @@ public class SellListProcure extends L2GameServerPacket
 		writeD(_money); // money
 		writeD(0x00); // lease ?
 		writeH(_sellList.size()); // list size
-
-		for(L2ItemInstance item : _sellList.keySet())
+		
+		for (final L2ItemInstance item : _sellList.keySet())
 		{
 			writeH(item.getItem().getType1());
 			writeD(item.getObjectId());
@@ -75,7 +75,7 @@ public class SellListProcure extends L2GameServerPacket
 			writeD(0); // price, u shouldnt get any adena for crops, only raw materials
 		}
 	}
-
+	
 	@Override
 	public String getType()
 	{

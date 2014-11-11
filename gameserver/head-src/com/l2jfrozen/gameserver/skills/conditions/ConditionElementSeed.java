@@ -28,17 +28,19 @@ public class ConditionElementSeed extends Condition
 {
 	private static int[] seedSkills =
 	{
-			1285, 1286, 1287
+		1285,
+		1286,
+		1287
 	};
 	private final int[] _requiredSeeds;
-
-	public ConditionElementSeed(int[] seeds)
+	
+	public ConditionElementSeed(final int[] seeds)
 	{
 		_requiredSeeds = seeds;
-		//        if (Config.DEVELOPER) System.out.println("Required seeds: " + _requiredSeeds[0] + ", " + _requiredSeeds[1] + ", " + _requiredSeeds[2]+ ", " + _requiredSeeds[3]+ ", " + _requiredSeeds[4]);
+		// if (Config.DEVELOPER) LOGGER.info("Required seeds: " + _requiredSeeds[0] + ", " + _requiredSeeds[1] + ", " + _requiredSeeds[2]+ ", " + _requiredSeeds[3]+ ", " + _requiredSeeds[4]);
 	}
-
-	ConditionElementSeed(int fire, int water, int wind, int various, int any)
+	
+	ConditionElementSeed(final int fire, final int water, final int wind, final int various, final int any)
 	{
 		_requiredSeeds = new int[5];
 		_requiredSeeds[0] = fire;
@@ -47,49 +49,49 @@ public class ConditionElementSeed extends Condition
 		_requiredSeeds[3] = various;
 		_requiredSeeds[4] = any;
 	}
-
+	
 	@Override
-	public boolean testImpl(Env env)
+	public boolean testImpl(final Env env)
 	{
-		int[] Seeds = new int[3];
-		for(int i = 0; i < Seeds.length; i++)
+		final int[] Seeds = new int[3];
+		for (int i = 0; i < Seeds.length; i++)
 		{
 			Seeds[i] = env.player.getFirstEffect(seedSkills[i]) instanceof EffectSeed ? ((EffectSeed) env.player.getFirstEffect(seedSkills[i])).getPower() : 0;
-			if(Seeds[i] >= _requiredSeeds[i])
+			if (Seeds[i] >= _requiredSeeds[i])
 			{
 				Seeds[i] -= _requiredSeeds[i];
 			}
 			else
 				return false;
 		}
-
-		//        if (Config.DEVELOPER) System.out.println("Seeds: " + Seeds[0] + ", " + Seeds[1] + ", " + Seeds[2]);
-		if(_requiredSeeds[3] > 0)
+		
+		// if (Config.DEVELOPER) LOGGER.info("Seeds: " + Seeds[0] + ", " + Seeds[1] + ", " + Seeds[2]);
+		if (_requiredSeeds[3] > 0)
 		{
 			int count = 0;
-			for(int i = 0; i < Seeds.length && count < _requiredSeeds[3]; i++)
+			for (int i = 0; i < Seeds.length && count < _requiredSeeds[3]; i++)
 			{
-				if(Seeds[i] > 0)
+				if (Seeds[i] > 0)
 				{
 					Seeds[i]--;
 					count++;
 				}
 			}
-			if(count < _requiredSeeds[3])
+			if (count < _requiredSeeds[3])
 				return false;
 		}
-
-		if(_requiredSeeds[4] > 0)
+		
+		if (_requiredSeeds[4] > 0)
 		{
 			int count = 0;
-			for(int i = 0; i < Seeds.length && count < _requiredSeeds[4]; i++)
+			for (int i = 0; i < Seeds.length && count < _requiredSeeds[4]; i++)
 			{
 				count += Seeds[i];
 			}
-			if(count < _requiredSeeds[4])
+			if (count < _requiredSeeds[4])
 				return false;
 		}
-
+		
 		return true;
 	}
 }

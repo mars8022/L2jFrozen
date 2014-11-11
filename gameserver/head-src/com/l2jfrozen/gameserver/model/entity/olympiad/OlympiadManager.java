@@ -15,11 +15,12 @@
 package com.l2jfrozen.gameserver.model.entity.olympiad;
 
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
 
+import org.apache.log4j.Logger;
+
+import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad.COMP_TYPE;
 import com.l2jfrozen.util.L2FastList;
@@ -30,10 +31,11 @@ import com.l2jfrozen.util.random.Rnd;
  */
 class OlympiadManager implements Runnable
 {
-	protected static final Logger _log = Logger.getLogger(OlympiadManager.class.getName());
-	private Map<Integer, OlympiadGame> _olympiadInstances;
+	protected static final Logger LOGGER = Logger.getLogger(OlympiadManager.class);
+	private final Map<Integer, OlympiadGame> _olympiadInstances;
 	
-	protected static final OlympiadStadium[] STADIUMS = {
+	protected static final OlympiadStadium[] STADIUMS =
+	{
 		new OlympiadStadium(-20814, -21189, -3030),
 		new OlympiadStadium(-120324, -225077, -3331),
 		new OlympiadStadium(-102495, -209023, -3331),
@@ -55,11 +57,12 @@ class OlympiadManager implements Runnable
 		new OlympiadStadium(-76754, -234014, -3331),
 		new OlympiadStadium(-93742, -251032, -3331),
 		new OlympiadStadium(-87466, -257752, -3331),
-		new OlympiadStadium(-114413, -213241, -3331)};
-		
+		new OlympiadStadium(-114413, -213241, -3331)
+	};
+	
 	private OlympiadManager()
 	{
-		_olympiadInstances = new FastMap<Integer, OlympiadGame>();
+		_olympiadInstances = new FastMap<>();
 	}
 	
 	public static OlympiadManager getInstance()
@@ -72,8 +75,8 @@ class OlympiadManager implements Runnable
 	{
 		if (Olympiad.getInstance().isOlympiadEnd())
 			return;
-
-		Map<Integer, OlympiadGameTask> _gamesQueue = new FastMap<Integer, OlympiadGameTask>();
+		
+		final Map<Integer, OlympiadGameTask> _gamesQueue = new FastMap<>();
 		while (Olympiad.getInstance().inCompPeriod())
 		{
 			if (Olympiad.getNobleCount() == 0)
@@ -82,9 +85,9 @@ class OlympiadManager implements Runnable
 				{
 					wait(60000);
 				}
-				catch (InterruptedException ex)
+				catch (final InterruptedException ex)
 				{
-					return;
+					// return;
 				}
 				continue;
 			}
@@ -92,15 +95,14 @@ class OlympiadManager implements Runnable
 			int _gamesQueueSize = 0;
 			
 			// _compStarted = true;
-			L2FastList<Integer> readyClasses = Olympiad.hasEnoughRegisteredClassed();
-			boolean readyNonClassed = Olympiad.hasEnoughRegisteredNonClassed();
+			final L2FastList<Integer> readyClasses = Olympiad.hasEnoughRegisteredClassed();
+			final boolean readyNonClassed = Olympiad.hasEnoughRegisteredNonClassed();
 			if (readyClasses != null || readyNonClassed)
 			{
 				// set up the games queue
 				for (int i = 0; i < STADIUMS.length; i++)
 				{
-					if (!existNextOpponents(Olympiad.getRegisteredNonClassBased())
-					        && !existNextOpponents(getRandomClassList(Olympiad.getRegisteredClassBased(), readyClasses)))
+					if (!existNextOpponents(Olympiad.getRegisteredNonClassBased()) && !existNextOpponents(getRandomClassList(Olympiad.getRegisteredClassBased(), readyClasses)))
 					{
 						break;
 					}
@@ -116,11 +118,14 @@ class OlympiadManager implements Runnable
 									_gamesQueue.put(i, new OlympiadGameTask(_olympiadInstances.get(i)));
 									STADIUMS[i].setStadiaBusy();
 								}
-								catch (Exception ex)
+								catch (final Exception ex)
 								{
+									if (Config.DEBUG)
+										LOGGER.warn("Olympiad Manager: Stadium - " + i + " assignment, an error has been occurred:", ex);
+									
 									if (_olympiadInstances.get(i) != null)
 									{
-										for (L2PcInstance player : _olympiadInstances.get(i).getPlayers())
+										for (final L2PcInstance player : _olympiadInstances.get(i).getPlayers())
 										{
 											player.sendMessage("Your olympiad registration was canceled due to an error");
 											player.setIsInOlympiadMode(false);
@@ -147,11 +152,14 @@ class OlympiadManager implements Runnable
 									_gamesQueue.put(i, new OlympiadGameTask(_olympiadInstances.get(i)));
 									STADIUMS[i].setStadiaBusy();
 								}
-								catch (Exception ex)
+								catch (final Exception ex)
 								{
+									if (Config.DEBUG)
+										LOGGER.warn("Olympiad Manager: Stadium - " + i + " assignment, an error has been occurred:", ex);
+									
 									if (_olympiadInstances.get(i) != null)
 									{
-										for (L2PcInstance player : _olympiadInstances.get(i).getPlayers())
+										for (final L2PcInstance player : _olympiadInstances.get(i).getPlayers())
 										{
 											player.sendMessage("Your olympiad registration was canceled due to an error");
 											player.setIsInOlympiadMode(false);
@@ -180,11 +188,14 @@ class OlympiadManager implements Runnable
 									_gamesQueue.put(i, new OlympiadGameTask(_olympiadInstances.get(i)));
 									STADIUMS[i].setStadiaBusy();
 								}
-								catch (Exception ex)
+								catch (final Exception ex)
 								{
+									if (Config.DEBUG)
+										LOGGER.warn("Olympiad Manager: Stadium - " + i + " assignment, an error has been occurred:", ex);
+									
 									if (_olympiadInstances.get(i) != null)
 									{
-										for (L2PcInstance player : _olympiadInstances.get(i).getPlayers())
+										for (final L2PcInstance player : _olympiadInstances.get(i).getPlayers())
 										{
 											player.sendMessage("Your olympiad registration was canceled due to an error");
 											player.setIsInOlympiadMode(false);
@@ -210,11 +221,14 @@ class OlympiadManager implements Runnable
 									_gamesQueue.put(i, new OlympiadGameTask(_olympiadInstances.get(i)));
 									STADIUMS[i].setStadiaBusy();
 								}
-								catch (Exception ex)
+								catch (final Exception ex)
 								{
+									if (Config.DEBUG)
+										LOGGER.warn("Olympiad Manager: Stadium - " + i + " assignment, an error has been occurred:", ex);
+									
 									if (_olympiadInstances.get(i) != null)
 									{
-										for (L2PcInstance player : _olympiadInstances.get(i).getPlayers())
+										for (final L2PcInstance player : _olympiadInstances.get(i).getPlayers())
 										{
 											player.sendMessage("Your olympiad registration was canceled due to an error");
 											player.setIsInOlympiadMode(false);
@@ -245,21 +259,17 @@ class OlympiadManager implements Runnable
 								STADIUMS[i].setStadiaFree();
 								i--;
 							}
-							catch (Exception e)
+							catch (final Exception e)
 							{
-								_log.log(Level.WARNING, "Exception on OlympiadManager.run(): " + e.getMessage(), e);
+								LOGGER.warn("Exception on OlympiadManager.run() ", e);
 							}
 						}
 					}
 				}
 				
-				/*try
-				{
-					wait(30000);
-				}
-				catch (InterruptedException e)
-				{
-				}*/
+				/*
+				 * try { wait(30000); } catch (InterruptedException e) { }
+				 */
 				
 				// Start games
 				_gamesQueueSize = _gamesQueue.size();
@@ -268,7 +278,7 @@ class OlympiadManager implements Runnable
 					if (_gamesQueue.get(i) != null && !_gamesQueue.get(i).isTerminated() && !_gamesQueue.get(i).isStarted())
 					{
 						// start new games
-						Thread T = new Thread(_gamesQueue.get(i));
+						final Thread T = new Thread(_gamesQueue.get(i));
 						T.start();
 					}
 					
@@ -277,9 +287,9 @@ class OlympiadManager implements Runnable
 					{
 						wait(1000);
 					}
-					catch (InterruptedException e)
+					catch (final InterruptedException e)
 					{
-						return;
+						// return;
 					}
 				}
 			}
@@ -289,9 +299,9 @@ class OlympiadManager implements Runnable
 			{
 				wait(30000);
 			}
-			catch (InterruptedException e)
+			catch (final InterruptedException e)
 			{
-				return;
+				// return;
 			}
 		}
 		
@@ -305,7 +315,7 @@ class OlympiadManager implements Runnable
 			{
 				wait(30000);
 			}
-			catch (InterruptedException e)
+			catch (final InterruptedException e)
 			{
 			}
 			
@@ -315,7 +325,7 @@ class OlympiadManager implements Runnable
 			}
 			else
 			{
-				for (OlympiadGameTask game : _gamesQueue.values())
+				for (final OlympiadGameTask game : _gamesQueue.values())
 				{
 					allGamesTerminated = allGamesTerminated || game.isTerminated();
 				}
@@ -329,7 +339,7 @@ class OlympiadManager implements Runnable
 		OlympiadGame._battleStarted = false;
 	}
 	
-	protected OlympiadGame getOlympiadGame(int index)
+	protected OlympiadGame getOlympiadGame(final int index)
 	{
 		if (_olympiadInstances != null && !_olympiadInstances.isEmpty())
 		{
@@ -338,7 +348,7 @@ class OlympiadManager implements Runnable
 		return null;
 	}
 	
-	protected void removeGame(OlympiadGame game)
+	protected void removeGame(final OlympiadGame game)
 	{
 		if (_olympiadInstances != null && !_olympiadInstances.isEmpty())
 		{
@@ -357,20 +367,20 @@ class OlympiadManager implements Runnable
 		return _olympiadInstances;
 	}
 	
-	protected L2FastList<L2PcInstance> getRandomClassList(Map<Integer, L2FastList<L2PcInstance>> list, L2FastList<Integer> classList)
+	protected L2FastList<L2PcInstance> getRandomClassList(final Map<Integer, L2FastList<L2PcInstance>> list, final L2FastList<Integer> classList)
 	{
 		if (list == null || classList == null || list.isEmpty() || classList.isEmpty())
 			return null;
-
+		
 		return list.get(classList.get(Rnd.nextInt(classList.size())));
 	}
 	
-	protected L2FastList<L2PcInstance> nextOpponents(L2FastList<L2PcInstance> list)
+	protected L2FastList<L2PcInstance> nextOpponents(final L2FastList<L2PcInstance> list)
 	{
-		L2FastList<L2PcInstance> opponents = new L2FastList<L2PcInstance>();
+		final L2FastList<L2PcInstance> opponents = new L2FastList<>();
 		if (list.isEmpty())
 			return opponents;
-		int loopCount = (list.size() / 2);
+		final int loopCount = (list.size() / 2);
 		
 		int first;
 		int second;
@@ -390,13 +400,13 @@ class OlympiadManager implements Runnable
 		
 	}
 	
-	protected boolean existNextOpponents(L2FastList<L2PcInstance> list)
+	protected boolean existNextOpponents(final L2FastList<L2PcInstance> list)
 	{
 		if (list == null)
 			return false;
 		if (list.isEmpty())
 			return false;
-		int loopCount = list.size() >> 1;
+		final int loopCount = list.size() >> 1;
 		if (loopCount < 1)
 			return false;
 		
@@ -405,19 +415,19 @@ class OlympiadManager implements Runnable
 	
 	protected FastMap<Integer, String> getAllTitles()
 	{
-		FastMap<Integer, String> titles = new FastMap<Integer, String>();
+		final FastMap<Integer, String> titles = new FastMap<>();
 		
-		for (OlympiadGame instance : _olympiadInstances.values())
+		for (final OlympiadGame instance : _olympiadInstances.values())
 		{
 			if (instance._gamestarted != true)
 				continue;
-
+			
 			titles.put(instance._stadiumID, instance.getTitle());
 		}
 		
 		return titles;
 	}
-
+	
 	@SuppressWarnings("synthetic-access")
 	private static class SingletonHolder
 	{

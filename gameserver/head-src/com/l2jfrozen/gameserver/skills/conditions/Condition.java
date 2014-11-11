@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.skills.conditions;
 
-//import java.util.logging.Logger;
+//import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.skills.Env;
 
@@ -27,51 +27,51 @@ import com.l2jfrozen.gameserver.skills.Env;
  */
 public abstract class Condition implements ConditionListener
 {
-
-	//private static final Logger _log = Logger.getLogger(Condition.class.getName());
-
+	
+	// private static final Logger LOGGER = Logger.getLogger(Condition.class);
+	
 	private ConditionListener _listener;
 	private String _msg;
 	private boolean _result;
-
-	public final void setMessage(String msg)
+	
+	public final void setMessage(final String msg)
 	{
 		_msg = msg;
 	}
-
+	
 	public final String getMessage()
 	{
 		return _msg;
 	}
-
-	void setListener(ConditionListener listener)
+	
+	void setListener(final ConditionListener listener)
 	{
 		_listener = listener;
 		notifyChanged();
 	}
-
+	
 	final ConditionListener getListener()
 	{
 		return _listener;
 	}
-
-	public final boolean test(Env env)
+	
+	public final boolean test(final Env env)
 	{
-		boolean res = testImpl(env);
-		if(_listener != null && res != _result)
+		final boolean res = testImpl(env);
+		if (_listener != null && res != _result)
 		{
 			_result = res;
 			notifyChanged();
 		}
 		return res;
 	}
-
+	
 	abstract boolean testImpl(Env env);
-
+	
 	@Override
 	public void notifyChanged()
 	{
-		if(_listener != null)
+		if (_listener != null)
 		{
 			_listener.notifyChanged();
 		}

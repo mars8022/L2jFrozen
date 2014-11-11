@@ -20,27 +20,26 @@ package com.l2jfrozen.gameserver.network.serverpackets;
 
 /**
  * This class ...
- * 
  * @version $Revision: 1.2.2.1.2.3 $ $Date: 2005/03/27 15:29:57 $
  */
 public class MagicSkillCanceld extends L2GameServerPacket
 {
 	private static final String _S__5B_MAGICSKILLCANCELD = "[S] 49 MagicSkillCanceld";
-
-	private int _objectId;
-
-	public MagicSkillCanceld(int objectId)
+	
+	private final int _objectId;
+	
+	public MagicSkillCanceld(final int objectId)
 	{
 		_objectId = objectId;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
 		writeC(0x49);
 		writeD(_objectId);
 	}
-
+	
 	@Override
 	public String getType()
 	{

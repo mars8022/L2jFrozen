@@ -22,114 +22,119 @@ import com.l2jfrozen.gameserver.network.SystemMessageId;
 
 public final class SystemMessage extends L2GameServerPacket
 {
-	// Packets d d (d S/d d/d dd) -> 0 - String  1-number 2-textref npcname (1000000-1002655)  3-textref itemname 4-textref skills 5-??
+	// Packets d d (d S/d d/d dd) -> 0 - String 1-number 2-textref npcname (1000000-1002655) 3-textref itemname 4-textref skills 5-??
 	private static final int TYPE_ZONE_NAME = 7;
 	private static final int TYPE_SKILL_NAME = 4;
 	private static final int TYPE_ITEM_NAME = 3;
 	private static final int TYPE_NPC_NAME = 2;
 	private static final int TYPE_NUMBER = 1;
 	private static final int TYPE_TEXT = 0;
-	private int _messageId;
-	private Vector<Integer> _types = new Vector<Integer>();
-	private Vector<Object> _values = new Vector<Object>();
+	private final int _messageId;
+	private final Vector<Integer> _types = new Vector<>();
+	private final Vector<Object> _values = new Vector<>();
 	private int _skillLvL = 1;
-
-	public SystemMessage(SystemMessageId messageId)
+	
+	public SystemMessage(final SystemMessageId messageId)
 	{
-		if(Config.DEBUG && messageId == SystemMessageId.TARGET_IS_INCORRECT){
+		if (Config.DEBUG && messageId == SystemMessageId.TARGET_IS_INCORRECT)
+		{
 			Thread.dumpStack();
-			}
+		}
 		_messageId = messageId.getId();
 	}
-
+	
 	@Deprecated
-	public SystemMessage(int messageId)
+	public SystemMessage(final int messageId)
 	{
 		_messageId = messageId;
 	}
-
-	public static SystemMessage sendString(String msg)
+	
+	public static SystemMessage sendString(final String msg)
 	{
-		SystemMessage sm = new SystemMessage(SystemMessageId.S1_S2);
+		final SystemMessage sm = new SystemMessage(SystemMessageId.S1_S2);
 		sm.addString(msg);
-
+		
 		return sm;
 	}
-
-	public SystemMessage addString(String text)
+	
+	public SystemMessage addString(final String text)
 	{
 		_types.add(new Integer(TYPE_TEXT));
 		_values.add(text);
-
+		
 		return this;
 	}
-
-	public SystemMessage addNumber(int number)
+	
+	public SystemMessage addNumber(final int number)
 	{
 		_types.add(new Integer(TYPE_NUMBER));
 		_values.add(new Integer(number));
 		return this;
 	}
-
-	public SystemMessage addNpcName(int id)
+	
+	public SystemMessage addNpcName(final int id)
 	{
 		_types.add(new Integer(TYPE_NPC_NAME));
 		_values.add(new Integer(1000000 + id));
-
+		
 		return this;
 	}
-
-	public SystemMessage addItemName(int id)
+	
+	public SystemMessage addItemName(final int id)
 	{
 		_types.add(new Integer(TYPE_ITEM_NAME));
 		_values.add(new Integer(id));
-
+		
 		return this;
 	}
-
-	public SystemMessage addZoneName(int x, int y, int z)
+	
+	public SystemMessage addZoneName(final int x, final int y, final int z)
 	{
 		_types.add(new Integer(TYPE_ZONE_NAME));
-		int[] coord =
+		final int[] coord =
 		{
-				x, y, z
+			x,
+			y,
+			z
 		};
 		_values.add(coord);
-
+		
 		return this;
 	}
-
-	public SystemMessage addSkillName(int id)
+	
+	public SystemMessage addSkillName(final int id)
 	{
 		return addSkillName(id, 1);
 	}
-
-	public SystemMessage addSkillName(int id, int lvl)
+	
+	public SystemMessage addSkillName(final int id, final int lvl)
 	{
 		_types.add(new Integer(TYPE_SKILL_NAME));
 		_values.add(new Integer(id));
 		_skillLvL = lvl;
-
+		
 		return this;
 	}
 	
-	public void addSkillName(L2Skill skill) { } // Check this
-
+	public void addSkillName(final L2Skill skill)
+	{
+	} // Check this
+	
 	@Override
 	protected final void writeImpl()
 	{
 		writeC(0x64);
-
+		
 		writeD(_messageId);
 		writeD(_types.size());
-
-		for(int i = 0; i < _types.size(); i++)
+		
+		for (int i = 0; i < _types.size(); i++)
 		{
-			int t = _types.get(i).intValue();
-
+			final int t = _types.get(i).intValue();
+			
 			writeD(t);
-
-			switch(t)
+			
+			switch (t)
 			{
 				case TYPE_TEXT:
 				{
@@ -140,22 +145,22 @@ public final class SystemMessage extends L2GameServerPacket
 				case TYPE_NPC_NAME:
 				case TYPE_ITEM_NAME:
 				{
-					int t1 = ((Integer) _values.get(i)).intValue();
+					final int t1 = ((Integer) _values.get(i)).intValue();
 					writeD(t1);
 					break;
 				}
 				case TYPE_SKILL_NAME:
 				{
-					int t1 = ((Integer) _values.get(i)).intValue();
+					final int t1 = ((Integer) _values.get(i)).intValue();
 					writeD(t1); // Skill Id
 					writeD(_skillLvL); // Skill lvl
 					break;
 				}
 				case TYPE_ZONE_NAME:
 				{
-					int t1 = ((int[]) _values.get(i))[0];
-					int t2 = ((int[]) _values.get(i))[1];
-					int t3 = ((int[]) _values.get(i))[2];
+					final int t1 = ((int[]) _values.get(i))[0];
+					final int t2 = ((int[]) _values.get(i))[1];
+					final int t3 = ((int[]) _values.get(i))[2];
 					writeD(t1);
 					writeD(t2);
 					writeD(t3);
@@ -164,15 +169,15 @@ public final class SystemMessage extends L2GameServerPacket
 			}
 		}
 	}
-
+	
 	public int getMessageID()
 	{
 		return _messageId;
 	}
-
-	public static SystemMessage getSystemMessage(SystemMessageId smId)
+	
+	public static SystemMessage getSystemMessage(final SystemMessageId smId)
 	{
-		SystemMessage sm = new SystemMessage(smId);
+		final SystemMessage sm = new SystemMessage(smId);
 		return sm;
 	}
 	

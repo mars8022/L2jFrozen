@@ -25,23 +25,23 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2BoatInstance;
  */
 public class VehicleDeparture extends L2GameServerPacket
 {
-
-	private L2BoatInstance _boat;
-	private int _speed1;
-	private int _speed2;//rotation
-	private int _x;
-	private int _y;
-	private int _z;
-
+	
+	private final L2BoatInstance _boat;
+	private final int _speed1;
+	private final int _speed2;// rotation
+	private final int _x;
+	private final int _y;
+	private final int _z;
+	
 	/**
-	 * @param boat 
+	 * @param boat
 	 * @param speed1
 	 * @param speed2
 	 * @param x
 	 * @param y
 	 * @param z
 	 */
-	public VehicleDeparture(L2BoatInstance boat, int speed1, int speed2, int x, int y, int z)
+	public VehicleDeparture(final L2BoatInstance boat, final int speed1, final int speed2, final int x, final int y, final int z)
 	{
 		_boat = boat;
 		_speed1 = speed1;
@@ -61,7 +61,7 @@ public class VehicleDeparture extends L2GameServerPacket
 		writeD(_x);
 		writeD(_y);
 		writeD(_z);
-
+		
 	}
 	
 	@Override

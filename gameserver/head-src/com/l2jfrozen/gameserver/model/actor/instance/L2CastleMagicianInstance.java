@@ -23,7 +23,6 @@ import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 
 /**
  * The Class L2CastleMagicianInstance.
- *
  * @author Kerberos | ZaKaX
  */
 public class L2CastleMagicianInstance extends L2NpcInstance
@@ -40,30 +39,30 @@ public class L2CastleMagicianInstance extends L2NpcInstance
 	
 	/**
 	 * Instantiates a new l2 castle magician instance.
-	 *
 	 * @param objectId the object id
 	 * @param template the template
 	 */
-	public L2CastleMagicianInstance(int objectId, L2NpcTemplate template)
+	public L2CastleMagicianInstance(final int objectId, final L2NpcTemplate template)
 	{
 		super(objectId, template);
 	}
 	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance#showChatWindow(com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance, int)
 	 */
 	@Override
-	public void showChatWindow(L2PcInstance player, int val)
+	public void showChatWindow(final L2PcInstance player, final int val)
 	{
 		player.sendPacket(ActionFailed.STATIC_PACKET);
 		String filename = "data/html/castlemagician/magician-no.htm";
 		
-		int condition = validateCondition(player);
+		final int condition = validateCondition(player);
 		if (condition > COND_ALL_FALSE)
 		{
 			if (condition == COND_BUSY_BECAUSE_OF_SIEGE)
 				filename = "data/html/castlemagician/magician-busy.htm"; // Busy because of siege
-			else if (condition == COND_OWNER)                                    // Clan owns castle
+			else if (condition == COND_OWNER) // Clan owns castle
 			{
 				if (val == 0)
 					filename = "data/html/castlemagician/magician.htm";
@@ -72,17 +71,18 @@ public class L2CastleMagicianInstance extends L2NpcInstance
 			}
 		}
 		
-		NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
+		final NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
 		html.setFile(filename);
 		html.replace("%objectId%", String.valueOf(getObjectId()));
 		player.sendPacket(html);
 	}
 	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance#onBypassFeedback(com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance, java.lang.String)
 	 */
 	@Override
-	public void onBypassFeedback(L2PcInstance player, String command)
+	public void onBypassFeedback(final L2PcInstance player, final String command)
 	{
 		if (command.startsWith("Chat"))
 		{
@@ -91,8 +91,9 @@ public class L2CastleMagicianInstance extends L2NpcInstance
 			{
 				val = Integer.parseInt(command.substring(5));
 			}
-			catch (IndexOutOfBoundsException ioobe){}
-			catch (NumberFormatException nfe){}
+			catch (IndexOutOfBoundsException | NumberFormatException ioobe)
+			{
+			}
 			showChatWindow(player, val);
 			return;
 		}
@@ -100,7 +101,7 @@ public class L2CastleMagicianInstance extends L2NpcInstance
 		{
 			if (player.getClan() != null)
 			{
-				L2PcInstance clanLeader = player.getClan().getLeader().getPlayerInstance();
+				final L2PcInstance clanLeader = player.getClan().getLeader().getPlayerInstance();
 				if (clanLeader == null)
 					return;
 				
@@ -112,7 +113,7 @@ public class L2CastleMagicianInstance extends L2NpcInstance
 					player.teleToLocation(clanLeader.getX(), clanLeader.getY(), clanLeader.getZ(), false);
 					return;
 				}
-				String filename = "data/html/castlemagician/magician-nogate.htm";
+				final String filename = "data/html/castlemagician/magician-nogate.htm";
 				showChatWindow(player, filename);
 			}
 			return;
@@ -123,18 +124,17 @@ public class L2CastleMagicianInstance extends L2NpcInstance
 	
 	/**
 	 * Validate condition.
-	 *
 	 * @param player the player
 	 * @return the int
 	 */
-	protected int validateCondition(L2PcInstance player)
+	protected int validateCondition(final L2PcInstance player)
 	{
 		if (getCastle() != null && getCastle().getCastleId() > 0)
 		{
 			if (player.getClan() != null)
 			{
 				if (getCastle().getZone().isSiegeActive())
-					return COND_BUSY_BECAUSE_OF_SIEGE;                   // Busy because of siege
+					return COND_BUSY_BECAUSE_OF_SIEGE; // Busy because of siege
 				else if (getCastle().getOwnerId() == player.getClanId()) // Clan owns castle
 					return COND_OWNER;
 			}
@@ -144,21 +144,13 @@ public class L2CastleMagicianInstance extends L2NpcInstance
 	
 	/**
 	 * Validate gate condition.
-	 *
 	 * @param clanLeader the clan leader
 	 * @param player the player
 	 * @return true, if successful
 	 */
-	private static final boolean validateGateCondition(L2PcInstance clanLeader, L2PcInstance player)
+	private static final boolean validateGateCondition(final L2PcInstance clanLeader, final L2PcInstance player)
 	{
-		if (clanLeader.isAlikeDead() 
-				|| clanLeader.isInStoreMode()
-				|| clanLeader.isRooted() 
-				|| clanLeader.isInCombat()
-				|| clanLeader.isInOlympiadMode()
-				|| clanLeader.isFestivalParticipant()
-				|| clanLeader.inObserverMode()
-				|| clanLeader.isInsideZone(L2Character.ZONE_NOSUMMONFRIEND))
+		if (clanLeader.isAlikeDead() || clanLeader.isInStoreMode() || clanLeader.isRooted() || clanLeader.isInCombat() || clanLeader.isInOlympiadMode() || clanLeader.isFestivalParticipant() || clanLeader.inObserverMode() || clanLeader.isInsideZone(L2Character.ZONE_NOSUMMONFRIEND))
 		{
 			player.sendMessage("Couldn't teleport to clan leader. The requirements was not meet.");
 			return false;

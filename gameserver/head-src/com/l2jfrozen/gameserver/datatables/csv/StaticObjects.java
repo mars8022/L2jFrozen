@@ -25,9 +25,10 @@ import java.io.FileReader;
 import java.io.LineNumberReader;
 import java.util.Map;
 import java.util.StringTokenizer;
-import java.util.logging.Logger;
 
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.idfactory.IdFactory;
@@ -35,28 +36,28 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2StaticObjectInstance;
 
 public class StaticObjects
 {
-	private static Logger _log = Logger.getLogger(StaticObjects.class.getName());
-
+	private static Logger LOGGER = Logger.getLogger(StaticObjects.class);
+	
 	private static StaticObjects _instance;
-	private Map<Integer, L2StaticObjectInstance> _staticObjects;
-
+	private final Map<Integer, L2StaticObjectInstance> _staticObjects;
+	
 	public static StaticObjects getInstance()
 	{
-		if(_instance == null)
+		if (_instance == null)
 		{
 			_instance = new StaticObjects();
 		}
-
+		
 		return _instance;
 	}
-
+	
 	public StaticObjects()
 	{
-		_staticObjects = new FastMap<Integer, L2StaticObjectInstance>();
+		_staticObjects = new FastMap<>();
 		parseData();
-		_log.config("StaticObject: Loaded " + _staticObjects.size() + " StaticObject Templates.");
+		LOGGER.info("StaticObject: Loaded " + _staticObjects.size() + " StaticObject Templates.");
 	}
-
+	
 	private void parseData()
 	{
 		FileReader reader = null;
@@ -65,98 +66,98 @@ public class StaticObjects
 		
 		try
 		{
-			File doorData = new File(Config.DATAPACK_ROOT, "data/staticobjects.csv");
+			final File doorData = new File(Config.DATAPACK_ROOT, "data/staticobjects.csv");
 			
 			reader = new FileReader(doorData);
 			buff = new BufferedReader(reader);
 			lnr = new LineNumberReader(buff);
-
+			
 			String line = null;
-			while((line = lnr.readLine()) != null)
+			while ((line = lnr.readLine()) != null)
 			{
-				if(line.trim().length() == 0 || line.startsWith("#"))
+				if (line.trim().length() == 0 || line.startsWith("#"))
 				{
 					continue;
 				}
-
+				
 				L2StaticObjectInstance obj = parse(line);
 				_staticObjects.put(obj.getStaticObjectId(), obj);
 				obj = null;
 			}
 		}
-		catch(FileNotFoundException e)
+		catch (final FileNotFoundException e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("staticobjects.csv is missing in data folder");
+			LOGGER.warn("staticobjects.csv is missing in data folder");
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("error while creating StaticObjects table " + e);
+			LOGGER.warn("error while creating StaticObjects table " + e);
 		}
 		finally
 		{
-			if(lnr != null)
+			if (lnr != null)
 				try
 				{
 					lnr.close();
 				}
-				catch(Exception e1)
+				catch (final Exception e1)
 				{
 					e1.printStackTrace();
 				}
 			
-			if(buff != null)
+			if (buff != null)
 				try
 				{
 					buff.close();
 				}
-				catch(Exception e1)
+				catch (final Exception e1)
 				{
 					e1.printStackTrace();
 				}
 			
-			if(reader != null)
+			if (reader != null)
 				try
 				{
 					reader.close();
 				}
-				catch(Exception e1)
+				catch (final Exception e1)
 				{
 					e1.printStackTrace();
 				}
 			
 		}
 	}
-
-	public static L2StaticObjectInstance parse(String line)
+	
+	public static L2StaticObjectInstance parse(final String line)
 	{
 		StringTokenizer st = new StringTokenizer(line, ";");
-
-		st.nextToken(); //Pass over static object name (not used in server)
-
-		int id = Integer.parseInt(st.nextToken());
-		int x = Integer.parseInt(st.nextToken());
-		int y = Integer.parseInt(st.nextToken());
-		int z = Integer.parseInt(st.nextToken());
-		int type = Integer.parseInt(st.nextToken());
-		String texture = st.nextToken();
-		int map_x = Integer.parseInt(st.nextToken());
-		int map_y = Integer.parseInt(st.nextToken());
-
+		
+		st.nextToken(); // Pass over static object name (not used in server)
+		
+		final int id = Integer.parseInt(st.nextToken());
+		final int x = Integer.parseInt(st.nextToken());
+		final int y = Integer.parseInt(st.nextToken());
+		final int z = Integer.parseInt(st.nextToken());
+		final int type = Integer.parseInt(st.nextToken());
+		final String texture = st.nextToken();
+		final int map_x = Integer.parseInt(st.nextToken());
+		final int map_y = Integer.parseInt(st.nextToken());
+		
 		st = null;
-
-		L2StaticObjectInstance obj = new L2StaticObjectInstance(IdFactory.getInstance().getNextId());
+		
+		final L2StaticObjectInstance obj = new L2StaticObjectInstance(IdFactory.getInstance().getNextId());
 		obj.setType(type);
 		obj.setStaticObjectId(id);
 		obj.setXYZ(x, y, z);
 		obj.setMap(texture, map_x, map_y);
 		obj.spawnMe();
-
+		
 		return obj;
 	}
 }

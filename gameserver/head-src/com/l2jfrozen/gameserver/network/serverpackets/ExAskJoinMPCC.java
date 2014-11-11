@@ -22,22 +22,22 @@ package com.l2jfrozen.gameserver.network.serverpackets;
  */
 public class ExAskJoinMPCC extends L2GameServerPacket
 {
-	private String _requestorName;
+	private final String _requestorName;
 	
-	public ExAskJoinMPCC(String requestorName)
+	public ExAskJoinMPCC(final String requestorName)
 	{
 		_requestorName = requestorName;
 	}
-
+	
 	@Override
 	protected void writeImpl()
 	{
 		writeC(0xFE);
 		writeH(0x27);
 		writeS(_requestorName);
-
+		
 	}
-
+	
 	@Override
 	public String getType()
 	{

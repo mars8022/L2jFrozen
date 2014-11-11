@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.handler.skillhandlers;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.handler.ISkillHandler;
 import com.l2jfrozen.gameserver.model.L2Character;
@@ -28,32 +28,37 @@ import com.l2jfrozen.gameserver.model.L2Skill.SkillType;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
 /**
- * @author _drunk_ TODO To change the template for this generated type comment go to Window - Preferences - Java - Code
- *         Style - Code Templates
+ * @author _drunk_ TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code Templates
  */
 public class DrainSoul implements ISkillHandler
 {
-	private static Logger _log = Logger.getLogger(DrainSoul.class.getName());
-	private static final SkillType[] SKILL_IDS = { SkillType.DRAIN_SOUL };
-
-	@Override
-	public void useSkill(L2Character activeChar, L2Skill skill, L2Object[] targets)
+	private static Logger LOGGER = Logger.getLogger(DrainSoul.class);
+	private static final SkillType[] SKILL_IDS =
 	{
-		if(!(activeChar instanceof L2PcInstance))
+		SkillType.DRAIN_SOUL
+	};
+	
+	@Override
+	public void useSkill(final L2Character activeChar, final L2Skill skill, final L2Object[] targets)
+	{
+		if (!(activeChar instanceof L2PcInstance))
 			return;
-
+		
 		L2Object[] targetList = skill.getTargetList(activeChar);
-
-		if(targetList == null){ return; }
-
+		
+		if (targetList == null)
+		{
+			return;
+		}
+		
 		targetList = null;
-
-		_log.fine("Soul Crystal casting succeded.");
-
+		
+		LOGGER.info("Soul Crystal casting succeded.");
+		
 		// This is just a dummy skill handler for the soul crystal skill,
 		// since the Soul Crystal item handler already does everything.
 	}
-
+	
 	@Override
 	public SkillType[] getSkillIds()
 	{

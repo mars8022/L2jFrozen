@@ -19,11 +19,8 @@ import java.util.ArrayList;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.skills.Env;
 
-
-
 /**
- * The Class ConditionPlayerClassIdRestriction.
- * Credits: l2jserver
+ * The Class ConditionPlayerClassIdRestriction. Credits: l2jserver
  */
 public class ConditionPlayerClassIdRestriction extends Condition
 {
@@ -31,22 +28,22 @@ public class ConditionPlayerClassIdRestriction extends Condition
 	
 	/**
 	 * Instantiates a new condition player class id restriction.
-	 *
 	 * @param classId the class id
 	 */
-	public ConditionPlayerClassIdRestriction(ArrayList<Integer> classId)
+	public ConditionPlayerClassIdRestriction(final ArrayList<Integer> classId)
 	{
 		_classIds = classId;
 	}
 	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jserver.gameserver.skills.conditions.Condition#testImpl(com.l2jserver.gameserver.skills.Env)
 	 */
 	@Override
-	public boolean testImpl(Env env)
+	public boolean testImpl(final Env env)
 	{
 		if (!(env.player instanceof L2PcInstance))
 			return false;
-		return (_classIds.contains(((L2PcInstance)env.player).getClassId().getId()));
+		return (_classIds.contains(((L2PcInstance) env.player).getClassId().getId()));
 	}
 }

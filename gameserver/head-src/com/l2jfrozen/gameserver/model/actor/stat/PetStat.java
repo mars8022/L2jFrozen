@@ -30,84 +30,82 @@ import com.l2jfrozen.gameserver.skills.Stats;
 
 public class PetStat extends SummonStat
 {
-	public PetStat(L2PetInstance activeChar)
+	public PetStat(final L2PetInstance activeChar)
 	{
 		super(activeChar);
 	}
 	
-	public boolean addExp(int value)
+	public boolean addExp(final int value)
 	{
-		if(!super.addExp(value))
+		if (!super.addExp(value))
 			return false;
-
-		/* Micht : Use of PetInfo for C5
-		StatusUpdate su = new StatusUpdate(getActiveChar().getObjectId());
-		su.addAttribute(StatusUpdate.EXP, getExp());
-		getActiveChar().broadcastPacket(su);
-		*/
+		
+		/*
+		 * Micht : Use of PetInfo for C5 StatusUpdate su = new StatusUpdate(getActiveChar().getObjectId()); su.addAttribute(StatusUpdate.EXP, getExp()); getActiveChar().broadcastPacket(su);
+		 */
 		getActiveChar().broadcastPacket(new PetInfo(getActiveChar()));
-		// The PetInfo packet wipes the PartySpelled (list of active  spells' icons).  Re-add them
+		// The PetInfo packet wipes the PartySpelled (list of active spells' icons). Re-add them
 		getActiveChar().updateEffectIcons(true);
-
+		
 		return true;
 	}
-
+	
 	@Override
-	public boolean addExpAndSp(long addToExp, int addToSp)
+	public boolean addExpAndSp(final long addToExp, final int addToSp)
 	{
-		if(!super.addExpAndSp(addToExp, addToSp))
+		if (!super.addExpAndSp(addToExp, addToSp))
 			return false;
-
+		
 		SystemMessage sm = new SystemMessage(SystemMessageId.PET_EARNED_S1_EXP);
 		sm.addNumber((int) addToExp);
-
+		
 		getActiveChar().getOwner().sendPacket(sm);
 		sm = null;
-
+		
 		return true;
 	}
-
+	
 	@Override
-	public final boolean addLevel(byte value)
+	public final boolean addLevel(final byte value)
 	{
-		if(getLevel() + value > ExperienceData.getInstance().getMaxLevel() - 1)
+		if (getLevel() + value > ExperienceData.getInstance().getMaxLevel() - 1)
 			return false;
-
-		boolean levelIncreased = super.addLevel(value);
-
+		
+		final boolean levelIncreased = super.addLevel(value);
+		
 		// Sync up exp with current level
-		if(getExp() > getExpForLevel(getLevel() + 1) || getExp() < getExpForLevel(getLevel()))
+		if (getExp() > getExpForLevel(getLevel() + 1) || getExp() < getExpForLevel(getLevel()))
 		{
 			setExp(ExperienceData.getInstance().getExpForLevel(getLevel()));
 		}
-
-		if(levelIncreased)
+		
+		if (levelIncreased)
 		{
 			getActiveChar().getOwner().sendMessage("Your pet has increased it's level.");
 		}
-
+		
 		StatusUpdate su = new StatusUpdate(getActiveChar().getObjectId());
 		su.addAttribute(StatusUpdate.LEVEL, getLevel());
 		su.addAttribute(StatusUpdate.MAX_HP, getMaxHp());
 		su.addAttribute(StatusUpdate.MAX_MP, getMaxMp());
 		getActiveChar().broadcastPacket(su);
 		su = null;
-
+		
 		// Send a Server->Client packet PetInfo to the L2PcInstance
 		getActiveChar().getOwner().sendPacket(new PetInfo(getActiveChar()));
-		// The PetInfo packet wipes the PartySpelled (list of active  spells' icons).  Re-add them
+		// The PetInfo packet wipes the PartySpelled (list of active spells' icons). Re-add them
 		getActiveChar().updateEffectIcons(true);
-
-		if(getActiveChar().getControlItem() != null)
+		
+		if (getActiveChar().getControlItem() != null)
 		{
 			getActiveChar().getControlItem().setEnchantLevel(getLevel());
 		}
-
+		
 		return levelIncreased;
 	}
-
+	
 	@Override
-	public final long getExpForLevel(int level)
+	public final long getExpForLevel(final int level)
 	{
 		return L2PetDataTable.getInstance().getPetData(getActiveChar().getNpcId(), level).getPetMaxExp();
 	}
@@ -117,58 +115,58 @@ public class PetStat extends SummonStat
 	{
 		return (L2PetInstance) super.getActiveChar();
 	}
-
+	
 	public final int getFeedBattle()
 	{
 		return getActiveChar().getPetData().getPetFeedBattle();
 	}
-
+	
 	public final int getFeedNormal()
 	{
 		return getActiveChar().getPetData().getPetFeedNormal();
 	}
-
+	
 	@Override
-	public void setLevel(int value)
+	public void setLevel(final int value)
 	{
 		getActiveChar().stopFeed();
 		super.setLevel(value);
-
+		
 		getActiveChar().setPetData(L2PetDataTable.getInstance().getPetData(getActiveChar().getTemplate().npcId, getLevel()));
 		getActiveChar().startFeed(false);
-
-		if(getActiveChar().getControlItem() != null)
+		
+		if (getActiveChar().getControlItem() != null)
 		{
 			getActiveChar().getControlItem().setEnchantLevel(getLevel());
 		}
 	}
-
+	
 	public final int getMaxFeed()
 	{
 		return getActiveChar().getPetData().getPetMaxFeed();
 	}
-
+	
 	@Override
 	public int getMaxHp()
 	{
 		return (int) calcStat(Stats.MAX_HP, getActiveChar().getPetData().getPetMaxHP(), null, null);
 	}
-
+	
 	@Override
 	public int getMaxMp()
 	{
 		return (int) calcStat(Stats.MAX_MP, getActiveChar().getPetData().getPetMaxMP(), null, null);
 	}
-
+	
 	@Override
-	public int getMAtk(L2Character target, L2Skill skill)
+	public int getMAtk(final L2Character target, final L2Skill skill)
 	{
 		double attack = getActiveChar().getPetData().getPetMAtk();
 		Stats stat = skill == null ? null : skill.getStat();
-
-		if(stat != null)
+		
+		if (stat != null)
 		{
-			switch(stat)
+			switch (stat)
 			{
 				case AGGRESSION:
 					attack += getActiveChar().getTemplate().baseAggression;
@@ -214,67 +212,67 @@ public class PetStat extends SummonStat
 					break;
 			}
 		}
-
-		if(skill != null)
+		
+		if (skill != null)
 		{
 			attack += skill.getPower();
 		}
-
+		
 		stat = null;
-
+		
 		return (int) calcStat(Stats.MAGIC_ATTACK, attack, target, skill);
 	}
-
+	
 	@Override
-	public int getMDef(L2Character target, L2Skill skill)
+	public int getMDef(final L2Character target, final L2Skill skill)
 	{
-		double defence = getActiveChar().getPetData().getPetMDef();
-
+		final double defence = getActiveChar().getPetData().getPetMDef();
+		
 		return (int) calcStat(Stats.MAGIC_DEFENCE, defence, target, skill);
 	}
-
+	
 	@Override
-	public int getPAtk(L2Character target)
+	public int getPAtk(final L2Character target)
 	{
 		return (int) calcStat(Stats.POWER_ATTACK, getActiveChar().getPetData().getPetPAtk(), target, null);
 	}
-
+	
 	@Override
-	public int getPDef(L2Character target)
+	public int getPDef(final L2Character target)
 	{
 		return (int) calcStat(Stats.POWER_DEFENCE, getActiveChar().getPetData().getPetPDef(), target, null);
 	}
-
+	
 	@Override
 	public int getAccuracy()
 	{
 		return (int) calcStat(Stats.ACCURACY_COMBAT, getActiveChar().getPetData().getPetAccuracy(), null, null);
 	}
-
+	
 	@Override
-	public int getCriticalHit(L2Character target, L2Skill skill)
+	public int getCriticalHit(final L2Character target, final L2Skill skill)
 	{
 		return (int) calcStat(Stats.CRITICAL_RATE, getActiveChar().getPetData().getPetCritical(), target, null);
 	}
-
+	
 	@Override
-	public int getEvasionRate(L2Character target)
+	public int getEvasionRate(final L2Character target)
 	{
 		return (int) calcStat(Stats.EVASION_RATE, getActiveChar().getPetData().getPetEvasion(), target, null);
 	}
-
+	
 	@Override
 	public int getRunSpeed()
 	{
 		return (int) calcStat(Stats.RUN_SPEED, getActiveChar().getPetData().getPetSpeed(), null, null);
 	}
-
+	
 	@Override
 	public int getPAtkSpd()
 	{
 		return (int) calcStat(Stats.POWER_ATTACK_SPEED, getActiveChar().getPetData().getPetAtkSpeed(), null, null);
 	}
-
+	
 	@Override
 	public int getMAtkSpd()
 	{

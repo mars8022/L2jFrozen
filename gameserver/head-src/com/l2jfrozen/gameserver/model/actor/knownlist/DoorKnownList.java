@@ -27,20 +27,20 @@ public class DoorKnownList extends CharKnownList
 {
 	// =========================================================
 	// Data Field
-
+	
 	// =========================================================
 	// Constructor
-	public DoorKnownList(L2DoorInstance activeChar)
+	public DoorKnownList(final L2DoorInstance activeChar)
 	{
 		super(activeChar);
 	}
-
+	
 	// =========================================================
 	// Method - Public
-
+	
 	// =========================================================
 	// Method - Private
-
+	
 	// =========================================================
 	// Property - Public
 	@Override
@@ -48,28 +48,28 @@ public class DoorKnownList extends CharKnownList
 	{
 		return (L2DoorInstance) super.getActiveChar();
 	}
-
+	
 	@Override
-	public int getDistanceToForgetObject(L2Object object)
+	public int getDistanceToForgetObject(final L2Object object)
 	{
-		if(object instanceof L2SiegeGuardInstance || object instanceof L2FortSiegeGuardInstance)
+		if (object instanceof L2SiegeGuardInstance || object instanceof L2FortSiegeGuardInstance)
 			return 800;
-
-		if(!(object instanceof L2PcInstance))
+		
+		if (!(object instanceof L2PcInstance))
 			return 0;
-
+		
 		return 4000;
 	}
-
+	
 	@Override
-	public int getDistanceToWatchObject(L2Object object)
+	public int getDistanceToWatchObject(final L2Object object)
 	{
-		if(object instanceof L2SiegeGuardInstance || object instanceof L2FortSiegeGuardInstance)
+		if (object instanceof L2SiegeGuardInstance || object instanceof L2FortSiegeGuardInstance)
 			return 600;
-
-		if(!(object instanceof L2PcInstance))
+		
+		if (!(object instanceof L2PcInstance))
 			return 0;
-
+		
 		return 2000;
 	}
 }

@@ -41,11 +41,11 @@ public class AdminRideWyvern implements IAdminCommandHandler
 	private int _petRideId;
 	
 	@Override
-	public boolean useAdminCommand(String command, L2PcInstance activeChar)
+	public boolean useAdminCommand(final String command, final L2PcInstance activeChar)
 	{
 		/*
 		 * if(!AdminCommandAccessRights.getInstance().hasAccess(command, activeChar.getAccessLevel())){ return false; } if(Config.GMAUDIT) { Logger _logAudit = Logger.getLogger("gmaudit"); LogRecord record = new LogRecord(Level.INFO, command); record.setParameters(new Object[] { "GM: " +
-		 * activeChar.getName(), " to target [" + activeChar.getTarget() + "] " }); _logAudit.log(record); }
+		 * activeChar.getName(), " to target [" + activeChar.getTarget() + "] " }); _logAudit.LOGGER(record); }
 		 */
 		
 		if (command.startsWith("admin_ride"))
@@ -92,7 +92,7 @@ public class AdminRideWyvern implements IAdminCommandHandler
 			mount = null;
 		}
 		else if (command.startsWith("admin_unride"))
-		{	
+		{
 			if (activeChar.isFlying())
 			{
 				// Remove skill Wyvern Breath
@@ -101,7 +101,7 @@ public class AdminRideWyvern implements IAdminCommandHandler
 			}
 			
 			if (activeChar.setMountType(0))
-			{			
+			{
 				Ride dismount = new Ride(activeChar.getObjectId(), Ride.ACTION_DISMOUNT, 0);
 				activeChar.broadcastPacket(dismount);
 				dismount = null;

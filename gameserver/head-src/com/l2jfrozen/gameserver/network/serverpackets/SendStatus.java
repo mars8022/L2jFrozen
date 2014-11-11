@@ -27,55 +27,56 @@ public final class SendStatus extends L2GameServerPacket
 	private int max_online = 0;
 	private int online_priv_store = 0;
 	private float priv_store_factor = 0;
-
+	
 	@Override
 	public void runImpl()
-	{}
-
+	{
+	}
+	
 	@Override
 	protected final void writeImpl()
 	{
-		Random ppc = new Random();
+		final Random ppc = new Random();
 		online_players = L2World.getAllPlayersCount() + Config.RWHO_ONLINE_INCREMENT;
-
-		if(online_players > Config.RWHO_MAX_ONLINE)
+		
+		if (online_players > Config.RWHO_MAX_ONLINE)
 		{
 			Config.RWHO_MAX_ONLINE = online_players;
 		}
-
+		
 		max_online = Config.RWHO_MAX_ONLINE;
 		priv_store_factor = Config.RWHO_PRIV_STORE_FACTOR;
-
+		
 		online_players = L2World.getAllPlayersCount() + L2World.getAllPlayersCount() * Config.RWHO_ONLINE_INCREMENT / 100 + Config.RWHO_FORCE_INC;
 		online_priv_store = (int) (online_players * priv_store_factor / 100);
-
+		
 		writeC(0x00); // Packet ID
 		writeD(0x01); // World ID
 		writeD(max_online); // Max Online
 		writeD(online_players); // Current Online
 		writeD(online_players); // Current Online
 		writeD(online_priv_store); // Priv.Sotre Chars
-
-		//     SEND TRASH
-		if(Config.RWHO_SEND_TRASH)
+		
+		// SEND TRASH
+		if (Config.RWHO_SEND_TRASH)
 		{
 			writeH(0x30);
 			writeH(0x2C);
-
+			
 			writeH(0x36);
 			writeH(0x2C);
-
-			if(Config.RWHO_ARRAY[12] == Config.RWHO_KEEP_STAT)
+			
+			if (Config.RWHO_ARRAY[12] == Config.RWHO_KEEP_STAT)
 			{
 				int z;
 				z = ppc.nextInt(6);
-				if(z == 0)
+				if (z == 0)
 				{
 					z += 2;
 				}
-				for(int x = 0; x < 8; x++)
+				for (int x = 0; x < 8; x++)
 				{
-					if(x == 4)
+					if (x == 4)
 					{
 						Config.RWHO_ARRAY[x] = 44;
 					}
@@ -91,30 +92,31 @@ public final class SendStatus extends L2GameServerPacket
 				Config.RWHO_ARRAY[10] = z;
 				Config.RWHO_ARRAY[12] = 1;
 			}
-
-			for(int z = 0; z < 8; z++)
+			
+			for (int z = 0; z < 8; z++)
 			{
-				if(z == 3)
+				if (z == 3)
 				{
 					Config.RWHO_ARRAY[z] -= 1;
 				}
 				writeH(Config.RWHO_ARRAY[z]);
 			}
-
+			
 			writeD(Config.RWHO_ARRAY[8]);
 			writeD(Config.RWHO_ARRAY[9]);
 			writeD(Config.RWHO_ARRAY[10]);
 			writeD(Config.RWHO_ARRAY[11]);
 			Config.RWHO_ARRAY[12]++;
-
+			
 			writeD(0x00);
 			writeD(0x02);
-
+			
 		}
 	}
-
-	/* (non-Javadoc) 
-	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType() 
+	
+	/*
+	 * (non-Javadoc)
+	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType()
 	 */
 	@Override
 	public String getType()

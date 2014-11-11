@@ -25,18 +25,18 @@ import com.l2jfrozen.gameserver.skills.Env;
  */
 public class ConditionTargetLevel extends Condition
 {
-
+	
 	private final int _level;
-
-	public ConditionTargetLevel(int level)
+	
+	public ConditionTargetLevel(final int level)
 	{
 		_level = level;
 	}
-
+	
 	@Override
-	public boolean testImpl(Env env)
+	public boolean testImpl(final Env env)
 	{
-		if(env.target == null)
+		if (env.target == null)
 			return false;
 		return env.target.getLevel() >= _level;
 	}

@@ -29,27 +29,27 @@ public final class AnswerJoinPartyRoom extends L2GameClientPacket
 {
 	private int _answer; // 1 or 0
 	
-    @Override
-    protected void readImpl()
-    {
-    	_answer = readD();
-    }
-
-    @Override
-    protected void runImpl()
-    {
+	@Override
+	protected void readImpl()
+	{
+		_answer = readD();
+	}
+	
+	@Override
+	protected void runImpl()
+	{
 		final L2PcInstance player = getClient().getActiveChar();
 		if (player == null)
 			return;
 		
-		L2PcInstance partner = player.getActiveRequester();
-        if (partner == null)
-        {
-            // Partner hasn't be found, cancel the invitation
-            player.sendPacket(new SystemMessage(SystemMessageId.TARGET_IS_NOT_FOUND_IN_THE_GAME));
+		final L2PcInstance partner = player.getActiveRequester();
+		if (partner == null)
+		{
+			// Partner hasn't be found, cancel the invitation
+			player.sendPacket(new SystemMessage(SystemMessageId.TARGET_IS_NOT_FOUND_IN_THE_GAME));
 			player.setActiveRequester(null);
-            return;
-        }
+			return;
+		}
 		else if (L2World.getInstance().getPlayer(partner.getObjectId()) == null)
 		{
 			// Partner hasn't be found, cancel the invitation
@@ -57,49 +57,49 @@ public final class AnswerJoinPartyRoom extends L2GameClientPacket
 			player.setActiveRequester(null);
 			return;
 		}
-        
+		
 		// If answer is positive, join the requester's PartyRoom.
-        if (_answer == 1 && !partner.isRequestExpired())
-        {
-    		PartyMatchRoom _room = PartyMatchRoomList.getInstance().getRoom(partner.getPartyRoom());
-    		if (_room == null)
-    			return;
-    		
-    		if ((player.getLevel() >= _room.getMinLvl()) && (player.getLevel() <= _room.getMaxLvl()))
-    		{
-    			// Remove from waiting list
-    			PartyMatchWaitingList.getInstance().removePlayer(player);
-    			
-    			player.setPartyRoom(partner.getPartyRoom());
-    			
-    			player.sendPacket(new PartyMatchDetail(player, _room));
-    			player.sendPacket(new ExPartyRoomMember(player, _room, 0));
-    			
-    			for (L2PcInstance _member : _room.getPartyMembers())
-    			{
-    				if (_member == null)
-    					continue;
-    				
-    				_member.sendPacket(new ExManagePartyRoomMember(player, _room, 0));
-    				_member.sendPacket(new SystemMessage(SystemMessageId.S1_ENTERED_PARTY_ROOM).addString(player.getName()));
-    			}
-    			_room.addMember(player);
-    			
-    			// Info Broadcast
-    			player.broadcastUserInfo();
-    		}
-    		else
-    			player.sendPacket(new SystemMessage(SystemMessageId.CANT_ENTER_PARTY_ROOM));
-        }
-        // Else, send a message to requester.
-        else
-        	partner.sendPacket(new SystemMessage(SystemMessageId.PARTY_MATCHING_REQUEST_NO_RESPONSE));
-        
-        // reset transaction timers
+		if (_answer == 1 && !partner.isRequestExpired())
+		{
+			final PartyMatchRoom _room = PartyMatchRoomList.getInstance().getRoom(partner.getPartyRoom());
+			if (_room == null)
+				return;
+			
+			if ((player.getLevel() >= _room.getMinLvl()) && (player.getLevel() <= _room.getMaxLvl()))
+			{
+				// Remove from waiting list
+				PartyMatchWaitingList.getInstance().removePlayer(player);
+				
+				player.setPartyRoom(partner.getPartyRoom());
+				
+				player.sendPacket(new PartyMatchDetail(player, _room));
+				player.sendPacket(new ExPartyRoomMember(player, _room, 0));
+				
+				for (final L2PcInstance _member : _room.getPartyMembers())
+				{
+					if (_member == null)
+						continue;
+					
+					_member.sendPacket(new ExManagePartyRoomMember(player, _room, 0));
+					_member.sendPacket(new SystemMessage(SystemMessageId.S1_ENTERED_PARTY_ROOM).addString(player.getName()));
+				}
+				_room.addMember(player);
+				
+				// Info Broadcast
+				player.broadcastUserInfo();
+			}
+			else
+				player.sendPacket(new SystemMessage(SystemMessageId.CANT_ENTER_PARTY_ROOM));
+		}
+		// Else, send a message to requester.
+		else
+			partner.sendPacket(new SystemMessage(SystemMessageId.PARTY_MATCHING_REQUEST_NO_RESPONSE));
+		
+		// reset transaction timers
 		player.setActiveRequester(null);
 		partner.onTransactionResponse();
-    }
-
+	}
+	
 	@Override
 	public String getType()
 	{

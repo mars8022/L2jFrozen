@@ -25,18 +25,18 @@ import com.l2jfrozen.loginserver.network.clientpackets.ClientBasePacket;
  */
 public class PlayerLogout extends ClientBasePacket
 {
-
-	private String _account;
-
+	
+	private final String _account;
+	
 	/**
 	 * @param decrypt
 	 */
-	public PlayerLogout(byte[] decrypt)
+	public PlayerLogout(final byte[] decrypt)
 	{
 		super(decrypt);
 		_account = readS();
 	}
-
+	
 	/**
 	 * @return Returns the account.
 	 */
@@ -44,5 +44,5 @@ public class PlayerLogout extends ClientBasePacket
 	{
 		return _account;
 	}
-
+	
 }

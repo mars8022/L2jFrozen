@@ -22,9 +22,7 @@ import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Object;
 
 /**
- * sample 06 8f19904b 2522d04b 00000000 80 950c0000 4af50000 08f2ffff 0000 - 0 damage (missed 0x80) 06 85071048 bc0e504b
- * 32000000 10 fc41ffff fd240200 a6f5ffff 0100 bc0e504b 33000000 10 3.... format dddc dddh (ddc)
- * 
+ * sample 06 8f19904b 2522d04b 00000000 80 950c0000 4af50000 08f2ffff 0000 - 0 damage (missed 0x80) 06 85071048 bc0e504b 32000000 10 fc41ffff fd240200 a6f5ffff 0100 bc0e504b 33000000 10 3.... format dddc dddh (ddc)
  * @version $Revision: 1.3.2.1.2.4 $ $Date: 2005/03/27 15:29:39 $
  */
 public class Attack extends L2GameServerPacket
@@ -34,48 +32,48 @@ public class Attack extends L2GameServerPacket
 		protected int _targetId;
 		protected int _damage;
 		protected int _flags;
-
-		Hit(L2Object target, int damage, boolean miss, boolean crit, boolean shld)
+		
+		Hit(final L2Object target, final int damage, final boolean miss, final boolean crit, final boolean shld)
 		{
 			_targetId = target.getObjectId();
 			_damage = damage;
-			if(soulshot)
+			if (soulshot)
 			{
 				_flags |= 0x10 | _grade;
 			}
-			if(crit)
+			if (crit)
 			{
 				_flags |= 0x20;
 			}
-			if(shld)
+			if (shld)
 			{
 				_flags |= 0x40;
 			}
-			if(miss)
+			if (miss)
 			{
 				_flags |= 0x80;
 			}
-
+			
 		}
 	}
-
+	
 	// dh
-
+	
 	private static final String _S__06_ATTACK = "[S] 06 Attack";
 	protected final int _attackerObjId;
 	public final boolean soulshot;
 	protected int _grade;
-	private int _x;
-	private int _y;
-	private int _z;
+	private final int _x;
+	private final int _y;
+	private final int _z;
 	private Hit[] _hits;
-
+	
 	/**
 	 * @param attacker the attacker L2Character
 	 * @param ss true if useing SoulShots
-	 * @param grade 
+	 * @param grade
 	 */
-	public Attack(L2Character attacker, boolean ss, int grade)
+	public Attack(final L2Character attacker, final boolean ss, final int grade)
 	{
 		_attackerObjId = attacker.getObjectId();
 		soulshot = ss;
@@ -85,46 +83,43 @@ public class Attack extends L2GameServerPacket
 		_z = attacker.getZ();
 		_hits = new Hit[0];
 	}
-
+	
 	/**
 	 * Add this hit (target, damage, miss, critical, shield) to the Server-Client packet Attack.
-	 * @param target 
-	 * @param damage 
-	 * @param miss 
-	 * @param crit 
-	 * @param shld 
+	 * @param target
+	 * @param damage
+	 * @param miss
+	 * @param crit
+	 * @param shld
 	 */
-	public void addHit(L2Object target, int damage, boolean miss, boolean crit, boolean shld)
+	public void addHit(final L2Object target, final int damage, final boolean miss, final boolean crit, final boolean shld)
 	{
 		// Get the last position in the hits table
-		int pos = _hits.length;
-
+		final int pos = _hits.length;
+		
 		// Create a new Hit object
-		Hit[] tmp = new Hit[pos + 1];
-
+		final Hit[] tmp = new Hit[pos + 1];
+		
 		// Add the new Hit object to hits table
-		for(int i = 0; i < _hits.length; i++)
-		{
-			tmp[i] = _hits[i];
-		}
+		System.arraycopy(_hits, 0, tmp, 0, _hits.length);
 		tmp[pos] = new Hit(target, damage, miss, crit, shld);
 		_hits = tmp;
 	}
-
+	
 	/**
 	 * Return True if the Server-Client packet Attack contains at least 1 hit.
-	 * @return 
+	 * @return
 	 */
 	public boolean hasHits()
 	{
 		return _hits.length > 0;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
 		writeC(0x05);
-
+		
 		writeD(_attackerObjId);
 		writeD(_hits[0]._targetId);
 		writeD(_hits[0]._damage);
@@ -133,15 +128,16 @@ public class Attack extends L2GameServerPacket
 		writeD(_y);
 		writeD(_z);
 		writeH(_hits.length - 1);
-		for(int i = 1; i < _hits.length; i++)
+		for (int i = 1; i < _hits.length; i++)
 		{
 			writeD(_hits[i]._targetId);
 			writeD(_hits[i]._damage);
 			writeC(_hits[i]._flags);
 		}
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType()
 	 */
 	@Override

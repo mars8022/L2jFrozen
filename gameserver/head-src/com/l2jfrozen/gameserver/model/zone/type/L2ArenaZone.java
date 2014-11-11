@@ -26,105 +26,106 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 
 /**
  * An arena
- * 
  * @author durgus
  */
 public class L2ArenaZone extends L2ZoneType
 {
-//	private String _arenaName;
-	private int[] _spawnLoc;
-
-	public L2ArenaZone(int id)
+	// private String _arenaName;
+	private final int[] _spawnLoc;
+	
+	public L2ArenaZone(final int id)
 	{
 		super(id);
-
+		
 		_spawnLoc = new int[3];
 	}
-
+	
 	@Override
-	public void setParameter(String name, String value)
+	public void setParameter(final String name, final String value)
 	{
-//		if(name.equals("name"))
-//		{
-//			_arenaName = value;
-//		}
-		/*else */if(name.equals("spawnX"))
+		// if(name.equals("name"))
+		// {
+		// _arenaName = value;
+		// }
+		/* else */
+		switch (name)
 		{
-			_spawnLoc[0] = Integer.parseInt(value);
-		}
-		else if(name.equals("spawnY"))
-		{
-			_spawnLoc[1] = Integer.parseInt(value);
-		}
-		else if(name.equals("spawnZ"))
-		{
-			_spawnLoc[2] = Integer.parseInt(value);
-		}
-		else
-		{
-			super.setParameter(name, value);
+			case "spawnX":
+				_spawnLoc[0] = Integer.parseInt(value);
+				break;
+			case "spawnY":
+				_spawnLoc[1] = Integer.parseInt(value);
+				break;
+			case "spawnZ":
+				_spawnLoc[2] = Integer.parseInt(value);
+				break;
+			default:
+				super.setParameter(name, value);
+				break;
 		}
 	}
-
+	
 	@Override
-	protected void onEnter(L2Character character)
+	protected void onEnter(final L2Character character)
 	{
 		character.setInsideZone(L2Character.ZONE_PVP, true);
-
-		if(character instanceof L2PcInstance)
+		
+		if (character instanceof L2PcInstance)
 		{
 			((L2PcInstance) character).sendPacket(new SystemMessage(SystemMessageId.ENTERED_COMBAT_ZONE));
 		}
 	}
-
+	
 	@Override
-	protected void onExit(L2Character character)
+	protected void onExit(final L2Character character)
 	{
 		character.setInsideZone(L2Character.ZONE_PVP, false);
-
-		if(character instanceof L2PcInstance)
+		
+		if (character instanceof L2PcInstance)
 		{
 			((L2PcInstance) character).sendPacket(new SystemMessage(SystemMessageId.LEFT_COMBAT_ZONE));
 		}
 	}
-
+	
 	@Override
-	protected void onDieInside(L2Character character)
-	{}
-
+	protected void onDieInside(final L2Character character)
+	{
+	}
+	
 	@Override
-	protected void onReviveInside(L2Character character)
-	{}
-
+	protected void onReviveInside(final L2Character character)
+	{
+	}
+	
 	public void oustAllPlayers()
 	{
-		if(_characterList == null)
+		if (_characterList == null)
 			return;
-
-		if(_characterList.isEmpty())
+		
+		if (_characterList.isEmpty())
 			return;
-
-		for(L2Character character : _characterList.values())
+		
+		for (final L2Character character : _characterList.values())
 		{
-			if(character == null)
+			if (character == null)
 			{
 				continue;
 			}
-
-			if(character instanceof L2PcInstance)
+			
+			if (character instanceof L2PcInstance)
 			{
 				L2PcInstance player = (L2PcInstance) character;
-
-				if(player.isOnline() == 1)
+				
+				if (player.isOnline() == 1)
 				{
 					player.teleToLocation(MapRegionTable.TeleportWhereType.Town);
 				}
-
+				
 				player = null;
 			}
 		}
 	}
-
+	
 	public final int[] getSpawnLoc()
 	{
 		return _spawnLoc;

@@ -28,39 +28,39 @@ import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 public final class RequestPetGetItem extends L2GameClientPacket
 {
 	private int _objectId;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_objectId = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-		L2World world = L2World.getInstance();
-		L2ItemInstance item = (L2ItemInstance) world.findObject(_objectId);
-
-		if(item == null || getClient().getActiveChar() == null)
+		final L2World world = L2World.getInstance();
+		final L2ItemInstance item = (L2ItemInstance) world.findObject(_objectId);
+		
+		if (item == null || getClient().getActiveChar() == null)
 			return;
-
-		if(getClient().getActiveChar().getPet() instanceof L2SummonInstance)
+		
+		if (getClient().getActiveChar().getPet() instanceof L2SummonInstance)
 		{
 			sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-
-		L2PetInstance pet = (L2PetInstance) getClient().getActiveChar().getPet();
-
-		if(pet == null || pet.isDead() || pet.isOutOfControl())
+		
+		final L2PetInstance pet = (L2PetInstance) getClient().getActiveChar().getPet();
+		
+		if (pet == null || pet.isDead() || pet.isOutOfControl())
 		{
 			sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-
+		
 		pet.getAI().setIntention(CtrlIntention.AI_INTENTION_PICK_UP, item);
 	}
-
+	
 	@Override
 	public String getType()
 	{

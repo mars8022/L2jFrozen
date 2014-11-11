@@ -27,16 +27,20 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
  * 3 section to this packet 1)playerinfo which is always sent dd 2)list of items which can be added to sell d(hhddddhhhd) 3)list of items which have already been setup for sell in previous sell private store sell manageent d(hhddddhhhdd) *
  * @version $Revision: 1.3.2.1.2.3 $ $Date: 2005/03/27 15:29:39 $
  */
+
+/*
+ * In memory of our friend Vadim 03/11/2014
+ */
 public class PrivateStoreManageListSell extends L2GameServerPacket
 {
 	private static final String _S__B3_PRIVATESELLLISTSELL = "[S] 9a PrivateSellListSell";
-	private L2PcInstance _activeChar;
+	private final L2PcInstance _activeChar;
 	private int _playerAdena;
-	private boolean _packageSale;
-	private TradeList.TradeItem[] _itemList;
-	private TradeList.TradeItem[] _sellList;
+	private final boolean _packageSale;
+	private final TradeList.TradeItem[] _itemList;
+	private final TradeList.TradeItem[] _sellList;
 	
-	public PrivateStoreManageListSell(L2PcInstance player)
+	public PrivateStoreManageListSell(final L2PcInstance player)
 	{
 		_activeChar = player;
 		
@@ -69,7 +73,7 @@ public class PrivateStoreManageListSell extends L2GameServerPacket
 		
 		// section2
 		writeD(_itemList.length - _sellList.length); // for potential sells
-		for (TradeList.TradeItem item : _itemList)
+		for (final TradeList.TradeItem item : _itemList)
 		{
 			if (isItemInSelling(item) == false)
 			{
@@ -86,7 +90,7 @@ public class PrivateStoreManageListSell extends L2GameServerPacket
 		}
 		// section 3
 		writeD(_sellList.length); // count for any items already added for sell
-		for (TradeList.TradeItem item : _sellList)
+		for (final TradeList.TradeItem item : _sellList)
 		{
 			writeD(item.getItem().getType2());
 			writeD(item.getObjectId());
@@ -101,9 +105,9 @@ public class PrivateStoreManageListSell extends L2GameServerPacket
 		}
 	}
 	
-	private boolean isItemInSelling(TradeItem item_)
+	private boolean isItemInSelling(final TradeItem item_)
 	{
-		for (TradeList.TradeItem itemSell : _sellList)
+		for (final TradeList.TradeItem itemSell : _sellList)
 		{
 			if (itemSell.getObjectId() == item_.getObjectId())
 			{

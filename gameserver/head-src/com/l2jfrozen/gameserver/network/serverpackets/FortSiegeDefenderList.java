@@ -15,7 +15,7 @@
 package com.l2jfrozen.gameserver.network.serverpackets;
 
 //import java.util.Calendar; //signed time related
-//import java.util.logging.Logger;
+//import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.datatables.sql.ClanTable;
 import com.l2jfrozen.gameserver.model.L2Clan;
@@ -46,56 +46,55 @@ import com.l2jfrozen.gameserver.model.entity.siege.Fort;
  * S = AllyName<BR>
  * S = AllyLeaderName<BR>
  * d = AllyCrestID<BR>
- * 
  * @author programmos
  */
 public final class FortSiegeDefenderList extends L2GameServerPacket
 {
 	private static final String _S__CA_SiegeDefenderList = "[S] cb SiegeDefenderList";
-	//private static Logger _log = Logger.getLogger(SiegeDefenderList.class.getName());
-	private Fort _fort;
-
-	public FortSiegeDefenderList(Fort fort)
+	// private static Logger LOGGER = Logger.getLogger(SiegeDefenderList.class);
+	private final Fort _fort;
+	
+	public FortSiegeDefenderList(final Fort fort)
 	{
 		_fort = fort;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
 		writeC(0xcb);
 		writeD(_fort.getFortId());
-		writeD(0x00); //0
-		writeD(0x01); //1
-		writeD(0x00); //0
-		int size = _fort.getSiege().getDefenderClans().size() + _fort.getSiege().getDefenderWaitingClans().size();
-		if(size > 0)
+		writeD(0x00); // 0
+		writeD(0x01); // 1
+		writeD(0x00); // 0
+		final int size = _fort.getSiege().getDefenderClans().size() + _fort.getSiege().getDefenderWaitingClans().size();
+		if (size > 0)
 		{
 			L2Clan clan;
-
+			
 			writeD(size);
 			writeD(size);
 			// Listing the Lord and the approved clans
-			for(L2SiegeClan siegeclan : _fort.getSiege().getDefenderClans())
+			for (final L2SiegeClan siegeclan : _fort.getSiege().getDefenderClans())
 			{
 				clan = ClanTable.getInstance().getClan(siegeclan.getClanId());
-				if(clan == null)
+				if (clan == null)
 				{
 					continue;
 				}
-
+				
 				writeD(clan.getClanId());
 				writeS(clan.getName());
 				writeS(clan.getLeaderName());
 				writeD(clan.getCrestId());
-				writeD(0x00); //signed time (seconds) (not storated by L2J)
-				switch(siegeclan.getType())
+				writeD(0x00); // signed time (seconds) (not storated by L2J)
+				switch (siegeclan.getType())
 				{
 					case OWNER:
-						writeD(0x01); //owner
+						writeD(0x01); // owner
 						break;
 					case DEFENDER_PENDING:
-						writeD(0x02); //approved
+						writeD(0x02); // approved
 						break;
 					case DEFENDER:
 						writeD(0x03); // waiting approved
@@ -106,21 +105,21 @@ public final class FortSiegeDefenderList extends L2GameServerPacket
 				}
 				writeD(clan.getAllyId());
 				writeS(clan.getAllyName());
-				writeS(""); //AllyLeaderName
+				writeS(""); // AllyLeaderName
 				writeD(clan.getAllyCrestId());
 			}
-			for(L2SiegeClan siegeclan : _fort.getSiege().getDefenderWaitingClans())
+			for (final L2SiegeClan siegeclan : _fort.getSiege().getDefenderWaitingClans())
 			{
 				clan = ClanTable.getInstance().getClan(siegeclan.getClanId());
 				writeD(clan.getClanId());
 				writeS(clan.getName());
 				writeS(clan.getLeaderName());
 				writeD(clan.getCrestId());
-				writeD(0x00); //signed time (seconds) (not storated by L2J)
-				writeD(0x02); //waiting approval
+				writeD(0x00); // signed time (seconds) (not storated by L2J)
+				writeD(0x02); // waiting approval
 				writeD(clan.getAllyId());
 				writeS(clan.getAllyName());
-				writeS(""); //AllyLeaderName
+				writeS(""); // AllyLeaderName
 				writeD(clan.getAllyCrestId());
 			}
 		}
@@ -130,8 +129,9 @@ public final class FortSiegeDefenderList extends L2GameServerPacket
 			writeD(0x00);
 		}
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType()
 	 */
 	@Override
@@ -139,5 +139,5 @@ public final class FortSiegeDefenderList extends L2GameServerPacket
 	{
 		return _S__CA_SiegeDefenderList;
 	}
-
+	
 }

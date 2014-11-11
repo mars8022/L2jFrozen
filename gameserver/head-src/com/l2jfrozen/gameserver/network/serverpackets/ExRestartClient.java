@@ -20,7 +20,6 @@ package com.l2jfrozen.gameserver.network.serverpackets;
 
 /**
  * Format: (ch).
- *
  * @author -Wooden-
  */
 public class ExRestartClient extends L2GameServerPacket
@@ -34,10 +33,9 @@ public class ExRestartClient extends L2GameServerPacket
 		writeC(0xfe);
 		writeH(0x47);
 	}
-
+	
 	/**
 	 * Gets the type.
-	 *
 	 * @return the type
 	 */
 	@Override

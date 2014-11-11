@@ -32,17 +32,18 @@ import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
 
 /**
  * This class handles following admin commands: - server_shutdown [sec] = shows menu or shuts down server in sec seconds
- * 
  * @version $Revision: 1.5.2.1.2.4 $ $Date: 2005/04/11 10:06:06 $
  */
 public class AdminShutdown implements IAdminCommandHandler
 {
-	//private static Logger _log = Logger.getLogger(AdminShutdown.class.getName());
+	// private static Logger LOGGER = Logger.getLogger(AdminShutdown.class);
 	private static final String[] ADMIN_COMMANDS =
 	{
-			"admin_server_shutdown", "admin_server_restart", "admin_server_abort"
+		"admin_server_shutdown",
+		"admin_server_restart",
+		"admin_server_abort"
 	};
-
+	
 	private enum CommandEnum
 	{
 		admin_server_shutdown,
@@ -51,35 +52,38 @@ public class AdminShutdown implements IAdminCommandHandler
 	}
 	
 	@Override
-	public boolean useAdminCommand(String command, L2PcInstance activeChar)
+	public boolean useAdminCommand(final String command, final L2PcInstance activeChar)
 	{
-		StringTokenizer st = new StringTokenizer(command);
+		final StringTokenizer st = new StringTokenizer(command);
 		
-		CommandEnum comm = CommandEnum.valueOf(st.nextToken());
+		final CommandEnum comm = CommandEnum.valueOf(st.nextToken());
 		
-		if(comm == null)
+		if (comm == null)
 			return false;
 		
-		switch(comm)
+		switch (comm)
 		{
-			case admin_server_shutdown:{
+			case admin_server_shutdown:
+			{
 				
-				if(st.hasMoreTokens()){
+				if (st.hasMoreTokens())
+				{
 					
-					String secs = st.nextToken();
+					final String secs = st.nextToken();
 					
 					try
 					{
-						int val = Integer.parseInt(secs);
+						final int val = Integer.parseInt(secs);
 						
-						if(val>=0){
+						if (val >= 0)
+						{
 							serverShutdown(activeChar, val, false);
 							return true;
 						}
 						activeChar.sendMessage("Negative Value is not allowed");
 						return false;
 					}
-					catch(StringIndexOutOfBoundsException e)
+					catch (final StringIndexOutOfBoundsException e)
 					{
 						sendHtmlForm(activeChar);
 						return false;
@@ -89,26 +93,28 @@ public class AdminShutdown implements IAdminCommandHandler
 				sendHtmlForm(activeChar);
 				return false;
 				
-				
 			}
-			case admin_server_restart:{
+			case admin_server_restart:
+			{
 				
-				if(st.hasMoreTokens()){
+				if (st.hasMoreTokens())
+				{
 					
-					String secs = st.nextToken();
+					final String secs = st.nextToken();
 					
 					try
 					{
-						int val = Integer.parseInt(secs);
+						final int val = Integer.parseInt(secs);
 						
-						if(val>=0){
+						if (val >= 0)
+						{
 							serverShutdown(activeChar, val, true);
 							return true;
 						}
 						activeChar.sendMessage("Negative Value is not allowed");
 						return false;
 					}
-					catch(StringIndexOutOfBoundsException e)
+					catch (final StringIndexOutOfBoundsException e)
 					{
 						sendHtmlForm(activeChar);
 						return false;
@@ -117,7 +123,8 @@ public class AdminShutdown implements IAdminCommandHandler
 				sendHtmlForm(activeChar);
 				return false;
 			}
-			case admin_server_abort:{
+			case admin_server_abort:
+			{
 				
 				serverAbort(activeChar);
 				return true;
@@ -126,21 +133,21 @@ public class AdminShutdown implements IAdminCommandHandler
 		return false;
 		
 	}
-
+	
 	@Override
 	public String[] getAdminCommandList()
 	{
 		return ADMIN_COMMANDS;
 	}
-
-	private void sendHtmlForm(L2PcInstance activeChar)
+	
+	private void sendHtmlForm(final L2PcInstance activeChar)
 	{
 		NpcHtmlMessage adminReply = new NpcHtmlMessage(5);
-
-		int t = GameTimeController.getInstance().getGameTime();
-		int h = t / 60;
-		int m = t % 60;
-
+		
+		final int t = GameTimeController.getInstance().getGameTime();
+		final int h = t / 60;
+		final int m = t % 60;
+		
 		SimpleDateFormat format = new SimpleDateFormat("h:mm a");
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.HOUR_OF_DAY, h);
@@ -154,20 +161,20 @@ public class AdminShutdown implements IAdminCommandHandler
 		adminReply.replace("%drop%", String.valueOf(Config.RATE_DROP_ITEMS));
 		adminReply.replace("%time%", String.valueOf(format.format(cal.getTime())));
 		activeChar.sendPacket(adminReply);
-
+		
 		adminReply = null;
 		format = null;
 		cal = null;
 	}
-
-	private void serverShutdown(L2PcInstance activeChar, int seconds, boolean restart)
+	
+	private void serverShutdown(final L2PcInstance activeChar, final int seconds, final boolean restart)
 	{
 		Shutdown.getInstance().startShutdown(activeChar, seconds, restart);
 	}
-
-	private void serverAbort(L2PcInstance activeChar)
+	
+	private void serverAbort(final L2PcInstance activeChar)
 	{
 		Shutdown.getInstance().abort(activeChar);
 	}
-
+	
 }

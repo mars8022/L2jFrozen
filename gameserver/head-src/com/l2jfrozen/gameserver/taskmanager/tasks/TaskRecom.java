@@ -17,7 +17,7 @@
  */
 package com.l2jfrozen.gameserver.taskmanager.tasks;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
@@ -32,7 +32,7 @@ import com.l2jfrozen.gameserver.taskmanager.TaskTypes;
  */
 public class TaskRecom extends Task
 {
-	private static final Logger _log = Logger.getLogger(TaskRecom.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(TaskRecom.class);
 	private static final String NAME = "sp_recommendations";
 	
 	/*
@@ -50,14 +50,14 @@ public class TaskRecom extends Task
 	 * @see com.l2jfrozen.gameserver.taskmanager.Task#onTimeElapsed(com.l2jfrozen.gameserver.taskmanager.TaskManager.ExecutedTask)
 	 */
 	@Override
-	public void onTimeElapsed(ExecutedTask task)
+	public void onTimeElapsed(final ExecutedTask task)
 	{
-		for (L2PcInstance player : L2World.getInstance().getAllPlayers())
+		for (final L2PcInstance player : L2World.getInstance().getAllPlayers())
 		{
 			player.restartRecom();
 			player.sendPacket(new UserInfo(player));
 		}
-		_log.config("Recommendation Global Task: launched.");
+		LOGGER.info("[GlobalTask] Restart Recommendation launched.");
 	}
 	
 	@Override
@@ -65,5 +65,5 @@ public class TaskRecom extends Task
 	{
 		super.initializate();
 		TaskManager.addUniqueTask(NAME, TaskTypes.TYPE_GLOBAL_TASK, "1", "13:00:00", "");
-	}	
+	}
 }

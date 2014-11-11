@@ -18,14 +18,8 @@ import com.l2jfrozen.gameserver.managers.TownManager;
 import com.l2jfrozen.gameserver.model.PartyMatchRoom;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
-
 /**
- * @author Gnacik
- * 
- * Mode :
- * 		0 - add
- * 		1 - modify
- * 		2 - quit
+ * @author Gnacik Mode : 0 - add 1 - modify 2 - quit
  */
 public class ExManagePartyRoomMember extends L2GameServerPacket
 {
@@ -33,7 +27,7 @@ public class ExManagePartyRoomMember extends L2GameServerPacket
 	private final PartyMatchRoom _room;
 	private final int _mode;
 	
-	public ExManagePartyRoomMember(L2PcInstance player, PartyMatchRoom room, int mode)
+	public ExManagePartyRoomMember(final L2PcInstance player, final PartyMatchRoom room, final int mode)
 	{
 		_activeChar = player;
 		_room = room;
@@ -55,7 +49,7 @@ public class ExManagePartyRoomMember extends L2GameServerPacket
 			writeD(1);
 		else
 		{
-			if((_room.getOwner().isInParty() && _activeChar.isInParty()) && (_room.getOwner().getParty().getPartyLeaderOID() == _activeChar.getParty().getPartyLeaderOID()))
+			if ((_room.getOwner().isInParty() && _activeChar.isInParty()) && (_room.getOwner().getParty().getPartyLeaderOID() == _activeChar.getParty().getPartyLeaderOID()))
 				writeD(2);
 			else
 				writeD(0);

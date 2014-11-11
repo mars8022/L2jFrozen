@@ -20,27 +20,27 @@ package com.l2jfrozen.gameserver.network.serverpackets;
 
 /**
  * This class ...
- * 
  * @version $Revision: 1.2.2.1.2.3 $ $Date: 2005/03/27 15:29:57 $
  */
 public class SendTradeDone extends L2GameServerPacket
 {
 	private static final String _S__32_SENDTRADEDONE = "[S] 22 SendTradeDone";
-	private int _num;
-
-	public SendTradeDone(int num)
+	private final int _num;
+	
+	public SendTradeDone(final int num)
 	{
 		_num = num;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
 		writeC(0x22);
 		writeD(_num);
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType()
 	 */
 	@Override
@@ -48,5 +48,5 @@ public class SendTradeDone extends L2GameServerPacket
 	{
 		return _S__32_SENDTRADEDONE;
 	}
-
+	
 }

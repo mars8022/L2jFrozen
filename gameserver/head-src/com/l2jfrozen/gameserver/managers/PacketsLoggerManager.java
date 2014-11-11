@@ -29,8 +29,8 @@ import com.l2jfrozen.logs.Log;
  */
 public class PacketsLoggerManager
 {
-	private List<String> _monitored_characters = new ArrayList<String>();
-	private Hashtable<String, List<String>> _character_blocked_packets = new Hashtable<String, List<String>>();
+	private final List<String> _monitored_characters = new ArrayList<>();
+	private final Hashtable<String, List<String>> _character_blocked_packets = new Hashtable<>();
 	
 	protected PacketsLoggerManager()
 	{
@@ -38,40 +38,48 @@ public class PacketsLoggerManager
 		_monitored_characters.clear();
 	}
 	
-	public void startCharacterPacketsMonitoring(String character){
+	public void startCharacterPacketsMonitoring(final String character)
+	{
 		
-		if(!_monitored_characters.contains(character))
+		if (!_monitored_characters.contains(character))
 			_monitored_characters.add(character);
 		
 	}
 	
-	public void stopCharacterPacketsMonitoring(String character){
+	public void stopCharacterPacketsMonitoring(final String character)
+	{
 		
-		if(_monitored_characters.contains(character))
+		if (_monitored_characters.contains(character))
 			_monitored_characters.remove(character);
 		
 	}
 	
-	public void blockCharacterPacket(String character, String packet){
+	public void blockCharacterPacket(final String character, final String packet)
+	{
 		
 		List<String> blocked_packets = _character_blocked_packets.get(character);
-		if(blocked_packets==null){
-			blocked_packets = new ArrayList<String>();
+		if (blocked_packets == null)
+		{
+			blocked_packets = new ArrayList<>();
 		}
 		
-		if(!blocked_packets.contains(packet)){
+		if (!blocked_packets.contains(packet))
+		{
 			blocked_packets.add(packet);
 		}
 		_character_blocked_packets.put(character, blocked_packets);
 		
 	}
 	
-	public void restoreCharacterPacket(String character, String packet){
+	public void restoreCharacterPacket(final String character, final String packet)
+	{
 		
-		List<String> blocked_packets = _character_blocked_packets.get(character);
-		if(blocked_packets!=null){
+		final List<String> blocked_packets = _character_blocked_packets.get(character);
+		if (blocked_packets != null)
+		{
 			
-			if(blocked_packets.contains(packet)){
+			if (blocked_packets.contains(packet))
+			{
 				blocked_packets.remove(packet);
 			}
 			
@@ -81,16 +89,20 @@ public class PacketsLoggerManager
 		
 	}
 	
-	public boolean isCharacterMonitored(String character){
+	public boolean isCharacterMonitored(final String character)
+	{
 		return _monitored_characters.contains(character);
 	}
 	
-	public boolean isCharacterPacketBlocked(String character,String packet){
-
-		List<String> blocked_packets = _character_blocked_packets.get(character);
-		if(blocked_packets!=null){
+	public boolean isCharacterPacketBlocked(final String character, final String packet)
+	{
+		
+		final List<String> blocked_packets = _character_blocked_packets.get(character);
+		if (blocked_packets != null)
+		{
 			
-			if(blocked_packets.contains(packet)){
+			if (blocked_packets.contains(packet))
+			{
 				return true;
 			}
 			
@@ -99,10 +111,11 @@ public class PacketsLoggerManager
 		return false;
 		
 	}
-
-	public void logCharacterPacket(String character, String packet){
+	
+	public void logCharacterPacket(final String character, final String packet)
+	{
 		
-		Log.add("[Character: "+character+"] has sent [Packet: "+packet+"]", character+"_packets");
+		Log.add("[Character: " + character + "] has sent [Packet: " + packet + "]", character + "_packets");
 		
 	}
 	

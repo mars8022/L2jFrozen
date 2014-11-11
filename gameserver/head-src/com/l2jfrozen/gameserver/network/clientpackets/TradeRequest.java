@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Object;
@@ -32,7 +32,7 @@ import com.l2jfrozen.gameserver.util.Util;
 
 public final class TradeRequest extends L2GameClientPacket
 {
-	private static Logger _log = Logger.getLogger(TradeRequest.class.getName());
+	private static Logger LOGGER = Logger.getLogger(TradeRequest.class);
 	
 	private int _objectId;
 	
@@ -45,7 +45,7 @@ public final class TradeRequest extends L2GameClientPacket
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance player = getClient().getActiveChar();
+		final L2PcInstance player = getClient().getActiveChar();
 		if (player == null)
 			return;
 		
@@ -56,7 +56,7 @@ public final class TradeRequest extends L2GameClientPacket
 			return;
 		}
 		
-		L2Object target = L2World.getInstance().findObject(_objectId);
+		final L2Object target = L2World.getInstance().findObject(_objectId);
 		if (target == null || !player.getKnownList().knowsObject(target) || !(target instanceof L2PcInstance) || target.getObjectId() == player.getObjectId())
 		{
 			player.sendPacket(new SystemMessage(SystemMessageId.TARGET_IS_INCORRECT));
@@ -64,7 +64,7 @@ public final class TradeRequest extends L2GameClientPacket
 			return;
 		}
 		
-		L2PcInstance partner = (L2PcInstance) target;
+		final L2PcInstance partner = (L2PcInstance) target;
 		
 		if (partner.isInOlympiadMode() || player.isInOlympiadMode())
 		{
@@ -256,7 +256,7 @@ public final class TradeRequest extends L2GameClientPacket
 		{
 			if (Config.DEBUG)
 			{
-				_log.fine("Already trading with someone");
+				LOGGER.debug("Already trading with someone");
 			}
 			
 			player.sendPacket(new SystemMessage(SystemMessageId.ALREADY_TRADING));
@@ -268,10 +268,10 @@ public final class TradeRequest extends L2GameClientPacket
 		{
 			if (Config.DEBUG)
 			{
-				_log.info("Transaction already in progress.");
+				LOGGER.info("Transaction already in progress.");
 			}
 			
-			SystemMessage sm = new SystemMessage(SystemMessageId.S1_IS_BUSY_TRY_LATER);
+			final SystemMessage sm = new SystemMessage(SystemMessageId.S1_IS_BUSY_TRY_LATER);
 			sm.addString(partner.getName());
 			player.sendPacket(sm);
 			player.sendPacket(ActionFailed.STATIC_PACKET);
@@ -280,7 +280,7 @@ public final class TradeRequest extends L2GameClientPacket
 		
 		if (Util.calculateDistance(player, partner, true) > 150)
 		{
-			SystemMessage sm = new SystemMessage(SystemMessageId.TARGET_TOO_FAR);
+			final SystemMessage sm = new SystemMessage(SystemMessageId.TARGET_TOO_FAR);
 			player.sendPacket(sm);
 			player.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
@@ -288,7 +288,7 @@ public final class TradeRequest extends L2GameClientPacket
 		
 		player.onTransactionRequest(partner);
 		partner.sendPacket(new SendTradeRequest(player.getObjectId()));
-		SystemMessage sm = new SystemMessage(SystemMessageId.REQUEST_S1_FOR_TRADE);
+		final SystemMessage sm = new SystemMessage(SystemMessageId.REQUEST_S1_FOR_TRADE);
 		sm.addString(partner.getName());
 		player.sendPacket(sm);
 	}

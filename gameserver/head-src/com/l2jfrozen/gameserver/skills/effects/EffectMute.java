@@ -23,23 +23,23 @@ import com.l2jfrozen.gameserver.skills.Env;
 
 public class EffectMute extends L2Effect
 {
-	public EffectMute(Env env, EffectTemplate template)
+	public EffectMute(final Env env, final EffectTemplate template)
 	{
 		super(env, template);
 	}
-
+	
 	@Override
 	public EffectType getEffectType()
 	{
 		return L2Effect.EffectType.MUTE;
 	}
-
+	
 	@Override
 	public void onStart()
 	{
 		getEffected().startMuted();
 	}
-
+	
 	@Override
 	public boolean onActionTime()
 	{
@@ -47,7 +47,7 @@ public class EffectMute extends L2Effect
 		getEffected().stopMuted(this);
 		return false;
 	}
-
+	
 	@Override
 	public void onExit()
 	{

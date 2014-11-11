@@ -30,12 +30,12 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 public class PrivateStoreManageListBuy extends L2GameServerPacket
 {
 	private static final String _S__D0_PRIVATESELLLISTBUY = "[S] b7 PrivateSellListBuy";
-	private L2PcInstance _activeChar;
+	private final L2PcInstance _activeChar;
 	private int _playerAdena;
-	private L2ItemInstance[] _itemList;
-	private TradeList.TradeItem[] _buyList;
+	private final L2ItemInstance[] _itemList;
+	private final TradeList.TradeItem[] _buyList;
 	
-	public PrivateStoreManageListBuy(L2PcInstance player)
+	public PrivateStoreManageListBuy(final L2PcInstance player)
 	{
 		_activeChar = player;
 		
@@ -62,7 +62,7 @@ public class PrivateStoreManageListBuy extends L2GameServerPacket
 		
 		// section2
 		writeD(_itemList.length); // inventory items for potential buy
-		for (L2ItemInstance item : _itemList)
+		for (final L2ItemInstance item : _itemList)
 		{
 			writeD(item.getItemId());
 			writeH(item.getEnchantLevel()); // show enchant lvl, but you can't buy enchanted weapons because of L2 Interlude Client bug
@@ -75,7 +75,7 @@ public class PrivateStoreManageListBuy extends L2GameServerPacket
 		
 		// section 3
 		writeD(_buyList.length); // count for all items already added for buy
-		for (TradeList.TradeItem item : _buyList)
+		for (final TradeList.TradeItem item : _buyList)
 		{
 			writeD(item.getItem().getItemId());
 			writeH(item.getEnchant());

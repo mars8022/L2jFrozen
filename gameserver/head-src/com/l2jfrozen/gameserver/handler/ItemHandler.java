@@ -20,7 +20,8 @@ package com.l2jfrozen.gameserver.handler;
 
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.GameServer;
 import com.l2jfrozen.gameserver.handler.itemhandlers.BeastSoulShot;
@@ -68,48 +69,45 @@ import com.l2jfrozen.gameserver.handler.itemhandlers.SummonItems;
 
 /**
  * This class manages handlers of items
- * 
  * @version $Revision: 1.1.4.3 $ $Date: 2005/03/27 15:30:09 $
  */
 public class ItemHandler
 {
-	private static final Logger _log = Logger.getLogger(GameServer.class.getName());
-
+	private static final Logger LOGGER = Logger.getLogger(GameServer.class);
+	
 	private static ItemHandler _instance;
-
-	private Map<Integer, IItemHandler> _datatable;
-
+	
+	private final Map<Integer, IItemHandler> _datatable;
+	
 	/**
 	 * Create ItemHandler if doesn't exist and returns ItemHandler
-	 * 
 	 * @return ItemHandler
 	 */
 	public static ItemHandler getInstance()
 	{
-		if(_instance == null)
+		if (_instance == null)
 		{
 			_instance = new ItemHandler();
 		}
-
+		
 		return _instance;
 	}
-
+	
 	/**
 	 * Returns the number of elements contained in datatable
-	 * 
 	 * @return int : Size of the datatable
 	 */
 	public int size()
 	{
 		return _datatable.size();
 	}
-
+	
 	/**
 	 * Constructor of ItemHandler
 	 */
 	private ItemHandler()
 	{
-		_datatable = new TreeMap<Integer, IItemHandler>();
+		_datatable = new TreeMap<>();
 		registerItemHandler(new ScrollOfEscape());
 		registerItemHandler(new ScrollOfResurrection());
 		registerItemHandler(new SoulShots());
@@ -152,37 +150,34 @@ public class ItemHandler
 		registerItemHandler(new BreakingArrow());
 		registerItemHandler(new ChristmasTree());
 		registerItemHandler(new Crystals());
-		_log.config("ItemHandler: Loaded " + _datatable.size() + " handlers.");
+		LOGGER.info("ItemHandler: Loaded " + _datatable.size() + " handlers.");
 	}
-
+	
 	/**
 	 * Adds handler of item type in <I>datatable</I>.<BR>
 	 * <BR>
 	 * <B><I>Concept :</I></U><BR>
-	 * This handler is put in <I>datatable</I> Map &lt;Integer ; IItemHandler &gt; for each ID corresponding to an item
-	 * type (existing in classes of package itemhandlers) sets as key of the Map.
-	 * 
+	 * This handler is put in <I>datatable</I> Map &lt;Integer ; IItemHandler &gt; for each ID corresponding to an item type (existing in classes of package itemhandlers) sets as key of the Map.
 	 * @param handler (IItemHandler)
 	 */
-	public void registerItemHandler(IItemHandler handler)
+	public void registerItemHandler(final IItemHandler handler)
 	{
 		// Get all ID corresponding to the item type of the handler
-		int[] ids = handler.getItemIds();
-
+		final int[] ids = handler.getItemIds();
+		
 		// Add handler for each ID found
-		for(int id : ids)
+		for (final int id : ids)
 		{
 			_datatable.put(new Integer(id), handler);
 		}
 	}
-
+	
 	/**
 	 * Returns the handler of the item
-	 * 
 	 * @param itemId : int designating the itemID
 	 * @return IItemHandler
 	 */
-	public IItemHandler getItemHandler(int itemId)
+	public IItemHandler getItemHandler(final int itemId)
 	{
 		return _datatable.get(new Integer(itemId));
 	}

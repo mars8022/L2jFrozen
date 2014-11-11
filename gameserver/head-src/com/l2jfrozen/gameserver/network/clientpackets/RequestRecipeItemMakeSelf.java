@@ -27,43 +27,42 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 public final class RequestRecipeItemMakeSelf extends L2GameClientPacket
 {
 	private int _id;
-
+	
 	@Override
 	protected void readImpl()
 	{
 		_id = readD();
 	}
-
+	
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance activeChar = getClient().getActiveChar();
-		if(activeChar == null)
+		final L2PcInstance activeChar = getClient().getActiveChar();
+		if (activeChar == null)
 			return;
 		
 		if (!getClient().getFloodProtectors().getManufacture().tryPerformAction("RecipeMakeSelf"))
-    		return;
-
+			return;
 		
-		if(activeChar.getPrivateStoreType() != 0)
+		if (activeChar.getPrivateStoreType() != 0)
 		{
 			activeChar.sendMessage("Cannot make items while trading");
 			return;
 		}
-
-		if(activeChar.isInCraftMode())
+		
+		if (activeChar.isInCraftMode())
 		{
 			activeChar.sendMessage("Currently in Craft Mode");
 			return;
 		}
-
+		
 		RecipeController.getInstance().requestMakeItem(activeChar, _id);
 	}
-
+	
 	@Override
 	public String getType()
 	{
 		return "[C] AF RequestRecipeItemMakeSelf";
 	}
-
+	
 }

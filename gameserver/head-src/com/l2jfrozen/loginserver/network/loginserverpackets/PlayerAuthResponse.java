@@ -25,7 +25,7 @@ import com.l2jfrozen.loginserver.network.serverpackets.ServerBasePacket;
  */
 public class PlayerAuthResponse extends ServerBasePacket
 {
-	public PlayerAuthResponse(String account, boolean response)
+	public PlayerAuthResponse(final String account, final boolean response)
 	{
 		writeC(0x03);
 		writeS(account);

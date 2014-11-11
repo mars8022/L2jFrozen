@@ -18,7 +18,7 @@
  */
 package com.l2jfrozen.gameserver.managers;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.network.L2IrcClient;
@@ -28,55 +28,56 @@ import com.l2jfrozen.gameserver.network.L2IrcClient;
  */
 public class IrcManager
 {
-	static final Logger _log = Logger.getLogger(IrcManager.class.getName());
-
-    private static L2IrcClient _ircConnection;
-    
-    public static final IrcManager getInstance()
-    {
-        return SingletonHolder._instance;
-    }
-    
-    public IrcManager(){
-    	_log.info("Initializing IRCManager");
-        load();
-    }
-    
-    // =========================================================
-    // Method - Public
-    public void reload()
-    {
-    	_ircConnection.disconnect();
-    	try
-    	{
-    		_ircConnection.connect();
-		} 
-    	catch (Exception e) 
-    	{ 
-			_log.warning(e.toString());
+	static final Logger LOGGER = Logger.getLogger(IrcManager.class);
+	
+	private static L2IrcClient _ircConnection;
+	
+	public static final IrcManager getInstance()
+	{
+		return SingletonHolder._instance;
+	}
+	
+	public IrcManager()
+	{
+		LOGGER.info("Initializing IRCManager");
+		load();
+	}
+	
+	// =========================================================
+	// Method - Public
+	public void reload()
+	{
+		_ircConnection.disconnect();
+		try
+		{
+			_ircConnection.connect();
 		}
-    }
-
-    public L2IrcClient getConnection()
-    {
-    	return _ircConnection;
-    }
-
-    // =========================================================
-    // Method - Private
-    private final void load()
-    {
-		_ircConnection = new L2IrcClient(Config.IRC_SERVER, Config.IRC_PORT, Config.IRC_PASS, Config.IRC_NICK, Config.IRC_USER, Config.IRC_NAME, Config.IRC_SSL, Config.IRC_CHANNEL);    	
-    	try
-    	{
-    		_ircConnection.connect();
-		} 
-    	catch (Exception e) 
-    	{ 
-    		_log.warning(e.toString());
+		catch (final Exception e)
+		{
+			LOGGER.warn(e.toString());
 		}
-    }
-    
+	}
+	
+	public L2IrcClient getConnection()
+	{
+		return _ircConnection;
+	}
+	
+	// =========================================================
+	// Method - Private
+	private final void load()
+	{
+		_ircConnection = new L2IrcClient(Config.IRC_SERVER, Config.IRC_PORT, Config.IRC_PASS, Config.IRC_NICK, Config.IRC_USER, Config.IRC_NAME, Config.IRC_SSL, Config.IRC_CHANNEL);
+		try
+		{
+			_ircConnection.connect();
+		}
+		catch (final Exception e)
+		{
+			LOGGER.warn(e.toString());
+		}
+	}
+	
 	private static class SingletonHolder
 	{
 		protected static final IrcManager _instance = new IrcManager();

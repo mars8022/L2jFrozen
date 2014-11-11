@@ -30,31 +30,31 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 public class ItemLogFormatter extends Formatter
 {
 	private static final String CRLF = "\r\n";
-	private SimpleDateFormat dateFmt = new SimpleDateFormat("dd MMM H:mm:ss");
-
+	private final SimpleDateFormat dateFmt = new SimpleDateFormat("dd MMM H:mm:ss");
+	
 	@Override
-	public String format(LogRecord record)
+	public String format(final LogRecord record)
 	{
-		Object[] params = record.getParameters();
-		TextBuilder output = new TextBuilder();
-
+		final Object[] params = record.getParameters();
+		final TextBuilder output = new TextBuilder();
+		
 		output.append("[" + dateFmt.format(new Date(record.getMillis())) + "] ");
 		output.append(record.getMessage() + " ");
-
-		if(params != null)
+		
+		if (params != null)
 		{
-			for(Object p : params)
+			for (final Object p : params)
 			{
-				if(p == null)
+				if (p == null)
 				{
 					continue;
 				}
 				output.append("| ");
-				if(p instanceof L2ItemInstance)
+				if (p instanceof L2ItemInstance)
 				{
-					L2ItemInstance item = (L2ItemInstance) p;
+					final L2ItemInstance item = (L2ItemInstance) p;
 					output.append("item " + item.getObjectId() + ": ");
-					if(item.getEnchantLevel() > 0)
+					if (item.getEnchantLevel() > 0)
 					{
 						output.append("+" + item.getEnchantLevel() + " ");
 					}
@@ -69,5 +69,5 @@ public class ItemLogFormatter extends Formatter
 		output.append(CRLF);
 		return output.toString();
 	}
-
+	
 }

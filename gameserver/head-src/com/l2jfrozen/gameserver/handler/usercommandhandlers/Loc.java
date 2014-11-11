@@ -34,17 +34,18 @@ public class Loc implements IUserCommandHandler
 	{
 		0
 	};
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.handler.IUserCommandHandler#useUserCommand(int, com.l2jfrozen.gameserver.model.L2PcInstance)
 	 */
 	@Override
-	public boolean useUserCommand(int id, L2PcInstance activeChar)
+	public boolean useUserCommand(final int id, final L2PcInstance activeChar)
 	{
-		int _nearestTown = MapRegionTable.getInstance().getClosestTownNumber(activeChar);
+		final int _nearestTown = MapRegionTable.getInstance().getClosestTownNumber(activeChar);
 		SystemMessageId msg;
-
-		switch(_nearestTown)
+		
+		switch (_nearestTown)
 		{
 			case 0:
 				msg = SystemMessageId.LOC_TI_S1_S2_S3;
@@ -106,7 +107,7 @@ public class Loc implements IUserCommandHandler
 			default:
 				msg = SystemMessageId.LOC_ADEN_S1_S2_S3;
 		}
-
+		
 		SystemMessage sm = new SystemMessage(msg);
 		msg = null;
 		sm.addNumber(activeChar.getX());
@@ -114,11 +115,12 @@ public class Loc implements IUserCommandHandler
 		sm.addNumber(activeChar.getZ());
 		activeChar.sendPacket(sm);
 		sm = null;
-
+		
 		return true;
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.handler.IUserCommandHandler#getUserCommandList()
 	 */
 	@Override

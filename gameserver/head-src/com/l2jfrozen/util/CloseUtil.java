@@ -20,33 +20,41 @@ package com.l2jfrozen.util;
 
 import java.io.Closeable;
 import java.sql.Connection;
-import java.util.logging.Logger;
 
+import org.apache.log4j.Logger;
 
 /**
  * little 'hack' :)
- * 
  * @author ProGramMoS
  */
-public final class CloseUtil 
+public final class CloseUtil
 {
-	private final static Logger _log = Logger.getLogger(CloseUtil.class.getName());
-	public static void close(Connection con) {
-		if(con != null) try {
-			con.close();
-			con=null;
-		} catch(Throwable e) {
-			e.printStackTrace();
-			_log.severe(e.getMessage());
-		}
+	private final static Logger LOGGER = Logger.getLogger(CloseUtil.class);
+	
+	public static void close(Connection con)
+	{
+		if (con != null)
+			try
+			{
+				con.close();
+				con = null;
+			}
+			catch (final Throwable e)
+			{
+				LOGGER.error(e);
+			}
 	}
 	
-	public static void close(Closeable closeable) {
-		if(closeable != null) try {
-			closeable.close();
-		} catch(Throwable e) {
-			e.printStackTrace();
-			_log.severe(e.getMessage());
-		}
+	public static void close(final Closeable closeable)
+	{
+		if (closeable != null)
+			try
+			{
+				closeable.close();
+			}
+			catch (final Throwable e)
+			{
+				LOGGER.error(e);
+			}
 	}
 }

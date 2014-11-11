@@ -20,8 +20,8 @@ package com.l2jfrozen.netcore;
 import java.nio.ByteBuffer;
 
 /**
+ * @param <T>
  * @author KenM
- * @param <T> 
  */
 public abstract class MMOClient<T extends MMOConnection<?>>
 {

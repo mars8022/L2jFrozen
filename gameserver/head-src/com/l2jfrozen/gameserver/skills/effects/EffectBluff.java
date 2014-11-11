@@ -19,6 +19,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2SiegeFlagInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2SiegeSummonInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.BeginRotation;
 import com.l2jfrozen.gameserver.network.serverpackets.StopRotation;
+import com.l2jfrozen.gameserver.network.serverpackets.ValidateLocation;
 import com.l2jfrozen.gameserver.skills.Env;
 
 /**
@@ -26,43 +27,41 @@ import com.l2jfrozen.gameserver.skills.Env;
  */
 public class EffectBluff extends L2Effect
 {
-
+	
 	public EffectBluff(final Env env, final EffectTemplate template)
 	{
 		super(env, template);
 	}
-
+	
 	@Override
 	public EffectType getEffectType()
 	{
 		return EffectType.BLUFF;
 	}
-
+	
 	@Override
 	public boolean onActionTime()
 	{
 		return false;
 	}
-
-	/*@Override
-	public void onExit()
-	{
-	    super.onExit();
-	}*/
-
+	
+	/*
+	 * @Override public void onExit() { super.onExit(); }
+	 */
+	
 	/** Notify started */
-
+	
 	@Override
 	public void onStart()
 	{
-		if(getEffected().isDead() || getEffected().isAfraid())
+		if (getEffected().isDead() || getEffected().isAfraid())
 			return;
-
-		if(getEffected() instanceof L2FolkInstance || getEffected() instanceof L2ControlTowerInstance || getEffected() instanceof L2ArtefactInstance || getEffected() instanceof L2EffectPointInstance || getEffected() instanceof L2SiegeFlagInstance || getEffected() instanceof L2SiegeSummonInstance)
+		
+		if (getEffected() instanceof L2FolkInstance || getEffected() instanceof L2ControlTowerInstance || getEffected() instanceof L2ArtefactInstance || getEffected() instanceof L2EffectPointInstance || getEffected() instanceof L2SiegeFlagInstance || getEffected() instanceof L2SiegeSummonInstance)
 			return;
-
+		
 		super.onStart();
-
+		
 		// break target
 		getEffected().setTarget(null);
 		// stop cast
@@ -73,10 +72,13 @@ public class EffectBluff extends L2Effect
 		getEffected().getAI().stopFollow();
 		// stop auto attack
 		getEffected().getAI().clientStopAutoAttack();
-
+		
 		getEffected().broadcastPacket(new BeginRotation(getEffected(), getEffected().getHeading(), 1, 65535));
 		getEffected().broadcastPacket(new StopRotation(getEffected(), getEffector().getHeading(), 65535));
 		getEffected().setHeading(getEffector().getHeading());
+		// sometimes rotation didn't showed correctly ??
+		getEffected().sendPacket(new ValidateLocation(getEffector()));
+		getEffector().sendPacket(new ValidateLocation(getEffected()));
 		onActionTime();
 	}
 }

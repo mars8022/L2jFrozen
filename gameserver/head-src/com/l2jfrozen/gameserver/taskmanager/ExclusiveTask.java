@@ -28,59 +28,60 @@ import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 public abstract class ExclusiveTask
 {
 	private final boolean _returnIfAlreadyRunning;
-
+	
 	private Future<?> _future;
 	private boolean _isRunning;
 	private Thread _currentThread;
-
-	protected ExclusiveTask(boolean returnIfAlreadyRunning)
+	
+	protected ExclusiveTask(final boolean returnIfAlreadyRunning)
 	{
 		_returnIfAlreadyRunning = returnIfAlreadyRunning;
 	}
-
+	
 	protected ExclusiveTask()
 	{
 		this(false);
 	}
-
+	
 	public synchronized boolean isScheduled()
 	{
 		return _future != null;
 	}
-
+	
 	public synchronized final void cancel()
 	{
-		if(_future != null)
+		if (_future != null)
 		{
 			_future.cancel(false);
 			_future = null;
 		}
 	}
-
-	public synchronized final void schedule(long delay)
+	
+	public synchronized final void schedule(final long delay)
 	{
 		cancel();
-
+		
 		_future = ThreadPoolManager.getInstance().scheduleEffect(_runnable, delay);
 	}
-
+	
 	public synchronized final void execute()
 	{
 		ThreadPoolManager.getInstance().executeTask(_runnable);
 	}
-
-	public synchronized final void scheduleAtFixedRate(long delay, long period)
+	
+	public synchronized final void scheduleAtFixedRate(final long delay, final long period)
 	{
 		cancel();
-
+		
 		_future = ThreadPoolManager.getInstance().scheduleAiAtFixedRate(_runnable, delay, period);
 	}
-
-	private final Runnable _runnable = new Runnable() {
+	
+	private final Runnable _runnable = new Runnable()
+	{
 		@Override
 		public void run()
 		{
-			if(tryLock())
+			if (tryLock())
 			{
 				try
 				{
@@ -93,38 +94,38 @@ public abstract class ExclusiveTask
 			}
 		}
 	};
-
+	
 	protected abstract void onElapsed();
-
+	
 	protected synchronized boolean tryLock()
 	{
-		if(_returnIfAlreadyRunning)
+		if (_returnIfAlreadyRunning)
 			return !_isRunning;
-
+		
 		_currentThread = Thread.currentThread();
-
-		for(;;)
+		
+		for (;;)
 		{
 			try
 			{
 				notifyAll();
-
-				if(_currentThread != Thread.currentThread())
+				
+				if (_currentThread != Thread.currentThread())
 					return false;
-
-				if(!_isRunning)
+				
+				if (!_isRunning)
 					return true;
-
+				
 				wait();
 			}
-			catch(InterruptedException e)
+			catch (final InterruptedException e)
 			{
-				if(Config.ENABLE_ALL_EXCEPTIONS)
+				if (Config.ENABLE_ALL_EXCEPTIONS)
 					e.printStackTrace();
 			}
 		}
 	}
-
+	
 	protected synchronized void unlock()
 	{
 		_isRunning = false;

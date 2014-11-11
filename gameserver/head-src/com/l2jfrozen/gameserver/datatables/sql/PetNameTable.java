@@ -22,61 +22,63 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+import org.apache.log4j.Logger;
+
 import com.l2jfrozen.Config;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 public class PetNameTable
 {
-	private final static Logger _log = Logger.getLogger(PetNameTable.class.getName());
-
+	private final static Logger LOGGER = Logger.getLogger(PetNameTable.class);
+	
 	private static PetNameTable _instance;
-
+	
 	public static PetNameTable getInstance()
 	{
-		if(_instance == null)
+		if (_instance == null)
 		{
 			_instance = new PetNameTable();
 		}
-
+		
 		return _instance;
 	}
-
-	public boolean doesPetNameExist(String name, int petNpcId)
+	
+	public boolean doesPetNameExist(final String name, final int petNpcId)
 	{
 		boolean result = true;
 		Connection con = null;
-
+		
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection(false);
 			final PreparedStatement statement = con.prepareStatement("SELECT name FROM pets p, items i WHERE p.item_obj_id = i.object_id AND name=? AND i.item_id IN (?)");
 			statement.setString(1, name);
-
+			
 			String cond = "";
-			for(int it : L2PetDataTable.getPetItemsAsNpc(petNpcId))
+			for (final int it : L2PetDataTable.getPetItemsAsNpc(petNpcId))
 			{
-				if(cond != "")
+				if (cond != "")
 				{
 					cond += ", ";
 				}
-
+				
 				cond += it;
 			}
 			statement.setString(2, cond);
 			final ResultSet rset = statement.executeQuery();
 			result = rset.next();
-			rset.close();
-			statement.close();
+			DatabaseUtils.close(rset);
+			DatabaseUtils.close(statement);
 		}
-		catch(SQLException e)
+		catch (final SQLException e)
 		{
-			_log.severe("could not check existing petname"+" "+ e);
+			LOGGER.error("Could not check existing petname", e);
 		}
 		finally
 		{
@@ -84,48 +86,48 @@ public class PetNameTable
 		}
 		return result;
 	}
-
-	public boolean isValidPetName(String name)
+	
+	public boolean isValidPetName(final String name)
 	{
 		boolean result = true;
-
-		if(!isAlphaNumeric(name))
+		
+		if (!isAlphaNumeric(name))
 			return result;
-
+		
 		Pattern pattern;
 		try
 		{
 			pattern = Pattern.compile(Config.PET_NAME_TEMPLATE);
 		}
-		catch(PatternSyntaxException e) // case of illegal pattern
+		catch (final PatternSyntaxException e) // case of illegal pattern
 		{
-			_log.warning("ERROR : Pet name pattern of config is wrong!");
+			LOGGER.warn("ERROR : Pet name pattern of config is wrong!");
 			pattern = Pattern.compile(".*");
 		}
-
-		Matcher regexp = pattern.matcher(name);
-
-		if(!regexp.matches())
+		
+		final Matcher regexp = pattern.matcher(name);
+		
+		if (!regexp.matches())
 		{
 			result = false;
 		}
-
+		
 		return result;
 	}
-
-	private boolean isAlphaNumeric(String text)
+	
+	private boolean isAlphaNumeric(final String text)
 	{
 		boolean result = true;
-		char[] chars = text.toCharArray();
-		for(int i = 0; i < chars.length; i++)
+		final char[] chars = text.toCharArray();
+		for (final char aChar : chars)
 		{
-			if(!Character.isLetterOrDigit(chars[i]))
+			if (!Character.isLetterOrDigit(aChar))
 			{
 				result = false;
 				break;
 			}
 		}
-
+		
 		return result;
 	}
 }

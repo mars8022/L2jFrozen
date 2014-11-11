@@ -15,7 +15,8 @@
 package com.l2jfrozen.gameserver.network.serverpackets;
 
 import java.util.Calendar;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.datatables.sql.ClanTable;
 import com.l2jfrozen.gameserver.model.L2Clan;
@@ -39,35 +40,34 @@ import com.l2jfrozen.gameserver.model.entity.siege.Fort;
  * d = current time (seconds)<BR>
  * d = Siege time (seconds) (0 for selectable)<BR>
  * d = (UNKNOW) Siege Time Select Related?
- * 
  * @author programmos
  */
 public class FortressSiegeInfo extends L2GameServerPacket
 {
 	private static final String _S__C9_SIEGEINFO = "[S] c9 SiegeInfo";
-	private static Logger _log = Logger.getLogger(FortressSiegeInfo.class.getName());
-	private Fort _fort;
-
-	public FortressSiegeInfo(Fort fort)
+	private static Logger LOGGER = Logger.getLogger(FortressSiegeInfo.class);
+	private final Fort _fort;
+	
+	public FortressSiegeInfo(final Fort fort)
 	{
 		_fort = fort;
 	}
-
+	
 	@Override
 	protected final void writeImpl()
 	{
-		L2PcInstance activeChar = getClient().getActiveChar();
-		if(activeChar == null)
+		final L2PcInstance activeChar = getClient().getActiveChar();
+		if (activeChar == null)
 			return;
-
+		
 		writeC(0xc9);
 		writeD(_fort.getFortId());
 		writeD(_fort.getOwnerId() == activeChar.getClanId() && activeChar.isClanLeader() ? 0x01 : 0x00);
 		writeD(_fort.getOwnerId());
-		if(_fort.getOwnerId() > 0)
+		if (_fort.getOwnerId() > 0)
 		{
-			L2Clan owner = ClanTable.getInstance().getClan(_fort.getOwnerId());
-			if(owner != null)
+			final L2Clan owner = ClanTable.getInstance().getClan(_fort.getOwnerId());
+			if (owner != null)
 			{
 				writeS(owner.getName()); // Clan Name
 				writeS(owner.getLeaderName()); // Clan Leader Name
@@ -76,7 +76,7 @@ public class FortressSiegeInfo extends L2GameServerPacket
 			}
 			else
 			{
-				_log.warning("Null owner for fort: " + _fort.getName());
+				LOGGER.warn("Null owner for fort: " + _fort.getName());
 			}
 		}
 		else
@@ -86,13 +86,14 @@ public class FortressSiegeInfo extends L2GameServerPacket
 			writeD(0); // Ally ID
 			writeS(""); // Ally Name
 		}
-
+		
 		writeD((int) (Calendar.getInstance().getTimeInMillis() / 1000));
 		writeD((int) (_fort.getSiege().getSiegeDate().getTimeInMillis() / 1000));
-		writeD(0x00); //number of choices?
+		writeD(0x00); // number of choices?
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.l2jfrozen.gameserver.serverpackets.ServerBasePacket#getType()
 	 */
 	@Override
@@ -100,5 +101,5 @@ public class FortressSiegeInfo extends L2GameServerPacket
 	{
 		return _S__C9_SIEGEINFO;
 	}
-
+	
 }

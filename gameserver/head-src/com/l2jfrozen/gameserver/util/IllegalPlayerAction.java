@@ -29,27 +29,24 @@ import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.GmListTable;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
-
-
 /**
  * This class ...
- * 
  * @version $Revision: 1.2 $ $Date: 2004/06/27 08:12:59 $
  */
 public final class IllegalPlayerAction implements Runnable
 {
 	private static Logger _logAudit = Logger.getLogger("audit");
 	
-	private String _message;
-	private int _punishment;
-	private L2PcInstance _actor;
+	private final String _message;
+	private final int _punishment;
+	private final L2PcInstance _actor;
 	
 	public static final int PUNISH_BROADCAST = 1;
 	public static final int PUNISH_KICK = 2;
 	public static final int PUNISH_KICKBAN = 3;
 	public static final int PUNISH_JAIL = 4;
 	
-	public IllegalPlayerAction(L2PcInstance actor, String message, int punishment)
+	public IllegalPlayerAction(final L2PcInstance actor, final String message, final int punishment)
 	{
 		_message = message;
 		_punishment = punishment;
@@ -75,11 +72,12 @@ public final class IllegalPlayerAction implements Runnable
 	@Override
 	public void run()
 	{
-		LogRecord record = new LogRecord(Level.INFO, "AUDIT:" + _message);
+		final LogRecord record = new LogRecord(Level.INFO, "AUDIT:" + _message);
 		record.setLoggerName("audit");
 		record.setParameters(new Object[]
 		{
-			_actor, _punishment
+			_actor,
+			_punishment
 		});
 		_logAudit.log(record);
 		
@@ -97,7 +95,7 @@ public final class IllegalPlayerAction implements Runnable
 				break;
 			case PUNISH_JAIL:
 				_actor.setPunishLevel(L2PcInstance.PunishLevel.JAIL, Config.DEFAULT_PUNISH_PARAM);
-                break;
+				break;
 		}
 	}
 }

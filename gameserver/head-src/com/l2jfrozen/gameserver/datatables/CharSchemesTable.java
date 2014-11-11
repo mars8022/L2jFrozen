@@ -17,57 +17,56 @@ package com.l2jfrozen.gameserver.datatables;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
 import javolution.util.FastMap;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.powerpak.PowerPakConfig;
 import com.l2jfrozen.util.CloseUtil;
+import com.l2jfrozen.util.database.DatabaseUtils;
 import com.l2jfrozen.util.database.L2DatabaseFactory;
 
 /**
  * This class stores players' buff schemes into FastMap. On player login, his scheme is loaded and on server shutdown all modified schemes are saved to DataBase. This avoids too many unnecessary DataBase connections and queries. If server crashes, nothing important is lost :)
- *
  * @author House
  */
 public class CharSchemesTable
 {
-	private static FastMap<Integer, FastMap<String, FastList<L2Skill>>> _schemesTable = new FastMap<Integer, FastMap<String, FastList<L2Skill>>>();
+	private static FastMap<Integer, FastMap<String, FastList<L2Skill>>> _schemesTable = new FastMap<>();
 	private static CharSchemesTable _instance = null;
-	private static Logger _log = Logger.getLogger(CharSchemesTable.class.getName());
+	private static Logger LOGGER = Logger.getLogger(CharSchemesTable.class);
 	private static final String SQL_LOAD_SCHEME = "SELECT * FROM mods_buffer_schemes WHERE ownerId=?";
 	private static final String SQL_DELETE_SCHEME = "DELETE FROM mods_buffer_schemes WHERE ownerId=?";
 	private static final String SQL_INSERT_SCHEME = "INSERT INTO mods_buffer_schemes (ownerId, id, level, scheme) VALUES (?,?,?,?)";
-
+	
 	public CharSchemesTable()
 	{
 		_schemesTable.clear();
 	}
-
+	
 	/**
 	 * This method loads player scheme and put into _schemesTable map.
-	 *
-	 * @param objectId
-	 *            : player's objectId
+	 * @param objectId : player's objectId
 	 */
-	public void loadScheme(int objectId)
+	public void loadScheme(final int objectId)
 	{
 		Connection con = null;
 		try
 		{
 			con = L2DatabaseFactory.getInstance().getConnection(false);
-			PreparedStatement statement = con.prepareStatement(SQL_LOAD_SCHEME);
+			final PreparedStatement statement = con.prepareStatement(SQL_LOAD_SCHEME);
 			statement.setInt(1, objectId);
-			ResultSet rs = statement.executeQuery();
-			FastMap<String, FastList<L2Skill>> map = new FastMap<String, FastList<L2Skill>>();
+			final ResultSet rs = statement.executeQuery();
+			final FastMap<String, FastList<L2Skill>> map = new FastMap<>();
 			while (rs.next())
 			{
-				int skillId = rs.getInt("id");
-				int skillLevel = rs.getInt("level");
-				String scheme = rs.getString("scheme");
+				final int skillId = rs.getInt("id");
+				final int skillLevel = rs.getInt("level");
+				final String scheme = rs.getString("scheme");
 				if (!map.containsKey(scheme) && map.size() <= PowerPakConfig.NPCBUFFER_MAX_SCHEMES)
 					map.put(scheme, new FastList<L2Skill>());
 				if (map.get(scheme) != null && map.get(scheme).size() < PowerPakConfig.NPCBUFFER_MAX_SKILLS)
@@ -75,15 +74,15 @@ public class CharSchemesTable
 			}
 			if (!map.isEmpty())
 				_schemesTable.put(objectId, map);
-			statement.close();
+			DatabaseUtils.close(statement);
 			rs.close();
 		}
-		catch (Exception e)
+		catch (final Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("Error trying to load buff scheme from object id: " + objectId);
+			LOGGER.warn("Error trying to load buff scheme from object id: " + objectId);
 		}
 		finally
 		{
@@ -91,13 +90,13 @@ public class CharSchemesTable
 			
 		}
 	}
-
-	public void onPlayerLogin(int playerId)
+	
+	public void onPlayerLogin(final int playerId)
 	{
 		if (_schemesTable.get(playerId) == null)
 			loadScheme(playerId);
 	}
-
+	
 	/**
 	 * Do necessary task when server is shutting down or restarting:<br>
 	 * <li>Clears DataBase</li> <li>Saves new info</li>
@@ -110,7 +109,7 @@ public class CharSchemesTable
 			saveDataToDB();
 		}
 	}
-
+	
 	public void clearDB()
 	{
 		if (_schemesTable.isEmpty())
@@ -121,17 +120,17 @@ public class CharSchemesTable
 			con = L2DatabaseFactory.getInstance().getConnection(false);
 			for (FastMap.Entry<Integer, FastMap<String, FastList<L2Skill>>> e = _schemesTable.head(), end = _schemesTable.tail(); (e = e.getNext()) != end;)
 			{
-				PreparedStatement statement = con.prepareStatement(SQL_DELETE_SCHEME);
+				final PreparedStatement statement = con.prepareStatement(SQL_DELETE_SCHEME);
 				statement.setInt(1, e.getKey());
 				statement.execute();
 			}
 		}
-		catch (Exception e)
+		catch (final Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("CharSchemesTable: Error while trying to delete schemes");
+			LOGGER.warn("CharSchemesTable: Error while trying to delete schemes");
 		}
 		finally
 		{
@@ -139,7 +138,7 @@ public class CharSchemesTable
 			
 		}
 	}
-
+	
 	public void saveDataToDB()
 	{
 		if (_schemesTable.isEmpty())
@@ -160,9 +159,9 @@ public class CharSchemesTable
 					if (a.getValue() == null || a.getValue().isEmpty())
 						continue;
 					// each skill
-					for (L2Skill sk : a.getValue())
+					for (final L2Skill sk : a.getValue())
 					{
-						PreparedStatement statement = con.prepareStatement(SQL_INSERT_SCHEME);
+						final PreparedStatement statement = con.prepareStatement(SQL_INSERT_SCHEME);
 						statement.setInt(1, e.getKey());
 						statement.setInt(2, sk.getId());
 						statement.setInt(3, sk.getLevel());
@@ -173,51 +172,51 @@ public class CharSchemesTable
 				count++;
 			}
 		}
-		catch (Exception e)
+		catch (final Exception e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("CharSchemesTable: Error while trying to delete schemes");
+			LOGGER.warn("CharSchemesTable: Error while trying to delete schemes");
 		}
 		finally
 		{
 			CloseUtil.close(con);
 			
-			System.out.println("CharSchemeTable: Saved " + String.valueOf(count + " scheme(s)"));
+			LOGGER.info("CharSchemeTable: Saved " + String.valueOf(count + " scheme(s)"));
 		}
 	}
-
-	public FastList<L2Skill> getScheme(int playerid, String scheme_key)
+	
+	public FastList<L2Skill> getScheme(final int playerid, final String scheme_key)
 	{
 		if (_schemesTable.get(playerid) == null)
 			return null;
 		return _schemesTable.get(playerid).get(scheme_key);
 	}
-
-	public boolean getSchemeContainsSkill(int playerId, String scheme_key, int skillId)
+	
+	public boolean getSchemeContainsSkill(final int playerId, final String scheme_key, final int skillId)
 	{
-		for (L2Skill sk : getScheme(playerId, scheme_key))
+		for (final L2Skill sk : getScheme(playerId, scheme_key))
 			if (sk.getId() == skillId)
 				return true;
 		return false;
 	}
-
-	public void setScheme(int playerId, String schemeKey, FastList<L2Skill> list)
+	
+	public void setScheme(final int playerId, final String schemeKey, final FastList<L2Skill> list)
 	{
 		_schemesTable.get(playerId).put(schemeKey, list);
 	}
-
-	public FastMap<String, FastList<L2Skill>> getAllSchemes(int playerId)
+	
+	public FastMap<String, FastList<L2Skill>> getAllSchemes(final int playerId)
 	{
 		return _schemesTable.get(playerId);
 	}
-
+	
 	public FastMap<Integer, FastMap<String, FastList<L2Skill>>> getSchemesTable()
 	{
 		return _schemesTable;
 	}
-
+	
 	public static CharSchemesTable getInstance()
 	{
 		if (_instance == null)

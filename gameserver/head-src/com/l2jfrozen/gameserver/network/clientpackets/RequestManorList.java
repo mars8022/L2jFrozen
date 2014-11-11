@@ -31,15 +31,16 @@ public class RequestManorList extends L2GameClientPacket
 {
 	@Override
 	protected void readImpl()
-	{}
-
+	{
+	}
+	
 	@Override
 	protected void runImpl()
 	{
-		L2PcInstance player = getClient().getActiveChar();
-		if(player == null)
+		final L2PcInstance player = getClient().getActiveChar();
+		if (player == null)
 			return;
-		FastList<String> manorsName = new FastList<String>();
+		final FastList<String> manorsName = new FastList<>();
 		manorsName.add("gludio");
 		manorsName.add("dion");
 		manorsName.add("giran");
@@ -49,10 +50,10 @@ public class RequestManorList extends L2GameClientPacket
 		manorsName.add("goddard");
 		manorsName.add("rune");
 		manorsName.add("schuttgart");
-		ExSendManorList manorlist = new ExSendManorList(manorsName);
+		final ExSendManorList manorlist = new ExSendManorList(manorsName);
 		player.sendPacket(manorlist);
 	}
-
+	
 	@Override
 	public String getType()
 	{

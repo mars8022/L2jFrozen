@@ -26,9 +26,10 @@ import java.io.IOException;
 import java.io.LineNumberReader;
 import java.util.List;
 import java.util.StringTokenizer;
-import java.util.logging.Logger;
 
 import javolution.util.FastList;
+
+import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.datatables.sql.SkillTreeTable;
@@ -39,68 +40,68 @@ import com.l2jfrozen.gameserver.model.FishData;
  */
 public class FishTable
 {
-	private static Logger _log = Logger.getLogger(SkillTreeTable.class.getName());
+	private static Logger LOGGER = Logger.getLogger(SkillTreeTable.class);
 	private static final FishTable _instance = new FishTable();
-
+	
 	private static List<FishData> _fishsNormal;
 	private static List<FishData> _fishsEasy;
 	private static List<FishData> _fishsHard;
 	public static FishData fish;
-
+	
 	public static FishTable getInstance()
 	{
 		return _instance;
 	}
-
+	
 	private FishTable()
 	{
 		int count = 0;
-
+		
 		FileReader reader = null;
 		BufferedReader buff = null;
 		LineNumberReader lnr = null;
 		
 		try
 		{
-			File fileData = new File(Config.DATAPACK_ROOT+"/data/csv/fish.csv");
+			final File fileData = new File(Config.DATAPACK_ROOT + "/data/csv/fish.csv");
 			
 			reader = new FileReader(fileData);
 			buff = new BufferedReader(reader);
 			lnr = new LineNumberReader(buff);
-		
+			
 			String line = null;
-
-			_fishsEasy = new FastList<FishData>();
-			_fishsNormal = new FastList<FishData>();
-			_fishsHard = new FastList<FishData>();
+			
+			_fishsEasy = new FastList<>();
+			_fishsNormal = new FastList<>();
+			_fishsHard = new FastList<>();
 			FishData fish;
-
-			//format:
+			
+			// format:
 			// id;level;name;hp;hpregen;fish_type;fish_group;fish_guts;guts_check_time;wait_time;combat_time
-			while((line = lnr.readLine()) != null)
+			while ((line = lnr.readLine()) != null)
 			{
-				//ignore comments
-				if(line.trim().length() == 0 || line.startsWith("#"))
+				// ignore comments
+				if (line.trim().length() == 0 || line.startsWith("#"))
 				{
 					continue;
 				}
-
-				StringTokenizer st = new StringTokenizer(line, ";");
-
-				int id = Integer.parseInt(st.nextToken());
-				int lvl = Integer.parseInt(st.nextToken());
-				String name = st.nextToken();
-				int hp = Integer.parseInt(st.nextToken());
-				int hpreg = Integer.parseInt(st.nextToken());
-				int type = Integer.parseInt(st.nextToken());
-				int group = Integer.parseInt(st.nextToken());
-				int fish_guts = Integer.parseInt(st.nextToken());
-				int guts_check_time = Integer.parseInt(st.nextToken());
-				int wait_time = Integer.parseInt(st.nextToken());
-				int combat_time = Integer.parseInt(st.nextToken());
-
+				
+				final StringTokenizer st = new StringTokenizer(line, ";");
+				
+				final int id = Integer.parseInt(st.nextToken());
+				final int lvl = Integer.parseInt(st.nextToken());
+				final String name = st.nextToken();
+				final int hp = Integer.parseInt(st.nextToken());
+				final int hpreg = Integer.parseInt(st.nextToken());
+				final int type = Integer.parseInt(st.nextToken());
+				final int group = Integer.parseInt(st.nextToken());
+				final int fish_guts = Integer.parseInt(st.nextToken());
+				final int guts_check_time = Integer.parseInt(st.nextToken());
+				final int wait_time = Integer.parseInt(st.nextToken());
+				final int combat_time = Integer.parseInt(st.nextToken());
+				
 				fish = new FishData(id, lvl, name, hp, hpreg, type, group, fish_guts, guts_check_time, wait_time, combat_time);
-				switch(fish.getGroup())
+				switch (fish.getGroup())
 				{
 					case 0:
 						_fishsEasy.add(fish);
@@ -112,72 +113,72 @@ public class FishTable
 						_fishsHard.add(fish);
 				}
 			}
-
+			
 			count = _fishsEasy.size() + _fishsNormal.size() + _fishsHard.size();
-
+			
 		}
-		catch(FileNotFoundException e)
+		catch (final FileNotFoundException e)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e.printStackTrace();
 			
-			_log.warning("fish.csv is missing in data folder");
+			LOGGER.warn("fish.csv is missing in data folder");
 		}
-		catch(IOException e0)
+		catch (final IOException e0)
 		{
-			if(Config.ENABLE_ALL_EXCEPTIONS)
+			if (Config.ENABLE_ALL_EXCEPTIONS)
 				e0.printStackTrace();
-		
-			_log.warning("Error while creating table: " + e0.getMessage() + "\n" + e0);
+			
+			LOGGER.warn("Error while creating table: " + e0.getMessage() + "\n" + e0);
 		}
 		finally
 		{
-			if(lnr != null)
+			if (lnr != null)
 				try
 				{
 					lnr.close();
 				}
-				catch(Exception e1)
+				catch (final Exception e1)
 				{
 					e1.printStackTrace();
 				}
 			
-			if(buff != null)
+			if (buff != null)
 				try
 				{
 					buff.close();
 				}
-				catch(Exception e1)
+				catch (final Exception e1)
 				{
 					e1.printStackTrace();
 				}
 			
-			if(reader != null)
+			if (reader != null)
 				try
 				{
 					reader.close();
 				}
-				catch(Exception e1)
+				catch (final Exception e1)
 				{
 					e1.printStackTrace();
 				}
 		}
-		_log.config("FishTable: Loaded " + count + " Fishes.");
-
+		LOGGER.info("FishTable: Loaded " + count + " Fishes.");
+		
 	}
-
+	
 	/**
-	 * @param lvl 
-	 * @param type 
-	 * @param group 
+	 * @param lvl
+	 * @param type
+	 * @param group
 	 * @return List of Fish that can be fished
 	 */
-	public List<FishData> getfish(int lvl, int type, int group)
+	public List<FishData> getfish(final int lvl, final int type, final int group)
 	{
-		List<FishData> result = new FastList<FishData>();
+		final List<FishData> result = new FastList<>();
 		List<FishData> _Fishs = null;
-
-		switch(group)
+		
+		switch (group)
 		{
 			case 0:
 				_Fishs = _fishsEasy;
@@ -188,34 +189,34 @@ public class FishTable
 			case 2:
 				_Fishs = _fishsHard;
 		}
-		if(_Fishs == null)
+		if (_Fishs == null)
 		{
 			// the fish list is empty
-			_log.warning("Fish are not defined !");
+			LOGGER.warn("Fish are not defined !");
 			return null;
 		}
-		for(FishData f : _Fishs)
+		for (final FishData f : _Fishs)
 		{
-			if(f.getLevel() != lvl)
+			if (f.getLevel() != lvl)
 			{
 				continue;
 			}
-
-			if(f.getType() != type)
+			
+			if (f.getType() != type)
 			{
 				continue;
 			}
-
+			
 			result.add(f);
 		}
-		if(result.size() == 0)
+		if (result.size() == 0)
 		{
-			_log.warning("Cant Find Any Fish!? - Lvl: " + lvl + " Type: " + type);
+			LOGGER.warn("Cant Find Any Fish!? - Lvl: " + lvl + " Type: " + type);
 		}
-
+		
 		_Fishs = null;
-
+		
 		return result;
 	}
-
+	
 }

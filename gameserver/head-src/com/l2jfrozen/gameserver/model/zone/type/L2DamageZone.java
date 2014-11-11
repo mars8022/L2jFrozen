@@ -21,31 +21,31 @@ import java.util.Collection;
 import java.util.concurrent.Future;
 
 import com.l2jfrozen.gameserver.model.L2Character;
+import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.zone.L2ZoneType;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
 /**
  * A damage zone
- * 
  * @author durgus
  */
 public class L2DamageZone extends L2ZoneType
 {
 	private int _damagePerSec;
 	private Future<?> _task;
-
-	public L2DamageZone(int id)
+	
+	public L2DamageZone(final int id)
 	{
 		super(id);
-
+		
 		// Setup default damage
 		_damagePerSec = 100;
 	}
-
+	
 	@Override
-	public void setParameter(String name, String value)
+	public void setParameter(final String name, final String value)
 	{
-		if(name.equals("dmgSec"))
+		if (name.equals("dmgSec"))
 		{
 			_damagePerSec = Integer.parseInt(value);
 		}
@@ -54,64 +54,66 @@ public class L2DamageZone extends L2ZoneType
 			super.setParameter(name, value);
 		}
 	}
-
+	
 	@Override
-	protected void onEnter(L2Character character)
+	protected void onEnter(final L2Character character)
 	{
-		if(_task == null)
+		if (_task == null)
 		{
 			_task = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(new ApplyDamage(this), 10, 1000);
 		}
 	}
-
+	
 	@Override
-	protected void onExit(L2Character character)
+	protected void onExit(final L2Character character)
 	{
-		if(_characterList.isEmpty())
+		if (_characterList.isEmpty())
 		{
 			_task.cancel(true);
 			_task = null;
 		}
 	}
-
+	
 	protected Collection<L2Character> getCharacterList()
 	{
 		return _characterList.values();
 	}
-
+	
 	protected int getDamagePerSecond()
 	{
 		return _damagePerSec;
 	}
-
+	
 	class ApplyDamage implements Runnable
 	{
-		private L2DamageZone _dmgZone;
-
-		ApplyDamage(L2DamageZone zone)
+		private final L2DamageZone _dmgZone;
+		
+		ApplyDamage(final L2DamageZone zone)
 		{
 			_dmgZone = zone;
 		}
-
+		
 		@Override
 		public void run()
 		{
-			for(L2Character temp : _dmgZone.getCharacterList())
+			for (final L2Character temp : _dmgZone.getCharacterList())
 			{
-				if(temp != null && !temp.isDead())
+				if (temp != null && !temp.isDead() && temp instanceof L2PcInstance)
 				{
 					temp.reduceCurrentHp(_dmgZone.getDamagePerSecond(), null);
 				}
 			}
 		}
 	}
-
+	
 	@Override
-	protected void onDieInside(L2Character character)
-	{}
-
+	protected void onDieInside(final L2Character character)
+	{
+	}
+	
 	@Override
-	protected void onReviveInside(L2Character character)
-	{}
-
+	protected void onReviveInside(final L2Character character)
+	{
+	}
+	
 }
