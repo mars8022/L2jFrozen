@@ -4591,6 +4591,18 @@ public enum SystemMessageId
 	PUMPING_SUCCESSFUL_PENALTY_S1(1672),
 	
 	/**
+	 * ID: 1435<br>
+	 * Message: Due to insufficient $s1, the automatic use function has been deactivated.
+	 */
+	AUTO_USE_CANCELLED_LACK_OF_S1(1435),
+	
+	/**
+	 * ID: 1436<br>
+	 * Message: Due to insufficient $s1, the automatic use function cannot be activated.
+	 */
+	CANNOT_AUTO_USE_LACK_OF_S1(1436),
+	
+	/**
 	 * ID: 1438<br>
 	 * Message: There is no skill that enables enchant.
 	 */
