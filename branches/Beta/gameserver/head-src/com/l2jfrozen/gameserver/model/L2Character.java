@@ -1995,6 +1995,10 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 		 * if(skill.isOffensive() && skill.getTargetType() != SkillTargetType.TARGET_AURA && target.isBehind(this)) { moveToLocation(target.getX(), target.getY(), target.getZ(), 0); stopMove(null); }
 		 */
 		
+		// Like L2OFF after a skill the player must stop the movement, also with toggle
+		if (!skill.isPotion() && this instanceof L2PcInstance)
+			((L2PcInstance) this).stopMove(null);
+		
 		// Start the effect as long as the player is casting.
 		if (effectWhileCasting)
 		{
@@ -2253,26 +2257,23 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 				
 				final L2PcInstance player = (L2PcInstance) this;
 				
-				// to avoid DM Remove buffs on die
-				if (player._inEventDM && DM.is_started() && Config.DM_REMOVE_BUFFS_ON_DIE)
+				// to avoid Event Remove buffs on die
+				if (player._inEventDM && DM.is_started())
 				{
-					
-					stopAllEffects();
-					
+					if (Config.DM_REMOVE_BUFFS_ON_DIE)
+						stopAllEffects();
 				}
-				else if (player._inEventTvT && TvT.is_started() && Config.TVT_REMOVE_BUFFS_ON_DIE)
+				else if (player._inEventTvT && TvT.is_started())
 				{
-					
-					stopAllEffects();
-					
+					if (Config.TVT_REMOVE_BUFFS_ON_DIE)
+						stopAllEffects();
 				}
-				else if (player._inEventTvT && CTF.is_started() && Config.CTF_REMOVE_BUFFS_ON_DIE)
+				else if (player._inEventTvT && CTF.is_started())
 				{
-					
-					stopAllEffects();
-					
+					if (Config.CTF_REMOVE_BUFFS_ON_DIE)
+						stopAllEffects();
 				}
-				else if (Config.LEAVE_BUFFS_ON_DIE) // this means that the player is not in event dm or is not player
+				else if (Config.LEAVE_BUFFS_ON_DIE) // this means that the player is not in event
 				{
 					stopAllEffects();
 				}
@@ -6049,14 +6050,12 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 	 */
 	public void stopMove(final L2CharPosition pos, final boolean updateKnownObjects)
 	{
-		// if(!isMoving())
-		// return;
-		
 		// Delete movement data of the L2Character
 		_move = null;
 		
-		// if (getAI() != null)
-		// getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
+		// Set AI_INTENTION_IDLE
+		if (this instanceof L2PcInstance && getAI() != null)
+			((L2PcInstance) this).getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
 		
 		// Set the current position (x,y,z), its current L2WorldRegion if necessary and its heading
 		// All data are contained in a L2CharPosition object
@@ -6075,13 +6074,9 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 		}
 		
 		broadcastPacket(new StopMove(this));
-		// MAJAX fix
-		// broadcastPacket(new ValidateLocation(this));
 		
 		if (updateKnownObjects)
-		{
 			ThreadPoolManager.getInstance().executeTask(new KnownListAsynchronousUpdateTask(this));
-		}
 	}
 	
 	/**

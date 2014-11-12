@@ -12488,9 +12488,6 @@ public final class L2PcInstance extends L2PlayableInstance
 			return;
 		}
 		
-		// Like L2OFF after a skill the player must stop the movement, also with toggle
-		stopMove(null);
-		
 		// If all conditions are checked, create a new SkillDat object and set the player _currentSkill
 		setCurrentSkill(skill, forceUse, dontMove);
 		

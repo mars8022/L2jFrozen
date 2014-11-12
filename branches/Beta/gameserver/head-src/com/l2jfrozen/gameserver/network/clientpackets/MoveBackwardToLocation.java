@@ -107,6 +107,7 @@ public class MoveBackwardToLocation extends L2GameClientPacket
 		if (_targetX == _originX && _targetY == _originY && _targetZ == _originZ)
 		{
 			activeChar.sendPacket(new StopMove(activeChar));
+			activeChar.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
 		
