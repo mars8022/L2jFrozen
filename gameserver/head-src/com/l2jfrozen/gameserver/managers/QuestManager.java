@@ -171,4 +171,18 @@ public class QuestManager extends ScriptManager<Quest>
 	{
 		return _quests.remove(q.getName()) != null;
 	}
+	
+	public final void unloadAllQuests()
+	{
+		LOGGER.info("Unloading Server Quests");
+		// unload all scripts
+		for (final Quest quest : _quests.values())
+		{
+			if (quest != null)
+			{
+				quest.unload();
+			}
+		}
+		QuestManager.getInstance().report();
+	}
 }
