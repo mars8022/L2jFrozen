@@ -52,12 +52,29 @@ public final class RequestAutoSoulShot extends L2GameClientPacket
 		if (activeChar == null)
 			return;
 		
-		//Like L2OFF you can't use soulshots while sitting
-		final int[] shots_ids = 
-		{ 
-			5789,1835,1463,1464,1465,1466,1467,
-			5790,2509,2510,2511,2512,2513,
-			2514,3947,3948,3949,3950,3951,3952
+		// Like L2OFF you can't use soulshots while sitting
+		final int[] shots_ids =
+		{
+			5789,
+			1835,
+			1463,
+			1464,
+			1465,
+			1466,
+			1467,
+			5790,
+			2509,
+			2510,
+			2511,
+			2512,
+			2513,
+			2514,
+			3947,
+			3948,
+			3949,
+			3950,
+			3951,
+			3952
 		};
 		if (activeChar.isSitting() && Arrays.toString(shots_ids).contains(String.valueOf(_itemId)))
 		{

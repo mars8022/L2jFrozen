@@ -17,7 +17,6 @@ import org.apache.log4j.Logger;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.gargoylesoftware.htmlunit.javascript.JavaScriptEngine;
 import com.l2jfrozen.Config;
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
@@ -218,10 +217,10 @@ public class AutoVoteRewardHandler
 		{
 			final HtmlPage page = webClient.getPage(PowerPakConfig.VOTES_SITE_HOPZONE_URL);
 			
-			String fullPage = page.asXml();
-			int constrainA = fullPage.indexOf("rank anonymous tooltip") + 24;
+			final String fullPage = page.asXml();
+			final int constrainA = fullPage.indexOf("rank anonymous tooltip") + 24;
 			String voteSection = fullPage.substring(constrainA);
-			int constrainB = voteSection.indexOf("span") - 2;
+			final int constrainB = voteSection.indexOf("span") - 2;
 			voteSection = voteSection.substring(0, constrainB).trim();
 			votes = Integer.parseInt(voteSection);
 			

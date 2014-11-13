@@ -1810,7 +1810,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 		
 		// Recharge AutoSoulShot
 		
-		int atkTime = Formulas.getInstance().calcMAtkSpd(activeChar, skill, skill.getHitTime());
+		final int atkTime = Formulas.getInstance().calcMAtkSpd(activeChar, skill, skill.getHitTime());
 		if (skill.useSoulShot())
 		{
 			if (activeChar instanceof L2PcInstance)
@@ -9323,7 +9323,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 			LOGGER.warn("", e);
 		}
 		
-		if (this instanceof L2PcInstance && ((L2PcInstance) this).isMovingTaskDefined())
+		if (this instanceof L2PcInstance && ((L2PcInstance) this).isMovingTaskDefined() && !skill.isPotion())
 			((L2PcInstance) this).startMovingTask();
 	}
 	
@@ -10958,7 +10958,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 		
 	}
 	
-	synchronized public void reloadShots(boolean isMagic)
+	synchronized public void reloadShots(final boolean isMagic)
 	{
 		if (this instanceof L2PcInstance)
 		{

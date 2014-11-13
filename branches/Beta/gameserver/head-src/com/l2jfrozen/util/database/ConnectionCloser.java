@@ -24,7 +24,7 @@ import java.sql.SQLException;
 import org.apache.log4j.Logger;
 
 /**
- * @author Enzo
+ * @author Shyla
  */
 public class ConnectionCloser implements Runnable
 {

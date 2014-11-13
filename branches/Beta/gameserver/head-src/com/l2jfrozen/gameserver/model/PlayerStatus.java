@@ -21,7 +21,7 @@ package com.l2jfrozen.gameserver.model;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 
 /**
- * @author Enzo
+ * @author Shyla
  */
 public class PlayerStatus
 {

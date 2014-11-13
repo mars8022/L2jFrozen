@@ -27,7 +27,6 @@ import com.l2jfrozen.gameserver.ai.CtrlIntention;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.handler.IItemHandler;
 import com.l2jfrozen.gameserver.handler.ItemHandler;
-import com.l2jfrozen.gameserver.handler.itemhandlers.SoulShots;
 import com.l2jfrozen.gameserver.managers.CastleManager;
 import com.l2jfrozen.gameserver.managers.ClanHallManager;
 import com.l2jfrozen.gameserver.model.Inventory;
@@ -71,12 +70,29 @@ public final class UseItem extends L2GameClientPacket
 		if (item == null)
 			return;
 		
-		//Like L2OFF you can't use soulshots while sitting
-		final int[] shots_ids = 
-		{ 
-			5789,1835,1463,1464,1465,1466,1467,
-			5790,2509,2510,2511,2512,2513,
-			2514,3947,3948,3949,3950,3951,3952
+		// Like L2OFF you can't use soulshots while sitting
+		final int[] shots_ids =
+		{
+			5789,
+			1835,
+			1463,
+			1464,
+			1465,
+			1466,
+			1467,
+			5790,
+			2509,
+			2510,
+			2511,
+			2512,
+			2513,
+			2514,
+			3947,
+			3948,
+			3949,
+			3950,
+			3951,
+			3952
 		};
 		if (activeChar.isSitting() && Arrays.toString(shots_ids).contains(String.valueOf(item.getItemId())))
 		{
