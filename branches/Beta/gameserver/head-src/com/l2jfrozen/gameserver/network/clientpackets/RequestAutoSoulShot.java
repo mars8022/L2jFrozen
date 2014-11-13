@@ -18,6 +18,8 @@
  */
 package com.l2jfrozen.gameserver.network.clientpackets;
 
+import java.util.Arrays;
+
 import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
@@ -49,6 +51,21 @@ public final class RequestAutoSoulShot extends L2GameClientPacket
 		
 		if (activeChar == null)
 			return;
+		
+		//Like L2OFF you can't use soulshots while sitting
+		final int[] shots_ids = 
+		{ 
+			5789,1835,1463,1464,1465,1466,1467,
+			5790,2509,2510,2511,2512,2513,
+			2514,3947,3948,3949,3950,3951,3952
+		};
+		if (activeChar.isSitting() && Arrays.toString(shots_ids).contains(String.valueOf(_itemId)))
+		{
+			final SystemMessage sm = new SystemMessage(SystemMessageId.CANNOT_AUTO_USE_LACK_OF_S1);
+			sm.addItemName(_itemId);
+			activeChar.sendPacket(sm);
+			return;
+		}
 		
 		if (activeChar.getPrivateStoreType() == 0 && activeChar.getActiveRequester() == null && !activeChar.isDead())
 		{
