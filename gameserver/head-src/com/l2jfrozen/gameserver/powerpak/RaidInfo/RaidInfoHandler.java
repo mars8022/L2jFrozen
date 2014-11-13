@@ -34,7 +34,7 @@ import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.templates.StatsSet;
 
 /**
- * @author Enzo
+ * @author Shyla
  */
 public class RaidInfoHandler implements ICustomByPassHandler
 {

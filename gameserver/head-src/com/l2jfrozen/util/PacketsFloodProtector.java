@@ -33,7 +33,7 @@ import com.l2jfrozen.netcore.MMOClient;
 import com.l2jfrozen.netcore.NetcoreConfig;
 
 /**
- * @author Enzo
+ * @author Shyla
  */
 public class PacketsFloodProtector
 {
@@ -79,6 +79,12 @@ public class PacketsFloodProtector
 		}
 		
 		if (account == null)
+			return true;
+		
+		final L2GameClient clientGame = (L2GameClient) client;
+		
+		// Ignore flood protector for GM char
+		if (clientGame != null && clientGame.getActiveChar() != null && clientGame.getActiveChar().isGM())
 			return true;
 		
 		// get actual concurrent actions number for account

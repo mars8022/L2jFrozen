@@ -19,9 +19,7 @@
 package com.l2jfrozen.gameserver.datatables;
 
 /**
- * 
- * 
- * @author Enzo
+ * @author Shyla
  */
 
 import java.sql.Connection;

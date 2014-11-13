@@ -1079,8 +1079,13 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 	{
 		if (NetcoreConfig.ENABLE_CLIENT_FLOOD_PROTECTION)
 		{
-			if (_isDetached) // detached clients can't receive any packets
+			// detached clients can't receive any packets
+			if (_isDetached)
 				return true;
+			
+			// Ignore flood protector for GM char
+			if (getActiveChar() != null && getActiveChar().isGM())
+				return false;
 			
 			// flood protection
 			if (getStats().countPacket(_packetQueue.size()))

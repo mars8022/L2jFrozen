@@ -19,7 +19,7 @@
 package com.l2jfrozen.gameserver.model.entity.olympiad;
 
 /**
- * @author Enzo
+ * @author Shyla
  */
 public enum OlympiadPeriod
 {
