@@ -334,14 +334,35 @@ public final class Say2 extends L2GameClientPacket
 				
 				if (Config.DEFAULT_GLOBAL_CHAT.equalsIgnoreCase("on") || Config.DEFAULT_GLOBAL_CHAT.equalsIgnoreCase("gm") && activeChar.isGM())
 				{
-					final int region = MapRegionTable.getInstance().getMapRegion(activeChar.getX(), activeChar.getY());
-					for (final L2PcInstance player : L2World.getInstance().getAllPlayers())
+					if (Config.GLOBAL_CHAT_WITH_PVP)
 					{
-						if (region == MapRegionTable.getInstance().getMapRegion(player.getX(), player.getY()))
+						if ((activeChar.getPvpKills() < Config.GLOBAL_PVP_AMOUNT) && !activeChar.isGM())
 						{
-							// Like L2OFF if player is blocked can't read the message
-							if (!player.getBlockList().isInBlockList(activeChar.getName()))
-								player.sendPacket(cs);
+							activeChar.sendMessage("You must have at least " + Config.GLOBAL_PVP_AMOUNT + " pvp kills in order to speak in global chat");
+							return;
+						}
+						final int region = MapRegionTable.getInstance().getMapRegion(activeChar.getX(), activeChar.getY());
+						for (final L2PcInstance player : L2World.getInstance().getAllPlayers())
+						{
+							if (region == MapRegionTable.getInstance().getMapRegion(player.getX(), player.getY()))
+							{
+								// Like L2OFF if player is blocked can't read the message
+								if (!player.getBlockList().isInBlockList(activeChar.getName()))
+									player.sendPacket(cs);
+							}
+						}
+					}
+					else
+					{
+						final int region = MapRegionTable.getInstance().getMapRegion(activeChar.getX(), activeChar.getY());
+						for (final L2PcInstance player : L2World.getInstance().getAllPlayers())
+						{
+							if (region == MapRegionTable.getInstance().getMapRegion(player.getX(), player.getY()))
+							{
+								// Like L2OFF if player is blocked can't read the message
+								if (!player.getBlockList().isInBlockList(activeChar.getName()))
+									player.sendPacket(cs);
+							}
 						}
 					}
 				}
@@ -401,8 +422,25 @@ public final class Say2 extends L2GameClientPacket
 				}
 				else if (Config.DEFAULT_TRADE_CHAT.equalsIgnoreCase("limited"))
 				{
-					
-					if (Config.TRADE_CHAT_IS_NOOBLE)
+					if (Config.TRADE_CHAT_WITH_PVP)
+					{
+						if ((activeChar.getPvpKills() <= Config.TRADE_PVP_AMOUNT) && !activeChar.isGM())
+						{
+							activeChar.sendMessage("You must have at least " + Config.TRADE_PVP_AMOUNT + "  pvp kills in order to speak in trade chat");
+							return;
+						}
+						final int region = MapRegionTable.getInstance().getMapRegion(activeChar.getX(), activeChar.getY());
+						for (final L2PcInstance player : L2World.getInstance().getAllPlayers())
+						{
+							if (region == MapRegionTable.getInstance().getMapRegion(player.getX(), player.getY()))
+							{
+								// Like L2OFF if player is blocked can't read the message
+								if (!player.getBlockList().isInBlockList(activeChar.getName()))
+									player.sendPacket(cs);
+							}
+						}
+					}
+					else if (Config.TRADE_CHAT_IS_NOOBLE)
 					{
 						if (!activeChar.isNoble() && !activeChar.isGM())
 						{
