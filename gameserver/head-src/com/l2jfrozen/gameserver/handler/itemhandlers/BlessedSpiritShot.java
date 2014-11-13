@@ -76,13 +76,6 @@ public class BlessedSpiritShot implements IItemHandler
 		
 		final int itemId = item.getItemId();
 		
-		if (activeChar.isParalyzed())
-		{
-			activeChar.sendMessage("You Cannot Use This While You Are Paralyzed");
-			activeChar.sendPacket(ActionFailed.STATIC_PACKET);
-			return;
-		}
-		
 		if (activeChar.isInOlympiadMode())
 		{
 			SystemMessage sm = new SystemMessage(SystemMessageId.THIS_ITEM_IS_NOT_AVAILABLE_FOR_THE_OLYMPIAD_EVENT);
