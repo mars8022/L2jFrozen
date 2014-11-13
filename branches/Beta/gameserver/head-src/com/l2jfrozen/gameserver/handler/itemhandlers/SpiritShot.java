@@ -86,13 +86,6 @@ public class SpiritShot implements IItemHandler
 			return;
 		}
 		
-		if (activeChar.isParalyzed())
-		{
-			activeChar.sendMessage("You Cannot Use This While You Are Paralyzed");
-			activeChar.sendPacket(ActionFailed.STATIC_PACKET);
-			return;
-		}
-		
 		// Check if Spiritshot is already active
 		if (weaponInst.getChargedSpiritshot() != L2ItemInstance.CHARGED_NONE)
 			return;
