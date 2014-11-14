@@ -453,7 +453,7 @@ public final class L2WorldRegion
 					SpawnTable.getInstance().deleteSpawn(spawn, false);
 				}
 				
-				LOGGER.info("Removed NPC " + target.getObjectId());
+				LOGGER.debug("Removed NPC " + target.getObjectId());
 				
 				target = null;
 				spawn = null;

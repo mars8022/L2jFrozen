@@ -33,6 +33,7 @@ import com.l2jfrozen.gameserver.communitybbs.Manager.RegionBBSManager;
 import com.l2jfrozen.gameserver.datatables.HeroSkillTable;
 import com.l2jfrozen.gameserver.datatables.sql.ClanTable;
 import com.l2jfrozen.gameserver.handler.IAdminCommandHandler;
+import com.l2jfrozen.gameserver.model.L2Clan;
 import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.model.L2World;
@@ -1164,7 +1165,11 @@ public class AdminEditChar implements IAdminCommandHandler
 		adminReply.setFile("data/html/admin/" + filename);
 		adminReply.replace("%name%", player.getName());
 		adminReply.replace("%level%", String.valueOf(player.getLevel()));
-		adminReply.replace("%clan%", String.valueOf(ClanTable.getInstance().getClan(player.getClanId())));
+		L2Clan playerClan = ClanTable.getInstance().getClan(player.getClanId());
+		if(playerClan != null)
+			adminReply.replace("%clan%", playerClan.getName());
+		else
+			adminReply.replace("%clan%", "no Clan");
 		adminReply.replace("%xp%", String.valueOf(player.getExp()));
 		adminReply.replace("%sp%", String.valueOf(player.getSp()));
 		adminReply.replace("%class%", player.getTemplate().className);
