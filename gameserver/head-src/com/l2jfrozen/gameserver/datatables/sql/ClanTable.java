@@ -421,7 +421,7 @@ public class ClanTable
 				}
 			}
 			
-			LOGGER.info("Clan removed in db: {}" + " " + clanId);
+			LOGGER.debug("Clan removed in db: {}" + " " + clanId);
 			
 			DatabaseUtils.close(statement);
 		}

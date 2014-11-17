@@ -168,8 +168,8 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 					
 					if (client.getActiveChar() == null || client.getActiveChar().isOnline() == 0)
 					{
-						//if not in shutdown
-						if(!Shutdown.getInstance().isShutdownStarted())
+						// if not in shutdown
+						if (!Shutdown.getInstance().isShutdownStarted())
 							LOGGER.warn("ATTENTION: Account " + client.accountName + " is trying to send packet with opcode " + opcode + " without enterning in the world (online status is FALSE)..");
 						break;
 					}
@@ -736,8 +736,8 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 							
 							if (client.getActiveChar() == null || client.getActiveChar().isOnline() == 0)
 							{
-								//if not in shutdown
-								if(!Shutdown.getInstance().isShutdownStarted())
+								// if not in shutdown
+								if (!Shutdown.getInstance().isShutdownStarted())
 									LOGGER.warn("ATTENTION: Account " + client.accountName + " is trying to send packet with opcode " + opcode + " (opcode2 = " + opcode2 + ") without enterning in the world (online status is FALSE)..");
 								break;
 							}

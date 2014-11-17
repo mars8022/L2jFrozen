@@ -63,7 +63,7 @@ public class RequestPartyMatchList extends L2GameClientPacket
 			final PartyMatchRoom _room = PartyMatchRoomList.getInstance().getRoom(_roomid);
 			if (_room != null)
 			{
-				LOGGER.info("PartyMatchRoom #" + _room.getId() + " changed by " + _activeChar.getName());
+				LOGGER.debug("PartyMatchRoom #" + _room.getId() + " changed by " + _activeChar.getName());
 				_room.setMaxMembers(_membersmax);
 				_room.setMinLvl(_lvlmin);
 				_room.setMaxLvl(_lvlmax);
@@ -86,7 +86,7 @@ public class RequestPartyMatchList extends L2GameClientPacket
 			
 			final PartyMatchRoom _room = new PartyMatchRoom(_maxid, _roomtitle, _loot, _lvlmin, _lvlmax, _membersmax, _activeChar);
 			
-			LOGGER.info("PartyMatchRoom #" + _maxid + " created by " + _activeChar.getName());
+			LOGGER.debug("PartyMatchRoom #" + _maxid + " created by " + _activeChar.getName());
 			
 			// Remove from waiting list, and add to current room
 			PartyMatchWaitingList.getInstance().removePlayer(_activeChar);

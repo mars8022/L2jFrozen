@@ -78,8 +78,8 @@ public class BalanceLife implements ISkillHandler
 			if (target == null || target.isDead())
 				continue;
 			
-			// Avoid players heal inside Baium lair from outside
-			if ((activeChar.isInsideZone(12007) || target.isInsideZone(12007)) && ((GrandBossManager.getInstance().getZone(player) == null && GrandBossManager.getInstance().getZone(target) != null) || (GrandBossManager.getInstance().getZone(target) == null && GrandBossManager.getInstance().getZone(activeChar) != null)))
+			// Avoid characters heal inside Baium lair from outside
+			if ((activeChar.isInsideZone(12007) || target.isInsideZone(12007)) && ((GrandBossManager.getInstance().getZone(activeChar) == null && GrandBossManager.getInstance().getZone(target) != null) || (GrandBossManager.getInstance().getZone(target) == null && GrandBossManager.getInstance().getZone(activeChar) != null)))
 			{
 				continue;
 			}

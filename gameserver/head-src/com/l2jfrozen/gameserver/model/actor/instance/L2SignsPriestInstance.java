@@ -89,8 +89,8 @@ public class L2SignsPriestInstance extends L2FolkInstance
 					}
 					catch (final Exception e2)
 					{
-						if (Config.ENABLE_ALL_EXCEPTIONS)
-							e2.printStackTrace();
+						// if (Config.ENABLE_ALL_EXCEPTIONS)
+						// e2.printStackTrace();
 						
 						try
 						{
