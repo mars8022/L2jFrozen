@@ -6950,9 +6950,6 @@ public final class L2PcInstance extends L2PlayableInstance
 				this._party.broadcastToPartyMembers(my);
 			}
 			
-			// to avoid unuseful packet broadcasting
-			// broadcastPacket(my);
-			
 			my = null;
 		}
 		

@@ -342,7 +342,13 @@ public abstract class L2ZoneType
 	public boolean isCharacterInZone(final L2Character character)
 	{
 		// re validate zone is not always performed, so better both checks
-		return _characterList.containsKey(character.getObjectId()) || isInsideZone(character.getX(), character.getY(), character.getZ());
+		if (character != null)
+		{
+			return _characterList.containsKey(character.getObjectId()) || isInsideZone(character.getX(), character.getY(), character.getZ());
+		}
+		
+		return false;
+		
 	}
 	
 	protected abstract void onEnter(L2Character character);

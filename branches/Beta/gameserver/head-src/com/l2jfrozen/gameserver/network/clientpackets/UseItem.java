@@ -502,14 +502,13 @@ public final class UseItem extends L2GameClientPacket
 				// Restrict bow weapon for class except Cupid bow.
 				if (item.getItem() instanceof L2Weapon && ((L2Weapon) item.getItem()).getItemType() == L2WeaponType.BOW && !item.isCupidBow())
 				{
-					
-					if (Config.DISABLE_BOW_CLASSES.contains(activeChar.getClassId().getId()))
+					// Restriction not valid on Olympiad matches
+					if (Config.DISABLE_BOW_CLASSES.contains(activeChar.getClassId().getId()) && !activeChar.isInOlympiadMode())
 					{
-						activeChar.sendMessage("This item can not be equipped by your class");
+						activeChar.sendMessage("This item can not be equipped by your class!");
 						activeChar.sendPacket(ActionFailed.STATIC_PACKET);
 						return;
 					}
-					
 				}
 				
 				final int tempBodyPart = item.getItem().getBodyPart();

@@ -1165,8 +1165,8 @@ public class AdminEditChar implements IAdminCommandHandler
 		adminReply.setFile("data/html/admin/" + filename);
 		adminReply.replace("%name%", player.getName());
 		adminReply.replace("%level%", String.valueOf(player.getLevel()));
-		L2Clan playerClan = ClanTable.getInstance().getClan(player.getClanId());
-		if(playerClan != null)
+		final L2Clan playerClan = ClanTable.getInstance().getClan(player.getClanId());
+		if (playerClan != null)
 			adminReply.replace("%clan%", playerClan.getName());
 		else
 			adminReply.replace("%clan%", "no Clan");

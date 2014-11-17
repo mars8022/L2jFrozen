@@ -50,6 +50,6 @@ public final class TaskCleanUp extends Task
 	public void initializate()
 	{
 		super.initializate();
-		TaskManager.addUniqueTask(NAME, TaskTypes.TYPE_FIXED_SHEDULED, "1800000", "3600000", "");
+		TaskManager.addUniqueTask(NAME, TaskTypes.TYPE_FIXED_SHEDULED, "86400000", "86400000", ""); // 86400000 = 24 hours
 	}
 }

@@ -6114,13 +6114,26 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 		{
 			if (_target != null)
 			{
-				broadcastPacket(new TargetUnselected(this));
+				final TargetUnselected my = new TargetUnselected(this);
+				
+				// No need to broadcast the packet to all players
+				if (this instanceof L2PcInstance)
+				{
+					// Send packet just to me and to party, not to any other that does not use the information
+					if (!this.isInParty())
+					{
+						this.sendPacket(my);
+					}
+					else
+					{
+						this.getParty().broadcastToPartyMembers(my);
+					}
+				}
+				else
+				{
+					sendPacket(new TargetUnselected(this));
+				}
 			}
-			/*
-			 * if (isAttackingNow() && getAI().getAttackTarget() == _target) { abortAttack(); getAI().setIntention(CtrlIntention.AI_INTENTION_ACTIVE); if (this instanceof L2PcInstance) { sendPacket(ActionFailed.STATIC_PACKET); SystemMessage sm = new SystemMessage(SystemMessageId.S1_S2);
-			 * sm.addString("Attack is aborted"); sendPacket(sm); } } if (isCastingNow() && canAbortCast() && getAI().getCastTarget() == _target) { abortCast(); getAI().setIntention(CtrlIntention.AI_INTENTION_ACTIVE); if (this instanceof L2PcInstance) { sendPacket(ActionFailed.STATIC_PACKET);
-			 * SystemMessage sm = new SystemMessage(SystemMessageId.S1_S2); sm.addString("Casting is aborted"); sendPacket(sm); } }
-			 */
 		}
 		
 		_target = object;
