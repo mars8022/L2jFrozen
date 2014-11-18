@@ -3736,6 +3736,11 @@ public final class L2PcInstance extends L2PlayableInstance
 	 */
 	public synchronized void rewardSkills()
 	{
+		rewardSkills(false);
+	}
+	
+	public synchronized void rewardSkills(boolean restore)
+	{
 		// Get the Level of the L2PcInstance
 		final int lvl = getLevel();
 		
@@ -3766,7 +3771,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		if (getExpertiseIndex() > 0)
 		{
 			L2Skill skill = SkillTable.getInstance().getInfo(239, getExpertiseIndex());
-			addSkill(skill, true);
+			addSkill(skill, !restore);
 			
 			if (Config.DEBUG)
 			{
@@ -3788,7 +3793,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		if (getSkillLevel(1321) < 1 && getRace() == Race.dwarf)
 		{
 			L2Skill skill = SkillTable.getInstance().getInfo(1321, 1);
-			addSkill(skill, true);
+			addSkill(skill, !restore);
 			skill = null;
 		}
 		
@@ -3796,7 +3801,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		if (getSkillLevel(1322) < 1)
 		{
 			L2Skill skill = SkillTable.getInstance().getInfo(1322, 1);
-			addSkill(skill, true);
+			addSkill(skill, !restore);
 			skill = null;
 		}
 		
@@ -3805,7 +3810,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			if (lvl >= COMMON_CRAFT_LEVELS[i] && getSkillLevel(1320) < i + 1)
 			{
 				L2Skill skill = SkillTable.getInstance().getInfo(1320, (i + 1));
-				addSkill(skill, true);
+				addSkill(skill, !restore);
 				skill = null;
 			}
 		}
@@ -10155,7 +10160,8 @@ public final class L2PcInstance extends L2PlayableInstance
 			// and reward expertise/lucky skills if necessary.
 			// Note that Clan, Noblesse and Hero skills are given separately and not here.
 			player.restoreCharData();
-			player.rewardSkills();
+			//reward skill restore mode in order to avoid duplicate storage of already stored skills
+			player.rewardSkills(true);
 			
 			// Restore pet if exists in the world
 			player.setPet(L2World.getInstance().getPet(player.getObjectId()));
