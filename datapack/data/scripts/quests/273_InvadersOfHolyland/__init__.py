@@ -1,4 +1,4 @@
-# Maked by Mr. - Version 0.3 by DrLecter
+# Updated by OnePaTuBHuK like L2OFF special for L2jFrozen project. 
 import sys
 from com.l2jfrozen.gameserver.model.quest import State
 from com.l2jfrozen.gameserver.model.quest import QuestState
@@ -9,10 +9,14 @@ qn = "273_InvadersOfHolyland"
 BLACK_SOULSTONE = 1475
 RED_SOULSTONE = 1476
 ADENA = 57
+NEWBIE_REWARD = 4
+SOULSHOT_FOR_BEGINNERS = 5789
 
 class Quest (JQuest) :
 
- def __init__(self,id,name,descr): JQuest.__init__(self,id,name,descr)
+ def __init__(self,id,name,descr):
+     JQuest.__init__(self,id,name,descr)
+     self.questItemIds = [BLACK_SOULSTONE, RED_SOULSTONE]
 
  def onEvent (self,event,st) :
     htmltext = event
@@ -26,7 +30,7 @@ class Quest (JQuest) :
     return htmltext
 
  def onTalk (self,npc,player):
-   htmltext = "<html><body>You are either not carrying out your quest or don't meet the criteria.</body></html>"
+   htmltext = "<html><body>You are either not on a quest that involves this NPC, or you don't meet this NPC's minimum quest requirements.</body></html>"
    st = player.getQuestState(qn)
    if not st : return htmltext
 
@@ -69,6 +73,15 @@ class Quest (JQuest) :
         st.takeItems(RED_SOULSTONE,red)
         st.giveItems(ADENA,amount)
         st.playSound("ItemSound.quest_finish")
+     if red+black != 0 :
+        # check the player state against this quest newbie rewarding mark.
+       newbie = player.isNewbie()
+       if newbie | NEWBIE_REWARD != newbie :
+          player.setNewbie(newbie|NEWBIE_REWARD)
+          st.checkNewbieQuests()          
+          st.showQuestionMark(26)
+          st.playTutorialVoice("tutorial_voice_026")
+          st.giveItems(SOULSHOT_FOR_BEGINNERS,6000)
    return htmltext
 
  def onKill(self,npc,player,isPet):
@@ -87,7 +100,7 @@ class Quest (JQuest) :
    st.playSound("ItemSound.quest_itemget")
    return
 
-QUEST       = Quest(273,qn,"Invaders Of Holyland")
+QUEST       = Quest(273,qn,"Invaders Of the Holyland")
 CREATED     = State('Start', QUEST)
 STARTING    = State('Starting', QUEST)
 STARTED     = State('Started', QUEST)
@@ -101,6 +114,3 @@ QUEST.addTalkId(30566)
 QUEST.addKillId(20311)
 QUEST.addKillId(20312)
 QUEST.addKillId(20313)
-
-STARTED.addQuestDrop(20311,BLACK_SOULSTONE,1)
-STARTED.addQuestDrop(20313,RED_SOULSTONE,1)

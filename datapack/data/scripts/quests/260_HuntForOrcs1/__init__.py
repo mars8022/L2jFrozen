@@ -1,4 +1,4 @@
-# Made by Mr. - Version 0.3 by DrLecter
+# Updated by OnePaTuBHuK like L2OFF special for L2jFrozen project. 
 import sys
 from com.l2jfrozen.gameserver.model.quest import State
 from com.l2jfrozen.gameserver.model.quest import QuestState
@@ -9,10 +9,15 @@ qn = "260_HuntForOrcs1"
 ORC_AMULET = 1114
 ORC_NECKLACE = 1115
 ADENA = 57
+NEWBIE_REWARD = 4
+SPIRITSHOT_FOR_BEGINNERS = 5790
+SOULSHOT_FOR_BEGINNERS = 5789
 
 class Quest (JQuest) :
 
- def __init__(self,id,name,descr): JQuest.__init__(self,id,name,descr)
+ def __init__(self,id,name,descr):
+     JQuest.__init__(self,id,name,descr)
+     self.questItemIds = [ORC_AMULET, ORC_NECKLACE]
 
  def onEvent (self,event,st) :
     htmltext = event
@@ -26,7 +31,7 @@ class Quest (JQuest) :
     return htmltext
 
  def onTalk (self,npc,player):
-   htmltext = "<html><body>You are either not carrying out your quest or don't meet the criteria.</body></html>"
+   htmltext = "<html><body>You are either not on a quest that involves this NPC, or you don't meet this NPC's minimum quest requirements.</body></html>"
    st = player.getQuestState(qn)
    if not st : return htmltext
 
@@ -51,9 +56,21 @@ class Quest (JQuest) :
        htmltext = "30221-04.htm"
      else :
        htmltext = "30221-05.htm"
-       st.giveItems(ADENA,amulet*5+necklace*15)
+       st.giveItems(ADENA,(amulet*12)+(necklace*30))
        st.takeItems(ORC_AMULET,-1)
        st.takeItems(ORC_NECKLACE,-1)
+       # check the player state against this quest newbie rewarding mark.
+       newbie = player.isNewbie()
+       if newbie | NEWBIE_REWARD != newbie :
+          st.checkNewbieQuests()
+          player.setNewbie(newbie|NEWBIE_REWARD)
+          st.showQuestionMark(26)
+          if player.getClassId().isMage() :
+             st.playTutorialVoice("tutorial_voice_027")
+             st.giveItems(SPIRITSHOT_FOR_BEGINNERS,3000)
+          else :
+             st.playTutorialVoice("tutorial_voice_026")
+             st.giveItems(SOULSHOT_FOR_BEGINNERS,6000)
    return htmltext
 
  def onKill(self,npc,player,isPet):
@@ -69,7 +86,7 @@ class Quest (JQuest) :
      st.playSound("ItemSound.quest_itemget")
    return
 
-QUEST       = Quest(260,qn,"Hunt For Orcs1")
+QUEST       = Quest(260,qn,"Hunt the Orcs")
 CREATED     = State('Start', QUEST)
 STARTING    = State('Starting', QUEST)
 STARTED     = State('Started', QUEST)
@@ -86,6 +103,3 @@ QUEST.addKillId(20470)
 QUEST.addKillId(20471)
 QUEST.addKillId(20472)
 QUEST.addKillId(20473)
-
-STARTED.addQuestDrop(20468,ORC_AMULET,1)
-STARTED.addQuestDrop(20472,ORC_NECKLACE,1)
