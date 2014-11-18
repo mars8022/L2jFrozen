@@ -1,4 +1,4 @@
-# Made by Mr. Have fun! - Version 0.3 by DrLecter
+# Updated by OnePaTuBHuK like L2OFF special for L2jFrozen project. 
 import sys
 from com.l2jfrozen.gameserver.model.quest import State
 from com.l2jfrozen.gameserver.model.quest import QuestState
@@ -8,10 +8,15 @@ qn = "265_ChainsOfSlavery"
 
 IMP_SHACKLES = 1368
 ADENA = 57
+NEWBIE_REWARD = 4
+SPIRITSHOT_FOR_BEGINNERS = 5790
+SOULSHOT_FOR_BEGINNERS = 5789
 
 class Quest (JQuest) :
 
- def __init__(self,id,name,descr): JQuest.__init__(self,id,name,descr)
+ def __init__(self,id,name,descr):
+     JQuest.__init__(self,id,name,descr)
+     self.questItemIds = [IMP_SHACKLES]
 
  def onEvent (self,event,st) :
     htmltext = event
@@ -25,7 +30,7 @@ class Quest (JQuest) :
     return htmltext
 
  def onTalk (self,npc,player):
-   htmltext = "<html><body>You are either not carrying out your quest or don't meet the criteria.</body></html>"
+   htmltext = "<html><body>You are either not on a quest that involves this NPC, or you don't meet this NPC's minimum quest requirements.</body></html>"
    st = player.getQuestState(qn)
    if not st : return htmltext
 
@@ -48,10 +53,22 @@ class Quest (JQuest) :
      count=st.getQuestItemsCount(IMP_SHACKLES)
      if count :
        if count >= 10:
-          st.giveItems(ADENA,13*count+500)
+          st.giveItems(ADENA,12*count+500)
        else :
-          st.giveItems(ADENA,13*count)
+          st.giveItems(ADENA,12*count)
        st.takeItems(IMP_SHACKLES,-1)
+       # check the player state against this quest newbie rewarding mark.
+       newbie = player.isNewbie()
+       if newbie | NEWBIE_REWARD != newbie :
+          player.setNewbie(newbie|NEWBIE_REWARD)
+          st.checkNewbieQuests()
+          st.showQuestionMark(26)
+          if player.getClassId().isMage() :
+             st.playTutorialVoice("tutorial_voice_027")
+             st.giveItems(SPIRITSHOT_FOR_BEGINNERS,3000)
+          else :
+             st.playTutorialVoice("tutorial_voice_026")
+             st.giveItems(SOULSHOT_FOR_BEGINNERS,6000)
        htmltext = "30357-05.htm"
      else:
        htmltext = "30357-04.htm"
@@ -80,5 +97,3 @@ QUEST.addTalkId(30357)
 
 QUEST.addKillId(20004)
 QUEST.addKillId(20005)
-
-STARTED.addQuestDrop(20004,IMP_SHACKLES,1)

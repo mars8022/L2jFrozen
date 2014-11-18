@@ -1,4 +1,4 @@
-# Maked by Mr. Have fun! - Version 0.3 by kmarty
+# Updated by OnePaTuBHuK like L2OFF special for L2jFrozen project. 
 import sys
 from com.l2jfrozen.gameserver.model.quest import State
 from com.l2jfrozen.gameserver.model.quest import QuestState
@@ -13,7 +13,9 @@ LEATHER_PANTS_ID = 29
 
 class Quest (JQuest) :
 
- def __init__(self,id,name,descr): JQuest.__init__(self,id,name,descr)
+ def __init__(self,id,name,descr): 
+     JQuest.__init__(self,id,name,descr)
+     self.questItemIds = [KASHA_CRYSTAL_ID, KASHA_PARASITE_ID]
 
  def onEvent (self,event,st) :
     htmltext = event
@@ -25,7 +27,7 @@ class Quest (JQuest) :
     return htmltext
 
  def onTalk (self,npc,player):
-   htmltext = "<html><body>You are either not carrying out your quest or don't meet the criteria.</body></html>"
+   htmltext = "<html><body>You are either not on a quest that involves this NPC, or you don't meet this NPC's minimum quest requirements.</body></html>"
    st = player.getQuestState(qn)
    if not st : return htmltext
 
@@ -47,6 +49,7 @@ class Quest (JQuest) :
         htmltext = "30571-04.htm"
       else:
         htmltext = "30571-05.htm"
+        st.checkNewbieQuests()
         st.exitQuest(1)
         st.playSound("ItemSound.quest_finish")
         st.takeItems(KASHA_CRYSTAL_ID,-1)
@@ -82,18 +85,16 @@ class Quest (JQuest) :
         st.set("cond","2")
    return
 
-QUEST       = Quest(276,qn,"Hestui Totem")
+QUEST       = Quest(276,qn,"Totem of the Hestui")
 CREATED     = State('Start', QUEST)
+STARTING    = State('Starting', QUEST)
 STARTED     = State('Started', QUEST)
 COMPLETED   = State('Completed', QUEST)
 
 QUEST.setInitialState(CREATED)
-
 QUEST.addStartNpc(30571)
+
 QUEST.addTalkId(30571)
 
 QUEST.addKillId(20479)
 QUEST.addKillId(27044)
-
-STARTED.addQuestDrop(27044,KASHA_CRYSTAL_ID,1)
-STARTED.addQuestDrop(20479,KASHA_PARASITE_ID,1)
