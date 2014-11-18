@@ -1336,7 +1336,7 @@ public class DM implements EventTask
 				{
 					if (player == null)
 						continue;
-					else if (player._inEventDM && player.isOnline() == 0 || player.isInJail() || player.isOffline())
+					else if (player._inEventDM && player.isOnline() == 0 || player.isInJail() || player.isInOfflineMode())
 					{
 						
 						if (!_joining)

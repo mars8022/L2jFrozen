@@ -213,7 +213,8 @@ public class OfflineTradeTable
 					client.setAccountName(player.getAccountName());
 					client.setState(GameClientState.IN_GAME);
 					player.setClient(client);
-					player.setOffline(true);
+					player.setOfflineMode(true);
+					player.setOnlineStatus(false);
 					player.setOfflineStartTime(time);
 					if (Config.OFFLINE_SLEEP_EFFECT)
 						player.startAbnormalEffect(L2Character.ABNORMAL_EFFECT_SLEEP);
@@ -298,7 +299,7 @@ public class OfflineTradeTable
 	
 	public static void storeOffliner(final L2PcInstance pc)
 	{
-		if ((pc.getPrivateStoreType() == L2PcInstance.STORE_PRIVATE_NONE) || (!pc.isOffline()))
+		if ((pc.getPrivateStoreType() == L2PcInstance.STORE_PRIVATE_NONE) || (!pc.isInOfflineMode()))
 			return;
 		
 		Connection con = null;

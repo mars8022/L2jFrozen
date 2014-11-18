@@ -681,6 +681,10 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 			// }
 			
 		}
+		catch (final Exception e)
+		{
+			e.printStackTrace();
+		}
 		finally
 		{
 			try

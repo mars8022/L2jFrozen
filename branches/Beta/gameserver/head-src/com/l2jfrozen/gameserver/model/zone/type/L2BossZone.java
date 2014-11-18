@@ -341,7 +341,7 @@ public class L2BossZone extends L2ZoneType
 			if (character instanceof L2PcInstance)
 			{
 				final L2PcInstance player = (L2PcInstance) character;
-				if (player.isOnline() == 1 && !player.isOffline())
+				if (player.isOnline() == 1 || player.isInOfflineMode()) // online players must be all taken into account, also offliner
 					npcKnownPlayers.put(player.getObjectId(), player);
 			}
 		}

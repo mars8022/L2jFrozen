@@ -301,7 +301,7 @@ public final class Say2 extends L2GameClientPacket
 						return;
 					}
 					
-					if (receiver.isOffline())
+					if (receiver.isInOfflineMode())
 					{
 						activeChar.sendMessage("Player is in offline mode.");
 						return;

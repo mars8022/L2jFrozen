@@ -1085,7 +1085,7 @@ public class TradeList
 		_owner.sendPacket(ownerIU);
 		player.sendPacket(playerIU);
 		
-		if (_owner.isOffline())
+		if (_owner.isInOfflineMode())
 			OfflineTradeTable.storeOffliner(_owner);
 		
 		ownerIU = null;
@@ -1416,7 +1416,7 @@ public class TradeList
 		_owner.sendPacket(ownerIU);
 		player.sendPacket(playerIU);
 		
-		if (_owner.isOffline())
+		if (_owner.isInOfflineMode())
 			OfflineTradeTable.storeOffliner(_owner);
 		
 		ownerIU = null;
