@@ -42,7 +42,8 @@ final class EffectStun extends L2Effect
 	@Override
 	public void onStart()
 	{
-		getEffected().startStunning();
+		if(!getEffected().isRaid())
+			getEffected().startStunning();
 	}
 	
 	/** Notify exited */
