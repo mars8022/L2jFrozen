@@ -1017,7 +1017,7 @@ public final class QuestState
 				QuestState st = _player.getQuestState("7003_NewbieHelper");
 				if (st != null && st.getInt("cond") <= 1)
 				{
-					_player.sendPacket(new ExShowScreenMessage("Задание выполнено. Найдите Помощника Новичков.", 4000));
+					_player.sendPacket(new ExShowScreenMessage("Quest completed. Find the Newbie Helper.", 4000));
 					st.set("cond", "2");
 				}
 			}
@@ -1030,9 +1030,9 @@ public final class QuestState
 				if (st != null && st.getInt("cond") == 4)
 				{
 					if (_player.getClassId().isMage())
-						_player.sendPacket(new ExShowScreenMessage("Вы получили Заряды Духа. Найдите Помощника Новичков.", 4000));
+						_player.sendPacket(new ExShowScreenMessage("You earned a spiritshots for beginners. Find the Newbie Helper.", 4000));
 					else
-						_player.sendPacket(new ExShowScreenMessage("Вы получили Заряды Души. Найдите Помощника Новичков.", 4000));
+						_player.sendPacket(new ExShowScreenMessage("You earned a soulshots for beginners. Find the Newbie Helper.", 4000));
 					st.set("cond", "5");
 				}
 			}
@@ -1044,7 +1044,7 @@ public final class QuestState
 				QuestState st = _player.getQuestState("7003_NewbieHelper");
 				if (st != null && st.getInt("cond") == 6)
 				{
-					_player.sendPacket(new ExShowScreenMessage("Вы получили Новое Оружие. Отправляйтесь к Помощнику Новичков.", 4000));
+					_player.sendPacket(new ExShowScreenMessage("You earned a new weapon. Go to the Newbie Helper.", 4000));
 					st.set("cond", "7");
 				}
 			}
@@ -1056,7 +1056,7 @@ public final class QuestState
 				QuestState st = _player.getQuestState("7003_NewbieHelper");
 				if (st != null && st.getInt("cond") == 8)
 				{
-					_player.sendPacket(new ExShowScreenMessage("Последнее задание выполнено. Отправляйтесь к Помощнику Новичков.", 4000));
+					_player.sendPacket(new ExShowScreenMessage("Last stage completed. Go to the Newbie Helper.", 4000));
 					st.set("cond", "9");
 				}
 			}
