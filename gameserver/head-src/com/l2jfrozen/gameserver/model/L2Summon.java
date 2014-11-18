@@ -433,7 +433,6 @@ public abstract class L2Summon extends L2PlayableInstance
 			store();
 			
 			giveAllToOwner();
-			SQLQueue.getInstance().run();
 			
 			stopAllEffects();
 			
