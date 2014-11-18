@@ -41,7 +41,7 @@ public class PcPoint implements Runnable
 		for (L2PcInstance activeChar : L2World.getInstance().getAllPlayers())
 		{
 			
-			if (activeChar.getLevel() > Config.PCB_MIN_LEVEL && !activeChar.isOffline())
+			if (activeChar.isOnline() == 1 && activeChar.getLevel() > Config.PCB_MIN_LEVEL && !activeChar.isInOfflineMode())
 			{
 				score = Rnd.get(Config.PCB_POINT_MIN, Config.PCB_POINT_MAX);
 				

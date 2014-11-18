@@ -637,12 +637,23 @@ public class Shutdown extends Thread
 		{
 		}
 		
-		// we cannot abort shutdown anymore, so i removed the "if"
+		// Disconnect all the players from the server
 		disconnectAllCharacters();
 		
 		try
 		{
 			wait(5000);
+		}
+		catch (final InterruptedException e1)
+		{
+		}
+		
+		// Save players data!
+		saveAllPlayers();
+		
+		try
+		{
+			wait(10000);
 		}
 		catch (final InterruptedException e1)
 		{
@@ -656,14 +667,21 @@ public class Shutdown extends Thread
 		
 		// Save Seven Signs data before closing. :)
 		SevenSigns.getInstance().saveSevenSignsData(null, true);
+		LOGGER.info("SevenSigns: All info saved!!");
 		
-		// Save all raidboss status ^_^
+		// Save all raidboss status
 		RaidBossSpawnManager.getInstance().cleanUp();
 		LOGGER.info("RaidBossSpawnManager: All raidboss info saved!!");
+		
+		// Save all Grandboss status
 		GrandBossManager.getInstance().cleanUp();
 		LOGGER.info("GrandBossManager: All Grand Boss info saved!!");
+		
+		// Save data CountStore
 		TradeController.getInstance().dataCountStore();
 		LOGGER.info("TradeController: All count Item Saved");
+		
+		// Save Olympiad status
 		try
 		{
 			Olympiad.getInstance().saveOlympiadStatus();
@@ -693,11 +711,10 @@ public class Shutdown extends Thread
 			ItemsOnGroundManager.getInstance().cleanUp();
 			LOGGER.info("ItemsOnGroundManager: All items on ground saved!!");
 		}
-		LOGGER.info("Data saved. All players disconnected, shutting down.");
 		
 		try
 		{
-			wait(10000);
+			wait(5000);
 		}
 		catch (final InterruptedException e)
 		{
@@ -707,11 +724,10 @@ public class Shutdown extends Thread
 		}
 	}
 	
-	/**
-	 * this disconnects all clients from the server
-	 */
-	private void disconnectAllCharacters()
+	private void saveAllPlayers()
 	{
+		LOGGER.info("Saving all players data...");
+		
 		for (final L2PcInstance player : L2World.getInstance().getAllPlayers())
 		{
 			if (player == null)
@@ -723,13 +739,6 @@ public class Shutdown extends Thread
 				// Save player status
 				player.store();
 				
-				// Player Disconnect
-				if (player.getClient() != null)
-				{
-					player.getClient().sendPacket(ServerClose.STATIC_PACKET);
-					player.getClient().setActiveChar(null);
-					player.setClient(null);
-				}
 			}
 			catch (final Throwable t)
 			{
@@ -738,29 +747,34 @@ public class Shutdown extends Thread
 			}
 		}
 		
-		try
-		{
-			Thread.sleep(10000);
-		}
-		catch (final Throwable t)
-		{
-			if (Config.ENABLE_ALL_EXCEPTIONS)
-				t.printStackTrace();
-			
-			LOGGER.error("", t);
-		}
-		
-		LOGGER.info("Players: All players save to disk");
+	}
+	
+	/**
+	 * this disconnects all clients from the server
+	 */
+	private void disconnectAllCharacters()
+	{
+		LOGGER.info("Disconnecting all players from the Server...");
 		
 		for (final L2PcInstance player : L2World.getInstance().getAllPlayers())
 		{
+			if (player == null)
+				continue;
+			
 			try
 			{
-				player.closeNetConnection();
+				// Player Disconnect
+				if (player.getClient() != null)
+				{
+					player.getClient().sendPacket(ServerClose.STATIC_PACKET);
+					player.getClient().close(0);
+					player.getClient().setActiveChar(null);
+					player.setClient(null);
+					
+				}
 			}
 			catch (final Throwable t)
 			{
-				// just to make sure we try to kill the connection
 				if (Config.ENABLE_ALL_EXCEPTIONS)
 					t.printStackTrace();
 			}

@@ -1074,13 +1074,13 @@ public class AdminEditChar implements IAdminCommandHandler
 		List<L2PcInstance> online_players_list = new ArrayList<>();
 		
 		for (final L2PcInstance actual_player : allPlayers_with_offlines)
-			if (actual_player != null && actual_player.isOnline() == 1 && !actual_player.isOffline())
+			if (actual_player != null && actual_player.isOnline() == 1 && !actual_player.isInOfflineMode())
 				online_players_list.add(actual_player);
 			else if (actual_player == null)
 				LOGGER.warn("listCharacters: found player null into L2World Instance..");
 			else if (actual_player.isOnline() == 0 && Config.DEBUG)
 				LOGGER.warn("listCharacters: player " + actual_player.getName() + " not online into L2World Instance..");
-			else if (actual_player.isOffline() && Config.DEBUG)
+			else if (actual_player.isInOfflineMode() && Config.DEBUG)
 				LOGGER.warn("listCharacters: player " + actual_player.getName() + " offline into L2World Instance..");
 		
 		L2PcInstance[] players = online_players_list.toArray(new L2PcInstance[online_players_list.size()]);

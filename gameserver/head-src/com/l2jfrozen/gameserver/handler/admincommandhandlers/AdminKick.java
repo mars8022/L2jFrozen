@@ -65,7 +65,7 @@ public class AdminKick implements IAdminCommandHandler
 					RegionBBSManager.getInstance().changeCommunityBoard();
 				}
 				
-				if (plyr != null && plyr.isOffline())
+				if (plyr != null && plyr.isInOfflineMode())
 				{
 					plyr.deleteMe();
 					activeChar.sendMessage("You kicked Offline Player " + plyr.getName() + " from the game.");

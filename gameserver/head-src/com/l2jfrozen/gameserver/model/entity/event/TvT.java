@@ -1351,7 +1351,7 @@ public class TvT implements EventTask
 				{
 					if (player == null)
 						_playersShuffle.remove(player);
-					else if (player.isOnline() == 0 || player.isInJail() || player.isOffline())
+					else if (player.isOnline() == 0 || player.isInJail() || player.isInOfflineMode())
 						removePlayer(player);
 					if (_playersShuffle.size() == 0 || _playersShuffle.isEmpty())
 						break;

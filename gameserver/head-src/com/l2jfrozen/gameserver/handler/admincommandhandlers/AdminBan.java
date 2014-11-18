@@ -431,7 +431,6 @@ public class AdminBan implements IAdminCommandHandler
 					t.printStackTrace();
 			}
 			
-			targetPlayer.setOffline(true);
 			targetPlayer.deleteMe();
 			
 			RegionBBSManager.getInstance().changeCommunityBoard();

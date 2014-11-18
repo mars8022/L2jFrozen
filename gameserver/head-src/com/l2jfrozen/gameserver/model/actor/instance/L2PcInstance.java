@@ -1397,7 +1397,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	// //////////////////////////////////////////////////////////////////
 	
 	/** The _is offline. */
-	private boolean _isOffline = false;
+	private boolean _isInOfflineMode = false;
 	
 	/** The _is trade off. */
 	private boolean _isTradeOff = false;
@@ -8993,7 +8993,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	{
 		_privatestore = type;
 		
-		if (_privatestore == STORE_PRIVATE_NONE && (getClient() == null || isOffline()))
+		if (_privatestore == STORE_PRIVATE_NONE && (getClient() == null || isInOfflineMode()))
 		{
 			/*
 			 * if(this._originalNameColorOffline!=0) getAppearance().setNameColor(this._originalNameColorOffline); else getAppearance().setNameColor(_accessLevel.getNameColor());
@@ -9716,6 +9716,10 @@ public final class L2PcInstance extends L2PlayableInstance
 	 */
 	public void updateOnlineStatus()
 	{
+		
+		if (isInOfflineMode()) // database online status must not change on offline mode
+			return;
+		
 		Connection con = null;
 		
 		try
@@ -10463,7 +10467,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		fireEvent(EventType.STORE.name, (Object[]) null);
 		
 		// If char is in Offline trade, setStored must be true
-		if (this.isOffline())
+		if (this.isInOfflineMode())
 			setStored(true);
 		else
 			setStored(false);
@@ -10542,7 +10546,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			statement.setString(34, getTitle());
 			statement.setInt(35, getAccessLevel().getLevel());
 			
-			if (_isOffline || isOnline() == 1)
+			if (_isInOfflineMode || isOnline() == 1)
 			{ // in offline mode or online
 				statement.setInt(36, 1);
 			}
@@ -18044,18 +18048,18 @@ public final class L2PcInstance extends L2PlayableInstance
 	 * Checks if is offline.
 	 * @return true, if is offline
 	 */
-	public boolean isOffline()
+	public boolean isInOfflineMode()
 	{
-		return _isOffline;
+		return _isInOfflineMode;
 	}
 	
 	/**
 	 * Sets the offline.
 	 * @param set the new offline
 	 */
-	public void setOffline(final boolean set)
+	public void setOfflineMode(final boolean set)
 	{
-		_isOffline = set;
+		_isInOfflineMode = set;
 	}
 	
 	/**
@@ -18400,7 +18404,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			{
 				if (player != null)
 				{
-					if (!player.isOffline() && player.getClient() != null && player.getClient().getConnection() != null && !player.getClient().getConnection().isClosed() && player.getClient().getConnection().getInetAddress() != null && !player.getName().equals(this.getName()))
+					if (player.isOnline() == 1 && player.getClient() != null && player.getClient().getConnection() != null && !player.getClient().getConnection().isClosed() && player.getClient().getConnection().getInetAddress() != null && !player.getName().equals(this.getName()))
 					{
 						
 						final String ip = player.getClient().getConnection().getInetAddress().getHostAddress();
@@ -18459,7 +18463,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			
 			for (final L2PcInstance player : players)
 			{
-				if (player != null && !player.isOffline())
+				if (player != null && player.isOnline() == 1)
 				{
 					if (player.getClient() != null && player.getClient().getConnection() != null && !player.getClient().getConnection().isClosed() && !player.getName().equals(this.getName()))
 					{
