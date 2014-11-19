@@ -35,18 +35,18 @@ import com.l2jfrozen.util.random.Rnd;
  */
 final class EffectConfuseMob extends L2Effect
 {
-	
-	public EffectConfuseMob(final Env env, final EffectTemplate template)
+
+	public EffectConfuseMob(Env env, EffectTemplate template)
 	{
 		super(env, template);
 	}
-	
+
 	@Override
 	public EffectType getEffectType()
 	{
 		return EffectType.CONFUSE_MOB_ONLY;
 	}
-	
+
 	/** Notify started */
 	@Override
 	public void onStart()
@@ -54,46 +54,45 @@ final class EffectConfuseMob extends L2Effect
 		getEffected().startConfused();
 		onActionTime();
 	}
-	
+
 	/** Notify exited */
 	@Override
 	public void onExit()
 	{
 		getEffected().stopConfused(this);
 	}
-	
+
 	@Override
 	public boolean onActionTime()
 	{
-		final List<L2Character> targetList = new FastList<>();
-		
+		List<L2Character> targetList = new FastList<L2Character>();
+
 		// Getting the possible targets
-		
-		for (final L2Object obj : getEffected().getKnownList().getKnownObjects().values())
+
+		for(L2Object obj : getEffected().getKnownList().getKnownObjects().values())
 		{
-			if (obj == null)
+			if(obj == null)
 			{
 				continue;
 			}
-			
+
 			if (obj instanceof L2Attackable && obj != getEffected())
 			{
 				targetList.add((L2Character) obj);
 			}
 		}
 		// if there is no target, exit function
-		if (targetList.size() == 0)
+		if(targetList.size() == 0)
 			return true;
-		
+
 		// Choosing randomly a new target
-		final int nextTargetIdx = Rnd.nextInt(targetList.size());
-		final L2Object target = targetList.get(nextTargetIdx);
-		
+		int nextTargetIdx = Rnd.nextInt(targetList.size());
+		L2Object target = targetList.get(nextTargetIdx);
+
 		// Attacking the target
-		// getEffected().setTarget(target);
 		getEffected().setTarget(target);
 		getEffected().getAI().setIntention(CtrlIntention.AI_INTENTION_ATTACK, target);
-		
+
 		return true;
 	}
 }
