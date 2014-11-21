@@ -47,7 +47,6 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.taskmanager.DecayTaskManager;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.templates.L2Weapon;
-import com.l2jfrozen.gameserver.util.sql.SQLQueue;
 
 public abstract class L2Summon extends L2PlayableInstance
 {

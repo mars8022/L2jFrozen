@@ -52,6 +52,7 @@ import com.l2jfrozen.gameserver.handler.ISkillHandler;
 import com.l2jfrozen.gameserver.handler.SkillHandler;
 import com.l2jfrozen.gameserver.handler.itemhandlers.Potions;
 import com.l2jfrozen.gameserver.managers.DimensionalRiftManager;
+import com.l2jfrozen.gameserver.managers.DuelManager;
 import com.l2jfrozen.gameserver.managers.GrandBossManager;
 import com.l2jfrozen.gameserver.managers.RaidBossSpawnManager;
 import com.l2jfrozen.gameserver.managers.TownManager;
@@ -3657,6 +3658,18 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 			
 			if (effect.getSkill().getId() == newEffect.getSkill().getId() && effect.getEffectType() == newEffect.getEffectType() && effect.getStackType() == newEffect.getStackType())
 			{
+				if (this instanceof L2PcInstance)
+				{
+					
+					final L2PcInstance player = (L2PcInstance) this;
+					
+					if (player.isInDuel())
+					{
+						DuelManager.getInstance().getDuel(player.getDuelId()).onBuffStop(player, effect);
+					}
+					
+				}
+				
 				if ((newEffect.getSkill().getSkillType() == SkillType.BUFF || newEffect.getEffectType() == L2Effect.EffectType.BUFF || newEffect.getEffectType() == L2Effect.EffectType.HEAL_OVER_TIME) && newEffect.getStackOrder() >= effect.getStackOrder())
 				{
 					effect.exit(false);
