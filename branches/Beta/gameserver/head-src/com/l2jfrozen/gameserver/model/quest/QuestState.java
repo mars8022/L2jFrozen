@@ -1008,13 +1008,13 @@ public final class QuestState
 	
 	public void checkNewbieQuests()
 	{
-		int questId = getQuest().getQuestIntId();
+		final int questId = getQuest().getQuestIntId();
 		
 		if (questId == 1 || questId == 2 || questId == 4 || questId == 5 || questId == 166 || questId == 174)
 		{
 			if (_player != null)
 			{
-				QuestState st = _player.getQuestState("7003_NewbieHelper");
+				final QuestState st = _player.getQuestState("7003_NewbieHelper");
 				if (st != null && st.getInt("cond") <= 1)
 				{
 					_player.sendPacket(new ExShowScreenMessage("Quest completed. Find the Newbie Helper.", 4000));
@@ -1026,7 +1026,7 @@ public final class QuestState
 		{
 			if (_player != null)
 			{
-				QuestState st = _player.getQuestState("7003_NewbieHelper");
+				final QuestState st = _player.getQuestState("7003_NewbieHelper");
 				if (st != null && st.getInt("cond") == 4)
 				{
 					if (_player.getClassId().isMage())
@@ -1041,7 +1041,7 @@ public final class QuestState
 		{
 			if (_player != null)
 			{
-				QuestState st = _player.getQuestState("7003_NewbieHelper");
+				final QuestState st = _player.getQuestState("7003_NewbieHelper");
 				if (st != null && st.getInt("cond") == 6)
 				{
 					_player.sendPacket(new ExShowScreenMessage("You earned a new weapon. Go to the Newbie Helper.", 4000));
@@ -1053,7 +1053,7 @@ public final class QuestState
 		{
 			if (_player != null)
 			{
-				QuestState st = _player.getQuestState("7003_NewbieHelper");
+				final QuestState st = _player.getQuestState("7003_NewbieHelper");
 				if (st != null && st.getInt("cond") == 8)
 				{
 					_player.sendPacket(new ExShowScreenMessage("Last stage completed. Go to the Newbie Helper.", 4000));

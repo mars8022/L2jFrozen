@@ -268,6 +268,10 @@ public class Antharas_l2j extends Quest implements Runnable
 			{
 				ThreadPoolManager.getInstance().scheduleGeneral(new UnlockAntharas(ANTHARASOLDID), respawnTime - System.currentTimeMillis());
 			}
+			else if (status == DORMANT)
+			{
+				// Here status is 0 on Database, dont do nothing
+			}
 			else
 			{
 				setAntharasSpawnTask();

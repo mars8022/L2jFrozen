@@ -71,7 +71,7 @@ public final class RequestOustPledgeMember extends L2GameClientPacket
 		
 		if (member == null)
 		{
-			LOGGER.warn("Target (" + _target + ") is not member of the clan");
+			LOGGER.debug("Target (" + _target + ") is not member of the clan");
 			return;
 		}
 		

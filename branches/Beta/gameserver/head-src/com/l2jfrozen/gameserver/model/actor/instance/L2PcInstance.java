@@ -3739,7 +3739,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		rewardSkills(false);
 	}
 	
-	public synchronized void rewardSkills(boolean restore)
+	public synchronized void rewardSkills(final boolean restore)
 	{
 		// Get the Level of the L2PcInstance
 		final int lvl = getLevel();
@@ -10160,7 +10160,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			// and reward expertise/lucky skills if necessary.
 			// Note that Clan, Noblesse and Hero skills are given separately and not here.
 			player.restoreCharData();
-			//reward skill restore mode in order to avoid duplicate storage of already stored skills
+			// reward skill restore mode in order to avoid duplicate storage of already stored skills
 			player.rewardSkills(true);
 			
 			// Restore pet if exists in the world

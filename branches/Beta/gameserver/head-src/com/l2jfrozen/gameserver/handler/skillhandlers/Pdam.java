@@ -238,8 +238,8 @@ public class Pdam implements ISkillHandler
 							target.reduceCurrentHp(damage, activeChar);
 							target.reduceCurrentHp(target.getCurrentHp() / 2, activeChar);
 						}
-						//Half Kill!
-						activeChar.sendPacket(new SystemMessage(SystemMessageId.LETHAL_STRIKE));						
+						// Half Kill!
+						activeChar.sendPacket(new SystemMessage(SystemMessageId.LETHAL_STRIKE));
 					}
 					else
 					// 2nd lethal effect activate (cp,hp to 1 or if target is npc then hp to 1)
@@ -259,8 +259,8 @@ public class Pdam implements ISkillHandler
 						}
 						// Lethal Strike was succefful!
 						activeChar.sendPacket(new SystemMessage(SystemMessageId.LETHAL_STRIKE));
-            activeChar.sendPacket(new SystemMessage(SystemMessageId.LETHAL_STRIKE_SUCCESSFUL));
-					}					
+						activeChar.sendPacket(new SystemMessage(SystemMessageId.LETHAL_STRIKE_SUCCESSFUL));
+					}
 				}
 				else
 				{
