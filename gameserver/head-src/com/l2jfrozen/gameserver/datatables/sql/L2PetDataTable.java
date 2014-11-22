@@ -188,7 +188,7 @@ public class L2PetDataTable
 	
 	public static boolean isPetFood(final int itemId)
 	{
-		return itemId == 2515 || itemId == 4038 || itemId == 5168 || itemId == 6316 || itemId == 7582;
+		return itemId == 2515 || itemId == 4038 || itemId == 5168 || itemId == 5169 || itemId == 6316 || itemId == 7582;
 	}
 	
 	public static boolean isWolfFood(final int itemId)
@@ -208,7 +208,7 @@ public class L2PetDataTable
 	
 	public static boolean isStriderFood(final int itemId)
 	{
-		return itemId == 5168;
+		return itemId == 5168 || itemId == 5169;
 	}
 	
 	public static boolean isWyvernFood(final int itemId)
