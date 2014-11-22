@@ -146,6 +146,7 @@ public final class RequestPetUseItem extends L2GameClientPacket
 			else if (L2PetDataTable.isBaby(pet.getNpcId()) && L2PetDataTable.isBabyFood(itemId))
 			{
 				feed(activeChar, pet, item);
+				return;
 			}
 		}
 		
