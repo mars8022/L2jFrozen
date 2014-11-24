@@ -644,7 +644,10 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 		_forcedToClose = true;
 		
 		if (critical && Config.ENABLE_ALL_EXCEPTIONS)
-			LOGGER.warn("Client " + toString() + " disconnected abnormally.");
+		{
+			final String text = "Client " + toString() + " disconnected abnormally.";
+			Log.add(text, "Chars_disconnection_logs");
+		}
 		
 		// the force operation will allow to not save client position to prevent again criticals
 		// and stuck
