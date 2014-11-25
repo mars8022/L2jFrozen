@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later
@@ -55,7 +57,7 @@ import com.l2jfrozen.util.random.Rnd;
  * @author JOJO Update by rocknow Updated by L2jOff team Updated by L2jFrozen team <BR>
  *         Warn: be careful with adding new spawns {@link #getXFix(int)}
  */
-public class Frintezza_l2j extends Quest implements Runnable
+public class Frintezza extends Quest implements Runnable
 {
 	private static final int[][] _invadeLoc =
 	{
@@ -1122,7 +1124,7 @@ public class Frintezza_l2j extends Quest implements Runnable
 	private final List<L2Attackable> Minions = new FastList<>();
 	
 	// Boss: Frintezza
-	public Frintezza_l2j(final int id, final String name, final String descr)
+	public Frintezza(final int id, final String name, final String descr)
 	{
 		super(id, name, descr);
 		final int[] mob =

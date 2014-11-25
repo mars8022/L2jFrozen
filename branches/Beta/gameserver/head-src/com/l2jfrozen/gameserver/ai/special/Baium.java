@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later
@@ -61,9 +63,9 @@ import com.l2jfrozen.util.random.Rnd;
  * Not true with Baium. Once he gets attacked, the port to Baium closes. byebye, see you in 5 days. If nobody attacks baium for 30 minutes, he auto-despawns and unlocks the vortex
  * @author Fulminus version 0.1
  */
-public class Baium_l2j extends Quest implements Runnable
+public class Baium extends Quest implements Runnable
 {
-	protected static final Logger LOGGER = Logger.getLogger(Baium_l2j.class);
+	protected static final Logger LOGGER = Logger.getLogger(Baium.class);
 	
 	private L2Character _target;
 	private L2Skill _skill;
@@ -116,7 +118,7 @@ public class Baium_l2j extends Quest implements Runnable
 	private final List<L2NpcInstance> _Minions = new ArrayList<>(5);
 	protected L2BossZone _Zone;
 	
-	public Baium_l2j(final int questId, final String name, final String descr)
+	public Baium(final int questId, final String name, final String descr)
 	{
 		super(questId, name, descr);
 		
