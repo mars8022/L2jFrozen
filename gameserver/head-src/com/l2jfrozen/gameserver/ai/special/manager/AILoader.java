@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
@@ -20,26 +22,26 @@ package com.l2jfrozen.gameserver.ai.special.manager;
 
 import org.apache.log4j.Logger;
 
-import com.l2jfrozen.gameserver.ai.special.Antharas_l2j;
-import com.l2jfrozen.gameserver.ai.special.Baium_l2j;
+import com.l2jfrozen.gameserver.ai.special.Antharas;
+import com.l2jfrozen.gameserver.ai.special.Baium;
 import com.l2jfrozen.gameserver.ai.special.Barakiel;
 import com.l2jfrozen.gameserver.ai.special.Core;
 import com.l2jfrozen.gameserver.ai.special.FairyTrees;
-import com.l2jfrozen.gameserver.ai.special.Frintezza_l2j;
+import com.l2jfrozen.gameserver.ai.special.Frintezza;
 import com.l2jfrozen.gameserver.ai.special.Golkonda;
 import com.l2jfrozen.gameserver.ai.special.Gordon;
 import com.l2jfrozen.gameserver.ai.special.Hallate;
 import com.l2jfrozen.gameserver.ai.special.IceFairySirra;
 import com.l2jfrozen.gameserver.ai.special.Kernon;
-import com.l2jfrozen.gameserver.ai.special.Monastery_l2j;
+import com.l2jfrozen.gameserver.ai.special.Monastery;
 import com.l2jfrozen.gameserver.ai.special.Orfen;
 import com.l2jfrozen.gameserver.ai.special.QueenAnt;
 import com.l2jfrozen.gameserver.ai.special.SummonMinions;
 import com.l2jfrozen.gameserver.ai.special.Transform;
-import com.l2jfrozen.gameserver.ai.special.Valakas_l2j;
+import com.l2jfrozen.gameserver.ai.special.Valakas;
 import com.l2jfrozen.gameserver.ai.special.VanHalter;
 import com.l2jfrozen.gameserver.ai.special.VarkaKetraAlly;
-import com.l2jfrozen.gameserver.ai.special.Zaken_l2j;
+import com.l2jfrozen.gameserver.ai.special.Zaken;
 import com.l2jfrozen.gameserver.ai.special.ZombieGatekeepers;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 
@@ -56,10 +58,10 @@ public class AILoader
 		LOGGER.info("AI load:");
 		
 		LOGGER.info(" - Antharas_l2j");
-		ThreadPoolManager.getInstance().scheduleAi(new Antharas_l2j(-1, "antharas", "ai"), 100);
+		ThreadPoolManager.getInstance().scheduleAi(new Antharas(-1, "antharas", "ai"), 100);
 		
 		LOGGER.info(" - Baium_l2j");
-		ThreadPoolManager.getInstance().scheduleAi(new Baium_l2j(-1, "baium", "ai"), 200);
+		ThreadPoolManager.getInstance().scheduleAi(new Baium(-1, "baium", "ai"), 200);
 		
 		LOGGER.info(" - Core");
 		ThreadPoolManager.getInstance().scheduleAi(new Core(-1, "core", "ai"), 300);
@@ -73,7 +75,7 @@ public class AILoader
 		ThreadPoolManager.getInstance().scheduleAi(new Gordon(-1, "Gordon", "ai"), 600);
 		
 		LOGGER.info(" - Monastery_l2j");
-		ThreadPoolManager.getInstance().scheduleAi(new Monastery_l2j(-1, "monastery", "ai"), 700);
+		ThreadPoolManager.getInstance().scheduleAi(new Monastery(-1, "monastery", "ai"), 700);
 		
 		LOGGER.info(" - Transform");
 		ThreadPoolManager.getInstance().scheduleAi(new Transform(-1, "transform", "ai"), 800);
@@ -100,13 +102,13 @@ public class AILoader
 		ThreadPoolManager.getInstance().scheduleAi(new Orfen(-1, "Orfen", "ai"), 1800);
 		
 		LOGGER.info(" - Zaken_l2j");
-		ThreadPoolManager.getInstance().scheduleAi(new Zaken_l2j(-1, "Zaken", "ai"), 1900);
+		ThreadPoolManager.getInstance().scheduleAi(new Zaken(-1, "Zaken", "ai"), 1900);
 		
 		LOGGER.info(" - Frintezza_l2j");
-		ThreadPoolManager.getInstance().scheduleAi(new Frintezza_l2j(-1, "Frintezza", "ai"), 2000);
+		ThreadPoolManager.getInstance().scheduleAi(new Frintezza(-1, "Frintezza", "ai"), 2000);
 		
 		LOGGER.info(" - Valakas_l2j");
-		ThreadPoolManager.getInstance().scheduleAi(new Valakas_l2j(-1, "valakas", "ai"), 2100);
+		ThreadPoolManager.getInstance().scheduleAi(new Valakas(-1, "valakas", "ai"), 2100);
 		
 	}
 }

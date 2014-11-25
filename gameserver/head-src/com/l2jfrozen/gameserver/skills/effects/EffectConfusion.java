@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
@@ -64,7 +66,7 @@ final class EffectConfusion extends L2Effect
 	@Override
 	public boolean onActionTime()
 	{
-		final List<L2Character> targetList = new FastList<L2Character>();
+		final List<L2Character> targetList = new FastList<>();
 		
 		// Getting the possible targets
 		

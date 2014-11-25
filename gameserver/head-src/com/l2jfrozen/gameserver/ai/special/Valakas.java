@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later
@@ -45,7 +47,7 @@ import com.l2jfrozen.util.random.Rnd;
  * Valakas AI
  * @author Kerberos
  */
-public class Valakas_l2j extends Quest implements Runnable
+public class Valakas extends Quest implements Runnable
 {
 	private int i_ai0 = 0;
 	private int i_ai1 = 0;
@@ -73,7 +75,7 @@ public class Valakas_l2j extends Quest implements Runnable
 	private static L2BossZone _Zone;
 	
 	// Boss: Valakas
-	public Valakas_l2j(final int id, final String name, final String descr)
+	public Valakas(final int id, final String name, final String descr)
 	{
 		super(id, name, descr);
 		final int[] mob =
