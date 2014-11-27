@@ -1207,8 +1207,9 @@
             </effect>
         </for>
     </skill>
-    <skill id="4267" levels="1" name="Grade Penalty">
-        <table name="#rate">0.22 0.19 0.16 0.13 0.1</table>
+    <skill id="4267" levels="10" name="Grade Penalty">
+        <table name="#rate">0.22 0.19 0.16 0.13 0.1 0.22 0.19 0.16 0.13 0.1</table>
+		<table name="#speed">1.0 1.0 1.0 1.0 1.0 1.0 0.22 0.19 0.16 0.13 0.1</table>
         <set name="target" val="TARGET_SELF"/>
         <set name="skillType" val="DEBUFF"/>
         <set name="operateType" val="OP_PASSIVE"/>
@@ -1219,7 +1220,7 @@
             <mul order="0x30" stat="mAtkSpd" val="#rate"/>
             <mul order="0x30" stat="rEvas" val="#rate"/>
             <mul order="0x30" stat="rExp" val="#rate"/>
-            <mul order="0x30" stat="runSpd" val="#rate"/>
+            <mul order="0x30" stat="runSpd" val="#speed"/>
             <mul order="0x30" stat="regHp" val="#rate"/>
             <mul order="0x30" stat="regCp" val="#rate"/>
             <mul order="0x30" stat="regMp" val="#rate"/>
