@@ -3421,47 +3421,67 @@ public final class L2PcInstance extends L2PlayableInstance
 		if (!Config.EXPERTISE_PENALTY)
 			return;
 		
-		int newPenalty = 0;
+		// This code works on principle that first 1-5 levels of penalty is for weapon and 6-10levels are for armor
+		int intensityW = 0; // Default value
+		int intensityA = 5; // Default value.
+		int intensity = 0; // Level of grade penalty.
 		
 		for (final L2ItemInstance item : getInventory().getItems())
 		{
-			if (item != null && item.isEquipped())
+			if (item != null && item.isEquipped()) // Checks if items equipped
 			{
-				final int crystaltype = item.getItem().getCrystalType();
 				
-				if (crystaltype > newPenalty)
+				final int crystaltype = item.getItem().getCrystalType(); // Gets grade of item
+				// Checks if item crystal levels is above character levels and also if last penalty for weapon was lower.
+				if (crystaltype > getExpertiseIndex() && item.isWeapon() && crystaltype > intensityW)
 				{
-					newPenalty = crystaltype;
+					intensityW = crystaltype - getExpertiseIndex();
+				}
+				// Checks if equiped armor, accesories are above character level and adds each armor penalty.
+				if (crystaltype > getExpertiseIndex() && !item.isWeapon())
+				{
+					intensityA += crystaltype - getExpertiseIndex();
 				}
 			}
 		}
 		
-		newPenalty = newPenalty - getExpertiseIndex();
-		
-		if (newPenalty <= 0)
+		if (intensityA == 5)// Means that there isn't armor penalty.
 		{
-			newPenalty = 0;
+			intensity = intensityW;
 		}
 		
-		if (getExpertisePenalty() != newPenalty)
+		else
 		{
-			final int penalties = _masteryPenalty + _masteryWeapPenalty + newPenalty;
+			intensity = intensityW + intensityA;
+		}
+		
+		// Checks if penalty is above maximum and sets it to maximum.
+		if (intensity > 10)
+		{
+			intensity = 10;
+		}
+		
+		if (getExpertisePenalty() != intensity)
+		{
+			int penalties = _masteryPenalty + _masteryWeapPenalty + intensity;
+			if (penalties > 10) // Checks if penalties are out of bounds for skill level on XML
+			{
+				penalties = 10;
+			}
 			
-			_expertisePenalty = newPenalty;
+			_expertisePenalty = intensity;
 			
 			if (penalties > 0)
 			{
-				super.addSkill(SkillTable.getInstance().getInfo(4267, 1)); // level used to be newPenalty
-				sendSkillList(); // Update skill list
+				super.addSkill(SkillTable.getInstance().getInfo(4267, intensity));
+				sendSkillList();
 			}
 			else
 			{
 				super.removeSkill(getKnownSkill(4267));
-				sendSkillList(); // Update skill list
+				sendSkillList();
+				_expertisePenalty = 0;
 			}
-			
-			sendPacket(new EtcStatusUpdate(this));
-			
 		}
 	}
 	
