@@ -179,7 +179,7 @@ public class AutoSaveManager
 			{
 				con = L2DatabaseFactory.getInstance().getConnection(false);
 				PreparedStatement statement;
-				statement = con.prepareStatement("DELETE FROM character_skills_save WHERE reuse_delay=0");
+				statement = con.prepareStatement("DELETE FROM character_skills_save WHERE reuse_delay=0 && restore_type=1");
 				erased = statement.executeUpdate();
 				DatabaseUtils.close(statement);
 				statement = null;
