@@ -7962,7 +7962,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			if (Config.ANTI_FARM_CLAN_ALLY_ENABLED && (getClanId() > 0 && targetPlayer.getClanId() > 0 && getClanId() == targetPlayer.getClanId()) || (getAllyId() > 0 && targetPlayer.getAllyId() > 0 && getAllyId() == targetPlayer.getAllyId()))
 			{
 				this.sendMessage("Farm is punishable with Ban! Gm informed.");
-				LOGGER.warn("PVP POINT FARM ATTEMPT, " + this.getName() + " and " + targetPlayer.getName() + ". CLAN or ALLY.");
+				LOGGER.info("PVP POINT FARM ATTEMPT, " + this.getName() + " and " + targetPlayer.getName() + ". CLAN or ALLY.");
 				return false;
 			}
 			
@@ -7970,7 +7970,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			if (Config.ANTI_FARM_LVL_DIFF_ENABLED && targetPlayer.getLevel() < Config.ANTI_FARM_MAX_LVL_DIFF)
 			{
 				this.sendMessage("Farm is punishable with Ban! Don't kill new players! Gm informed.");
-				LOGGER.warn("PVP POINT FARM ATTEMPT, " + this.getName() + " and " + targetPlayer.getName() + ". LVL DIFF.");
+				LOGGER.info("PVP POINT FARM ATTEMPT, " + this.getName() + " and " + targetPlayer.getName() + ". LVL DIFF.");
 				return false;
 			}
 			
@@ -7978,7 +7978,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			if (Config.ANTI_FARM_PDEF_DIFF_ENABLED && targetPlayer.getPDef(targetPlayer) < Config.ANTI_FARM_MAX_PDEF_DIFF)
 			{
 				this.sendMessage("Farm is punishable with Ban! Gm informed.");
-				LOGGER.warn("PVP POINT FARM ATTEMPT, " + this.getName() + " and " + targetPlayer.getName() + ". MAX PDEF DIFF.");
+				LOGGER.info("PVP POINT FARM ATTEMPT, " + this.getName() + " and " + targetPlayer.getName() + ". MAX PDEF DIFF.");
 				return false;
 			}
 			
@@ -7986,7 +7986,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			if (Config.ANTI_FARM_PATK_DIFF_ENABLED && targetPlayer.getPAtk(targetPlayer) < Config.ANTI_FARM_MAX_PATK_DIFF)
 			{
 				this.sendMessage("Farm is punishable with Ban! Gm informed.");
-				LOGGER.warn("PVP POINT FARM ATTEMPT, " + this.getName() + " and " + targetPlayer.getName() + ". MAX PATK DIFF.");
+				LOGGER.info("PVP POINT FARM ATTEMPT, " + this.getName() + " and " + targetPlayer.getName() + ". MAX PATK DIFF.");
 				return false;
 			}
 			
@@ -7994,7 +7994,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			if (Config.ANTI_FARM_PARTY_ENABLED && this.getParty() != null && targetPlayer.getParty() != null && this.getParty().equals(targetPlayer.getParty()))
 			{
 				this.sendMessage("Farm is punishable with Ban! Gm informed.");
-				LOGGER.warn("PVP POINT FARM ATTEMPT, " + this.getName() + " and " + targetPlayer.getName() + ". SAME PARTY.");
+				LOGGER.info("PVP POINT FARM ATTEMPT, " + this.getName() + " and " + targetPlayer.getName() + ". SAME PARTY.");
 				return false;
 			}
 			
@@ -8010,7 +8010,7 @@ public final class L2PcInstance extends L2PlayableInstance
 					if (ip1.equals(ip2))
 					{
 						this.sendMessage("Farm is punishable with Ban! Gm informed.");
-						LOGGER.warn("PVP POINT FARM ATTEMPT: " + this.getName() + " and " + targetPlayer.getName() + ". SAME IP.");
+						LOGGER.info("PVP POINT FARM ATTEMPT: " + this.getName() + " and " + targetPlayer.getName() + ". SAME IP.");
 						return false;
 					}
 				}

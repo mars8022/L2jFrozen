@@ -55,7 +55,7 @@ public class DrainSoul implements ISkillHandler
 		
 		targetList = null;
 		
-		LOGGER.info("Soul Crystal casting succeded.");
+		LOGGER.debug("Soul Crystal casting succeded.");
 		
 		// This is just a dummy skill handler for the soul crystal skill,
 		// since the Soul Crystal item handler already does everything.

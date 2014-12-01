@@ -54,7 +54,7 @@ public class BeastFeed implements ISkillHandler
 			return;
 		}
 		
-		LOGGER.info("Beast Feed casting succeded.");
+		LOGGER.debug("Beast Feed casting succeded.");
 		
 		targetList = null;
 		// This is just a dummy skill handler for the golden food and crystal food skills,

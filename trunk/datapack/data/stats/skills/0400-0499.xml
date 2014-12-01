@@ -328,6 +328,7 @@
         <set name="operateType" val="OP_ACTIVE"/>
         <set name="castRange" val="40"/>
         <set name="effectRange" val="400"/>
+        <set name="nextActionAttack" val="true"/>
         <enchant1 name="power" val="#ench1Power"/>
         <enchant2 name="mpConsume" val="#ench2MpConsume"/>
         <for>
