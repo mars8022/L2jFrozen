@@ -91,7 +91,7 @@ public class Mdam implements ISkillHandler
 			
 			final int damage = (int) Formulas.calcMagicDam(activeChar, target, skill, sps, bss, mcrit);
 			
-			if (damage > 5000 && Config.LOG_HIGH_DAMAGES && activeChar instanceof L2PcInstance)
+			if (damage > 50000 && Config.LOG_HIGH_DAMAGES && activeChar instanceof L2PcInstance)
 			{
 				String name = "";
 				if (target instanceof L2RaidBossInstance)

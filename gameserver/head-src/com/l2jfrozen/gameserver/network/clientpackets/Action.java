@@ -23,6 +23,11 @@ import com.l2jfrozen.gameserver.model.L2Character;
 import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.model.entity.event.CTF;
+import com.l2jfrozen.gameserver.model.entity.event.DM;
+import com.l2jfrozen.gameserver.model.entity.event.L2Event;
+import com.l2jfrozen.gameserver.model.entity.event.TvT;
+import com.l2jfrozen.gameserver.model.entity.event.VIP;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
@@ -92,6 +97,26 @@ public final class Action extends L2GameClientPacket
 		// Only GMs can directly interact with invisible characters
 		if (obj instanceof L2PcInstance && (((L2PcInstance) obj).getAppearance().getInvisible()) && !activeChar.isGM())
 		{
+			getClient().sendPacket(ActionFailed.STATIC_PACKET);
+			return;
+		}
+		
+		// Block action during Event start
+		if (L2Event.active && activeChar.eventSitForced)
+		{
+			activeChar.sendMessage("A dark force beyond your mortal understanding makes your knees to shake when you try to stand up...");
+			getClient().sendPacket(ActionFailed.STATIC_PACKET);
+			return;
+		}
+		else if ((TvT.is_sitForced() && activeChar._inEventTvT) || (CTF.is_sitForced() && activeChar._inEventCTF) || (DM.is_sitForced() && activeChar._inEventDM))
+		{
+			activeChar.sendMessage("A dark force beyond your mortal understanding makes your knees to shake when you try to stand up...");
+			getClient().sendPacket(ActionFailed.STATIC_PACKET);
+			return;
+		}
+		else if (VIP._sitForced && activeChar._inEventVIP)
+		{
+			activeChar.sendMessage("A dark force beyond your mortal understanding makes your knees to shake when you try to stand up...");
 			getClient().sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}

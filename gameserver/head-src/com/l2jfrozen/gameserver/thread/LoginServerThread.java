@@ -371,7 +371,7 @@ public class LoginServerThread extends Thread
 								}
 								else
 								{
-									LOGGER.warn("session key is not correct. closing connection");
+									LOGGER.warn("Session key is not correct. Closing connection for account " + wcToRemove.account + ".");
 									wcToRemove.gameClient.getConnection().sendPacket(new AuthLoginFail(1));
 									wcToRemove.gameClient.closeNow();
 								}

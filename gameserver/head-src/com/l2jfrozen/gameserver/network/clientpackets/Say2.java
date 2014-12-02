@@ -136,7 +136,7 @@ public final class Say2 extends L2GameClientPacket
 		// Anti-PHX Announce
 		if (_type2Check == SystemChatChannelId.CHAT_NONE || _type2Check == SystemChatChannelId.CHAT_ANNOUNCE || _type2Check == SystemChatChannelId.CHAT_CRITICAL_ANNOUNCE || _type2Check == SystemChatChannelId.CHAT_SYSTEM || _type2Check == SystemChatChannelId.CHAT_CUSTOM || (_type2Check == SystemChatChannelId.CHAT_GM_PET && !activeChar.isGM()))
 		{
-			LOGGER.warn("[Anti-PHX Announce] Illegal Chat channel was used by character: [" + activeChar.getName() + "]");
+			LOGGER.warn("[Anti-PHX Announce] Illegal Chat ( " + _type2Check + " ) channel was used by character: [" + activeChar.getName() + "]");
 			return;
 		}
 		

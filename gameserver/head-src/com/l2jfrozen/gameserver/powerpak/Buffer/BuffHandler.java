@@ -500,6 +500,10 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 				if (target != null)
 				{
 					for (final L2Skill sk : CharSchemesTable.getInstance().getScheme(player.getObjectId(), scheme_key))
+					{
+						if (sk == null)
+							continue;
+						
 						if (buffer != null)
 						{
 							buffer.setBusy(true);
@@ -511,7 +515,7 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 						}
 						else
 							sk.getEffects(target, target, false, false, false);
-					
+					}
 					// sk.getEffects(buffer, target);
 					
 					player.reduceAdena("NPC Buffer", cost, null, true);
