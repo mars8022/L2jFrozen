@@ -616,20 +616,21 @@ public final class L2PcInstance extends L2PlayableInstance
 		{
 			if (isInsidePeaceZone(L2PcInstance.this, target))
 			{
-				// if(target instanceof L2PcInstance){ //the only case where to avoid the attack is if the attacked is L2PcInstance
-				// //and one of them is not into a fun event, otherwise continue
-				//
-				// if (!isInFunEvent() || !((L2PcInstance)target).isInFunEvent()) {
-				// getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
 				sendPacket(ActionFailed.STATIC_PACKET);
 				return;
-				// }
-				// }
 			}
 			
 			// during teleport phase, players cant do any attack
 			if ((TvT.is_teleport() && _inEventTvT) || (CTF.is_teleport() && _inEventCTF) || (DM.is_teleport() && _inEventDM))
 			{
+				sendPacket(ActionFailed.STATIC_PACKET);
+				return;
+			}
+			
+			// Pk protection config
+			if (!isGM() && target instanceof L2PcInstance && (getLevel() < Config.ALT_PLAYER_PROTECTION_LEVEL || target.getLevel() < Config.ALT_PLAYER_PROTECTION_LEVEL))
+			{
+				sendMessage("You can't hit a player that is lower level from you. Target's level: " + String.valueOf(Config.ALT_PLAYER_PROTECTION_LEVEL) + ".");
 				sendPacket(ActionFailed.STATIC_PACKET);
 				return;
 			}
@@ -4448,11 +4449,11 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		else if ((TvT.is_sitForced() && _inEventTvT) || (CTF.is_sitForced() && _inEventCTF) || (DM.is_sitForced() && _inEventDM))
 		{
-			sendMessage("The Admin/GM handle if you sit or stand in this match!");
+			sendMessage("A dark force beyond your mortal understanding makes your knees to shake when you try to stand up...");
 		}
 		else if (VIP._sitForced && _inEventVIP)
 		{
-			sendMessage("The Admin/GM handle if you sit or stand in this match!");
+			sendMessage("A dark force beyond your mortal understanding makes your knees to shake when you try to stand up...");
 		}
 		else if (isAway())
 		{
@@ -5953,11 +5954,7 @@ public final class L2PcInstance extends L2PlayableInstance
 						}
 						siege = null;
 					}
-					if (player.getLevel() < Config.ALT_PLAYER_PROTECTION_LEVEL || getLevel() < Config.ALT_PLAYER_PROTECTION_LEVEL)
-					{
-						player.sendMessage("You Can't Hit a Player That Is Lower Level From You. Target's Level: " + String.valueOf(Config.ALT_PLAYER_PROTECTION_LEVEL));
-						player.sendPacket(ActionFailed.STATIC_PACKET);
-					}
+					
 					// Player with lvl < 21 can't attack a cursed weapon holder
 					// And a cursed weapon holder can't attack players with lvl < 21
 					if (isCursedWeaponEquiped() && player.getLevel() < 21 || player.isCursedWeaponEquiped() && getLevel() < 21)
@@ -6161,11 +6158,7 @@ public final class L2PcInstance extends L2PlayableInstance
 							}
 							siege = null;
 						}
-						if (player.getLevel() < Config.ALT_PLAYER_PROTECTION_LEVEL || getLevel() < Config.ALT_PLAYER_PROTECTION_LEVEL)
-						{
-							player.sendMessage("You Can't Hit a Player That Is Lower Level From You. Target's Level: " + String.valueOf(Config.ALT_PLAYER_PROTECTION_LEVEL));
-							player.sendPacket(ActionFailed.STATIC_PACKET);
-						}
+						
 						// Player with lvl < 21 can't attack a cursed weapon holder
 						// And a cursed weapon holder can't attack players with lvl < 21
 						if (isCursedWeaponEquiped() && player.getLevel() < 21 || player.isCursedWeaponEquiped() && getLevel() < 21)
@@ -12133,6 +12126,14 @@ public final class L2PcInstance extends L2PlayableInstance
 				sendPacket(ActionFailed.STATIC_PACKET);
 				return;
 			}
+		}
+		
+		// Pk protection config
+		if (skill.isOffensive() && !isGM() && target instanceof L2PcInstance && (getLevel() < Config.ALT_PLAYER_PROTECTION_LEVEL || ((L2PcInstance) target).getLevel() < Config.ALT_PLAYER_PROTECTION_LEVEL))
+		{
+			sendMessage("You can't hit a player that is lower level from you. Target's level: " + String.valueOf(Config.ALT_PLAYER_PROTECTION_LEVEL) + ".");
+			sendPacket(ActionFailed.STATIC_PACKET);
+			return;
 		}
 		
 		// ************************************* Check skill availability *******************************************
