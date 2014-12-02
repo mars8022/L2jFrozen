@@ -158,7 +158,7 @@ public class Continuous implements ISkillHandler
 			// Possibility of a lethal strike
 			if (!target.isRaid() && !(target instanceof L2NpcInstance && ((L2NpcInstance) target).getNpcId() == 35062))
 			{
-				final int chance = Rnd.get(100);
+				final int chance = Rnd.get(1000);
 				Formulas.getInstance();
 				if (skill.getLethalChance2() > 0 && chance < Formulas.calcLethal(activeChar, target, skill.getLethalChance2()))
 				{
