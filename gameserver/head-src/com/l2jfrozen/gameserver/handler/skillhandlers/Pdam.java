@@ -219,7 +219,7 @@ public class Pdam implements ISkillHandler
 				}
 				
 				// Success of lethal effect
-				final int chance = Rnd.get(100);
+				final int chance = Rnd.get(1000);
 				if (target != activeChar && !target.isRaid() && chance < skill.getLethalChance1() && !(target instanceof L2DoorInstance) && !(target instanceof L2NpcInstance && ((L2NpcInstance) target).getNpcId() == 35062))
 				{
 					// 1st lethal effect activate (cp to 1 or if target is npc then hp to 50%)
