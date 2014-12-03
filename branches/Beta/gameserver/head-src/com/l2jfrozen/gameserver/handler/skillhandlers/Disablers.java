@@ -689,13 +689,10 @@ public class Disablers implements ISkillHandler
 							
 							if (effect_type != null)
 							{
-								
 								switch (effect_type)
 								{
-								
 									case BUFF:
 									{
-										
 										int lvlmodifier = 52 + skill.getMagicLevel() * 2;
 										if (skill.getMagicLevel() == 12)
 											lvlmodifier = (ExperienceData.getInstance().getMaxLevel() - 1);
@@ -714,14 +711,10 @@ public class Disablers implements ISkillHandler
 										break;
 									default:
 									{
-										
 										target.stopEffects(effect_type);
-										
 									}
 										break;
-								
 								}
-								
 							}
 							
 						}// end for

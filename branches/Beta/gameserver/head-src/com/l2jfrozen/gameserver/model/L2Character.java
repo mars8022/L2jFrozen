@@ -88,7 +88,9 @@ import com.l2jfrozen.gameserver.model.actor.status.CharStatus;
 import com.l2jfrozen.gameserver.model.entity.Duel;
 import com.l2jfrozen.gameserver.model.entity.event.CTF;
 import com.l2jfrozen.gameserver.model.entity.event.DM;
+import com.l2jfrozen.gameserver.model.entity.event.L2Event;
 import com.l2jfrozen.gameserver.model.entity.event.TvT;
+import com.l2jfrozen.gameserver.model.entity.event.VIP;
 import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
 import com.l2jfrozen.gameserver.model.extender.BaseExtender.EventType;
 import com.l2jfrozen.gameserver.model.quest.Quest;
@@ -6205,6 +6207,29 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 	 */
 	protected void moveToLocation(int x, int y, int z, int offset)
 	{
+		// Block movment during Event start
+		if (this instanceof L2PcInstance)
+		{
+			if (L2Event.active && ((L2PcInstance) this).eventSitForced)
+			{
+				((L2PcInstance) this).sendMessage("A dark force beyond your mortal understanding makes your knees to shake when you try to stand up...");
+				((L2PcInstance) this).getClient().sendPacket(ActionFailed.STATIC_PACKET);
+				return;
+			}
+			else if ((TvT.is_sitForced() && ((L2PcInstance) this)._inEventTvT) || (CTF.is_sitForced() && ((L2PcInstance) this)._inEventCTF) || (DM.is_sitForced() && ((L2PcInstance) this)._inEventDM))
+			{
+				((L2PcInstance) this).sendMessage("A dark force beyond your mortal understanding makes your knees to shake when you try to stand up...");
+				((L2PcInstance) this).getClient().sendPacket(ActionFailed.STATIC_PACKET);
+				return;
+			}
+			else if (VIP._sitForced && ((L2PcInstance) this)._inEventVIP)
+			{
+				((L2PcInstance) this).sendMessage("A dark force beyond your mortal understanding makes your knees to shake when you try to stand up...");
+				((L2PcInstance) this).sendPacket(ActionFailed.STATIC_PACKET);
+				return;
+			}
+		}
+		
 		// when start to move again, it has to stop sitdown task
 		if (this instanceof L2PcInstance)
 			((L2PcInstance) this).setPosticipateSit(false);

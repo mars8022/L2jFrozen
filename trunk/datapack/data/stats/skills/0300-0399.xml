@@ -1129,6 +1129,7 @@
         <set name="lethal2" val="2"/>
         <set name="hitTime" val="1800"/>
         <set name="baseCritRate" val="15"/>
+        <set name="nextActionAttack" val="true"/>
     </skill>
     <skill id="345" levels="1" name="Sonic Rage">
         <set name="nextActionAttack" val="true"/>

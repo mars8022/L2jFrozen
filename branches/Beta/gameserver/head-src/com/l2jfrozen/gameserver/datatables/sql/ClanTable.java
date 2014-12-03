@@ -315,7 +315,6 @@ public class ClanTable
 			
 			// remove clan leader skills
 			leader.addClanLeaderSkills(false);
-			
 		}
 		
 		clan.broadcastToOnlineMembers(new SystemMessage(SystemMessageId.CLAN_HAS_DISPERSED));
