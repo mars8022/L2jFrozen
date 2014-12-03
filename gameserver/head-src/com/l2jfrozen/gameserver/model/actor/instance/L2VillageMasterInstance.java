@@ -783,6 +783,16 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 			player.sendMessage("Cannot change clan leader while registered in Siege");
 			return;
 		}
+		
+		// Set old name/title color for old clan leader
+		if (Config.CLAN_LEADER_COLOR_ENABLED && clan.getLevel() >= Config.CLAN_LEADER_COLOR_CLAN_LEVEL)
+		{
+			if (Config.CLAN_LEADER_COLORED == 1)
+				player.getAppearance().setNameColor(0x000000);
+			else
+				player.getAppearance().setTitleColor(0xFFFF77);
+		}
+		
 		// clan.setNewLeader(member);
 		clan.setNewLeader(member, player);
 		

@@ -628,7 +628,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			}
 			
 			// Pk protection config
-			if (!isGM() && target instanceof L2PcInstance && (getLevel() < Config.ALT_PLAYER_PROTECTION_LEVEL || target.getLevel() < Config.ALT_PLAYER_PROTECTION_LEVEL))
+			if (!isGM() && target instanceof L2PcInstance && ((L2PcInstance) target).getPvpFlag() == 0 && ((L2PcInstance) target).getKarma() == 0 && (getLevel() < Config.ALT_PLAYER_PROTECTION_LEVEL || target.getLevel() < Config.ALT_PLAYER_PROTECTION_LEVEL))
 			{
 				sendMessage("You can't hit a player that is lower level from you. Target's level: " + String.valueOf(Config.ALT_PLAYER_PROTECTION_LEVEL) + ".");
 				sendPacket(ActionFailed.STATIC_PACKET);
@@ -9691,6 +9691,9 @@ public final class L2PcInstance extends L2PlayableInstance
 		sendPacket(new UserInfo(this));
 		for (final L2PcInstance player : getKnownList().getKnownPlayers().values())
 		{
+			if (player == null)
+				continue;
+			
 			player.sendPacket(new RelationChanged(this, getRelation(player), isAutoAttackable(player)));
 			
 			if (getPet() != null)
@@ -12129,7 +12132,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		
 		// Pk protection config
-		if (skill.isOffensive() && !isGM() && target instanceof L2PcInstance && (getLevel() < Config.ALT_PLAYER_PROTECTION_LEVEL || ((L2PcInstance) target).getLevel() < Config.ALT_PLAYER_PROTECTION_LEVEL))
+		if (skill.isOffensive() && !isGM() && target instanceof L2PcInstance && ((L2PcInstance) target).getPvpFlag() == 0 && ((L2PcInstance) target).getKarma() == 0 && (getLevel() < Config.ALT_PLAYER_PROTECTION_LEVEL || ((L2PcInstance) target).getLevel() < Config.ALT_PLAYER_PROTECTION_LEVEL))
 		{
 			sendMessage("You can't hit a player that is lower level from you. Target's level: " + String.valueOf(Config.ALT_PLAYER_PROTECTION_LEVEL) + ".");
 			sendPacket(ActionFailed.STATIC_PACKET);
@@ -13643,7 +13646,6 @@ public final class L2PcInstance extends L2PlayableInstance
 			getAppearance().setNameColor(0xFFFFFF);
 			getAppearance().setTitleColor(0xFFFF77);
 		}
-		
 		// this is a GM but has GM status enabled, so we must set proper values
 		else if (isGM() && hasGmStatusActive())
 		{
