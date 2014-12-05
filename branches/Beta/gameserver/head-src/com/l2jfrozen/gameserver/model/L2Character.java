@@ -2256,7 +2256,6 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 		}
 		else
 		{
-			
 			if (this instanceof L2PcInstance)
 			{
 				
@@ -2273,7 +2272,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 					if (Config.TVT_REMOVE_BUFFS_ON_DIE)
 						stopAllEffects();
 				}
-				else if (player._inEventTvT && CTF.is_started())
+				else if (player._inEventCTF && CTF.is_started())
 				{
 					if (Config.CTF_REMOVE_BUFFS_ON_DIE)
 						stopAllEffects();
@@ -2282,14 +2281,12 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 				{
 					stopAllEffects();
 				}
-				
 			}
 			else
 			// this means all other characters, including Summons
 			{
 				stopAllEffects();
 			}
-			
 		}
 		
 		// if killer is the same then the most damager/hated
