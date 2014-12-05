@@ -4120,6 +4120,11 @@ public final class L2PcInstance extends L2PlayableInstance
 		_onlineBeginTime = System.currentTimeMillis();
 	}
 	
+	public long getOnlineTime()
+	{
+		return _onlineTime;
+	}
+	
 	/**
 	 * Return the PcInventory Inventory of the L2PcInstance contained in _inventory.<BR>
 	 * <BR>
