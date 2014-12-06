@@ -1729,27 +1729,6 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 			return;
 		}
 		
-		if (isSkillDisabled(skill))
-		{
-			if (activeChar instanceof L2PcInstance && !(skill.getId() == 2166))
-			{
-				SystemMessage sm = new SystemMessage(SystemMessageId.S1_PREPARED_FOR_REUSE);
-				sm.addSkillName(skill.getId(), skill.getLevel());
-				sendPacket(sm);
-				sm = null;
-			}
-			// Cp potion message
-			else if (activeChar instanceof L2PcInstance && (skill.getId() == 2166))
-			{
-				if (skill.getLevel() == 2)
-					((L2PcInstance) activeChar).sendMessage("Greater CP Potion is not available at this time: being prepared for reuse.");
-				else if (skill.getLevel() == 1)
-					((L2PcInstance) activeChar).sendMessage("CP Potion is not available at this time: being prepared for reuse.");
-			}
-			
-			return;
-		}
-		
 		// Check if the skill is a magic spell and if the L2Character is not muted
 		if (skill.isMagic() && isMuted() && !skill.isPotion())
 		{

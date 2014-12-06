@@ -11991,12 +11991,26 @@ public final class L2PcInstance extends L2PlayableInstance
 			return;
 		}
 		
-		if (_disabledSkills != null && _disabledSkills.contains(skill_id))
+		// Check if skill is in reause time
+		if (isSkillDisabled(skill))
 		{
-			SystemMessage sm = new SystemMessage(SystemMessageId.S1_PREPARED_FOR_REUSE);
-			sm.addSkillName(skill_id, skill.getLevel());
-			sendPacket(sm);
-			sm = null;
+			if (!(skill.getId() == 2166))
+			{
+				SystemMessage sm = new SystemMessage(SystemMessageId.S1_PREPARED_FOR_REUSE);
+				sm.addSkillName(skill.getId(), skill.getLevel());
+				sendPacket(sm);
+				sm = null;
+			}
+			// Cp potion message like L2OFF
+			else if ((skill.getId() == 2166))
+			{
+				if (skill.getLevel() == 2)
+					sendMessage("Greater CP Potion is not available at this time: being prepared for reuse.");
+				else if (skill.getLevel() == 1)
+					sendMessage("CP Potion is not available at this time: being prepared for reuse.");
+			}
+			
+			sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
 		
