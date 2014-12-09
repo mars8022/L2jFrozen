@@ -224,6 +224,7 @@ public class AutoVoteRewardHandler
 			voteSection = voteSection.substring(0, constrainB).trim();
 			votes = Integer.parseInt(voteSection);
 			
+			webClient.closeAllWindows();
 		}
 		catch (final Exception e)
 		{
