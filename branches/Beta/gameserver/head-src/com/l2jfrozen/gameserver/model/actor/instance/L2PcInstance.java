@@ -640,16 +640,12 @@ public final class L2PcInstance extends L2PlayableInstance
 			// cancel the recent fake-death protection instantly if the player attacks or casts spells
 			getPlayer().setRecentFakeDeath(false);
 			
-			/*
-			 * if(getPlayer().isSilentMoving()) { L2Effect silentMove = getPlayer().getFirstEffect(L2Effect.EffectType.SILENT_MOVE); if(silentMove != null) { silentMove.exit(true); } }
-			 */
-			
 			synchronized (_cubics)
 			{
 				for (final L2CubicInstance cubic : _cubics.values())
 					if (cubic.getId() != L2CubicInstance.LIFE_CUBIC)
 					{
-						cubic.doAction(/* target */);
+						cubic.doAction();
 					}
 			}
 		}
@@ -687,10 +683,6 @@ public final class L2PcInstance extends L2PlayableInstance
 			if (!skill.isOffensive())
 				return;
 			
-			/*
-			 * if(getPlayer().isSilentMoving() && skill.getSkillType() != SkillType.AGGDAMAGE) { L2Effect silentMove = getPlayer().getFirstEffect(L2Effect.EffectType.SILENT_MOVE); if(silentMove != null) { silentMove.exit(true); } }
-			 */
-			
 			switch (skill.getTargetType())
 			{
 				case TARGET_GROUND:
@@ -703,13 +695,11 @@ public final class L2PcInstance extends L2PlayableInstance
 					
 					synchronized (_cubics)
 					{
-						
 						for (final L2CubicInstance cubic : _cubics.values())
 							if (cubic != null && cubic.getId() != L2CubicInstance.LIFE_CUBIC)
 							{
-								cubic.doAction(/* (L2Character) mainTarget */);
+								cubic.doAction();
 							}
-						
 					}
 					
 					mainTarget = null;
@@ -11743,6 +11733,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	 * @param attacker the attacker
 	 * @return true, if is auto attackable
 	 */
+	@SuppressWarnings("null")
 	@Override
 	public boolean isAutoAttackable(final L2Character attacker)
 	{
@@ -11774,9 +11765,23 @@ public final class L2PcInstance extends L2PlayableInstance
 		if (getClan() != null && attacker != null && getClan().isMember(attacker.getName()) && !(getDuelState() == Duel.DUELSTATE_DUELLING && getDuelId() == ((L2PcInstance) attacker).getDuelId()))
 			return false;
 		
-		// Check if the attacker is not in the same ally, excluding duels like L2OFF
-		if (getAllyId() != 0 && ((L2PcInstance) attacker).getAllyId() != 0 && getAllyId() == ((L2PcInstance) attacker).getAllyId() && !(getDuelState() == Duel.DUELSTATE_DUELLING && getDuelId() == ((L2PcInstance) attacker).getDuelId()))
-			return false;
+		// Ally check
+		if (attacker instanceof L2PlayableInstance)
+		{
+			L2PcInstance player = null;
+			if (attacker instanceof L2PcInstance)
+			{
+				player = (L2PcInstance) attacker;
+			}
+			else if (attacker instanceof L2Summon)
+			{
+				player = ((L2Summon) attacker).getOwner();
+			}
+			
+			// Check if the attacker is not in the same ally, excluding duels like L2OFF
+			if (getAllyId() != 0 && player.getAllyId() != 0 && getAllyId() == player.getAllyId() && !(getDuelState() == Duel.DUELSTATE_DUELLING && getDuelId() == player.getDuelId()))
+				return false;
+		}
 		
 		if (attacker instanceof L2PlayableInstance && isInFunEvent())
 		{
