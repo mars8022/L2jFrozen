@@ -353,7 +353,11 @@ public class TradeList
 		
 		L2ItemInstance item = (L2ItemInstance) o;
 		
-		if (!item.isTradeable() || (getOwner().isGM() && Config.GM_TRADE_RESTRICTED_ITEMS) || item.getItemType() == L2EtcItemType.QUEST)
+		if (!item.isTradeable() || item.getItemType() == L2EtcItemType.QUEST)
+			return null;
+		
+		// GM items trade restriction (valid for trade and private sell)
+		if ((getOwner().isGM() && Config.GM_TRADE_RESTRICTED_ITEMS))
 			return null;
 		
 		if (count > item.getCount())

@@ -53,6 +53,14 @@ public final class RequestPrivateStoreManageSell extends L2GameClientPacket
 			return;
 		}
 		
+		// Private store disabled by config
+		if (player.isGM() && Config.GM_TRADE_RESTRICTED_ITEMS)
+		{
+			player.sendMessage("Gm private store disabled by config!");
+			player.sendPacket(ActionFailed.STATIC_PACKET);
+			return;
+		}
+		
 		// If player is in store mode /offline_shop like L2OFF
 		if (player.isStored())
 		{
