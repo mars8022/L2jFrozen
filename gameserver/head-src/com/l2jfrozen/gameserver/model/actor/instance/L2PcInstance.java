@@ -11746,7 +11746,6 @@ public final class L2PcInstance extends L2PlayableInstance
 	@Override
 	public boolean isAutoAttackable(final L2Character attacker)
 	{
-		
 		// Check if the attacker isn't the L2PcInstance Pet
 		if (attacker == this || attacker == getPet())
 			return false;
@@ -11773,6 +11772,10 @@ public final class L2PcInstance extends L2PlayableInstance
 		
 		// Check if the attacker is not in the same clan, excluding duels like L2OFF
 		if (getClan() != null && attacker != null && getClan().isMember(attacker.getName()) && !(getDuelState() == Duel.DUELSTATE_DUELLING && getDuelId() == ((L2PcInstance) attacker).getDuelId()))
+			return false;
+		
+		// Check if the attacker is not in the same ally, excluding duels like L2OFF
+		if (getAllyId() != 0 && ((L2PcInstance) attacker).getAllyId() != 0 && getAllyId() == ((L2PcInstance) attacker).getAllyId() && !(getDuelState() == Duel.DUELSTATE_DUELLING && getDuelId() == ((L2PcInstance) attacker).getDuelId()))
 			return false;
 		
 		if (attacker instanceof L2PlayableInstance && isInFunEvent())
