@@ -61,7 +61,6 @@ public final class RequestBlock extends L2GameClientPacket
 		}
 	}
 	
-	@SuppressWarnings("resource")
 	@Override
 	protected void runImpl()
 	{
