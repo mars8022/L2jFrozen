@@ -1289,7 +1289,6 @@ public class Olympiad
 		
 	}
 	
-	@SuppressWarnings("resource")
 	public L2FastList<String> getClassLeaderBoard(final int classId)
 	{
 		// if (_period != 1) return;

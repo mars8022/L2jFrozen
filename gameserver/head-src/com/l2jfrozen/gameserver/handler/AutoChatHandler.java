@@ -714,7 +714,6 @@ public class AutoChatHandler implements SpawnListener
 				_objectId = pObjectId;
 			}
 			
-			@SuppressWarnings("null")
 			@Override
 			public synchronized void run()
 			{

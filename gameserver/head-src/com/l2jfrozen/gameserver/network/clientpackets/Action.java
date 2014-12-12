@@ -73,11 +73,10 @@ public final class Action extends L2GameClientPacket
 		else
 			obj = L2World.getInstance().findObject(_objectId);
 		
-		// If object requested does not exist, add warn msg into logs
+		// If object requested does not exist
+		// pressing e.g. pickup many times quickly would get you here
 		if (obj == null)
 		{
-			// pressing e.g. pickup many times quickly would get you here
-			// LOGGER.warn("Character: " + activeChar.getName() + " request action with non existent ObjectID:" + _objectId);
 			getClient().sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
@@ -123,10 +122,6 @@ public final class Action extends L2GameClientPacket
 		}
 		else
 			getClient().sendPacket(ActionFailed.STATIC_PACKET); // Actions prohibited when in trade
-			
-		// FIXME: check why here was realized a broadcast of status..
-		// Update the status after the target
-		// activeChar.broadcastStatusUpdate();
 	}
 	
 	@Override

@@ -11733,7 +11733,6 @@ public final class L2PcInstance extends L2PlayableInstance
 	 * @param attacker the attacker
 	 * @return true, if is auto attackable
 	 */
-	@SuppressWarnings("null")
 	@Override
 	public boolean isAutoAttackable(final L2Character attacker)
 	{
@@ -11779,7 +11778,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			}
 			
 			// Check if the attacker is not in the same ally, excluding duels like L2OFF
-			if (getAllyId() != 0 && player.getAllyId() != 0 && getAllyId() == player.getAllyId() && !(getDuelState() == Duel.DUELSTATE_DUELLING && getDuelId() == player.getDuelId()))
+			if (player != null && getAllyId() != 0 && player.getAllyId() != 0 && getAllyId() == player.getAllyId() && !(getDuelState() == Duel.DUELSTATE_DUELLING && getDuelId() == player.getDuelId()))
 				return false;
 		}
 		
