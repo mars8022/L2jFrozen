@@ -40,7 +40,7 @@ public class AutoVoteRewardHandler
 		LOGGER.info("Vote Reward System Initiated.");
 		
 		if (_hopzone)
-		{			
+		{
 			int hopzone_votes = getHopZoneVotes();
 			
 			if (hopzone_votes == -1)
@@ -222,7 +222,7 @@ public class AutoVoteRewardHandler
 			voteSection = voteSection.substring(0, constrainB).trim();
 			votes = Integer.parseInt(voteSection);
 			
-			//Try to free all the freaking resources
+			// Try to free all the freaking resources
 			page.cleanUp();
 			webClient.getJavaScriptEngine().shutdown();
 			webClient.closeAllWindows();

@@ -1271,9 +1271,6 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 			wasSSCharged = weaponInst != null && weaponInst.getChargedSoulshot() != L2ItemInstance.CHARGED_NONE;
 		}
 		
-		/*
-		 * boolean a = weaponInst != null; boolean b = (weaponInst.getChargedSoulshot() != L2ItemInstance.CHARGED_NONE); if (this instanceof L2PcInstance) { ((L2PcInstance) this).sendMessage("" + a); ((L2PcInstance) this).sendMessage("" + b); ((L2PcInstance) this).sendMessage("" + wasSSCharged); }
-		 */
 		// Get the Attack Speed of the L2Character (delay (in milliseconds) before next attack)
 		// the hit is calculated to happen halfway to the animation - might need further tuning e.g. in bow case
 		final int timeToHit = timeAtk / 2;
