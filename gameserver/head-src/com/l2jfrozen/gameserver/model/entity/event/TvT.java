@@ -744,14 +744,14 @@ public class TvT implements EventTask
 		_inProgress = true;
 		_joining = true;
 		spawnEventNpc();
-		Announcements.getInstance().gameAnnounceToAll("Event: " + _eventName + "!");
+		Announcements.getInstance().gameAnnounceToAll(_eventName + ": Event " + _eventName + "!");
 		if (Config.TVT_ANNOUNCE_REWARD && ItemTable.getInstance().getTemplate(_rewardId) != null)
-			Announcements.getInstance().gameAnnounceToAll("Reward: " + _rewardAmount + " " + ItemTable.getInstance().getTemplate(_rewardId).getName());
-		Announcements.getInstance().gameAnnounceToAll("Recruiting levels: " + _minlvl + " to " + _maxlvl);
-		Announcements.getInstance().gameAnnounceToAll("Joinable in " + _joiningLocationName);
+			Announcements.getInstance().gameAnnounceToAll(_eventName + ": Reward: " + _rewardAmount + " " + ItemTable.getInstance().getTemplate(_rewardId).getName());
+		Announcements.getInstance().gameAnnounceToAll(_eventName + ": Recruiting levels: " + _minlvl + " to " + _maxlvl);
+		Announcements.getInstance().gameAnnounceToAll(_eventName + ": Joinable in " + _joiningLocationName + ".");
 		
 		if (Config.TVT_COMMAND)
-			Announcements.getInstance().gameAnnounceToAll(" or by command .tvtjoin! To leave .tvtleave! For Info .tvtinfo!");
+			Announcements.getInstance().gameAnnounceToAll(_eventName + ": Commands .tvtjoin .tvtleave .tvtinfo");
 		
 		return true;
 	}
@@ -773,7 +773,7 @@ public class TvT implements EventTask
 		}
 		else if (Config.TVT_EVEN_TEAMS.equals("SHUFFLE") && !checkMinPlayers(_playersShuffle.size()))
 		{
-			Announcements.getInstance().gameAnnounceToAll("Not enough players for event. Min Requested : " + _minPlayers + ", Participating : " + _playersShuffle.size());
+			Announcements.getInstance().gameAnnounceToAll(_eventName + ": Not enough players for event. Min Requested : " + _minPlayers + ", Participating : " + _playersShuffle.size());
 			if (Config.CTF_STATS_LOGGER)
 				LOGGER.info(_eventName + ":Not enough players for event. Min Requested : " + _minPlayers + ", Participating : " + _playersShuffle.size());
 			
@@ -936,16 +936,16 @@ public class TvT implements EventTask
 						for (final String team : _teams)
 						{
 							final int _kills = teamKillsCount(team);
-							Announcements.getInstance().gameAnnounceToAll("Team: " + team + " - Kills: " + _kills);
+							Announcements.getInstance().gameAnnounceToAll(_eventName + ": Team: " + team + " - Kills: " + _kills);
 						}
 						
 						if (bestKiller != null)
 						{
-							Announcements.getInstance().gameAnnounceToAll("Top killer: " + bestKiller.getName() + " - Kills: " + bestKiller._countTvTkills);
+							Announcements.getInstance().gameAnnounceToAll(_eventName + ": Top killer: " + bestKiller.getName() + " - Kills: " + bestKiller._countTvTkills);
 						}
 						if ((looser != null) && (!looser.equals(bestKiller)))
 						{
-							Announcements.getInstance().gameAnnounceToAll("Top looser: " + looser.getName() + " - Dies: " + looser._countTvTdies);
+							Announcements.getInstance().gameAnnounceToAll(_eventName + ": Top looser: " + looser.getName() + " - Dies: " + looser._countTvTdies);
 						}
 					}
 					
@@ -992,10 +992,6 @@ public class TvT implements EventTask
 						LOGGER.info(_eventName + ": No team win the match(nobody killed).");
 					
 					rewardTeam(_topTeam, bestKiller, looser);
-					
-					/*
-					 * Announcements.getInstance().gameAnnounceToAll(_eventName + ": No team wins the match(nobody killed)."); if(Config.TVT_STATS_LOGGER) LOGGER.info(_eventName + ": No team wins the match(nobody killed).");
-					 */
 				}
 			}
 		}
@@ -2350,10 +2346,6 @@ public class TvT implements EventTask
 				_topKills = teamKillsCount(team);
 			}
 		}
-		/*
-		 * if(_topKills <= 0) { Announcements.getInstance().gameAnnounceToAll(_eventName + ": No kills done)."); } else { if(_topTeam == null) Announcements.getInstance().gameAnnounceToAll(_eventName + ": Maximum kills done : " + _topKills + "! No one won."); else {
-		 * Announcements.getInstance().gameAnnounceToAll(_eventName + ": Team " + _topTeam + " wins the match, with " + teamKillsCount(_topTeam) + " kills!"); rewardTeam(_topTeam); } } teleportFinish();
-		 */
 	}
 	
 	/**

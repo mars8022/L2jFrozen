@@ -777,14 +777,14 @@ public class CTF implements EventTask
 		_inProgress = true;
 		_joining = true;
 		spawnEventNpc();
-		Announcements.getInstance().gameAnnounceToAll("Event: " + _eventName + "!");
+		Announcements.getInstance().gameAnnounceToAll(_eventName + ": Event " + _eventName + "!");
 		if (Config.CTF_ANNOUNCE_REWARD && ItemTable.getInstance().getTemplate(_rewardId) != null)
-			Announcements.getInstance().gameAnnounceToAll("Reward: " + _rewardAmount + " " + ItemTable.getInstance().getTemplate(_rewardId).getName());
-		Announcements.getInstance().gameAnnounceToAll("Recruiting levels: " + _minlvl + " to " + _maxlvl);
-		Announcements.getInstance().gameAnnounceToAll("Joinable in " + _joiningLocationName);
+			Announcements.getInstance().gameAnnounceToAll(_eventName + ": Reward: " + _rewardAmount + " " + ItemTable.getInstance().getTemplate(_rewardId).getName());
+		Announcements.getInstance().gameAnnounceToAll(_eventName + ": Recruiting levels: " + _minlvl + " to " + _maxlvl);
+		Announcements.getInstance().gameAnnounceToAll(_eventName + ": Joinable in " + _joiningLocationName + ".");
 		
 		if (Config.CTF_COMMAND)
-			Announcements.getInstance().gameAnnounceToAll(" or by command .ctfjoin! To leave .ctfleave! For Info .ctfinfo!");
+			Announcements.getInstance().gameAnnounceToAll(_eventName + ": Commands .ctfjoin .ctfleave .ctfinfo!");
 		
 		return true;
 	}
@@ -809,7 +809,7 @@ public class CTF implements EventTask
 			}
 			else if (Config.CTF_EVEN_TEAMS.equals("SHUFFLE") && !checkMinPlayers(_playersShuffle.size()))
 			{
-				Announcements.getInstance().gameAnnounceToAll("Not enough players for event. Min Requested : " + _minPlayers + ", Participating : " + _playersShuffle.size());
+				Announcements.getInstance().gameAnnounceToAll(_eventName + ": Not enough players for event. Min Requested : " + _minPlayers + ", Participating : " + _playersShuffle.size());
 				if (Config.CTF_STATS_LOGGER)
 					LOGGER.info(_eventName + ":Not enough players for event. Min Requested : " + _minPlayers + ", Participating : " + _playersShuffle.size());
 				
@@ -822,7 +822,7 @@ public class CTF implements EventTask
 			
 			if (!checkMinPlayers(_players.size()))
 			{
-				Announcements.getInstance().gameAnnounceToAll("Not enough players for event. Min Requested : " + _minPlayers + ", Participating : " + _players.size());
+				Announcements.getInstance().gameAnnounceToAll(_eventName + ": Not enough players for event. Min Requested : " + _minPlayers + ", Participating : " + _players.size());
 				if (Config.CTF_STATS_LOGGER)
 					LOGGER.info(_eventName + ":Not enough players for event. Min Requested : " + _minPlayers + ", Participating : " + _players.size());
 				return false;
@@ -1015,7 +1015,7 @@ public class CTF implements EventTask
 					for (final String team : _teams)
 					{
 						final int _flags_ = teamPointsCount(team);
-						Announcements.getInstance().gameAnnounceToAll("Team: " + team + " - Flags taken: " + _flags_);
+						Announcements.getInstance().gameAnnounceToAll(_eventName + ": Team: " + team + " - Flags taken: " + _flags_);
 					}
 				}
 				
@@ -2460,10 +2460,6 @@ public class CTF implements EventTask
 				_topScore = teamPointsCount(team);
 			}
 		}
-		/*
-		 * if(_topScore <= 0) { Announcements.getInstance().gameAnnounceToAll(_eventName + ": No flags taken)."); } else { if(_topTeam == null) Announcements.getInstance().gameAnnounceToAll(_eventName + ": Maximum flags taken : " + _topScore + " flags! No one won."); else {
-		 * Announcements.getInstance().gameAnnounceToAll(_eventName + ": Team " + _topTeam + " wins the match, with " + _topScore + " flags taken!"); rewardTeam(_topTeam); } } teleportFinish();
-		 */
 	}
 	
 	/**
