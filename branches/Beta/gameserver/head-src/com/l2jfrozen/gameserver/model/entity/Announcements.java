@@ -273,9 +273,10 @@ public class Announcements
 	}
 	
 	// Colored Announcements 8D
+	// Used for events
 	public void gameAnnounceToAll(final String text)
 	{
-		CreatureSay cs = new CreatureSay(0, 18, "", "Announcements: " + text);
+		CreatureSay cs = new CreatureSay(0, 18, null, text);
 		
 		for (final L2PcInstance player : L2World.getInstance().getAllPlayers())
 		{
