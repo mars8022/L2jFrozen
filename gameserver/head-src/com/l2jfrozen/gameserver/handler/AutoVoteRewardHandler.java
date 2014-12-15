@@ -261,12 +261,14 @@ public class AutoVoteRewardHandler
 		}
 	}
 	
+	// Check boxes
 	protected boolean checkSingleBox(final L2PcInstance player)
 	{
+		if (player == null)
+			return false;
 		
 		if (player.getClient() != null && player.getClient().getConnection() != null && !player.getClient().getConnection().isClosed() && player.isOnline() == 1 && !player.isInOfflineMode())
 		{
-			
 			final String playerip = player.getClient().getConnection().getInetAddress().getHostAddress();
 			
 			if (_already_rewarded.contains(playerip))
