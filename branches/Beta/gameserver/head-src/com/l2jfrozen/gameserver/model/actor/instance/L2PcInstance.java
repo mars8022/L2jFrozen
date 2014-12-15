@@ -6739,6 +6739,15 @@ public final class L2PcInstance extends L2PlayableInstance
 				sendPacket(ActionFailed.STATIC_PACKET);
 				return;
 			}
+			
+			// Like L2OFF you can't pickup items with private store opened
+			if (getPrivateStoreType() != 0)
+			{
+				// Send a Server->Client packet ActionFailed to this L2PcInstance
+				sendPacket(ActionFailed.STATIC_PACKET);
+				return;
+			}
+			
 			if (!target.getDropProtection().tryPickUp(this) && target.getItemId() != 8190 && target.getItemId() != 8689)
 			{
 				sendPacket(ActionFailed.STATIC_PACKET);
