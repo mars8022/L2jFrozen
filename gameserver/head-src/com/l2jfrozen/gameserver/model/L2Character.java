@@ -304,8 +304,6 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 	/** The _meditated. */
 	private boolean _meditated;
 	
-	public static long TOGGLE_USE = 0;
-	
 	/**
 	 * Zone system<br>
 	 * x^2 or x*x.

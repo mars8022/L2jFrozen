@@ -72,7 +72,6 @@ public class Continuous implements ISkillHandler
 	};
 	private L2Skill _skill;
 	
-	@SuppressWarnings("null")
 	@Override
 	public void useSkill(final L2Character activeChar, L2Skill skill2, final L2Object[] targets)
 	{

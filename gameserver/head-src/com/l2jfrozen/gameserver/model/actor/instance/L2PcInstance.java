@@ -302,6 +302,9 @@ public final class L2PcInstance extends L2PlayableInstance
 	/** The _last teleport action. */
 	private long _lastTeleportAction = 0;
 	
+	/** The TOGGLE_USE time. */
+	protected long TOGGLE_USE = 0;
+	
 	/**
 	 * Gets the actual status.
 	 * @return the actual status
@@ -11980,10 +11983,14 @@ public final class L2PcInstance extends L2PlayableInstance
 			final L2Effect effect = getFirstEffect(skill);
 			
 			// Like L2OFF toogle skills have little delay
-			if (TOGGLE_USE + 400 > System.currentTimeMillis())
+			if (TOGGLE_USE != 0 && TOGGLE_USE + 400 > System.currentTimeMillis())
 			{
+				TOGGLE_USE = 0;
+				sendPacket(ActionFailed.STATIC_PACKET);
 				return;
 			}
+			
+			TOGGLE_USE = System.currentTimeMillis();
 			
 			if (effect != null)
 			{
@@ -11995,7 +12002,6 @@ public final class L2PcInstance extends L2PlayableInstance
 				sendPacket(ActionFailed.STATIC_PACKET);
 				return;
 			}
-			TOGGLE_USE = System.currentTimeMillis();
 		}
 		
 		// Check if the skill is active
