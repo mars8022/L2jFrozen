@@ -23,6 +23,7 @@ import javolution.util.FastList;
 import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.ai.CtrlIntention;
 import com.l2jfrozen.gameserver.datatables.HeroSkillTable;
 import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.model.L2Party;
@@ -335,14 +336,19 @@ class OlympiadGame
 			return false;
 		}
 		
-		// To avoid possible bug during Olympiad
 		if (_playerOne.inObserverMode() || _playerTwo.inObserverMode())
 		{
-			_playerOne = null;
-			_playerTwo = null;
+			if (_playerOne.inObserverMode())
+				LOGGER.warn("[OLYMPIAD DEBUG] Player one " + _playerOne.getName() + " was on observer mode! Match aborted!");
+			
+			if (_playerTwo.inObserverMode())
+				LOGGER.warn("[OLYMPIAD DEBUG] Player two " + _playerTwo.getName() + " was on observer mode! Match aborted!");
+			
+			_playerOne.sendMessage("One player on this match is on Observer mode! Match aborted!");
+			_playerTwo.sendMessage("One player on this match is on Observer mode! Match aborted!");
+			
 			_aborted = true;
 			return false;
-			
 		}
 		
 		try
@@ -381,8 +387,8 @@ class OlympiadGame
 					summon.teleToLocation(_stadiumPort[0] - 900, _stadiumPort[1], _stadiumPort[2], false);
 			}
 			
-			_playerOne.sendPacket(new ExOlympiadMode(2));
-			_playerTwo.sendPacket(new ExOlympiadMode(2));
+			_playerOne.sendPacket(new ExOlympiadMode(2, _playerOne));
+			_playerTwo.sendPacket(new ExOlympiadMode(2, _playerTwo));
 			
 			_playerOne.setIsInOlympiadMode(true);
 			_playerOne.setIsOlympiadStart(false);
@@ -391,7 +397,6 @@ class OlympiadGame
 			_playerTwo.setIsInOlympiadMode(true);
 			_playerTwo.setIsOlympiadStart(false);
 			_playerTwo.setOlympiadSide(2);
-			
 		}
 		catch (final NullPointerException e)
 		{
@@ -495,7 +500,7 @@ class OlympiadGame
 				player.setIsOlympiadStart(false);
 				player.setOlympiadSide(-1);
 				player.setOlympiadGameId(-1);
-				player.sendPacket(new ExOlympiadMode(0));
+				player.sendPacket(new ExOlympiadMode(0, player));
 				
 				// Add Clan Skills
 				if (player.getClan() != null)
@@ -1074,6 +1079,51 @@ class OlympiadGameTask implements Runnable
 		_game = game;
 	}
 	
+	protected boolean checkObserverStatusBug(final L2PcInstance player)
+	{
+		if (player != null && player.inObserverMode())
+		{
+			LOGGER.info("[OLYMPIAD DEBUG] Player " + player.getName() + "is in Observer mode!");
+			return true;
+		}
+		
+		return false;
+	}
+	
+	protected void removeObserverModeBug(final L2PcInstance player)
+	{
+		if (player == null || !player.inObserverMode())
+			return;
+		
+		player.setTarget(null);
+		// Put the status back to 0 (removing observer mode on olympiad)
+		player.sendPacket(new ExOlympiadMode(0, player));
+		player.getAppearance().setVisible();
+		player.setIsInvul(false);
+		if (player.getAI() != null)
+		{
+			player.getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
+		}
+		
+		player.setObserverMode(false);
+		
+		try
+		{
+			Thread.sleep(2000);
+		}
+		catch (final InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+		
+		// Put the status back to 2 (fighting mode on olympiad)
+		player.sendPacket(new ExOlympiadMode(2, player));
+		
+		player.broadcastUserInfo();
+		
+		LOGGER.info("[OLYMPIAD DEBUG] Player " + player.getName() + "was on observer mode! Status restored!");
+	}
+	
 	protected boolean checkBattleStatus()
 	{
 		final boolean _pOneCrash = (_game._playerOne == null || _game._playerOneDisconnected);
@@ -1202,6 +1252,12 @@ class OlympiadGameTask implements Runnable
 		{
 		}
 		
+		// TODO: This is a workaroud to fix the problem with Observer mode on olympiad on random fight
+		// We must find why the player is in observer mode!
+		// Try to remove the observer mode bug
+		removeObserverModeBug(_game._playerOne);
+		removeObserverModeBug(_game._playerTwo);
+		
 		synchronized (this)
 		{
 			if (!OlympiadGame._battleStarted)
@@ -1243,6 +1299,22 @@ class OlympiadGameTask implements Runnable
 			catch (final InterruptedException e)
 			{
 			}
+		}
+		
+		if (checkObserverStatusBug(_game._playerOne))
+		{
+			_game._playerOne.sendMessage("One player on this match is on Observer mode! Match aborted!");
+			_game._playerTwo.sendMessage("One player on this match is on Observer mode! Match aborted!");
+			_game._aborted = true;
+			return false;
+		}
+		
+		if (checkObserverStatusBug(_game._playerTwo))
+		{
+			_game._playerOne.sendMessage("One player on this match is on Observer mode! Match aborted!");
+			_game._playerTwo.sendMessage("One player on this match is on Observer mode! Match aborted!");
+			_game._aborted = true;
+			return false;
 		}
 		
 		if (!checkBattleStatus())

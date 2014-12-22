@@ -13584,7 +13584,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		getAppearance().setInvisible();
 		
 		teleToLocation(x, y, z, false);
-		sendPacket(new ExOlympiadMode(3));
+		sendPacket(new ExOlympiadMode(3, this));
 		broadcastUserInfo();
 	}
 	
@@ -13630,7 +13630,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	public void leaveOlympiadObserverMode()
 	{
 		setTarget(null);
-		sendPacket(new ExOlympiadMode(0));
+		sendPacket(new ExOlympiadMode(0, this));
 		teleToLocation(_obsX, _obsY, _obsZ, true);
 		getAppearance().setVisible();
 		setIsInvul(false);
@@ -13798,6 +13798,15 @@ public final class L2PcInstance extends L2PlayableInstance
 	public boolean inObserverMode()
 	{
 		return _observerMode;
+	}
+	
+	/**
+	 * set observer mode.
+	 * @param mode
+	 */
+	public void setObserverMode(final boolean mode)
+	{
+		_observerMode = mode;
 	}
 	
 	/**
@@ -19541,7 +19550,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		getAppearance().setInvisible();
 		// sendPacket(new GMHide(1));
 		teleToLocation(x, y, z, true);
-		sendPacket(new ExOlympiadMode(3));
+		sendPacket(new ExOlympiadMode(3, this));
 		_observerMode = true;
 		broadcastUserInfo();
 	}
@@ -19549,7 +19558,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	public void leaveOlympiadObserverMode(final boolean olymp)
 	{
 		setTarget(null);
-		sendPacket(new ExOlympiadMode(0));
+		sendPacket(new ExOlympiadMode(0, this));
 		teleToLocation(_obsX, _obsY, _obsZ, true);
 		if (!AdminCommandAccessRights.getInstance().hasAccess("admin_invis", getAccessLevel()))
 			getAppearance().setVisible();
