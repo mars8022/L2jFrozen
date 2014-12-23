@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
@@ -781,6 +783,16 @@ public final class L2VillageMasterInstance extends L2FolkInstance
 			player.sendMessage("Cannot change clan leader while registered in Siege");
 			return;
 		}
+		
+		// Set old name/title color for old clan leader
+		if (Config.CLAN_LEADER_COLOR_ENABLED && clan.getLevel() >= Config.CLAN_LEADER_COLOR_CLAN_LEVEL)
+		{
+			if (Config.CLAN_LEADER_COLORED == 1)
+				player.getAppearance().setNameColor(0x000000);
+			else
+				player.getAppearance().setTitleColor(0xFFFF77);
+		}
+		
 		// clan.setNewLeader(member);
 		clan.setNewLeader(member, player);
 		

@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later
@@ -32,7 +34,6 @@ public final class ObserverReturn extends L2GameClientPacket
 		
 		if (activeChar.inObserverMode())
 			activeChar.leaveObserverMode();
-		// activeChar.teleToLocation(activeChar.getObsX(), activeChar.getObsY(), activeChar.getObsZ());
 	}
 	
 	@Override

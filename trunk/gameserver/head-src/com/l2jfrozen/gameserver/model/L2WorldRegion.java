@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
@@ -438,7 +440,7 @@ public final class L2WorldRegion
 	 */
 	public synchronized void deleteVisibleNpcSpawns()
 	{
-		LOGGER.info("Deleting all visible NPC's in Region: " + getName());
+		LOGGER.debug("Deleting all visible NPC's in Region: " + getName());
 		for (final L2Object obj : _visibleObjects)
 		{
 			if (obj instanceof L2NpcInstance)
@@ -453,7 +455,7 @@ public final class L2WorldRegion
 					SpawnTable.getInstance().deleteSpawn(spawn, false);
 				}
 				
-				LOGGER.info("Removed NPC " + target.getObjectId());
+				LOGGER.debug("Removed NPC " + target.getObjectId());
 				
 				target = null;
 				spawn = null;

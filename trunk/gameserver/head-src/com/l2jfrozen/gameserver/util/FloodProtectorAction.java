@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software: you can redistribute it and/or modify it under the terms of the
  * GNU General Public License as published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
@@ -57,6 +59,10 @@ public final class FloodProtectorAction
 	 * Flag determining whether punishment application is in progress so that we do not apply punisment multiple times (flooding).
 	 */
 	private volatile boolean _punishmentInProgress;
+	/**
+	 * Count from when the floodProtector start to block next action.
+	 */
+	private final int _untilBlock = 4;
 	
 	/**
 	 * Creates new instance of FloodProtectorAction.
@@ -79,6 +85,10 @@ public final class FloodProtectorAction
 	 */
 	public boolean tryPerformAction(final String command)
 	{
+		// Ignore flood protector for GM char
+		if (client != null && client.getActiveChar() != null && client.getActiveChar().isGM())
+			return true;
+		
 		if (!config.ALTERNATIVE_METHOD)
 		{
 			
@@ -116,6 +126,16 @@ public final class FloodProtectorAction
 					}
 					
 					_punishmentInProgress = false;
+				}
+				
+				// Avoid macro issue
+				if (config.FLOOD_PROTECTOR_TYPE == "UseItemFloodProtector" || config.FLOOD_PROTECTOR_TYPE == "ServerBypassFloodProtector")
+				{
+					// _untilBlock value is 4
+					if (_count.get() > _untilBlock)
+						return false;
+					
+					return true;
 				}
 				
 				return false;

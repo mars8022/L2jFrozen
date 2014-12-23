@@ -1,4 +1,6 @@
-/* This program is free software; you can redistribute it and/or modify
+/* L2jFrozen Project - www.l2jfrozen.com 
+ * 
+ * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
  * any later version.
@@ -4589,6 +4591,18 @@ public enum SystemMessageId
 	 * Message: Your pumping was successful! (Mastery Penalty:$s1 )
 	 */
 	PUMPING_SUCCESSFUL_PENALTY_S1(1672),
+	
+	/**
+	 * ID: 1435<br>
+	 * Message: Due to insufficient $s1, the automatic use function has been deactivated.
+	 */
+	AUTO_USE_CANCELLED_LACK_OF_S1(1435),
+	
+	/**
+	 * ID: 1436<br>
+	 * Message: Due to insufficient $s1, the automatic use function cannot be activated.
+	 */
+	CANNOT_AUTO_USE_LACK_OF_S1(1436),
 	
 	/**
 	 * ID: 1438<br>

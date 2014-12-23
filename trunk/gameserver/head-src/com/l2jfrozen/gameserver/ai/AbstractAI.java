@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
@@ -324,7 +326,7 @@ abstract class AbstractAI implements Ctrl
 	@Override
 	public final void notifyEvent(final CtrlEvent evt, final Object arg0, final Object arg1)
 	{
-		if (!_actor.isVisible() || !_actor.hasAI() || (_actor instanceof L2PcInstance && ((L2PcInstance) _actor).isOffline()))
+		if (!_actor.isVisible() || !_actor.hasAI() || (_actor instanceof L2PcInstance && ((L2PcInstance) _actor).isOnline() == 0) || (_actor instanceof L2PcInstance && ((L2PcInstance) _actor).isInOfflineMode()))
 			return;
 		
 		/*

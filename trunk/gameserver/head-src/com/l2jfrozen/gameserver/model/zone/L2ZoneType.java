@@ -1,4 +1,6 @@
-/* This program is free software; you can redistribute it and/or modify
+/* L2jFrozen Project - www.l2jfrozen.com 
+ * 
+ * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
  * any later version.
@@ -342,7 +344,13 @@ public abstract class L2ZoneType
 	public boolean isCharacterInZone(final L2Character character)
 	{
 		// re validate zone is not always performed, so better both checks
-		return _characterList.containsKey(character.getObjectId()) || isInsideZone(character.getX(), character.getY(), character.getZ());
+		if (character != null)
+		{
+			return _characterList.containsKey(character.getObjectId()) || isInsideZone(character.getX(), character.getY(), character.getZ());
+		}
+		
+		return false;
+		
 	}
 	
 	protected abstract void onEnter(L2Character character);

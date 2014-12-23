@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
@@ -89,7 +91,7 @@ public class Mdam implements ISkillHandler
 			
 			final int damage = (int) Formulas.calcMagicDam(activeChar, target, skill, sps, bss, mcrit);
 			
-			if (damage > 5000 && Config.LOG_HIGH_DAMAGES && activeChar instanceof L2PcInstance)
+			if (damage > 50000 && Config.LOG_HIGH_DAMAGES && activeChar instanceof L2PcInstance)
 			{
 				String name = "";
 				if (target instanceof L2RaidBossInstance)

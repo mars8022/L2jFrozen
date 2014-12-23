@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
@@ -123,7 +125,7 @@ public class AutoSaveManager
 			
 			for (final L2PcInstance player : players)
 			{
-				if (player != null && !player.isOffline())
+				if (player != null && !player.isInOfflineMode())
 				{
 					if (player.getClient() == null || player.isOnline() == 0)
 					{
@@ -177,7 +179,7 @@ public class AutoSaveManager
 			{
 				con = L2DatabaseFactory.getInstance().getConnection(false);
 				PreparedStatement statement;
-				statement = con.prepareStatement("DELETE FROM character_skills_save WHERE reuse_delay=0");
+				statement = con.prepareStatement("DELETE FROM character_skills_save WHERE reuse_delay=0 && restore_type=1");
 				erased = statement.executeUpdate();
 				DatabaseUtils.close(statement);
 				statement = null;

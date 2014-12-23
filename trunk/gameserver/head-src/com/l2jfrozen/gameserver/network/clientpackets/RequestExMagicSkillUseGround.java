@@ -1,4 +1,6 @@
-/* This program is free software; you can redistribute it and/or modify
+/* L2jFrozen Project - www.l2jfrozen.com 
+ * 
+ * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
  * any later version.
@@ -21,7 +23,6 @@ import com.l2jfrozen.gameserver.datatables.SkillTable;
 import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
-import com.l2jfrozen.gameserver.network.serverpackets.ValidateLocation;
 import com.l2jfrozen.gameserver.util.Util;
 import com.l2jfrozen.util.Point3D;
 
@@ -72,7 +73,11 @@ public final class RequestExMagicSkillUseGround extends L2GameClientPacket
 			
 			// normally magicskilluse packet turns char client side but for these skills, it doesn't (even with correct target)
 			activeChar.setHeading(Util.calculateHeadingFrom(activeChar.getX(), activeChar.getY(), _x, _y));
-			activeChar.broadcastPacket(new ValidateLocation(activeChar));
+			
+			// TODO: Send a valide position and broadcast the new heading.
+			// Putting a simple Validelocation chars can go up of wall spamming on position and clicking on a SIGNET
+			// activeChar.broadcastPacket(new ValidateLocation(activeChar));
+			
 			activeChar.useMagic(skill, _ctrlPressed, _shiftPressed);
 		}
 		else

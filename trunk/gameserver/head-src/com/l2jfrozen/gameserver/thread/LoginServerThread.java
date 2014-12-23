@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
@@ -369,7 +371,7 @@ public class LoginServerThread extends Thread
 								}
 								else
 								{
-									LOGGER.warn("session key is not correct. closing connection");
+									LOGGER.warn("Session key is not correct. Closing connection for account " + wcToRemove.account + ".");
 									wcToRemove.gameClient.getConnection().sendPacket(new AuthLoginFail(1));
 									wcToRemove.gameClient.closeNow();
 								}

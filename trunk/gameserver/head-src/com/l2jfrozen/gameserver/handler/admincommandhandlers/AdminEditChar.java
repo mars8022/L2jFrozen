@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later
@@ -33,6 +35,7 @@ import com.l2jfrozen.gameserver.communitybbs.Manager.RegionBBSManager;
 import com.l2jfrozen.gameserver.datatables.HeroSkillTable;
 import com.l2jfrozen.gameserver.datatables.sql.ClanTable;
 import com.l2jfrozen.gameserver.handler.IAdminCommandHandler;
+import com.l2jfrozen.gameserver.model.L2Clan;
 import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.model.L2World;
@@ -1073,13 +1076,13 @@ public class AdminEditChar implements IAdminCommandHandler
 		List<L2PcInstance> online_players_list = new ArrayList<>();
 		
 		for (final L2PcInstance actual_player : allPlayers_with_offlines)
-			if (actual_player != null && actual_player.isOnline() == 1 && !actual_player.isOffline())
+			if (actual_player != null && actual_player.isOnline() == 1 && !actual_player.isInOfflineMode())
 				online_players_list.add(actual_player);
 			else if (actual_player == null)
 				LOGGER.warn("listCharacters: found player null into L2World Instance..");
 			else if (actual_player.isOnline() == 0 && Config.DEBUG)
 				LOGGER.warn("listCharacters: player " + actual_player.getName() + " not online into L2World Instance..");
-			else if (actual_player.isOffline() && Config.DEBUG)
+			else if (actual_player.isInOfflineMode() && Config.DEBUG)
 				LOGGER.warn("listCharacters: player " + actual_player.getName() + " offline into L2World Instance..");
 		
 		L2PcInstance[] players = online_players_list.toArray(new L2PcInstance[online_players_list.size()]);
@@ -1164,7 +1167,11 @@ public class AdminEditChar implements IAdminCommandHandler
 		adminReply.setFile("data/html/admin/" + filename);
 		adminReply.replace("%name%", player.getName());
 		adminReply.replace("%level%", String.valueOf(player.getLevel()));
-		adminReply.replace("%clan%", String.valueOf(ClanTable.getInstance().getClan(player.getClanId())));
+		final L2Clan playerClan = ClanTable.getInstance().getClan(player.getClanId());
+		if (playerClan != null)
+			adminReply.replace("%clan%", playerClan.getName());
+		else
+			adminReply.replace("%clan%", "no Clan");
 		adminReply.replace("%xp%", String.valueOf(player.getExp()));
 		adminReply.replace("%sp%", String.valueOf(player.getSp()));
 		adminReply.replace("%class%", player.getTemplate().className);

@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
@@ -86,6 +88,8 @@ public class Shutdown extends Thread
 	private int _secondsShut;
 	
 	private int _shutdownMode;
+	
+	private boolean _shutdownStarted;
 	
 	/** 0 */
 	public static final int SIGTERM = 0;
@@ -176,6 +180,7 @@ public class Shutdown extends Thread
 	{
 		_secondsShut = -1;
 		_shutdownMode = SIGTERM;
+		_shutdownStarted = false;
 	}
 	
 	/**
@@ -222,6 +227,9 @@ public class Shutdown extends Thread
 				_shutdownMode = TASK_SHUTDOWN;
 			}
 		}
+		
+		_shutdownStarted = false;
+		
 	}
 	
 	/**
@@ -237,9 +245,17 @@ public class Shutdown extends Thread
 		return _instance;
 	}
 	
-	public static Shutdown getCounterInstance()
+	public boolean isShutdownStarted()
 	{
-		return _counterInstance;
+		boolean output = _shutdownStarted;
+		
+		// if a counter is started, the value of shutdownstarted is of counterinstance
+		if (_counterInstance != null)
+		{
+			output = _counterInstance._shutdownStarted;
+		}
+		
+		return output;
 	}
 	
 	/**
@@ -255,166 +271,22 @@ public class Shutdown extends Thread
 		
 		if (this == _instance)
 		{
-			// last byebye, save all data and quit this server
-			// logging doesnt work here :(
-			
-			try
-			{
-				LoginServerThread.getInstance().interrupt();
-			}
-			catch (final Throwable t)
-			{
-				if (Config.ENABLE_ALL_EXCEPTIONS)
-					t.printStackTrace();
-			}
-			
-			AutoSaveManager.getInstance().stopAutoSaveManager();
-			
-			// ensure all services are stopped
-			SQLQueue.getInstance().shutdown();
-			
-			// saveData sends messages to exit players, so shutdown selector after it
-			saveData();
-			
-			try
-			{
-				GameTimeController.getInstance().stopTimer();
-			}
-			catch (final Throwable t)
-			{
-				if (Config.ENABLE_ALL_EXCEPTIONS)
-					t.printStackTrace();
-			}
-			
-			try
-			{
-				// GameServer.getSelectorThread().setDaemon(true);
-				GameServer.getSelectorThread().shutdown();
-				
-			}
-			catch (final Throwable t)
-			{
-				if (Config.ENABLE_ALL_EXCEPTIONS)
-					t.printStackTrace();
-			}
-			
-			// stop all threadpolls
-			try
-			{
-				ThreadPoolManager.getInstance().shutdown();
-			}
-			catch (final Throwable t)
-			{
-				if (Config.ENABLE_ALL_EXCEPTIONS)
-					t.printStackTrace();
-			}
-			
-			try
-			{
-				SqlUtils.OpzGame();
-			}
-			catch (final Throwable t)
-			{
-				if (Config.ENABLE_ALL_EXCEPTIONS)
-					t.printStackTrace();
-			}
-			
-			try
-			{
-				SqlUtils.OpzLogin();
-			}
-			catch (final Throwable t)
-			{
-				if (Config.ENABLE_ALL_EXCEPTIONS)
-					t.printStackTrace();
-			}
-			
-			LOGGER.info("Committing all data, last chance...");
-			
-			// commit data, last chance
-			try
-			{
-				L2DatabaseFactory.getInstance().shutdown();
-			}
-			catch (final Throwable t)
-			{
-				if (Config.ENABLE_ALL_EXCEPTIONS)
-					t.printStackTrace();
-			}
-			
-			LOGGER.info("All database data committed.");
-			
-			System.runFinalization();
-			System.gc();
-			
-			LOGGER.info("Memory cleanup, recycled unused objects.");
-			
-			LOGGER.info("[STATUS] Server shutdown successfully.");
-			
-			// server will quit, when this function ends.
-			if (_instance._shutdownMode == GM_RESTART)
-			{
-				Runtime.getRuntime().halt(2);
-			}
-			else if (_instance._shutdownMode == TASK_RESTART)
-			{
-				Runtime.getRuntime().halt(5);
-			}
-			else if (_instance._shutdownMode == TASK_SHUTDOWN)
-			{
-				Runtime.getRuntime().halt(4);
-			}
-			else if (_instance._shutdownMode == TELL_RESTART)
-			{
-				Runtime.getRuntime().halt(7);
-			}
-			else if (_instance._shutdownMode == TELL_SHUTDOWN)
-			{
-				Runtime.getRuntime().halt(6);
-			}
-			else
-			{
-				Runtime.getRuntime().halt(0);
-			}
+			closeServer();
 		}
 		else
 		{
 			// gm shutdown: send warnings and then call exit to start shutdown sequence
 			countdown();
-			// last point where logging is operational :(
-			LOGGER.warn("GM shutdown countdown is over. " + MODE_TEXT[_shutdownMode] + " NOW!");
-			switch (_shutdownMode)
+			
+			if (_shutdownMode != ABORT)
 			{
-				case GM_SHUTDOWN:
-					_instance.setMode(GM_SHUTDOWN);
-					System.exit(0);
-					break;
+				// last point where logging is operational :(
+				LOGGER.warn("GM shutdown countdown is over. " + MODE_TEXT[_shutdownMode] + " NOW!");
 				
-				case GM_RESTART:
-					_instance.setMode(GM_RESTART);
-					System.exit(2);
-					break;
+				closeServer();
 				
-				case TASK_SHUTDOWN:
-					_instance.setMode(TASK_SHUTDOWN);
-					System.exit(4);
-					break;
-				
-				case TASK_RESTART:
-					_instance.setMode(TASK_RESTART);
-					System.exit(5);
-					break;
-				
-				case TELL_SHUTDOWN:
-					_instance.setMode(TELL_SHUTDOWN);
-					System.exit(6);
-					break;
-				
-				case TELL_RESTART:
-					_instance.setMode(TELL_RESTART);
-					System.exit(7);
-					break;
 			}
+			
 		}
 	}
 	
@@ -490,10 +362,9 @@ public class Shutdown extends Thread
 	 * set the shutdown mode
 	 * @param mode what mode shall be set
 	 */
-	private void setMode(final int mode)
-	{
-		_shutdownMode = mode;
-	}
+	/*
+	 * private void setMode(final int mode) { _shutdownMode = mode; }
+	 */
 	
 	/**
 	 * set shutdown mode to ABORT
@@ -566,6 +437,139 @@ public class Shutdown extends Thread
 		}
 	}
 	
+	private void closeServer()
+	{
+		
+		// last byebye, save all data and quit this server
+		// logging doesnt work here :(
+		_shutdownStarted = true;
+		
+		try
+		{
+			LoginServerThread.getInstance().interrupt();
+		}
+		catch (final Throwable t)
+		{
+			if (Config.ENABLE_ALL_EXCEPTIONS)
+				t.printStackTrace();
+		}
+		
+		AutoSaveManager.getInstance().stopAutoSaveManager();
+		
+		// ensure all services are stopped
+		SQLQueue.getInstance().shutdown();
+		
+		// saveData sends messages to exit players, so shutdown selector after it
+		saveData();
+		
+		try
+		{
+			GameTimeController.getInstance().stopTimer();
+		}
+		catch (final Throwable t)
+		{
+			if (Config.ENABLE_ALL_EXCEPTIONS)
+				t.printStackTrace();
+		}
+		
+		try
+		{
+			// GameServer.getSelectorThread().setDaemon(true);
+			GameServer.getSelectorThread().shutdown();
+			
+		}
+		catch (final Throwable t)
+		{
+			if (Config.ENABLE_ALL_EXCEPTIONS)
+				t.printStackTrace();
+		}
+		
+		// stop all threadpolls
+		try
+		{
+			ThreadPoolManager.getInstance().shutdown();
+		}
+		catch (final Throwable t)
+		{
+			if (Config.ENABLE_ALL_EXCEPTIONS)
+				t.printStackTrace();
+		}
+		
+		try
+		{
+			SqlUtils.OpzGame();
+		}
+		catch (final Throwable t)
+		{
+			if (Config.ENABLE_ALL_EXCEPTIONS)
+				t.printStackTrace();
+		}
+		
+		try
+		{
+			SqlUtils.OpzLogin();
+		}
+		catch (final Throwable t)
+		{
+			if (Config.ENABLE_ALL_EXCEPTIONS)
+				t.printStackTrace();
+		}
+		
+		LOGGER.info("Committing all data, last chance...");
+		
+		// commit data, last chance
+		try
+		{
+			L2DatabaseFactory.getInstance().shutdown();
+		}
+		catch (final Throwable t)
+		{
+			if (Config.ENABLE_ALL_EXCEPTIONS)
+				t.printStackTrace();
+		}
+		
+		LOGGER.info("All database data committed.");
+		
+		System.runFinalization();
+		System.gc();
+		
+		LOGGER.info("Memory cleanup, recycled unused objects.");
+		
+		LOGGER.info("[STATUS] Server shutdown successfully.");
+		
+		// server will quit, when this function ends.
+		/*
+		 * switch (_shutdownMode) { case GM_SHUTDOWN: _instance.setMode(GM_SHUTDOWN); System.exit(0); break; case GM_RESTART: _instance.setMode(GM_RESTART); System.exit(2); break; case TASK_SHUTDOWN: _instance.setMode(TASK_SHUTDOWN); System.exit(4); break; case TASK_RESTART:
+		 * _instance.setMode(TASK_RESTART); System.exit(5); break; case TELL_SHUTDOWN: _instance.setMode(TELL_SHUTDOWN); System.exit(6); break; case TELL_RESTART: _instance.setMode(TELL_RESTART); System.exit(7); break; }
+		 */
+		
+		if (_instance._shutdownMode == GM_RESTART)
+		{
+			Runtime.getRuntime().halt(2);
+		}
+		else if (_instance._shutdownMode == TASK_RESTART)
+		{
+			Runtime.getRuntime().halt(5);
+		}
+		else if (_instance._shutdownMode == TASK_SHUTDOWN)
+		{
+			Runtime.getRuntime().halt(4);
+		}
+		else if (_instance._shutdownMode == TELL_RESTART)
+		{
+			Runtime.getRuntime().halt(7);
+		}
+		else if (_instance._shutdownMode == TELL_SHUTDOWN)
+		{
+			Runtime.getRuntime().halt(6);
+		}
+		else
+		{
+			Runtime.getRuntime().halt(0);
+		}
+		
+	}
+	
 	/**
 	 * this sends a last byebye, disconnects all players and saves data
 	 */
@@ -635,12 +639,23 @@ public class Shutdown extends Thread
 		{
 		}
 		
-		// we cannot abort shutdown anymore, so i removed the "if"
+		// Disconnect all the players from the server
 		disconnectAllCharacters();
 		
 		try
 		{
 			wait(5000);
+		}
+		catch (final InterruptedException e1)
+		{
+		}
+		
+		// Save players data!
+		saveAllPlayers();
+		
+		try
+		{
+			wait(10000);
 		}
 		catch (final InterruptedException e1)
 		{
@@ -654,14 +669,21 @@ public class Shutdown extends Thread
 		
 		// Save Seven Signs data before closing. :)
 		SevenSigns.getInstance().saveSevenSignsData(null, true);
+		LOGGER.info("SevenSigns: All info saved!!");
 		
-		// Save all raidboss status ^_^
+		// Save all raidboss status
 		RaidBossSpawnManager.getInstance().cleanUp();
 		LOGGER.info("RaidBossSpawnManager: All raidboss info saved!!");
+		
+		// Save all Grandboss status
 		GrandBossManager.getInstance().cleanUp();
 		LOGGER.info("GrandBossManager: All Grand Boss info saved!!");
+		
+		// Save data CountStore
 		TradeController.getInstance().dataCountStore();
 		LOGGER.info("TradeController: All count Item Saved");
+		
+		// Save Olympiad status
 		try
 		{
 			Olympiad.getInstance().saveOlympiadStatus();
@@ -691,11 +713,10 @@ public class Shutdown extends Thread
 			ItemsOnGroundManager.getInstance().cleanUp();
 			LOGGER.info("ItemsOnGroundManager: All items on ground saved!!");
 		}
-		LOGGER.info("Data saved. All players disconnected, shutting down.");
 		
 		try
 		{
-			wait(10000);
+			wait(5000);
 		}
 		catch (final InterruptedException e)
 		{
@@ -705,11 +726,10 @@ public class Shutdown extends Thread
 		}
 	}
 	
-	/**
-	 * this disconnects all clients from the server
-	 */
-	private void disconnectAllCharacters()
+	private void saveAllPlayers()
 	{
+		LOGGER.info("Saving all players data...");
+		
 		for (final L2PcInstance player : L2World.getInstance().getAllPlayers())
 		{
 			if (player == null)
@@ -721,13 +741,6 @@ public class Shutdown extends Thread
 				// Save player status
 				player.store();
 				
-				// Player Disconnect
-				if (player.getClient() != null)
-				{
-					player.getClient().sendPacket(ServerClose.STATIC_PACKET);
-					player.getClient().setActiveChar(null);
-					player.setClient(null);
-				}
 			}
 			catch (final Throwable t)
 			{
@@ -736,29 +749,34 @@ public class Shutdown extends Thread
 			}
 		}
 		
-		try
-		{
-			Thread.sleep(10000);
-		}
-		catch (final Throwable t)
-		{
-			if (Config.ENABLE_ALL_EXCEPTIONS)
-				t.printStackTrace();
-			
-			LOGGER.error("", t);
-		}
-		
-		LOGGER.info("Players: All players save to disk");
+	}
+	
+	/**
+	 * this disconnects all clients from the server
+	 */
+	private void disconnectAllCharacters()
+	{
+		LOGGER.info("Disconnecting all players from the Server...");
 		
 		for (final L2PcInstance player : L2World.getInstance().getAllPlayers())
 		{
+			if (player == null)
+				continue;
+			
 			try
 			{
-				player.closeNetConnection();
+				// Player Disconnect
+				if (player.getClient() != null)
+				{
+					player.getClient().sendPacket(ServerClose.STATIC_PACKET);
+					player.getClient().close(0);
+					player.getClient().setActiveChar(null);
+					player.setClient(null);
+					
+				}
 			}
 			catch (final Throwable t)
 			{
-				// just to make sure we try to kill the connection
 				if (Config.ENABLE_ALL_EXCEPTIONS)
 					t.printStackTrace();
 			}

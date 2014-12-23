@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
@@ -48,6 +50,14 @@ public final class RequestPrivateStoreManageSell extends L2GameClientPacket
 		{
 			Util.handleIllegalPlayerAction(player, "Player " + player.getName() + " try exploit at login with privatestore!", Config.DEFAULT_PUNISH);
 			LOGGER.warn("Player " + player.getName() + " try exploit at login with privatestore!");
+			return;
+		}
+		
+		// Private store disabled by config
+		if (player.isGM() && Config.GM_TRADE_RESTRICTED_ITEMS)
+		{
+			player.sendMessage("Gm private store disabled by config!");
+			player.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
 		

@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
@@ -498,6 +500,10 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 				if (target != null)
 				{
 					for (final L2Skill sk : CharSchemesTable.getInstance().getScheme(player.getObjectId(), scheme_key))
+					{
+						if (sk == null)
+							continue;
+						
 						if (buffer != null)
 						{
 							buffer.setBusy(true);
@@ -509,7 +515,7 @@ public class BuffHandler implements IVoicedCommandHandler, ICustomByPassHandler,
 						}
 						else
 							sk.getEffects(target, target, false, false, false);
-					
+					}
 					// sk.getEffects(buffer, target);
 					
 					player.reduceAdena("NPC Buffer", cost, null, true);

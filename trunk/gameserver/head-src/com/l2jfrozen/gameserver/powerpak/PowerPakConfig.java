@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
@@ -115,6 +117,7 @@ public class PowerPakConfig
 	public static String VOTES_REWARDS;
 	public static String VOTES_SITE_TOPZONE_URL;
 	public static String VOTES_SITE_HOPZONE_URL;
+	public static String VOTES_SITE_L2NETWORK_URL;
 	public static FastMap<Integer, Integer> VOTES_REWARDS_LIST;
 	
 	public static int VOTES_SYSYEM_INITIAL_DELAY;
@@ -332,6 +335,7 @@ public class PowerPakConfig
 			VOTES_SYSYEM_STEP_DELAY = Integer.parseInt(p.getProperty("VotesSystemStepDelay", "1800000"));
 			VOTES_SITE_HOPZONE_URL = p.getProperty("VotesSiteHopZoneUrl", "");
 			VOTES_SITE_TOPZONE_URL = p.getProperty("VotesSiteTopZoneUrl", "");
+			VOTES_SITE_L2NETWORK_URL = p.getProperty("VotesSiteL2NetworkUrl", "");
 			SERVER_WEB_SITE = p.getProperty("ServerWebSite", "");
 			VOTES_REWARDS = p.getProperty("VotesRewards", "");
 			VOTES_REWARDS_LIST = new FastMap<>();

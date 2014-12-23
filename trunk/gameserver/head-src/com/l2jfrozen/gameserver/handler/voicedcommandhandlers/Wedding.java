@@ -1,4 +1,6 @@
-/* This program is free software; you can redistribute it and/or modify */
+/* L2jFrozen Project - www.l2jfrozen.com 
+ * 
+ * This program is free software; you can redistribute it and/or modify */
 package com.l2jfrozen.gameserver.handler.voicedcommandhandlers;
 
 import org.apache.log4j.Logger;

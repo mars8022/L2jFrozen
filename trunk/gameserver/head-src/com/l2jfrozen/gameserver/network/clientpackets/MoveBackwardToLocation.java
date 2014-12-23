@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later
@@ -107,6 +109,7 @@ public class MoveBackwardToLocation extends L2GameClientPacket
 		if (_targetX == _originX && _targetY == _originY && _targetZ == _originZ)
 		{
 			activeChar.sendPacket(new StopMove(activeChar));
+			activeChar.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
 		

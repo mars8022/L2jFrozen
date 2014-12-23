@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
@@ -70,7 +72,6 @@ public class Continuous implements ISkillHandler
 	};
 	private L2Skill _skill;
 	
-	@SuppressWarnings("null")
 	@Override
 	public void useSkill(final L2Character activeChar, L2Skill skill2, final L2Object[] targets)
 	{
@@ -156,7 +157,7 @@ public class Continuous implements ISkillHandler
 			// Possibility of a lethal strike
 			if (!target.isRaid() && !(target instanceof L2NpcInstance && ((L2NpcInstance) target).getNpcId() == 35062))
 			{
-				final int chance = Rnd.get(100);
+				final int chance = Rnd.get(1000);
 				Formulas.getInstance();
 				if (skill.getLethalChance2() > 0 && chance < Formulas.calcLethal(activeChar, target, skill.getLethalChance2()))
 				{

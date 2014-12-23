@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
@@ -71,7 +73,7 @@ public final class RequestOustPledgeMember extends L2GameClientPacket
 		
 		if (member == null)
 		{
-			LOGGER.warn("Target (" + _target + ") is not member of the clan");
+			LOGGER.debug("Target (" + _target + ") is not member of the clan");
 			return;
 		}
 		

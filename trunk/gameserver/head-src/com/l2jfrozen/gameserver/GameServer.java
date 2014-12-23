@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
@@ -467,15 +469,6 @@ public class GameServer
 				e.printStackTrace();
 		}
 		
-		Util.printSection("Quests");
-		if (!Config.ALT_DEV_NO_QUESTS)
-		{
-			QuestManager.getInstance();
-			QuestManager.getInstance().report();
-		}
-		else
-			LOGGER.info("Quest: disable load.");
-		
 		Util.printSection("AI");
 		if (!Config.ALT_DEV_NO_AI)
 		{
@@ -511,6 +504,22 @@ public class GameServer
 		else
 		{
 			LOGGER.info("Script: disable load.");
+		}
+		
+		/* QUESTS */
+		Util.printSection("Quests");
+		if (!Config.ALT_DEV_NO_QUESTS)
+		{
+			
+			if (QuestManager.getInstance().getQuests().size() == 0)
+				QuestManager.getInstance().reloadAllQuests();
+			else
+				QuestManager.getInstance().report();
+			
+		}
+		else
+		{
+			QuestManager.getInstance().unloadAllQuests();
 		}
 		
 		Util.printSection("Game Server");

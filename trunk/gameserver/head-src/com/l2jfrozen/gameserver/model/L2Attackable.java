@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
@@ -1147,7 +1149,8 @@ public class L2Attackable extends L2NpcInstance
 					continue;
 				}
 				
-				if (ai._attacker.isAlikeDead() || !getKnownList().knowsObject(ai._attacker) || !ai._attacker.isVisible() || ai._attacker instanceof L2PcInstance && ((L2PcInstance) ai._attacker).isOffline())
+				if (ai._attacker.isAlikeDead() || !getKnownList().knowsObject(ai._attacker) || !ai._attacker.isVisible() || ai._attacker instanceof L2PcInstance && ((L2PcInstance) ai._attacker).isOnline() == 0 && !((L2PcInstance) ai._attacker).isInOfflineMode()) // if player go in offline mode, he
+																																																																		// must be hated however
 				{
 					ai._hate = 0;
 				}

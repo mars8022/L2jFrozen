@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later
@@ -94,11 +96,19 @@ public class PartyMatchRoom
 		// Get current leader
 		final L2PcInstance oldLeader = _members.get(0);
 		// Remove new leader
-		_members.remove(newLeader);
+		if (_members.contains(newLeader))
+			_members.remove(newLeader);
+		
 		// Move him to first position
-		_members.set(0, newLeader);
+		if (!_members.isEmpty())
+			_members.set(0, newLeader);
+		else
+			_members.add(newLeader);
+		
 		// Add old leader as normal member
-		_members.add(oldLeader);
+		if (oldLeader != null && oldLeader != newLeader)
+			_members.add(oldLeader);
+		
 		// Broadcast change
 		for (final L2PcInstance member : getPartyMembers())
 		{

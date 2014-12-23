@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
@@ -81,7 +83,13 @@ public final class RequestDropItem extends L2GameClientPacket
 		
 		final L2ItemInstance item = activeChar.getInventory().getItemByObjectId(_objectId);
 		
-		if (item == null || _count == 0 || !activeChar.validateItemManipulation(_objectId, "drop") || !Config.ALLOW_DISCARDITEM && !activeChar.isGM() || (!item.isDropable() && !(activeChar.isGM() && Config.GM_TRADE_RESTRICTED_ITEMS)))
+		if (item == null || _count == 0 || !activeChar.validateItemManipulation(_objectId, "drop"))
+		{
+			activeChar.sendPacket(new SystemMessage(SystemMessageId.CANNOT_DISCARD_THIS_ITEM));
+			return;
+		}
+		
+		if ((!Config.ALLOW_DISCARDITEM && !activeChar.isGM()) || (!item.isDropable()))
 		{
 			activeChar.sendPacket(new SystemMessage(SystemMessageId.CANNOT_DISCARD_THIS_ITEM));
 			return;
@@ -93,8 +101,16 @@ public final class RequestDropItem extends L2GameClientPacket
 			return;
 		}
 		
-		if (item.getItemType() == L2EtcItemType.QUEST && !(activeChar.isGM() && Config.GM_TRADE_RESTRICTED_ITEMS))
+		if (item.getItemType() == L2EtcItemType.QUEST && !(activeChar.isGM()))
 			return;
+		
+		// Drop item disabled by config
+		if (activeChar.isGM() && Config.GM_TRADE_RESTRICTED_ITEMS)
+		{
+			activeChar.sendMessage("Drop item disabled for GM by config!");
+			activeChar.sendPacket(ActionFailed.STATIC_PACKET);
+			return;
+		}
 		
 		final int itemId = item.getItemId();
 		

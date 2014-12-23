@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
@@ -313,7 +315,6 @@ public class ClanTable
 			
 			// remove clan leader skills
 			leader.addClanLeaderSkills(false);
-			
 		}
 		
 		clan.broadcastToOnlineMembers(new SystemMessage(SystemMessageId.CLAN_HAS_DISPERSED));
@@ -421,7 +422,7 @@ public class ClanTable
 				}
 			}
 			
-			LOGGER.info("Clan removed in db: {}" + " " + clanId);
+			LOGGER.debug("Clan removed in db: {}" + " " + clanId);
 			
 			DatabaseUtils.close(statement);
 		}

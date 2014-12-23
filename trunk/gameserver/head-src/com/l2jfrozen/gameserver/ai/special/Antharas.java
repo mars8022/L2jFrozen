@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later
@@ -55,9 +57,9 @@ import com.l2jfrozen.util.random.Rnd;
  * @version $Revision: $ $Date: $
  * @author L2J_JP SANDMAN
  */
-public class Antharas_l2j extends Quest implements Runnable
+public class Antharas extends Quest implements Runnable
 {
-	protected static final Logger LOGGER = Logger.getLogger(Antharas_l2j.class);
+	protected static final Logger LOGGER = Logger.getLogger(Antharas.class);
 	
 	// config
 	private static final int FWA_ACTIVITYTIMEOFANTHARAS = 120;
@@ -127,7 +129,7 @@ public class Antharas_l2j extends Quest implements Runnable
 	protected static L2BossZone _Zone;
 	
 	// Boss: Antharas
-	public Antharas_l2j(final int id, final String name, final String descr)
+	public Antharas(final int id, final String name, final String descr)
 	{
 		super(id, name, descr);
 		final int[] mob =
@@ -267,6 +269,10 @@ public class Antharas_l2j extends Quest implements Runnable
 			else if (status == DEAD)
 			{
 				ThreadPoolManager.getInstance().scheduleGeneral(new UnlockAntharas(ANTHARASOLDID), respawnTime - System.currentTimeMillis());
+			}
+			else if (status == DORMANT)
+			{
+				// Here status is 0 on Database, dont do nothing
 			}
 			else
 			{

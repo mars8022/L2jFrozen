@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
@@ -134,7 +136,7 @@ public final class Say2 extends L2GameClientPacket
 		// Anti-PHX Announce
 		if (_type2Check == SystemChatChannelId.CHAT_NONE || _type2Check == SystemChatChannelId.CHAT_ANNOUNCE || _type2Check == SystemChatChannelId.CHAT_CRITICAL_ANNOUNCE || _type2Check == SystemChatChannelId.CHAT_SYSTEM || _type2Check == SystemChatChannelId.CHAT_CUSTOM || (_type2Check == SystemChatChannelId.CHAT_GM_PET && !activeChar.isGM()))
 		{
-			LOGGER.warn("[Anti-PHX Announce] Illegal Chat channel was used by character: [" + activeChar.getName() + "]");
+			LOGGER.warn("[Anti-PHX Announce] Illegal Chat ( " + _type2Check + " ) channel was used by character: [" + activeChar.getName() + "]");
 			return;
 		}
 		
@@ -301,7 +303,7 @@ public final class Say2 extends L2GameClientPacket
 						return;
 					}
 					
-					if (receiver.isOffline())
+					if (receiver.isInOfflineMode())
 					{
 						activeChar.sendMessage("Player is in offline mode.");
 						return;
@@ -334,14 +336,35 @@ public final class Say2 extends L2GameClientPacket
 				
 				if (Config.DEFAULT_GLOBAL_CHAT.equalsIgnoreCase("on") || Config.DEFAULT_GLOBAL_CHAT.equalsIgnoreCase("gm") && activeChar.isGM())
 				{
-					final int region = MapRegionTable.getInstance().getMapRegion(activeChar.getX(), activeChar.getY());
-					for (final L2PcInstance player : L2World.getInstance().getAllPlayers())
+					if (Config.GLOBAL_CHAT_WITH_PVP)
 					{
-						if (region == MapRegionTable.getInstance().getMapRegion(player.getX(), player.getY()))
+						if ((activeChar.getPvpKills() < Config.GLOBAL_PVP_AMOUNT) && !activeChar.isGM())
 						{
-							// Like L2OFF if player is blocked can't read the message
-							if (!player.getBlockList().isInBlockList(activeChar.getName()))
-								player.sendPacket(cs);
+							activeChar.sendMessage("You must have at least " + Config.GLOBAL_PVP_AMOUNT + " pvp kills in order to speak in global chat");
+							return;
+						}
+						final int region = MapRegionTable.getInstance().getMapRegion(activeChar.getX(), activeChar.getY());
+						for (final L2PcInstance player : L2World.getInstance().getAllPlayers())
+						{
+							if (region == MapRegionTable.getInstance().getMapRegion(player.getX(), player.getY()))
+							{
+								// Like L2OFF if player is blocked can't read the message
+								if (!player.getBlockList().isInBlockList(activeChar.getName()))
+									player.sendPacket(cs);
+							}
+						}
+					}
+					else
+					{
+						final int region = MapRegionTable.getInstance().getMapRegion(activeChar.getX(), activeChar.getY());
+						for (final L2PcInstance player : L2World.getInstance().getAllPlayers())
+						{
+							if (region == MapRegionTable.getInstance().getMapRegion(player.getX(), player.getY()))
+							{
+								// Like L2OFF if player is blocked can't read the message
+								if (!player.getBlockList().isInBlockList(activeChar.getName()))
+									player.sendPacket(cs);
+							}
 						}
 					}
 				}
@@ -401,8 +424,25 @@ public final class Say2 extends L2GameClientPacket
 				}
 				else if (Config.DEFAULT_TRADE_CHAT.equalsIgnoreCase("limited"))
 				{
-					
-					if (Config.TRADE_CHAT_IS_NOOBLE)
+					if (Config.TRADE_CHAT_WITH_PVP)
+					{
+						if ((activeChar.getPvpKills() <= Config.TRADE_PVP_AMOUNT) && !activeChar.isGM())
+						{
+							activeChar.sendMessage("You must have at least " + Config.TRADE_PVP_AMOUNT + "  pvp kills in order to speak in trade chat");
+							return;
+						}
+						final int region = MapRegionTable.getInstance().getMapRegion(activeChar.getX(), activeChar.getY());
+						for (final L2PcInstance player : L2World.getInstance().getAllPlayers())
+						{
+							if (region == MapRegionTable.getInstance().getMapRegion(player.getX(), player.getY()))
+							{
+								// Like L2OFF if player is blocked can't read the message
+								if (!player.getBlockList().isInBlockList(activeChar.getName()))
+									player.sendPacket(cs);
+							}
+						}
+					}
+					else if (Config.TRADE_CHAT_IS_NOOBLE)
 					{
 						if (!activeChar.isNoble() && !activeChar.isGM())
 						{

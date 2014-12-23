@@ -1,4 +1,6 @@
-/* This program is free software; you can redistribute it and/or modify
+/* L2jFrozen Project - www.l2jfrozen.com 
+ * 
+ * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
  * any later version.
@@ -680,6 +682,10 @@ public final class SelectorThread<T extends MMOClient<?>> extends Thread
 			con.getClient().onDisconnection();
 			// }
 			
+		}
+		catch (final Exception e)
+		{
+			e.printStackTrace();
 		}
 		finally
 		{

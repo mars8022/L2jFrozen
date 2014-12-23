@@ -1,4 +1,6 @@
-/* This program is free software; you can redistribute it and/or modify
+/* L2jFrozen Project - www.l2jfrozen.com 
+ * 
+ * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
  * any later version.
@@ -50,6 +52,6 @@ public final class TaskCleanUp extends Task
 	public void initializate()
 	{
 		super.initializate();
-		TaskManager.addUniqueTask(NAME, TaskTypes.TYPE_FIXED_SHEDULED, "1800000", "3600000", "");
+		TaskManager.addUniqueTask(NAME, TaskTypes.TYPE_FIXED_SHEDULED, "86400000", "86400000", ""); // 86400000 = 24 hours
 	}
 }

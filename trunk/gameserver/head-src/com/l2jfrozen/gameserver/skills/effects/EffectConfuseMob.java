@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
@@ -90,7 +92,6 @@ final class EffectConfuseMob extends L2Effect
 		final L2Object target = targetList.get(nextTargetIdx);
 		
 		// Attacking the target
-		// getEffected().setTarget(target);
 		getEffected().setTarget(target);
 		getEffected().getAI().setIntention(CtrlIntention.AI_INTENTION_ATTACK, target);
 		

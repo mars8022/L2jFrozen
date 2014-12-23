@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
@@ -21,6 +23,7 @@ package com.l2jfrozen.gameserver.model.entity;
 import java.util.Calendar;
 
 import javolution.util.FastList;
+import javolution.util.FastMap;
 
 import org.apache.log4j.Logger;
 
@@ -95,7 +98,7 @@ public class Duel
 	private boolean _finished = false;
 	
 	/** The _player conditions. */
-	private FastList<PlayerCondition> _playerConditions;
+	private FastMap<Integer, PlayerCondition> _playerConditions;
 	
 	/**
 	 * The Enum DuelResultEnum.
@@ -152,7 +155,7 @@ public class Duel
 			_duelEndTime.add(Calendar.SECOND, 120);
 		}
 		
-		_playerConditions = new FastList<>();
+		_playerConditions = new FastMap<>();
 		
 		setFinished(false);
 		
@@ -263,6 +266,20 @@ public class Duel
 			}
 			
 			_debuffs.add(debuff);
+		}
+		
+		/**
+		 * Remove debuff.
+		 * @param debuff the debuff
+		 */
+		public void removeDebuff(final L2Effect debuff)
+		{
+			if (_debuffs == null)
+			{
+				return;
+			}
+			
+			_debuffs.remove(debuff);
 		}
 		
 		/**
@@ -623,18 +640,18 @@ public class Duel
 		{
 			for (final L2PcInstance temp : _playerA.getParty().getPartyMembers())
 			{
-				_playerConditions.add(new PlayerCondition(temp, _partyDuel));
+				_playerConditions.put(temp.getObjectId(), new PlayerCondition(temp, _partyDuel));
 			}
 			
 			for (final L2PcInstance temp : _playerB.getParty().getPartyMembers())
 			{
-				_playerConditions.add(new PlayerCondition(temp, _partyDuel));
+				_playerConditions.put(temp.getObjectId(), new PlayerCondition(temp, _partyDuel));
 			}
 		}
 		else
 		{
-			_playerConditions.add(new PlayerCondition(_playerA, _partyDuel));
-			_playerConditions.add(new PlayerCondition(_playerB, _partyDuel));
+			_playerConditions.put(_playerA.getObjectId(), new PlayerCondition(_playerA, _partyDuel));
+			_playerConditions.put(_playerB.getObjectId(), new PlayerCondition(_playerB, _partyDuel));
 		}
 		
 	}
@@ -678,9 +695,11 @@ public class Duel
 			return;
 		
 		// restore player conditions
-		for (FastList.Node<PlayerCondition> e = _playerConditions.head(), end = _playerConditions.tail(); (e = e.getNext()) != end;)
+		// for (FastList.Node<PlayerCondition> e = _playerConditions.head(), end = _playerConditions.tail(); (e = e.getNext()) != end;)
+		for (final Integer playerObjId : _playerConditions.keySet())
 		{
-			e.getValue().restoreCondition();
+			final PlayerCondition e = _playerConditions.get(playerObjId);
+			e.restoreCondition();
 		}
 	}
 	
@@ -1201,26 +1220,28 @@ public class Duel
 		// if hes either playerA or playerB cancel the duel and port the players back
 		if (player == _playerA || player == _playerB)
 		{
-			for (FastList.Node<PlayerCondition> e = _playerConditions.head(), end = _playerConditions.tail(); (e = e.getNext()) != end;)
+			
+			final PlayerCondition e = _playerConditions.remove(player.getObjectId());
+			
+			if (e != null)
 			{
-				e.getValue().teleportBack();
-				e.getValue().getPlayer().setIsInDuel(0);
+				e.teleportBack();
+				e.getPlayer().setIsInDuel(0);
 			}
 			
-			_playerA = null;
-			_playerB = null;
+			if (player == _playerA)
+				_playerA = null;
+			else
+				_playerB = null;
 		}
 		else
 		// teleport the player back & delete his PlayerCondition record
 		{
-			for (FastList.Node<PlayerCondition> e = _playerConditions.head(), end = _playerConditions.tail(); (e = e.getNext()) != end;)
+			final PlayerCondition e = _playerConditions.remove(player.getObjectId());
+			
+			if (e != null)
 			{
-				if (e.getValue().getPlayer() == player)
-				{
-					e.getValue().teleportBack();
-					_playerConditions.remove(e.getValue());
-					break;
-				}
+				e.teleportBack();
 			}
 			player.setIsInDuel(0);
 		}
@@ -1233,13 +1254,21 @@ public class Duel
 	 */
 	public void onBuff(final L2PcInstance player, final L2Effect debuff)
 	{
-		for (FastList.Node<PlayerCondition> e = _playerConditions.head(), end = _playerConditions.tail(); (e = e.getNext()) != end;)
-		{
-			if (e.getValue().getPlayer() == player)
-			{
-				e.getValue().registerDebuff(debuff);
-				return;
-			}
-		}
+		final PlayerCondition e = _playerConditions.get(player.getObjectId());
+		if (e != null)
+			e.registerDebuff(debuff);
+	}
+	
+	/**
+	 * On buff stop.
+	 * @param player the player
+	 * @param debuff the debuff
+	 */
+	public void onBuffStop(final L2PcInstance player, final L2Effect debuff)
+	{
+		final PlayerCondition e = _playerConditions.get(player.getObjectId());
+		if (e != null)
+			e.removeDebuff(debuff);
+		
 	}
 }

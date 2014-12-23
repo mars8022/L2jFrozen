@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
@@ -89,8 +91,8 @@ public class L2SignsPriestInstance extends L2FolkInstance
 					}
 					catch (final Exception e2)
 					{
-						if (Config.ENABLE_ALL_EXCEPTIONS)
-							e2.printStackTrace();
+						// if (Config.ENABLE_ALL_EXCEPTIONS)
+						// e2.printStackTrace();
 						
 						try
 						{

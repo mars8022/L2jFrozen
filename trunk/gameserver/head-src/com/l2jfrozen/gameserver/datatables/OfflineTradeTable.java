@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
@@ -19,9 +21,7 @@
 package com.l2jfrozen.gameserver.datatables;
 
 /**
- * 
- * 
- * @author Enzo
+ * @author Shyla
  */
 
 import java.sql.Connection;
@@ -215,7 +215,8 @@ public class OfflineTradeTable
 					client.setAccountName(player.getAccountName());
 					client.setState(GameClientState.IN_GAME);
 					player.setClient(client);
-					player.setOffline(true);
+					player.setOfflineMode(true);
+					player.setOnlineStatus(false);
 					player.setOfflineStartTime(time);
 					if (Config.OFFLINE_SLEEP_EFFECT)
 						player.startAbnormalEffect(L2Character.ABNORMAL_EFFECT_SLEEP);
@@ -300,7 +301,7 @@ public class OfflineTradeTable
 	
 	public static void storeOffliner(final L2PcInstance pc)
 	{
-		if ((pc.getPrivateStoreType() == L2PcInstance.STORE_PRIVATE_NONE) || (!pc.isOffline()))
+		if ((pc.getPrivateStoreType() == L2PcInstance.STORE_PRIVATE_NONE) || (!pc.isInOfflineMode()))
 			return;
 		
 		Connection con = null;

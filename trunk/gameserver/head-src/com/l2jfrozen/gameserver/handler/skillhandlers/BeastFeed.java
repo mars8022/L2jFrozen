@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
@@ -52,7 +54,7 @@ public class BeastFeed implements ISkillHandler
 			return;
 		}
 		
-		LOGGER.info("Beast Feed casting succeded.");
+		LOGGER.debug("Beast Feed casting succeded.");
 		
 		targetList = null;
 		// This is just a dummy skill handler for the golden food and crystal food skills,
