@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
@@ -84,16 +86,17 @@ public final class RequestMagicSkillUse extends L2GameClientPacket
 			
 			// If Alternate rule Karma punishment is set to true, forbid skill Return to player with Karma
 			if (skill.getSkillType() == SkillType.RECALL && !Config.ALT_GAME_KARMA_PLAYER_CAN_TELEPORT && activeChar.getKarma() > 0)
+			{
+				activeChar.sendPacket(ActionFailed.STATIC_PACKET);
 				return;
+			}
 			
 			// players mounted on pets cannot use any toggle skills
 			if (skill.isToggle() && activeChar.isMounted())
+			{
+				activeChar.sendPacket(ActionFailed.STATIC_PACKET);
 				return;
-			// activeChar.stopMove();
-			
-			// final L2Object target = activeChar.getTarget();
-			// if(target!=null && target instanceof L2Character)
-			// activeChar.sendPacket(new ValidateLocation((L2Character)target));
+			}
 			
 			activeChar.useMagic(skill, _ctrlPressed, _shiftPressed);
 		}

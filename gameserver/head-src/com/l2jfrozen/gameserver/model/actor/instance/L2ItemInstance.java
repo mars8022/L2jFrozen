@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
@@ -727,25 +729,19 @@ public final class L2ItemInstance extends L2Object
 		}
 		else
 		{
-			
 			if (player.getFreight().getItemByObjectId(this.getObjectId()) != null)
 			{
-				
 				player.setTarget(this);
 				player.getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
 				// Send a Server->Client ActionFailed to the L2PcInstance in order to avoid that the client wait another packet
 				player.sendPacket(ActionFailed.STATIC_PACKET);
 				
 				Util.handleIllegalPlayerAction(player, "Warning!! Character " + player.getName() + " of account " + player.getAccountName() + " tried to pickup Freight Items", IllegalPlayerAction.PUNISH_KICK);
-				
 			}
 			else
 			{
-				
 				player.getAI().setIntention(CtrlIntention.AI_INTENTION_PICK_UP, this);
-				
 			}
-			
 		}
 	}
 	

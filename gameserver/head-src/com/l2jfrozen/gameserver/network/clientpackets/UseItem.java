@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
@@ -69,6 +71,38 @@ public final class UseItem extends L2GameClientPacket
 		
 		if (item == null)
 			return;
+		
+		// Like L2OFF you can't use soulshots while sitting
+		final int[] shots_ids =
+		{
+			5789,
+			1835,
+			1463,
+			1464,
+			1465,
+			1466,
+			1467,
+			5790,
+			2509,
+			2510,
+			2511,
+			2512,
+			2513,
+			2514,
+			3947,
+			3948,
+			3949,
+			3950,
+			3951,
+			3952
+		};
+		if (activeChar.isSitting() && Arrays.toString(shots_ids).contains(String.valueOf(item.getItemId())))
+		{
+			final SystemMessage sm = new SystemMessage(SystemMessageId.CANNOT_AUTO_USE_LACK_OF_S1);
+			sm.addItemName(item.getItemId());
+			activeChar.sendPacket(sm);
+			return;
+		}
 		
 		// Flood protect UseItem
 		if (item.isPotion())
@@ -470,14 +504,13 @@ public final class UseItem extends L2GameClientPacket
 				// Restrict bow weapon for class except Cupid bow.
 				if (item.getItem() instanceof L2Weapon && ((L2Weapon) item.getItem()).getItemType() == L2WeaponType.BOW && !item.isCupidBow())
 				{
-					
-					if (Config.DISABLE_BOW_CLASSES.contains(activeChar.getClassId().getId()))
+					// Restriction not valid on Olympiad matches
+					if (Config.DISABLE_BOW_CLASSES.contains(activeChar.getClassId().getId()) && !activeChar.isInOlympiadMode())
 					{
-						activeChar.sendMessage("This item can not be equipped by your class");
+						activeChar.sendMessage("This item can not be equipped by your class!");
 						activeChar.sendPacket(ActionFailed.STATIC_PACKET);
 						return;
 					}
-					
 				}
 				
 				final int tempBodyPart = item.getItem().getBodyPart();

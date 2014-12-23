@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
@@ -24,7 +26,6 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2ItemInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PlayableInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
-import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.ExAutoSoulShot;
 import com.l2jfrozen.gameserver.network.serverpackets.MagicSkillUser;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
@@ -75,13 +76,6 @@ public class BlessedSpiritShot implements IItemHandler
 		L2Weapon weaponItem = activeChar.getActiveWeaponItem();
 		
 		final int itemId = item.getItemId();
-		
-		if (activeChar.isParalyzed())
-		{
-			activeChar.sendMessage("You Cannot Use This While You Are Paralyzed");
-			activeChar.sendPacket(ActionFailed.STATIC_PACKET);
-			return;
-		}
 		
 		if (activeChar.isInOlympiadMode())
 		{

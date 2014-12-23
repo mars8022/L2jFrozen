@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
@@ -140,6 +142,26 @@ public class NpcHtmlMessage extends L2GameServerPacket
 	public void replace(final String pattern, final String value)
 	{
 		_html = _html.replaceAll(pattern, value);
+	}
+	
+	public void replace(final String pattern, final boolean val)
+	{
+		replace(pattern, String.valueOf(val));
+	}
+	
+	public void replace(final String pattern, final int val)
+	{
+		replace(pattern, String.valueOf(val));
+	}
+	
+	public void replace(final String pattern, final long val)
+	{
+		replace(pattern, String.valueOf(val));
+	}
+	
+	public void replace(final String pattern, final double val)
+	{
+		replace(pattern, String.valueOf(val));
 	}
 	
 	/**

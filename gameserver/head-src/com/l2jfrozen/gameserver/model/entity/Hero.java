@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
@@ -149,7 +151,7 @@ public class Hero
 				final StatsSet hero = new StatsSet();
 				final int charId = rset.getInt(Olympiad.CHAR_ID);
 				
-				String charName = rset.getString(Olympiad.CHAR_NAME);
+				final String charName = rset.getString(Olympiad.CHAR_NAME);
 				
 				hero.set(Olympiad.CHAR_NAME, charName);
 				hero.set(Olympiad.CLASS_ID, rset.getInt(Olympiad.CLASS_ID));
@@ -169,7 +171,7 @@ public class Hero
 					if (clanId > 0)
 					{
 						
-						L2Clan clan = ClanTable.getInstance().getClan(clanId);
+						final L2Clan clan = ClanTable.getInstance().getClan(clanId);
 						if (clan != null)
 						{
 							

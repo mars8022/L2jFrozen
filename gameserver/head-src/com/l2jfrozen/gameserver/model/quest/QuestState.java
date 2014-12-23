@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
@@ -37,6 +39,7 @@ import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.ExShowQuestMark;
+import com.l2jfrozen.gameserver.network.serverpackets.ExShowScreenMessage;
 import com.l2jfrozen.gameserver.network.serverpackets.InventoryUpdate;
 import com.l2jfrozen.gameserver.network.serverpackets.ItemList;
 import com.l2jfrozen.gameserver.network.serverpackets.PlaySound;
@@ -937,6 +940,7 @@ public final class QuestState
 		}
 		else
 		{
+			checkNewbieQuests();
 			// Otherwise, delete variables for quest and update database (quest CANNOT be created again => not repeatable)
 			if (_vars != null)
 			{
@@ -1002,5 +1006,62 @@ public final class QuestState
 			return (L2NpcInstance) getPlayer().getTarget();
 		}
 		return null;
+	}
+	
+	public void checkNewbieQuests()
+	{
+		final int questId = getQuest().getQuestIntId();
+		
+		if (questId == 1 || questId == 2 || questId == 4 || questId == 5 || questId == 166 || questId == 174)
+		{
+			if (_player != null)
+			{
+				final QuestState st = _player.getQuestState("7003_NewbieHelper");
+				if (st != null && st.getInt("cond") <= 1)
+				{
+					_player.sendPacket(new ExShowScreenMessage("Quest completed. Find the Newbie Helper.", 4000));
+					st.set("cond", "2");
+				}
+			}
+		}
+		if (questId == 257 || questId == 293 || questId == 260 || questId == 265 || questId == 273 || questId == 281)
+		{
+			if (_player != null)
+			{
+				final QuestState st = _player.getQuestState("7003_NewbieHelper");
+				if (st != null && st.getInt("cond") == 4)
+				{
+					if (_player.getClassId().isMage())
+						_player.sendPacket(new ExShowScreenMessage("You earned a spiritshots for beginners. Find the Newbie Helper.", 4000));
+					else
+						_player.sendPacket(new ExShowScreenMessage("You earned a soulshots for beginners. Find the Newbie Helper.", 4000));
+					st.set("cond", "5");
+				}
+			}
+		}
+		if (questId == 104 || questId == 101 || questId == 105 || questId == 107 || questId == 175 || questId == 106 || questId == 103 || questId == 108)
+		{
+			if (_player != null)
+			{
+				final QuestState st = _player.getQuestState("7003_NewbieHelper");
+				if (st != null && st.getInt("cond") == 6)
+				{
+					_player.sendPacket(new ExShowScreenMessage("You earned a new weapon. Go to the Newbie Helper.", 4000));
+					st.set("cond", "7");
+				}
+			}
+		}
+		if (questId == 151 || questId == 296 || questId == 169 || questId == 261 || questId == 276 || questId == 283)
+		{
+			if (_player != null)
+			{
+				final QuestState st = _player.getQuestState("7003_NewbieHelper");
+				if (st != null && st.getInt("cond") == 8)
+				{
+					_player.sendPacket(new ExShowScreenMessage("Last stage completed. Go to the Newbie Helper.", 4000));
+					st.set("cond", "9");
+				}
+			}
+		}
 	}
 }

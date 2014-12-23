@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
@@ -52,6 +54,7 @@ import com.l2jfrozen.gameserver.handler.ISkillHandler;
 import com.l2jfrozen.gameserver.handler.SkillHandler;
 import com.l2jfrozen.gameserver.handler.itemhandlers.Potions;
 import com.l2jfrozen.gameserver.managers.DimensionalRiftManager;
+import com.l2jfrozen.gameserver.managers.DuelManager;
 import com.l2jfrozen.gameserver.managers.GrandBossManager;
 import com.l2jfrozen.gameserver.managers.RaidBossSpawnManager;
 import com.l2jfrozen.gameserver.managers.TownManager;
@@ -85,7 +88,9 @@ import com.l2jfrozen.gameserver.model.actor.status.CharStatus;
 import com.l2jfrozen.gameserver.model.entity.Duel;
 import com.l2jfrozen.gameserver.model.entity.event.CTF;
 import com.l2jfrozen.gameserver.model.entity.event.DM;
+import com.l2jfrozen.gameserver.model.entity.event.L2Event;
 import com.l2jfrozen.gameserver.model.entity.event.TvT;
+import com.l2jfrozen.gameserver.model.entity.event.VIP;
 import com.l2jfrozen.gameserver.model.entity.olympiad.Olympiad;
 import com.l2jfrozen.gameserver.model.extender.BaseExtender.EventType;
 import com.l2jfrozen.gameserver.model.quest.Quest;
@@ -298,8 +303,6 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 	
 	/** The _meditated. */
 	private boolean _meditated;
-	
-	public static long TOGGLE_USE = 0;
 	
 	/**
 	 * Zone system<br>
@@ -1111,7 +1114,6 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 			// thank l2dot
 			if (getObjectId() == target.getObjectId())
 			{
-				// ((L2PcInstance) this).sendMessage("Can't attack yourself! Suicide? :)");
 				sendPacket(ActionFailed.STATIC_PACKET);
 				return;
 			}
@@ -1128,7 +1130,6 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 					return;
 				}
 			}
-			
 		}
 		
 		// Get the active weapon instance (always equiped in the right hand)
@@ -1173,7 +1174,6 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 		// Check for a bow
 		if (weaponItem != null && weaponItem.getItemType() == L2WeaponType.BOW)
 		{
-			
 			// Equip arrows needed in left hand and send a Server->Client packet ItemList to the L2PcINstance then return True
 			if (!checkAndEquipArrows())
 			{
@@ -1724,27 +1724,6 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 			return;
 		}
 		
-		if (isSkillDisabled(skill))
-		{
-			if (activeChar instanceof L2PcInstance && !(skill.getId() == 2166))
-			{
-				SystemMessage sm = new SystemMessage(SystemMessageId.S1_PREPARED_FOR_REUSE);
-				sm.addSkillName(skill.getId(), skill.getLevel());
-				sendPacket(sm);
-				sm = null;
-			}
-			// Cp potion message
-			else if (activeChar instanceof L2PcInstance && (skill.getId() == 2166))
-			{
-				if (skill.getLevel() == 2)
-					((L2PcInstance) activeChar).sendMessage("Greater CP Potion is not available at this time: being prepared for reuse.");
-				else if (skill.getLevel() == 1)
-					((L2PcInstance) activeChar).sendMessage("CP Potion is not available at this time: being prepared for reuse.");
-			}
-			
-			return;
-		}
-		
 		// Check if the skill is a magic spell and if the L2Character is not muted
 		if (skill.isMagic() && isMuted() && !skill.isPotion())
 		{
@@ -1810,7 +1789,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 		
 		// Recharge AutoSoulShot
 		
-		int atkTime = Formulas.getInstance().calcMAtkSpd(activeChar, skill, skill.getHitTime());
+		final int atkTime = Formulas.getInstance().calcMAtkSpd(activeChar, skill, skill.getHitTime());
 		if (skill.useSoulShot())
 		{
 			if (activeChar instanceof L2PcInstance)
@@ -1994,6 +1973,10 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 		/*
 		 * if(skill.isOffensive() && skill.getTargetType() != SkillTargetType.TARGET_AURA && target.isBehind(this)) { moveToLocation(target.getX(), target.getY(), target.getZ(), 0); stopMove(null); }
 		 */
+		
+		// Like L2OFF after a skill the player must stop the movement, also with toggle
+		if (!skill.isPotion() && this instanceof L2PcInstance)
+			((L2PcInstance) this).stopMove(null);
 		
 		// Start the effect as long as the player is casting.
 		if (effectWhileCasting)
@@ -2247,43 +2230,37 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 		}
 		else
 		{
-			
 			if (this instanceof L2PcInstance)
 			{
 				
 				final L2PcInstance player = (L2PcInstance) this;
 				
-				// to avoid DM Remove buffs on die
-				if (player._inEventDM && DM.is_started() && Config.DM_REMOVE_BUFFS_ON_DIE)
+				// to avoid Event Remove buffs on die
+				if (player._inEventDM && DM.is_started())
 				{
-					
-					stopAllEffects();
-					
+					if (Config.DM_REMOVE_BUFFS_ON_DIE)
+						stopAllEffects();
 				}
-				else if (player._inEventTvT && TvT.is_started() && Config.TVT_REMOVE_BUFFS_ON_DIE)
+				else if (player._inEventTvT && TvT.is_started())
 				{
-					
-					stopAllEffects();
-					
+					if (Config.TVT_REMOVE_BUFFS_ON_DIE)
+						stopAllEffects();
 				}
-				else if (player._inEventTvT && CTF.is_started() && Config.CTF_REMOVE_BUFFS_ON_DIE)
+				else if (player._inEventCTF && CTF.is_started())
 				{
-					
-					stopAllEffects();
-					
+					if (Config.CTF_REMOVE_BUFFS_ON_DIE)
+						stopAllEffects();
 				}
-				else if (Config.LEAVE_BUFFS_ON_DIE) // this means that the player is not in event dm or is not player
+				else if (Config.LEAVE_BUFFS_ON_DIE) // this means that the player is not in event
 				{
 					stopAllEffects();
 				}
-				
 			}
 			else
 			// this means all other characters, including Summons
 			{
 				stopAllEffects();
 			}
-			
 		}
 		
 		// if killer is the same then the most damager/hated
@@ -3656,6 +3633,18 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 			
 			if (effect.getSkill().getId() == newEffect.getSkill().getId() && effect.getEffectType() == newEffect.getEffectType() && effect.getStackType() == newEffect.getStackType())
 			{
+				if (this instanceof L2PcInstance)
+				{
+					
+					final L2PcInstance player = (L2PcInstance) this;
+					
+					if (player.isInDuel())
+					{
+						DuelManager.getInstance().getDuel(player.getDuelId()).onBuffStop(player, effect);
+					}
+					
+				}
+				
 				if ((newEffect.getSkill().getSkillType() == SkillType.BUFF || newEffect.getEffectType() == L2Effect.EffectType.BUFF || newEffect.getEffectType() == L2Effect.EffectType.HEAL_OVER_TIME) && newEffect.getStackOrder() >= effect.getStackOrder())
 				{
 					effect.exit(false);
@@ -6049,14 +6038,12 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 	 */
 	public void stopMove(final L2CharPosition pos, final boolean updateKnownObjects)
 	{
-		// if(!isMoving())
-		// return;
-		
 		// Delete movement data of the L2Character
 		_move = null;
 		
-		// if (getAI() != null)
-		// getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
+		// Set AI_INTENTION_IDLE
+		if (this instanceof L2PcInstance && getAI() != null)
+			((L2PcInstance) this).getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
 		
 		// Set the current position (x,y,z), its current L2WorldRegion if necessary and its heading
 		// All data are contained in a L2CharPosition object
@@ -6075,13 +6062,9 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 		}
 		
 		broadcastPacket(new StopMove(this));
-		// MAJAX fix
-		// broadcastPacket(new ValidateLocation(this));
 		
 		if (updateKnownObjects)
-		{
 			ThreadPoolManager.getInstance().executeTask(new KnownListAsynchronousUpdateTask(this));
-		}
 	}
 	
 	/**
@@ -6119,13 +6102,26 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 		{
 			if (_target != null)
 			{
-				broadcastPacket(new TargetUnselected(this));
+				final TargetUnselected my = new TargetUnselected(this);
+				
+				// No need to broadcast the packet to all players
+				if (this instanceof L2PcInstance)
+				{
+					// Send packet just to me and to party, not to any other that does not use the information
+					if (!this.isInParty())
+					{
+						this.sendPacket(my);
+					}
+					else
+					{
+						this.getParty().broadcastToPartyMembers(my);
+					}
+				}
+				else
+				{
+					sendPacket(new TargetUnselected(this));
+				}
 			}
-			/*
-			 * if (isAttackingNow() && getAI().getAttackTarget() == _target) { abortAttack(); getAI().setIntention(CtrlIntention.AI_INTENTION_ACTIVE); if (this instanceof L2PcInstance) { sendPacket(ActionFailed.STATIC_PACKET); SystemMessage sm = new SystemMessage(SystemMessageId.S1_S2);
-			 * sm.addString("Attack is aborted"); sendPacket(sm); } } if (isCastingNow() && canAbortCast() && getAI().getCastTarget() == _target) { abortCast(); getAI().setIntention(CtrlIntention.AI_INTENTION_ACTIVE); if (this instanceof L2PcInstance) { sendPacket(ActionFailed.STATIC_PACKET);
-			 * SystemMessage sm = new SystemMessage(SystemMessageId.S1_S2); sm.addString("Casting is aborted"); sendPacket(sm); } }
-			 */
 		}
 		
 		_target = object;
@@ -6182,6 +6178,29 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 	 */
 	protected void moveToLocation(int x, int y, int z, int offset)
 	{
+		// Block movment during Event start
+		if (this instanceof L2PcInstance)
+		{
+			if (L2Event.active && ((L2PcInstance) this).eventSitForced)
+			{
+				((L2PcInstance) this).sendMessage("A dark force beyond your mortal understanding makes your knees to shake when you try to stand up...");
+				((L2PcInstance) this).getClient().sendPacket(ActionFailed.STATIC_PACKET);
+				return;
+			}
+			else if ((TvT.is_sitForced() && ((L2PcInstance) this)._inEventTvT) || (CTF.is_sitForced() && ((L2PcInstance) this)._inEventCTF) || (DM.is_sitForced() && ((L2PcInstance) this)._inEventDM))
+			{
+				((L2PcInstance) this).sendMessage("A dark force beyond your mortal understanding makes your knees to shake when you try to stand up...");
+				((L2PcInstance) this).getClient().sendPacket(ActionFailed.STATIC_PACKET);
+				return;
+			}
+			else if (VIP._sitForced && ((L2PcInstance) this)._inEventVIP)
+			{
+				((L2PcInstance) this).sendMessage("A dark force beyond your mortal understanding makes your knees to shake when you try to stand up...");
+				((L2PcInstance) this).sendPacket(ActionFailed.STATIC_PACKET);
+				return;
+			}
+		}
+		
 		// when start to move again, it has to stop sitdown task
 		if (this instanceof L2PcInstance)
 			((L2PcInstance) this).setPosticipateSit(false);
@@ -9328,7 +9347,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 			LOGGER.warn("", e);
 		}
 		
-		if (this instanceof L2PcInstance && ((L2PcInstance) this).isMovingTaskDefined())
+		if (this instanceof L2PcInstance && ((L2PcInstance) this).isMovingTaskDefined() && !skill.isPotion())
 			((L2PcInstance) this).startMovingTask();
 	}
 	
@@ -10963,7 +10982,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder
 		
 	}
 	
-	synchronized public void reloadShots(boolean isMagic)
+	synchronized public void reloadShots(final boolean isMagic)
 	{
 		if (this instanceof L2PcInstance)
 		{

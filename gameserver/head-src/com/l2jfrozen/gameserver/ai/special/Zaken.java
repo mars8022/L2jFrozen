@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later
@@ -39,9 +41,9 @@ import com.l2jfrozen.util.random.Rnd;
 /**
  * Zaken AI
  */
-public class Zaken_l2j extends Quest implements Runnable
+public class Zaken extends Quest implements Runnable
 {
-	protected static final Logger LOGGER = Logger.getLogger(Zaken_l2j.class);
+	protected static final Logger LOGGER = Logger.getLogger(Zaken.class);
 	
 	private int _1001 = 0; // used for first cancel of QuestTimer "1001"
 	private int _ai0 = 0; // used for zaken coords updater
@@ -123,7 +125,7 @@ public class Zaken_l2j extends Quest implements Runnable
 	
 	private static L2BossZone _Zone;
 	
-	public Zaken_l2j(final int questId, final String name, final String descr)
+	public Zaken(final int questId, final String name, final String descr)
 	{
 		super(questId, name, descr);
 		

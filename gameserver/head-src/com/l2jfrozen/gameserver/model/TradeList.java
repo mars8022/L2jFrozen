@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
@@ -351,7 +353,11 @@ public class TradeList
 		
 		L2ItemInstance item = (L2ItemInstance) o;
 		
-		if (!item.isTradeable() || (getOwner().isGM() && Config.GM_TRADE_RESTRICTED_ITEMS) || item.getItemType() == L2EtcItemType.QUEST)
+		if (!item.isTradeable() || item.getItemType() == L2EtcItemType.QUEST)
+			return null;
+		
+		// GM items trade restriction (valid for trade and private sell)
+		if ((getOwner().isGM() && Config.GM_TRADE_RESTRICTED_ITEMS))
 			return null;
 		
 		if (count > item.getCount())
@@ -1085,7 +1091,7 @@ public class TradeList
 		_owner.sendPacket(ownerIU);
 		player.sendPacket(playerIU);
 		
-		if (_owner.isOffline())
+		if (_owner.isInOfflineMode())
 			OfflineTradeTable.storeOffliner(_owner);
 		
 		ownerIU = null;
@@ -1416,7 +1422,7 @@ public class TradeList
 		_owner.sendPacket(ownerIU);
 		player.sendPacket(playerIU);
 		
-		if (_owner.isOffline())
+		if (_owner.isInOfflineMode())
 			OfflineTradeTable.storeOffliner(_owner);
 		
 		ownerIU = null;

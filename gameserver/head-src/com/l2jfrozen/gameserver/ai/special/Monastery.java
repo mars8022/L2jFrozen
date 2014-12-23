@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later
@@ -35,7 +37,7 @@ import com.l2jfrozen.gameserver.network.serverpackets.CreatureSay;
 import com.l2jfrozen.gameserver.util.Util;
 import com.l2jfrozen.util.random.Rnd;
 
-public class Monastery_l2j extends Quest implements Runnable
+public class Monastery extends Quest implements Runnable
 {
 	static final int[] mobs1 =
 	{
@@ -58,7 +60,7 @@ public class Monastery_l2j extends Quest implements Runnable
 		"name! How dare you defy the will of Einhasad!"
 	};
 	
-	public Monastery_l2j(final int questId, final String name, final String descr)
+	public Monastery(final int questId, final String name, final String descr)
 	{
 		super(questId, name, descr);
 		registerMobs(mobs1, QuestEventType.ON_AGGRO_RANGE_ENTER, QuestEventType.ON_SPAWN, QuestEventType.ON_SPELL_FINISHED);

@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later
@@ -725,16 +727,16 @@ public class DM implements EventTask
 		_inProgress = true;
 		_joining = true;
 		spawnEventNpc();
-		Announcements.getInstance().gameAnnounceToAll("Event: " + _eventName + "!");
+		Announcements.getInstance().gameAnnounceToAll(_eventName + ": Event " + _eventName + "!");
 		if (Config.DM_ANNOUNCE_REWARD && ItemTable.getInstance().getTemplate(_rewardId) != null)
-			Announcements.getInstance().gameAnnounceToAll("Reward: " + _rewardAmount + " " + ItemTable.getInstance().getTemplate(_rewardId).getName());
-		Announcements.getInstance().gameAnnounceToAll("Recruiting levels: " + _minlvl + " to " + _maxlvl);
-		Announcements.getInstance().gameAnnounceToAll("Joinable in " + _joiningLocationName);
+			Announcements.getInstance().gameAnnounceToAll(_eventName + ": Reward: " + _rewardAmount + " " + ItemTable.getInstance().getTemplate(_rewardId).getName());
+		Announcements.getInstance().gameAnnounceToAll(_eventName + ": Recruiting levels: " + _minlvl + " to " + _maxlvl);
+		Announcements.getInstance().gameAnnounceToAll(_eventName + ": Joinable in " + _joiningLocationName);
 		
 		if (Config.DM_COMMAND)
-			Announcements.getInstance().gameAnnounceToAll(" or by command .dmjoin! To leave .dmleave! For Info .dminfo!");
+			Announcements.getInstance().gameAnnounceToAll(_eventName + ": Commands .dmjoin .dmleave .dminfo");
 		
-		Announcements.getInstance().gameAnnounceToAll("FULL BUFF Event: be ready with your buffs, they won't be deleted!!!");
+		Announcements.getInstance().gameAnnounceToAll(_eventName + ": FULL BUFF Event: be ready with your buffs, they won't be deleted!!!");
 		
 		return true;
 	}
@@ -752,10 +754,7 @@ public class DM implements EventTask
 		
 		if (_teamEvent)
 		{
-			/*
-			 * if(Config.EVEN_TEAMS.equals("SHUFFLE") && checkMinPlayers(_playersShuffle.size())) { shuffleTeams(); } else if(Config.EVEN_TEAMS.equals("SHUFFLE") && !checkMinPlayers(_playersShuffle.size())) {
-			 * Announcements.getInstance().gameAnnounceToAll("Not enough players for event. Min Requested : " + _minPlayers +", Participating : " + _playersShuffle.size()); return false; }
-			 */
+			
 		}
 		else
 		{
@@ -765,7 +764,7 @@ public class DM implements EventTask
 				final int size = _players.size();
 				if (!checkMinPlayers(size))
 				{
-					Announcements.getInstance().gameAnnounceToAll("Not enough players for event. Min Requested : " + _minPlayers + ", Participating : " + size);
+					Announcements.getInstance().gameAnnounceToAll(_eventName + ": Not enough players for event. Min Requested : " + _minPlayers + ", Participating : " + size);
 					if (Config.DM_STATS_LOGGER)
 						LOGGER.info(_eventName + ":Not enough players for event. Min Requested : " + _minPlayers + ", Participating : " + size);
 					
@@ -1336,7 +1335,7 @@ public class DM implements EventTask
 				{
 					if (player == null)
 						continue;
-					else if (player._inEventDM && player.isOnline() == 0 || player.isInJail() || player.isOffline())
+					else if (player._inEventDM && player.isOnline() == 0 || player.isInJail() || player.isInOfflineMode())
 					{
 						
 						if (!_joining)
@@ -2179,7 +2178,7 @@ public class DM implements EventTask
 	public static void sendFinalMessages()
 	{
 		if (!_started && !_aborted)
-			Announcements.getInstance().gameAnnounceToAll("DM: Thank you For Participating At, " + "DM Event.");
+			Announcements.getInstance().gameAnnounceToAll(_eventName + ": Thank you For participating!");
 	}
 	
 	/**

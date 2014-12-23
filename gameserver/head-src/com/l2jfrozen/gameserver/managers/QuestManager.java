@@ -1,4 +1,6 @@
-/* This program is free software; you can redistribute it and/or modify
+/* L2jFrozen Project - www.l2jfrozen.com 
+ * 
+ * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
  * any later version.
@@ -170,5 +172,19 @@ public class QuestManager extends ScriptManager<Quest>
 	public final boolean removeQuest(final Quest q)
 	{
 		return _quests.remove(q.getName()) != null;
+	}
+	
+	public final void unloadAllQuests()
+	{
+		LOGGER.info("Unloading Server Quests");
+		// unload all scripts
+		for (final Quest quest : _quests.values())
+		{
+			if (quest != null)
+			{
+				quest.unload();
+			}
+		}
+		QuestManager.getInstance().report();
 	}
 }

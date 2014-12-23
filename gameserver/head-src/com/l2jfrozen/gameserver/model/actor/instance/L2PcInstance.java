@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
@@ -299,6 +301,9 @@ public final class L2PcInstance extends L2PlayableInstance
 	
 	/** The _last teleport action. */
 	private long _lastTeleportAction = 0;
+	
+	/** The TOGGLE_USE time. */
+	protected long TOGGLE_USE = 0;
 	
 	/**
 	 * Gets the actual status.
@@ -614,15 +619,8 @@ public final class L2PcInstance extends L2PlayableInstance
 		{
 			if (isInsidePeaceZone(L2PcInstance.this, target))
 			{
-				// if(target instanceof L2PcInstance){ //the only case where to avoid the attack is if the attacked is L2PcInstance
-				// //and one of them is not into a fun event, otherwise continue
-				//
-				// if (!isInFunEvent() || !((L2PcInstance)target).isInFunEvent()) {
-				// getAI().setIntention(CtrlIntention.AI_INTENTION_IDLE);
 				sendPacket(ActionFailed.STATIC_PACKET);
 				return;
-				// }
-				// }
 			}
 			
 			// during teleport phase, players cant do any attack
@@ -632,21 +630,25 @@ public final class L2PcInstance extends L2PlayableInstance
 				return;
 			}
 			
+			// Pk protection config
+			if (!isGM() && target instanceof L2PcInstance && ((L2PcInstance) target).getPvpFlag() == 0 && ((L2PcInstance) target).getKarma() == 0 && (getLevel() < Config.ALT_PLAYER_PROTECTION_LEVEL || target.getLevel() < Config.ALT_PLAYER_PROTECTION_LEVEL))
+			{
+				sendMessage("You can't hit a player that is lower level from you. Target's level: " + String.valueOf(Config.ALT_PLAYER_PROTECTION_LEVEL) + ".");
+				sendPacket(ActionFailed.STATIC_PACKET);
+				return;
+			}
+			
 			super.doAttack(target);
 			
 			// cancel the recent fake-death protection instantly if the player attacks or casts spells
 			getPlayer().setRecentFakeDeath(false);
-			
-			/*
-			 * if(getPlayer().isSilentMoving()) { L2Effect silentMove = getPlayer().getFirstEffect(L2Effect.EffectType.SILENT_MOVE); if(silentMove != null) { silentMove.exit(true); } }
-			 */
 			
 			synchronized (_cubics)
 			{
 				for (final L2CubicInstance cubic : _cubics.values())
 					if (cubic.getId() != L2CubicInstance.LIFE_CUBIC)
 					{
-						cubic.doAction(/* target */);
+						cubic.doAction();
 					}
 			}
 		}
@@ -684,10 +686,6 @@ public final class L2PcInstance extends L2PlayableInstance
 			if (!skill.isOffensive())
 				return;
 			
-			/*
-			 * if(getPlayer().isSilentMoving() && skill.getSkillType() != SkillType.AGGDAMAGE) { L2Effect silentMove = getPlayer().getFirstEffect(L2Effect.EffectType.SILENT_MOVE); if(silentMove != null) { silentMove.exit(true); } }
-			 */
-			
 			switch (skill.getTargetType())
 			{
 				case TARGET_GROUND:
@@ -700,13 +698,11 @@ public final class L2PcInstance extends L2PlayableInstance
 					
 					synchronized (_cubics)
 					{
-						
 						for (final L2CubicInstance cubic : _cubics.values())
 							if (cubic != null && cubic.getId() != L2CubicInstance.LIFE_CUBIC)
 							{
-								cubic.doAction(/* (L2Character) mainTarget */);
+								cubic.doAction();
 							}
-						
 					}
 					
 					mainTarget = null;
@@ -1397,7 +1393,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	// //////////////////////////////////////////////////////////////////
 	
 	/** The _is offline. */
-	private boolean _isOffline = false;
+	private boolean _isInOfflineMode = false;
 	
 	/** The _is trade off. */
 	private boolean _isTradeOff = false;
@@ -3419,47 +3415,67 @@ public final class L2PcInstance extends L2PlayableInstance
 		if (!Config.EXPERTISE_PENALTY)
 			return;
 		
-		int newPenalty = 0;
+		// This code works on principle that first 1-5 levels of penalty is for weapon and 6-10levels are for armor
+		int intensityW = 0; // Default value
+		int intensityA = 5; // Default value.
+		int intensity = 0; // Level of grade penalty.
 		
 		for (final L2ItemInstance item : getInventory().getItems())
 		{
-			if (item != null && item.isEquipped())
+			if (item != null && item.isEquipped()) // Checks if items equipped
 			{
-				final int crystaltype = item.getItem().getCrystalType();
 				
-				if (crystaltype > newPenalty)
+				final int crystaltype = item.getItem().getCrystalType(); // Gets grade of item
+				// Checks if item crystal levels is above character levels and also if last penalty for weapon was lower.
+				if (crystaltype > getExpertiseIndex() && item.isWeapon() && crystaltype > intensityW)
 				{
-					newPenalty = crystaltype;
+					intensityW = crystaltype - getExpertiseIndex();
+				}
+				// Checks if equiped armor, accesories are above character level and adds each armor penalty.
+				if (crystaltype > getExpertiseIndex() && !item.isWeapon())
+				{
+					intensityA += crystaltype - getExpertiseIndex();
 				}
 			}
 		}
 		
-		newPenalty = newPenalty - getExpertiseIndex();
-		
-		if (newPenalty <= 0)
+		if (intensityA == 5)// Means that there isn't armor penalty.
 		{
-			newPenalty = 0;
+			intensity = intensityW;
 		}
 		
-		if (getExpertisePenalty() != newPenalty)
+		else
 		{
-			final int penalties = _masteryPenalty + _masteryWeapPenalty + newPenalty;
+			intensity = intensityW + intensityA;
+		}
+		
+		// Checks if penalty is above maximum and sets it to maximum.
+		if (intensity > 10)
+		{
+			intensity = 10;
+		}
+		
+		if (getExpertisePenalty() != intensity)
+		{
+			int penalties = _masteryPenalty + _masteryWeapPenalty + intensity;
+			if (penalties > 10) // Checks if penalties are out of bounds for skill level on XML
+			{
+				penalties = 10;
+			}
 			
-			_expertisePenalty = newPenalty;
+			_expertisePenalty = intensity;
 			
 			if (penalties > 0)
 			{
-				super.addSkill(SkillTable.getInstance().getInfo(4267, 1)); // level used to be newPenalty
-				sendSkillList(); // Update skill list
+				super.addSkill(SkillTable.getInstance().getInfo(4267, intensity));
+				sendSkillList();
 			}
 			else
 			{
 				super.removeSkill(getKnownSkill(4267));
-				sendSkillList(); // Update skill list
+				sendSkillList();
+				_expertisePenalty = 0;
 			}
-			
-			sendPacket(new EtcStatusUpdate(this));
-			
 		}
 	}
 	
@@ -3736,6 +3752,11 @@ public final class L2PcInstance extends L2PlayableInstance
 	 */
 	public synchronized void rewardSkills()
 	{
+		rewardSkills(false);
+	}
+	
+	public synchronized void rewardSkills(final boolean restore)
+	{
 		// Get the Level of the L2PcInstance
 		final int lvl = getLevel();
 		
@@ -3766,7 +3787,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		if (getExpertiseIndex() > 0)
 		{
 			L2Skill skill = SkillTable.getInstance().getInfo(239, getExpertiseIndex());
-			addSkill(skill, true);
+			addSkill(skill, !restore);
 			
 			if (Config.DEBUG)
 			{
@@ -3788,7 +3809,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		if (getSkillLevel(1321) < 1 && getRace() == Race.dwarf)
 		{
 			L2Skill skill = SkillTable.getInstance().getInfo(1321, 1);
-			addSkill(skill, true);
+			addSkill(skill, !restore);
 			skill = null;
 		}
 		
@@ -3796,7 +3817,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		if (getSkillLevel(1322) < 1)
 		{
 			L2Skill skill = SkillTable.getInstance().getInfo(1322, 1);
-			addSkill(skill, true);
+			addSkill(skill, !restore);
 			skill = null;
 		}
 		
@@ -3805,7 +3826,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			if (lvl >= COMMON_CRAFT_LEVELS[i] && getSkillLevel(1320) < i + 1)
 			{
 				L2Skill skill = SkillTable.getInstance().getInfo(1320, (i + 1));
-				addSkill(skill, true);
+				addSkill(skill, !restore);
 				skill = null;
 			}
 		}
@@ -4090,6 +4111,11 @@ public final class L2PcInstance extends L2PlayableInstance
 	{
 		_onlineTime = time;
 		_onlineBeginTime = System.currentTimeMillis();
+	}
+	
+	public long getOnlineTime()
+	{
+		return _onlineTime;
 	}
 	
 	/**
@@ -4421,11 +4447,11 @@ public final class L2PcInstance extends L2PlayableInstance
 		}
 		else if ((TvT.is_sitForced() && _inEventTvT) || (CTF.is_sitForced() && _inEventCTF) || (DM.is_sitForced() && _inEventDM))
 		{
-			sendMessage("The Admin/GM handle if you sit or stand in this match!");
+			sendMessage("A dark force beyond your mortal understanding makes your knees to shake when you try to stand up...");
 		}
 		else if (VIP._sitForced && _inEventVIP)
 		{
-			sendMessage("The Admin/GM handle if you sit or stand in this match!");
+			sendMessage("A dark force beyond your mortal understanding makes your knees to shake when you try to stand up...");
 		}
 		else if (isAway())
 		{
@@ -5926,11 +5952,7 @@ public final class L2PcInstance extends L2PlayableInstance
 						}
 						siege = null;
 					}
-					if (player.getLevel() < Config.ALT_PLAYER_PROTECTION_LEVEL || getLevel() < Config.ALT_PLAYER_PROTECTION_LEVEL)
-					{
-						player.sendMessage("You Can't Hit a Player That Is Lower Level From You. Target's Level: " + String.valueOf(Config.ALT_PLAYER_PROTECTION_LEVEL));
-						player.sendPacket(ActionFailed.STATIC_PACKET);
-					}
+					
 					// Player with lvl < 21 can't attack a cursed weapon holder
 					// And a cursed weapon holder can't attack players with lvl < 21
 					if (isCursedWeaponEquiped() && player.getLevel() < 21 || player.isCursedWeaponEquiped() && getLevel() < 21)
@@ -6134,11 +6156,7 @@ public final class L2PcInstance extends L2PlayableInstance
 							}
 							siege = null;
 						}
-						if (player.getLevel() < Config.ALT_PLAYER_PROTECTION_LEVEL || getLevel() < Config.ALT_PLAYER_PROTECTION_LEVEL)
-						{
-							player.sendMessage("You Can't Hit a Player That Is Lower Level From You. Target's Level: " + String.valueOf(Config.ALT_PLAYER_PROTECTION_LEVEL));
-							player.sendPacket(ActionFailed.STATIC_PACKET);
-						}
+						
 						// Player with lvl < 21 can't attack a cursed weapon holder
 						// And a cursed weapon holder can't attack players with lvl < 21
 						if (isCursedWeaponEquiped() && player.getLevel() < 21 || player.isCursedWeaponEquiped() && getLevel() < 21)
@@ -6724,6 +6742,15 @@ public final class L2PcInstance extends L2PlayableInstance
 				sendPacket(ActionFailed.STATIC_PACKET);
 				return;
 			}
+			
+			// Like L2OFF you can't pickup items with private store opened
+			if (getPrivateStoreType() != 0)
+			{
+				// Send a Server->Client packet ActionFailed to this L2PcInstance
+				sendPacket(ActionFailed.STATIC_PACKET);
+				return;
+			}
+			
 			if (!target.getDropProtection().tryPickUp(this) && target.getItemId() != 8190 && target.getItemId() != 8689)
 			{
 				sendPacket(ActionFailed.STATIC_PACKET);
@@ -6949,9 +6976,6 @@ public final class L2PcInstance extends L2PlayableInstance
 			{
 				this._party.broadcastToPartyMembers(my);
 			}
-			
-			// to avoid unuseful packet broadcasting
-			// broadcastPacket(my);
 			
 			my = null;
 		}
@@ -7938,7 +7962,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			if (Config.ANTI_FARM_CLAN_ALLY_ENABLED && (getClanId() > 0 && targetPlayer.getClanId() > 0 && getClanId() == targetPlayer.getClanId()) || (getAllyId() > 0 && targetPlayer.getAllyId() > 0 && getAllyId() == targetPlayer.getAllyId()))
 			{
 				this.sendMessage("Farm is punishable with Ban! Gm informed.");
-				LOGGER.warn("PVP POINT FARM ATTEMPT, " + this.getName() + " and " + targetPlayer.getName() + ". CLAN or ALLY.");
+				LOGGER.info("PVP POINT FARM ATTEMPT, " + this.getName() + " and " + targetPlayer.getName() + ". CLAN or ALLY.");
 				return false;
 			}
 			
@@ -7946,7 +7970,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			if (Config.ANTI_FARM_LVL_DIFF_ENABLED && targetPlayer.getLevel() < Config.ANTI_FARM_MAX_LVL_DIFF)
 			{
 				this.sendMessage("Farm is punishable with Ban! Don't kill new players! Gm informed.");
-				LOGGER.warn("PVP POINT FARM ATTEMPT, " + this.getName() + " and " + targetPlayer.getName() + ". LVL DIFF.");
+				LOGGER.info("PVP POINT FARM ATTEMPT, " + this.getName() + " and " + targetPlayer.getName() + ". LVL DIFF.");
 				return false;
 			}
 			
@@ -7954,7 +7978,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			if (Config.ANTI_FARM_PDEF_DIFF_ENABLED && targetPlayer.getPDef(targetPlayer) < Config.ANTI_FARM_MAX_PDEF_DIFF)
 			{
 				this.sendMessage("Farm is punishable with Ban! Gm informed.");
-				LOGGER.warn("PVP POINT FARM ATTEMPT, " + this.getName() + " and " + targetPlayer.getName() + ". MAX PDEF DIFF.");
+				LOGGER.info("PVP POINT FARM ATTEMPT, " + this.getName() + " and " + targetPlayer.getName() + ". MAX PDEF DIFF.");
 				return false;
 			}
 			
@@ -7962,7 +7986,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			if (Config.ANTI_FARM_PATK_DIFF_ENABLED && targetPlayer.getPAtk(targetPlayer) < Config.ANTI_FARM_MAX_PATK_DIFF)
 			{
 				this.sendMessage("Farm is punishable with Ban! Gm informed.");
-				LOGGER.warn("PVP POINT FARM ATTEMPT, " + this.getName() + " and " + targetPlayer.getName() + ". MAX PATK DIFF.");
+				LOGGER.info("PVP POINT FARM ATTEMPT, " + this.getName() + " and " + targetPlayer.getName() + ". MAX PATK DIFF.");
 				return false;
 			}
 			
@@ -7970,7 +7994,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			if (Config.ANTI_FARM_PARTY_ENABLED && this.getParty() != null && targetPlayer.getParty() != null && this.getParty().equals(targetPlayer.getParty()))
 			{
 				this.sendMessage("Farm is punishable with Ban! Gm informed.");
-				LOGGER.warn("PVP POINT FARM ATTEMPT, " + this.getName() + " and " + targetPlayer.getName() + ". SAME PARTY.");
+				LOGGER.info("PVP POINT FARM ATTEMPT, " + this.getName() + " and " + targetPlayer.getName() + ". SAME PARTY.");
 				return false;
 			}
 			
@@ -7986,7 +8010,7 @@ public final class L2PcInstance extends L2PlayableInstance
 					if (ip1.equals(ip2))
 					{
 						this.sendMessage("Farm is punishable with Ban! Gm informed.");
-						LOGGER.warn("PVP POINT FARM ATTEMPT: " + this.getName() + " and " + targetPlayer.getName() + ". SAME IP.");
+						LOGGER.info("PVP POINT FARM ATTEMPT: " + this.getName() + " and " + targetPlayer.getName() + ". SAME IP.");
 						return false;
 					}
 				}
@@ -8996,7 +9020,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	{
 		_privatestore = type;
 		
-		if (_privatestore == STORE_PRIVATE_NONE && (getClient() == null || isOffline()))
+		if (_privatestore == STORE_PRIVATE_NONE && (getClient() == null || isInOfflineMode()))
 		{
 			/*
 			 * if(this._originalNameColorOffline!=0) getAppearance().setNameColor(this._originalNameColorOffline); else getAppearance().setNameColor(_accessLevel.getNameColor());
@@ -9674,6 +9698,9 @@ public final class L2PcInstance extends L2PlayableInstance
 		sendPacket(new UserInfo(this));
 		for (final L2PcInstance player : getKnownList().getKnownPlayers().values())
 		{
+			if (player == null)
+				continue;
+			
 			player.sendPacket(new RelationChanged(this, getRelation(player), isAutoAttackable(player)));
 			
 			if (getPet() != null)
@@ -9719,6 +9746,10 @@ public final class L2PcInstance extends L2PlayableInstance
 	 */
 	public void updateOnlineStatus()
 	{
+		
+		if (isInOfflineMode()) // database online status must not change on offline mode
+			return;
+		
 		Connection con = null;
 		
 		try
@@ -10154,7 +10185,8 @@ public final class L2PcInstance extends L2PlayableInstance
 			// and reward expertise/lucky skills if necessary.
 			// Note that Clan, Noblesse and Hero skills are given separately and not here.
 			player.restoreCharData();
-			player.rewardSkills();
+			// reward skill restore mode in order to avoid duplicate storage of already stored skills
+			player.rewardSkills(true);
 			
 			// Restore pet if exists in the world
 			player.setPet(L2World.getInstance().getPet(player.getObjectId()));
@@ -10466,7 +10498,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		fireEvent(EventType.STORE.name, (Object[]) null);
 		
 		// If char is in Offline trade, setStored must be true
-		if (this.isOffline())
+		if (this.isInOfflineMode())
 			setStored(true);
 		else
 			setStored(false);
@@ -10545,7 +10577,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			statement.setString(34, getTitle());
 			statement.setInt(35, getAccessLevel().getLevel());
 			
-			if (_isOffline || isOnline() == 1)
+			if (_isInOfflineMode || isOnline() == 1)
 			{ // in offline mode or online
 				statement.setInt(36, 1);
 			}
@@ -11716,7 +11748,6 @@ public final class L2PcInstance extends L2PlayableInstance
 	@Override
 	public boolean isAutoAttackable(final L2Character attacker)
 	{
-		
 		// Check if the attacker isn't the L2PcInstance Pet
 		if (attacker == this || attacker == getPet())
 			return false;
@@ -11744,6 +11775,24 @@ public final class L2PcInstance extends L2PlayableInstance
 		// Check if the attacker is not in the same clan, excluding duels like L2OFF
 		if (getClan() != null && attacker != null && getClan().isMember(attacker.getName()) && !(getDuelState() == Duel.DUELSTATE_DUELLING && getDuelId() == ((L2PcInstance) attacker).getDuelId()))
 			return false;
+		
+		// Ally check
+		if (attacker instanceof L2PlayableInstance)
+		{
+			L2PcInstance player = null;
+			if (attacker instanceof L2PcInstance)
+			{
+				player = (L2PcInstance) attacker;
+			}
+			else if (attacker instanceof L2Summon)
+			{
+				player = ((L2Summon) attacker).getOwner();
+			}
+			
+			// Check if the attacker is not in the same ally, excluding duels like L2OFF
+			if (player != null && getAllyId() != 0 && player.getAllyId() != 0 && getAllyId() == player.getAllyId() && !(getDuelState() == Duel.DUELSTATE_DUELLING && getDuelId() == player.getDuelId()))
+				return false;
+		}
 		
 		if (attacker instanceof L2PlayableInstance && isInFunEvent())
 		{
@@ -11934,10 +11983,14 @@ public final class L2PcInstance extends L2PlayableInstance
 			final L2Effect effect = getFirstEffect(skill);
 			
 			// Like L2OFF toogle skills have little delay
-			if (TOGGLE_USE + 400 > System.currentTimeMillis())
+			if (TOGGLE_USE != 0 && TOGGLE_USE + 400 > System.currentTimeMillis())
 			{
+				TOGGLE_USE = 0;
+				sendPacket(ActionFailed.STATIC_PACKET);
 				return;
 			}
+			
+			TOGGLE_USE = System.currentTimeMillis();
 			
 			if (effect != null)
 			{
@@ -11949,7 +12002,6 @@ public final class L2PcInstance extends L2PlayableInstance
 				sendPacket(ActionFailed.STATIC_PACKET);
 				return;
 			}
-			TOGGLE_USE = System.currentTimeMillis();
 		}
 		
 		// Check if the skill is active
@@ -11961,12 +12013,26 @@ public final class L2PcInstance extends L2PlayableInstance
 			return;
 		}
 		
-		if (_disabledSkills != null && _disabledSkills.contains(skill_id))
+		// Check if skill is in reause time
+		if (isSkillDisabled(skill))
 		{
-			SystemMessage sm = new SystemMessage(SystemMessageId.S1_PREPARED_FOR_REUSE);
-			sm.addSkillName(skill_id, skill.getLevel());
-			sendPacket(sm);
-			sm = null;
+			if (!(skill.getId() == 2166))
+			{
+				SystemMessage sm = new SystemMessage(SystemMessageId.S1_PREPARED_FOR_REUSE);
+				sm.addSkillName(skill.getId(), skill.getLevel());
+				sendPacket(sm);
+				sm = null;
+			}
+			// Cp potion message like L2OFF
+			else if ((skill.getId() == 2166))
+			{
+				if (skill.getLevel() == 2)
+					sendMessage("Greater CP Potion is not available at this time: being prepared for reuse.");
+				else if (skill.getLevel() == 1)
+					sendMessage("CP Potion is not available at this time: being prepared for reuse.");
+			}
+			
+			sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
 		
@@ -12104,6 +12170,14 @@ public final class L2PcInstance extends L2PlayableInstance
 				sendPacket(ActionFailed.STATIC_PACKET);
 				return;
 			}
+		}
+		
+		// Pk protection config
+		if (skill.isOffensive() && !isGM() && target instanceof L2PcInstance && ((L2PcInstance) target).getPvpFlag() == 0 && ((L2PcInstance) target).getKarma() == 0 && (getLevel() < Config.ALT_PLAYER_PROTECTION_LEVEL || ((L2PcInstance) target).getLevel() < Config.ALT_PLAYER_PROTECTION_LEVEL))
+		{
+			sendMessage("You can't hit a player that is lower level from you. Target's level: " + String.valueOf(Config.ALT_PLAYER_PROTECTION_LEVEL) + ".");
+			sendPacket(ActionFailed.STATIC_PACKET);
+			return;
 		}
 		
 		// ************************************* Check skill availability *******************************************
@@ -12487,9 +12561,6 @@ public final class L2PcInstance extends L2PlayableInstance
 			sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
-		
-		// Like L2OFF after a skill the player must stop the movement, also with toggle
-		stopMove(null);
 		
 		// If all conditions are checked, create a new SkillDat object and set the player _currentSkill
 		setCurrentSkill(skill, forceUse, dontMove);
@@ -13513,7 +13584,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		getAppearance().setInvisible();
 		
 		teleToLocation(x, y, z, false);
-		sendPacket(new ExOlympiadMode(3));
+		sendPacket(new ExOlympiadMode(3, this));
 		broadcastUserInfo();
 	}
 	
@@ -13559,7 +13630,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	public void leaveOlympiadObserverMode()
 	{
 		setTarget(null);
-		sendPacket(new ExOlympiadMode(0));
+		sendPacket(new ExOlympiadMode(0, this));
 		teleToLocation(_obsX, _obsY, _obsZ, true);
 		getAppearance().setVisible();
 		setIsInvul(false);
@@ -13616,7 +13687,6 @@ public final class L2PcInstance extends L2PlayableInstance
 			getAppearance().setNameColor(0xFFFFFF);
 			getAppearance().setTitleColor(0xFFFF77);
 		}
-		
 		// this is a GM but has GM status enabled, so we must set proper values
 		else if (isGM() && hasGmStatusActive())
 		{
@@ -13728,6 +13798,15 @@ public final class L2PcInstance extends L2PlayableInstance
 	public boolean inObserverMode()
 	{
 		return _observerMode;
+	}
+	
+	/**
+	 * set observer mode.
+	 * @param mode
+	 */
+	public void setObserverMode(final boolean mode)
+	{
+		_observerMode = mode;
 	}
 	
 	/**
@@ -18050,18 +18129,18 @@ public final class L2PcInstance extends L2PlayableInstance
 	 * Checks if is offline.
 	 * @return true, if is offline
 	 */
-	public boolean isOffline()
+	public boolean isInOfflineMode()
 	{
-		return _isOffline;
+		return _isInOfflineMode;
 	}
 	
 	/**
 	 * Sets the offline.
 	 * @param set the new offline
 	 */
-	public void setOffline(final boolean set)
+	public void setOfflineMode(final boolean set)
 	{
-		_isOffline = set;
+		_isInOfflineMode = set;
 	}
 	
 	/**
@@ -18406,7 +18485,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			{
 				if (player != null)
 				{
-					if (!player.isOffline() && player.getClient() != null && player.getClient().getConnection() != null && !player.getClient().getConnection().isClosed() && player.getClient().getConnection().getInetAddress() != null && !player.getName().equals(this.getName()))
+					if (player.isOnline() == 1 && player.getClient() != null && player.getClient().getConnection() != null && !player.getClient().getConnection().isClosed() && player.getClient().getConnection().getInetAddress() != null && !player.getName().equals(this.getName()))
 					{
 						
 						final String ip = player.getClient().getConnection().getInetAddress().getHostAddress();
@@ -18465,7 +18544,7 @@ public final class L2PcInstance extends L2PlayableInstance
 			
 			for (final L2PcInstance player : players)
 			{
-				if (player != null && !player.isOffline())
+				if (player != null && player.isOnline() == 1)
 				{
 					if (player.getClient() != null && player.getClient().getConnection() != null && !player.getClient().getConnection().isClosed() && !player.getName().equals(this.getName()))
 					{
@@ -19471,7 +19550,7 @@ public final class L2PcInstance extends L2PlayableInstance
 		getAppearance().setInvisible();
 		// sendPacket(new GMHide(1));
 		teleToLocation(x, y, z, true);
-		sendPacket(new ExOlympiadMode(3));
+		sendPacket(new ExOlympiadMode(3, this));
 		_observerMode = true;
 		broadcastUserInfo();
 	}
@@ -19479,7 +19558,7 @@ public final class L2PcInstance extends L2PlayableInstance
 	public void leaveOlympiadObserverMode(final boolean olymp)
 	{
 		setTarget(null);
-		sendPacket(new ExOlympiadMode(0));
+		sendPacket(new ExOlympiadMode(0, this));
 		teleToLocation(_obsX, _obsY, _obsZ, true);
 		if (!AdminCommandAccessRights.getInstance().hasAccess("admin_invis", getAccessLevel()))
 			getAppearance().setVisible();

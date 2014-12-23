@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
@@ -488,11 +490,15 @@ public class L2CharacterAI extends AbstractAI
 			return;
 		}
 		
+		if (object instanceof L2ItemInstance && ((L2ItemInstance) object).getLocation() != ItemLocation.VOID)
+		{
+			// Cancel action client side by sending Server->Client packet ActionFailed to the L2PcInstance actor
+			clientActionFailed();
+			return;
+		}
+		
 		// Stop the actor auto-attack client side by sending Server->Client packet AutoAttackStop (broadcast)
 		clientStopAutoAttack();
-		
-		if (object instanceof L2ItemInstance && ((L2ItemInstance) object).getLocation() != ItemLocation.VOID)
-			return;
 		
 		// Set the Intention of this AbstractAI to AI_INTENTION_PICK_UP
 		changeIntention(AI_INTENTION_PICK_UP, object, null);

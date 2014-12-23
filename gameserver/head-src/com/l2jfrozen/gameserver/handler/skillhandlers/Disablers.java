@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
@@ -687,13 +689,10 @@ public class Disablers implements ISkillHandler
 							
 							if (effect_type != null)
 							{
-								
 								switch (effect_type)
 								{
-								
 									case BUFF:
 									{
-										
 										int lvlmodifier = 52 + skill.getMagicLevel() * 2;
 										if (skill.getMagicLevel() == 12)
 											lvlmodifier = (ExperienceData.getInstance().getMaxLevel() - 1);
@@ -712,14 +711,10 @@ public class Disablers implements ISkillHandler
 										break;
 									default:
 									{
-										
 										target.stopEffects(effect_type);
-										
 									}
 										break;
-								
 								}
-								
 							}
 							
 						}// end for

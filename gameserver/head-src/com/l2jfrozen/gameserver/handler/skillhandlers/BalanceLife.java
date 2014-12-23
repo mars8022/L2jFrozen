@@ -1,4 +1,6 @@
-/* This program is free software; you can redistribute it and/or modify
+/* L2jFrozen Project - www.l2jfrozen.com 
+ * 
+ * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
  * any later version.
@@ -78,8 +80,8 @@ public class BalanceLife implements ISkillHandler
 			if (target == null || target.isDead())
 				continue;
 			
-			// Avoid players heal inside Baium lair from outside
-			if ((activeChar.isInsideZone(12007) || target.isInsideZone(12007)) && ((GrandBossManager.getInstance().getZone(player) == null && GrandBossManager.getInstance().getZone(target) != null) || (GrandBossManager.getInstance().getZone(target) == null && GrandBossManager.getInstance().getZone(activeChar) != null)))
+			// Avoid characters heal inside Baium lair from outside
+			if ((activeChar.isInsideZone(12007) || target.isInsideZone(12007)) && ((GrandBossManager.getInstance().getZone(activeChar) == null && GrandBossManager.getInstance().getZone(target) != null) || (GrandBossManager.getInstance().getZone(target) == null && GrandBossManager.getInstance().getZone(activeChar) != null)))
 			{
 				continue;
 			}

@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
@@ -25,6 +27,7 @@ import java.util.concurrent.ScheduledFuture;
 import org.apache.log4j.Logger;
 
 import com.l2jfrozen.gameserver.model.L2World;
+import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
 import com.l2jfrozen.util.Memory;
 import com.l2jfrozen.util.Util;
@@ -51,9 +54,21 @@ public class ServerStatus
 		@Override
 		public void run()
 		{
+			int ActivePlayers = 0;
+			int OfflinePlayers = 0;
+			
+			for (final L2PcInstance player : L2World.getInstance().getAllPlayers())
+			{
+				if (player.isInOfflineMode())
+					OfflinePlayers++;
+				else
+					ActivePlayers++;
+			}
+			
 			Util.printSection("Server Status");
 			LOGGER.info("Server Time: " + fmt.format(new Date(System.currentTimeMillis())));
-			LOGGER.info("Players Online: " + L2World.getInstance().getAllPlayers().size());
+			LOGGER.info("Active Players Online: " + ActivePlayers);
+			LOGGER.info("Offline Players Online: " + OfflinePlayers);
 			LOGGER.info("Threads: " + Thread.activeCount());
 			LOGGER.info("Free Memory: " + Memory.getFreeMemory() + " MB");
 			LOGGER.info("Used memory: " + Memory.getUsedMemory() + " MB");

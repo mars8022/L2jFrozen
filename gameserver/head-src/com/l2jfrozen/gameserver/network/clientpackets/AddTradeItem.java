@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later
@@ -20,6 +22,7 @@ import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.TradeList;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
+import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.network.serverpackets.TradeOtherAdd;
 import com.l2jfrozen.gameserver.network.serverpackets.TradeOwnAdd;
@@ -53,6 +56,7 @@ public final class AddTradeItem extends L2GameClientPacket
 		if (trade == null) // Trade null
 		{
 			LOGGER.warn("Character: " + player.getName() + " requested item:" + _objectId + " add without active tradelist:" + _tradeId);
+			player.getClient().sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
 		
@@ -64,6 +68,7 @@ public final class AddTradeItem extends L2GameClientPacket
 				LOGGER.warn("Character:" + player.getName() + " requested invalid trade object: " + _objectId);
 			
 			player.sendPacket(new SystemMessage(SystemMessageId.TARGET_IS_NOT_FOUND_IN_THE_GAME));
+			player.getClient().sendPacket(ActionFailed.STATIC_PACKET);
 			player.cancelActiveTrade();
 			return;
 		}
@@ -72,6 +77,7 @@ public final class AddTradeItem extends L2GameClientPacket
 		if (!player.getAccessLevel().allowTransaction())
 		{
 			player.sendMessage("Transactions are disable for your Access Level.");
+			player.getClient().sendPacket(ActionFailed.STATIC_PACKET);
 			player.cancelActiveTrade();
 			return;
 		}
@@ -80,6 +86,7 @@ public final class AddTradeItem extends L2GameClientPacket
 		if (!player.validateItemManipulation(_objectId, "trade"))
 		{
 			player.sendPacket(new SystemMessage(SystemMessageId.NOTHING_HAPPENED));
+			player.getClient().sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
 		
@@ -87,6 +94,7 @@ public final class AddTradeItem extends L2GameClientPacket
 		if (player.getInventory().getItemByObjectId(_objectId) == null || _count <= 0)
 		{
 			LOGGER.info("Character:" + player.getName() + " requested invalid trade object");
+			player.getClient().sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
 		

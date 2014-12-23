@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
@@ -53,7 +55,7 @@ public class DrainSoul implements ISkillHandler
 		
 		targetList = null;
 		
-		LOGGER.info("Soul Crystal casting succeded.");
+		LOGGER.debug("Soul Crystal casting succeded.");
 		
 		// This is just a dummy skill handler for the soul crystal skill,
 		// since the Soul Crystal item handler already does everything.

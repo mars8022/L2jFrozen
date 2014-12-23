@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
@@ -37,6 +39,7 @@ import com.l2jfrozen.gameserver.managers.RaidBossSpawnManager;
 import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.L2World;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.model.entity.sevensigns.SevenSigns;
 import com.l2jfrozen.gameserver.model.spawn.L2Spawn;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
@@ -212,6 +215,7 @@ public class AdminSpawn implements IAdminCommandHandler
 			NpcTable.getInstance().reloadAllNpc();
 			SpawnTable.getInstance().reloadAll();
 			RaidBossSpawnManager.getInstance().reloadBosses();
+			SevenSigns.getInstance().spawnSevenSignsNPC();
 			GmListTable.broadcastMessageToGMs("NPC Respawn completed!");
 		}
 		else if (command.startsWith("admin_teleport_reload"))

@@ -1,4 +1,6 @@
-/* This program is free software; you can redistribute it and/or modify
+/* L2jFrozen Project - www.l2jfrozen.com 
+ * 
+ * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
  * any later version.
@@ -22,6 +24,7 @@ import java.nio.ByteBuffer;
 import org.apache.log4j.Logger;
 
 import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.Shutdown;
 import com.l2jfrozen.gameserver.managers.PacketsLoggerManager;
 import com.l2jfrozen.gameserver.network.L2GameClient.GameClientState;
 import com.l2jfrozen.gameserver.network.clientpackets.*;
@@ -167,7 +170,9 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 					
 					if (client.getActiveChar() == null || client.getActiveChar().isOnline() == 0)
 					{
-						LOGGER.warn("ATTENTION: Account " + client.accountName + " is trying to send packet with opcode " + opcode + " without enterning in the world (online status is FALSE)..");
+						// if not in shutdown
+						if (!Shutdown.getInstance().isShutdownStarted())
+							LOGGER.warn("ATTENTION: Account " + client.accountName + " is trying to send packet with opcode " + opcode + " without enterning in the world (online status is FALSE)..");
 						break;
 					}
 					
@@ -733,7 +738,9 @@ public final class L2GamePacketHandler implements IPacketHandler<L2GameClient>, 
 							
 							if (client.getActiveChar() == null || client.getActiveChar().isOnline() == 0)
 							{
-								LOGGER.warn("ATTENTION: Account " + client.accountName + " is trying to send packet with opcode " + opcode + " (opcode2 = " + opcode2 + ") without enterning in the world (online status is FALSE)..");
+								// if not in shutdown
+								if (!Shutdown.getInstance().isShutdownStarted())
+									LOGGER.warn("ATTENTION: Account " + client.accountName + " is trying to send packet with opcode " + opcode + " (opcode2 = " + opcode2 + ") without enterning in the world (online status is FALSE)..");
 								break;
 							}
 							

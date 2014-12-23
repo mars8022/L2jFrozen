@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
@@ -1924,22 +1926,24 @@ public final class Formulas
 	 */
 	public final static double calcLethal(final L2Character activeChar, final L2Character target, final int baseLethal)
 	{
-		return activeChar.calcStat(Stats.LETHAL_RATE, (baseLethal * (double) activeChar.getLevel() / target.getLevel()), target, null);
+		double mult = 0.1 * target.calcStat(Stats.LETHAL_RATE, 100, target, null);
+		mult *= baseLethal;
+		return mult;
 	}
 	
 	public static final boolean calcLethalHit(final L2Character activeChar, final L2Character target, final L2Skill skill)
 	{
+		final int chance = Rnd.get(1000);
+		
 		if ((target.isRaid() && Config.ALLOW_RAID_LETHAL) || (!target.isRaid() && !(target instanceof L2DoorInstance) && !(Config.ALLOW_LETHAL_PROTECTION_MOBS && target instanceof L2NpcInstance && (Config.LIST_LETHAL_PROTECTED_MOBS.contains(((L2NpcInstance) target).getNpcId())))))
 			
 			if ((!target.isRaid() || Config.ALLOW_RAID_LETHAL) && !(target instanceof L2DoorInstance) && !(target instanceof L2NpcInstance && ((L2NpcInstance) target).getNpcId() == 35062) && !(Config.ALLOW_LETHAL_PROTECTION_MOBS && target instanceof L2NpcInstance && (Config.LIST_LETHAL_PROTECTED_MOBS.contains(((L2NpcInstance) target).getNpcId()))))
 			{
-				// activeChar.sendMessage(Double.toString(chance));
-				// activeChar.sendMessage(Double.toString(calcLethal(activeChar, target, skill.getLethalChance2(),skill.getMagicLevel())));
-				// activeChar.sendMessage(Double.toString(calcLethal(activeChar, target, skill.getLethalChance1(),skill.getMagicLevel())));
-				
+				// 1nd lethal set CP to 1
 				// 2nd lethal effect activate (cp,hp to 1 or if target is npc then hp to 1)
-				if (skill.getLethalChance2() > 0 && Rnd.get(1000) < calcLethal(activeChar, target, skill.getLethalChance2()))
+				if (skill.getLethalChance2() > 0 && chance < calcLethal(activeChar, target, skill.getLethalChance2()))
 				{
+					activeChar.sendPacket(new SystemMessage(SystemMessageId.LETHAL_STRIKE));
 					if (target instanceof L2NpcInstance)
 						target.reduceCurrentHp(target.getCurrentHp() - 1, activeChar);
 					else if (target instanceof L2PcInstance) // If is a active player set his HP and CP to 1
@@ -1955,9 +1959,8 @@ public final class Formulas
 							}
 						}
 					}
-					activeChar.sendPacket(new SystemMessage(SystemMessageId.LETHAL_STRIKE));
 				}
-				else if (skill.getLethalChance1() > 0 && Rnd.get(1000) < calcLethal(activeChar, target, skill.getLethalChance1()))
+				else if (skill.getLethalChance1() > 0 && chance < calcLethal(activeChar, target, skill.getLethalChance1()))
 				{
 					if (target instanceof L2PcInstance)
 					{
@@ -1968,14 +1971,15 @@ public final class Formulas
 							{
 								player.setCurrentCp(1); // Set CP to 1
 								player.sendPacket(SystemMessage.sendString("Combat points disappear when hit with a half kill skill"));
+								activeChar.sendPacket(new SystemMessage(SystemMessageId.LETHAL_STRIKE));
 							}
 						}
 					}
+					
 					// TODO: remove half kill since SYSMsg got changed.
 					/*
 					 * else if (target instanceof L2Npc) // If is a monster remove first damage and after 50% of current hp target.reduceCurrentHp(target.getCurrentHp() / 2, activeChar, skill);
 					 */
-					
 				}
 				else
 					return false;

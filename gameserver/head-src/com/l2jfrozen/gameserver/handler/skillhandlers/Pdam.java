@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
@@ -151,7 +153,7 @@ public class Pdam implements ISkillHandler
 			if (crit)
 				damage *= 2; // PDAM Critical damage always 2x and not affected by buffs
 				
-			if (damage > 5000 && Config.LOG_HIGH_DAMAGES && activeChar instanceof L2PcInstance)
+			if (damage > 50000 && Config.LOG_HIGH_DAMAGES && activeChar instanceof L2PcInstance)
 			{
 				String name = "";
 				if (target instanceof L2RaidBossInstance)
@@ -217,7 +219,7 @@ public class Pdam implements ISkillHandler
 				}
 				
 				// Success of lethal effect
-				final int chance = Rnd.get(100);
+				final int chance = Rnd.get(1000);
 				if (target != activeChar && !target.isRaid() && chance < skill.getLethalChance1() && !(target instanceof L2DoorInstance) && !(target instanceof L2NpcInstance && ((L2NpcInstance) target).getNpcId() == 35062))
 				{
 					// 1st lethal effect activate (cp to 1 or if target is npc then hp to 50%)
@@ -238,6 +240,8 @@ public class Pdam implements ISkillHandler
 							target.reduceCurrentHp(damage, activeChar);
 							target.reduceCurrentHp(target.getCurrentHp() / 2, activeChar);
 						}
+						// Half Kill!
+						activeChar.sendPacket(new SystemMessage(SystemMessageId.LETHAL_STRIKE));
 					}
 					else
 					// 2nd lethal effect activate (cp,hp to 1 or if target is npc then hp to 1)
@@ -255,9 +259,10 @@ public class Pdam implements ISkillHandler
 							}
 							player = null;
 						}
+						// Lethal Strike was succefful!
+						activeChar.sendPacket(new SystemMessage(SystemMessageId.LETHAL_STRIKE));
+						activeChar.sendPacket(new SystemMessage(SystemMessageId.LETHAL_STRIKE_SUCCESSFUL));
 					}
-					// Lethal Strike was succefful!
-					activeChar.sendPacket(new SystemMessage(SystemMessageId.LETHAL_STRIKE_SUCCESSFUL));
 				}
 				else
 				{

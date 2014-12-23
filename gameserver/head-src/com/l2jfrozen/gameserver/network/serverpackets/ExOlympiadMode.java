@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
@@ -18,6 +20,8 @@
  */
 package com.l2jfrozen.gameserver.network.serverpackets;
 
+import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+
 /**
  * This class ...
  * @version $Revision: 1.4.2.1.2.3 $ $Date: 2005/03/27 15:29:57 $
@@ -25,21 +29,29 @@ package com.l2jfrozen.gameserver.network.serverpackets;
  */
 public class ExOlympiadMode extends L2GameServerPacket
 {
-	// chc
 	private static final String _S__FE_2B_OLYMPIADMODE = "[S] FE:2B ExOlympiadMode";
 	private static int _mode;
+	private final L2PcInstance _activeChar;
 	
 	/**
 	 * @param mode (0 = return, 3 = spectate)
+	 * @param player
 	 */
-	public ExOlympiadMode(final int mode)
+	public ExOlympiadMode(final int mode, final L2PcInstance player)
 	{
+		_activeChar = player;
 		_mode = mode;
 	}
 	
 	@Override
 	protected final void writeImpl()
 	{
+		if (_activeChar == null)
+			return;
+		
+		if (_mode == 3)
+			_activeChar.setObserverMode(true);
+		
 		writeC(0xfe);
 		writeH(0x2b);
 		writeC(_mode);

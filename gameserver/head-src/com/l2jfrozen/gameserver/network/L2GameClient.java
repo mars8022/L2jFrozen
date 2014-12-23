@@ -1,4 +1,6 @@
-/* This program is free software; you can redistribute it and/or modify
+/* L2jFrozen Project - www.l2jfrozen.com 
+ * 
+ * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
  * any later version.
@@ -643,8 +645,11 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 	{
 		_forcedToClose = true;
 		
-		if (critical)
-			LOGGER.warn("Client " + toString() + " disconnected abnormally.");
+		if (critical && Config.ENABLE_ALL_EXCEPTIONS)
+		{
+			final String text = "Client " + toString() + " disconnected abnormally.";
+			Log.add(text, "Chars_disconnection_logs");
+		}
 		
 		// the force operation will allow to not save client position to prevent again criticals
 		// and stuck
@@ -985,7 +990,8 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 					
 					if (!player.isKicked() && !Olympiad.getInstance().isRegistered(player) && !player.isInOlympiadMode() && !player.isInFunEvent() && ((player.isInStoreMode() && Config.OFFLINE_TRADE_ENABLE) || (player.isInCraftMode() && Config.OFFLINE_CRAFT_ENABLE)))
 					{
-						player.setOffline(true);
+						player.setOfflineMode(true);
+						player.setOnlineStatus(false);
 						player.leaveParty();
 						player.store();
 						
@@ -1079,8 +1085,13 @@ public final class L2GameClient extends MMOClient<MMOConnection<L2GameClient>> i
 	{
 		if (NetcoreConfig.ENABLE_CLIENT_FLOOD_PROTECTION)
 		{
-			if (_isDetached) // detached clients can't receive any packets
+			// detached clients can't receive any packets
+			if (_isDetached)
 				return true;
+			
+			// Ignore flood protector for GM char
+			if (getActiveChar() != null && getActiveChar().isGM())
+				return false;
 			
 			// flood protection
 			if (getStats().countPacket(_packetQueue.size()))

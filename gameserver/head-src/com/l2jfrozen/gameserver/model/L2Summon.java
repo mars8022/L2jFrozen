@@ -1,4 +1,6 @@
 /*
+ * L2jFrozen Project - www.l2jfrozen.com 
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
@@ -47,7 +49,6 @@ import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
 import com.l2jfrozen.gameserver.taskmanager.DecayTaskManager;
 import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
 import com.l2jfrozen.gameserver.templates.L2Weapon;
-import com.l2jfrozen.gameserver.util.sql.SQLQueue;
 
 public abstract class L2Summon extends L2PlayableInstance
 {
@@ -433,7 +434,6 @@ public abstract class L2Summon extends L2PlayableInstance
 			store();
 			
 			giveAllToOwner();
-			SQLQueue.getInstance().run();
 			
 			stopAllEffects();
 			
