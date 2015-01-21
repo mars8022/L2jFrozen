@@ -29,8 +29,10 @@ import com.l2jfrozen.gameserver.model.L2Object;
 import com.l2jfrozen.gameserver.model.L2Skill;
 import com.l2jfrozen.gameserver.model.L2Skill.SkillType;
 import com.l2jfrozen.gameserver.model.actor.instance.L2DoorInstance;
+import com.l2jfrozen.gameserver.model.actor.instance.L2GrandBossInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2NpcInstance;
 import com.l2jfrozen.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jfrozen.gameserver.model.actor.instance.L2RaidBossInstance;
 import com.l2jfrozen.gameserver.network.SystemMessageId;
 import com.l2jfrozen.gameserver.network.serverpackets.StatusUpdate;
 import com.l2jfrozen.gameserver.network.serverpackets.SystemMessage;
@@ -121,6 +123,10 @@ public class Heal implements ISkillHandler
 				else if (player != null && player.isCursedWeaponEquiped())
 					continue;
 			}
+			
+			// Fixed about Infinity Rod skill on Raid Boss and BigBoss
+			if (skill.getId() == 3598 && (target instanceof L2RaidBossInstance || target instanceof L2GrandBossInstance))
+				continue;
 			
 			double hp = skill.getPower();
 			

@@ -110,7 +110,7 @@ public class ChanceSkillList extends FastMap<L2Skill, ChanceCondition>
 				return false;
 		}
 		
-		if (trigger.isToggle() || trigger.isPotion())
+		if (trigger.isToggle() || trigger.isPotion() || !trigger.isMagic())
 			return false; // No buffing with toggle skills or potions
 			
 		if (trigger.getId() == 1320)
