@@ -1,0 +1,215 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<list>
+<item id='9416' name="Dynasty Breastplate Heavy">
+ <for> 
+   <add val='219' order='0x10' stat='pDef'/> 
+   <add val='-1' order='0x40' stat='DEX'> 
+    <and> 
+     <using slotitem="9421;11"/> 
+     <using slotitem="9422;6"/> 
+     <using slotitem="9424;12"/> 
+     <using slotitem="9423;9"/> 
+    </and> 
+   </add>
+   <add val='393' order='0x40' stat='maxHp'> 
+    <and> 
+     <using slotitem="9421;11"/> 
+     <using slotitem="9422;6"/> 
+     <using slotitem="9424;12"/> 
+     <using slotitem="9423;9"/> 
+    </and> 
+   </add>  
+   <mul val='1.05' order='0x30' stat='pDef'> 
+    <and> 
+     <using slotitem="9421;11"/> 
+     <using slotitem="9422;6"/> 
+     <using slotitem="9424;12"/> 
+     <using slotitem="9423;9"/> 
+    </and> 
+   </mul> 
+   <add val='1' order='0x40' stat='STR'> 
+    <and> 
+     <using slotitem="9421;11"/> 
+     <using slotitem="9422;6"/> 
+     <using slotitem="9424;12"/> 
+     <using slotitem="9423;9"/> 
+    </and> 
+   </add>
+   <mul val='1.10' order='0x30' stat='darkVuln'> 
+    <and> 
+     <using slotitem="9421;11"/> 
+     <using slotitem="9422;6"/> 
+     <using slotitem="9424;12"/> 
+     <using slotitem="9423;9"/> 
+    </and> 
+   </mul> 
+  <enchant val='0' order='0x0C' stat='pDef'/>  
+ </for>
+</item>
+<item id='9421' name="Dynasty Gaiters Heavy">
+  <for>
+   <add val='137' order='0x10' stat='pDef'/>
+  <enchant val='0' order='0x0C' stat='pDef'/>
+ </for>
+</item>
+<item id='9422' name="Dynasty Helm Heavy">
+  <for>
+   <add val='89' order='0x10' stat='pDef'/>
+  <enchant val='0' order='0x0C' stat='pDef'/>
+ </for>
+</item>
+<item id='9423' name="Dynasty Gloves Heavy">
+  <for>
+   <add val='59' order='0x10' stat='pDef'/>
+  <enchant val='0' order='0x0C' stat='pDef'/>
+ </for>
+</item>
+<item id='9424' name="Dynasty Boots Heavy">
+  <for>
+   <add val='59' order='0x10' stat='pDef'/>
+  <enchant val='0' order='0x0C' stat='pDef'/>
+ </for>
+</item>
+<item id='9425' name="Dynasty Leather Armor Light">
+<!-- Done by petru*baza -->  
+  <for> 
+   <add val='219' order='0x10' stat='pDef'/> 
+   <add val='-1' order='0x40' stat='CON'> 
+    <and> 
+     <using slotitem="9428;11"/> 
+     <using slotitem="9429;6"/> 
+     <using slotitem="9431;12"/> 
+     <using slotitem="9430;9"/> 
+    </and> 
+   </add>
+   <add val='2' order='0x40' stat='accCombat'>
+    <and> 
+     <using slotitem="9428;11"/> 
+     <using slotitem="9429;6"/> 
+     <using slotitem="9431;12"/> 
+     <using slotitem="9430;9"/> 
+    </and> 
+   </add>  
+   <add val='2' order='0x40' stat='rEvas'>
+    <and> 
+     <using slotitem="9428;11"/> 
+     <using slotitem="9429;6"/> 
+     <using slotitem="9431;12"/> 
+     <using slotitem="9430;9"/> 
+    </and> 
+   </add> 
+   <add val='1' order='0x40' stat='DEX'> 
+    <and> 
+     <using slotitem="9428;11"/> 
+     <using slotitem="9429;6"/> 
+     <using slotitem="9431;12"/> 
+     <using slotitem="9430;9"/> 
+    </and> 
+   </add>
+   <mul val='1.10' order='0x30' stat='darkVuln'> 
+    <and> 
+     <using slotitem="9428;11"/> 
+     <using slotitem="9429;6"/> 
+     <using slotitem="9431;12"/> 
+     <using slotitem="9430;9"/> 
+    </and> 
+   </mul> 
+  <enchant val='0' order='0x0C' stat='pDef'/>  
+ </for>
+</item>
+<item id='9428' name="Dynasty Leather Pants Light">
+  <for>
+   <add val='137' order='0x10' stat='pDef'/>
+  <enchant val='0' order='0x0C' stat='pDef'/>
+ </for>
+</item>
+<item id='9429' name="Dynasty Leather Helm Light">
+  <for>
+   <add val='89' order='0x10' stat='pDef'/>
+  <enchant val='0' order='0x0C' stat='pDef'/>
+ </for>
+</item>
+<item id='9430' name="Dynasty Leather Gloves Light">
+  <for>
+   <add val='59' order='0x10' stat='pDef'/>
+  <enchant val='0' order='0x0C' stat='pDef'/>
+ </for>
+</item>
+<item id='9431' name="Dynasty Leather Shoes Light">
+  <for>
+   <add val='59' order='0x10' stat='pDef'/>
+  <enchant val='0' order='0x0C' stat='pDef'/>
+ </for>
+</item>
+<item id='9432' name="Dynasty Armor Robe">
+<!-- Done by petru*baza --> 
+ <for>
+  <add val='139' order='0x10' stat='pDef'/>
+  <add val='-1' order='0x40' stat='INT'>
+   <and>
+    <using slotitem="9437;11"/>    
+    <using slotitem="9438;6"/>
+    <using slotitem="9440;12"/>
+    <using slotitem="9439;9"/>
+   </and>
+  </add>
+  <add val='1' order='0x40' stat='MEN'>
+   <and>
+    <using slotitem="9437;11"/>    
+    <using slotitem="9438;6"/>
+    <using slotitem="9440;12"/>
+    <using slotitem="9439;9"/>
+   </and>
+  </add>
+  <mul val='1.05' order='0x30' stat='mAtkSpd'>
+   <and>
+    <using slotitem="9437;11"/>    
+    <using slotitem="9438;6"/>
+    <using slotitem="9440;12"/>
+    <using slotitem="9439;9"/>
+   </and>
+  </mul>
+  <add val='257' order='0x40' stat='maxMp'>
+   <and>
+    <using slotitem="9437;11"/>    
+    <using slotitem="9438;6"/>
+    <using slotitem="9440;12"/>
+    <using slotitem="9439;9"/>
+   </and>
+  </add>
+  <mul val='1.10' order='0x30' stat='darkVuln'> 
+   <and> 
+    <using slotitem="9437;11"/>    
+    <using slotitem="9438;6"/>
+    <using slotitem="9440;12"/>
+    <using slotitem="9439;9"/>
+   </and> 
+  </mul> 
+  <enchant val='0' order='0x0C' stat='pDef' />
+ </for>
+</item>
+<item id='9437' name="Dynasty Stockings">
+  <for>
+   <add val='137' order='0x10' stat='pDef'/>
+  <enchant val='0' order='0x0C' stat='pDef'/>
+ </for>
+</item>
+<item id='9438' name="Dynasty Cap Robe">
+  <for>
+   <add val='89' order='0x10' stat='pDef'/>
+  <enchant val='0' order='0x0C' stat='pDef'/>
+ </for>
+</item>
+<item id='9439' name="Dynasty Mittens Robe">
+  <for>
+   <add val='59' order='0x10' stat='pDef'/>
+  <enchant val='0' order='0x0C' stat='pDef'/>
+ </for>
+</item>
+<item id='9440' name="Dynasty Slippers Robe">
+  <for>
+   <add val='59' order='0x10' stat='pDef'/>
+  <enchant val='0' order='0x0C' stat='pDef'/>
+ </for>
+</item>
+</list>
