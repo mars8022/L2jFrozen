@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<list>
+<item id='9800' name="Epic Mask">
+  <for> 
+    <add val='5000' order='0x10' stat='maxMp'/>
+    <add val='70' order='0x10' stat='runSpd'/>
+  </for> 
+</item>
+</list>
