@@ -1,0 +1,1 @@
+delete from droplist where itemid=11971;
