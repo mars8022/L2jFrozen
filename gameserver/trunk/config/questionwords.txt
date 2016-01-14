@@ -1,0 +1,2 @@
+# You can active the anti bot on other.properties
+# Words to use between 10 and 16 keys.
